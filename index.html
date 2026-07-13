@@ -473,7 +473,7 @@ function InventoryScreen({ onBack }) {
             </div>
             <div className="flex-1 flex flex-col items-center justify-center p-8 text-center">
                 <div className="w-20 h-20 bg-[#F4F6F5] rounded-full flex items-center justify-center mb-4">
-                    <Box size={40} className="text-[#14213D]" />
+                    <div size={40} className="text-[#14213D]" />
                 </div>
                 <h3 className="text-xl font-bold text-[#14213D] mb-2">مدیریت انبار</h3>
                 <p className="text-gray-500">قابلیت ثبت و کنترل ورود و خروج کالا به زودی اضافه می‌شود.</p>
@@ -1414,7 +1414,7 @@ function SideMenu({ company, projects, activeTab, currentScreen, onOpenDashboard
                     currentScreen === 'inventory' ? 'bg-[#14213D] text-white shadow-md' : 'text-[#374151] hover:bg-[#F4F6F5]'
                   }`}
                 >
-                  <Box size={15} /> انبارداری
+                  <div size={15} /> انبارداری
                 </button>
                 <button onClick={onOpenContacts} className="text-right px-3 py-2.5 rounded-xl text-sm font-medium text-[#374151] flex items-center gap-2 hover:bg-[#F4F6F5]">
               <Users size={15} /> دفترچه مخاطبین
