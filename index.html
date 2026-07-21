@@ -171,6 +171,7 @@ const LucideCrown = (p) => (<LucideSvg {...p}><path d="m2 4 3 12h14l3-12-6 7-4-7
 const LucideCheck = (p) => (<LucideSvg {...p} strokeWidth={2.5}><path d="M20 6 9 17l-5-5" /></LucideSvg>);
 const LucideMinus = (p) => (<LucideSvg {...p}><path d="M5 12h14" /></LucideSvg>);
 const LucideLock = (p) => (<LucideSvg {...p}><rect width="18" height="11" x="3" y="11" rx="2" ry="2" /><path d="M7 11V7a5 5 0 0 1 10 0v4" /></LucideSvg>);
+const LucideGlobe = (p) => (<LucideSvg {...p}><circle cx="12" cy="12" r="10" /><path d="M12 2a14.5 14.5 0 0 0 0 20 14.5 14.5 0 0 0 0-20" /><path d="M2 12h20" /></LucideSvg>);
 const LucideArrowLeftRight = (p) => (<LucideSvg {...p}><path d="m16 3 4 4-4 4" /><path d="M20 7H4" /><path d="m8 21-4-4 4-4" /><path d="M4 17h16" /></LucideSvg>);
 const LucideFileSignature = (p) => (<LucideSvg {...p}><path d="M20 19.5v.5a2 2 0 0 1-2 2H6a2 2 0 0 1-2-2V6a2 2 0 0 1 2-2h8.5L18 5.5V7" /><path d="M14 2v4a2 2 0 0 0 2 2h4" /><path d="m12 18-1-1 3.5-3.5a2.12 2.12 0 0 1 3 3L14 21" /><path d="M18 12h-4" /><path d="M18 16h-4" /></LucideSvg>);
 const LucideScrollText = (p) => (<LucideSvg {...p}><path d="M15 12h-5" /><path d="M15 8h-5" /><path d="M19 17V5a2 2 0 0 0-2-2H4" /><path d="M8 21h12a2 2 0 0 0 2-2v-1a1 1 0 0 0-1-1H11a1 1 0 0 0-1 1v1a2 2 0 1 1-4 0V5a2 2 0 1 0-4 0v2a1 1 0 0 0 1 1h3" /></LucideSvg>);
@@ -1321,6 +1322,15 @@ const DICT = {
   "رمز عبور را وارد کن.": "Please enter your password.",
   "رمز عبور و تکرار آن یکسان نیستند.": "Passwords do not match.",
   "لینک بازیابی رمز به ایمیلت ارسال شد.": "A password reset link has been sent to your email.",
+  "ایمیل یا رمز عبور اشتباه است.": "Invalid email or password.",
+  "این ایمیل قبلاً ثبت شده است.": "This email is already registered.",
+  "رمز عبور باید حداقل ۶ کاراکتر باشد.": "Password must be at least 6 characters.",
+  "ایمیل معتبر نیست.": "Invalid email address.",
+  "ایمیل هنوز تأیید نشده. لینک تأیید ارسال‌شده به ایمیلت را باز کن.": "Email not confirmed. Open the verification link sent to your inbox.",
+  "تلاش‌های زیاد ناموفق. کمی صبر کن و دوباره امتحان کن.": "Too many attempts. Wait a moment and try again.",
+  "خطای اتصال به اینترنت.": "Network connection error.",
+  "خطایی رخ داد.": "An error occurred.",
+  "حساب ساخته شد. لینک تأیید به ایمیلت ارسال شد؛ بعد از تأیید، وارد شو.": "Account created. A verification link was sent; log in after confirming.",
   // Activation
   "فعال‌سازی حساب": "Account Activation",
   "حساب شما ساخته شد، اما هنوز فعال نشده.": "Your account was created but is not activated yet.",
@@ -9829,7 +9839,34 @@ function ActivationGate({ onActivated, onLogout, initialCode }) {
   );
 }
 
+function LoginLanguageToggle({ lang, setLang }) {
+  return (
+    <button
+      type="button"
+      onClick={() => setLang(lang === "fa" ? "en" : "fa")}
+      className="fixed top-4 right-4 z-50 group flex items-center gap-2.5 rounded-2xl border border-white/15 bg-white/10 backdrop-blur-md px-3.5 py-2 text-xs font-bold text-white shadow-[0_8px_32px_rgba(0,0,0,0.25)] transition-all duration-200 hover:bg-white/15 hover:border-[#C9A227]/40 hover:shadow-[0_8px_32px_rgba(201,162,39,0.15)]"
+      aria-label={lang === "fa" ? "Switch to English" : "تغییر به فارسی"}
+      title={lang === "fa" ? "English" : "فارسی"}
+    >
+      <span className="flex h-7 w-7 items-center justify-center rounded-xl bg-[#C9A227]/15 text-[#C9A227] ring-1 ring-[#C9A227]/30 transition group-hover:bg-[#C9A227]/25">
+        <LucideGlobe size={15} />
+      </span>
+      <span className="flex items-center gap-1.5 tracking-wide">
+        <span className={lang === "fa" ? "text-[#C9A227]" : "text-white/45"}>FA</span>
+        <span className="relative h-4 w-8 rounded-full bg-white/10 ring-1 ring-white/15">
+          <span
+            className="absolute top-0.5 h-3 w-3 rounded-full bg-[#C9A227] shadow transition-all duration-200"
+            style={{ left: lang === "fa" ? "2px" : "calc(100% - 14px)" }}
+          />
+        </span>
+        <span className={lang === "en" ? "text-[#C9A227]" : "text-white/45"}>EN</span>
+      </span>
+    </button>
+  );
+}
+
 function LoginScreen({ onSuccess }) {
+  const { lang, t, setLang } = useContext(LanguageContext);
   const [mode, setMode] = useState("login"); // login | signup | reset
   const [email, setEmail] = useState("");
   const [pw, setPw] = useState("");
@@ -9840,21 +9877,21 @@ function LoginScreen({ onSuccess }) {
   const [shake, setShake] = useState(false);
 
   function fail(msg) {
-    setError(msg);
+    setError(t(msg));
     setShake(true);
     setTimeout(() => setShake(false), 400);
   }
 
   function friendlyError(e) {
     const msg = e.message || "";
-    if (msg.includes("Invalid login credentials")) return "ایمیل یا رمز عبور اشتباه است.";
-    if (msg.includes("User already registered")) return "این ایمیل قبلاً ثبت شده است.";
-    if (msg.toLowerCase().includes("password should be at least")) return "رمز عبور باید حداقل ۶ کاراکتر باشد.";
-    if (msg.includes("Unable to validate email") || msg.includes("invalid")) return "ایمیل معتبر نیست.";
-    if (msg.includes("Email not confirmed")) return "ایمیل هنوز تأیید نشده. لینک تأیید ارسال‌شده به ایمیلت را باز کن.";
-    if (msg.includes("rate limit") || msg.includes("Too many")) return "تلاش‌های زیاد ناموفق. کمی صبر کن و دوباره امتحان کن.";
-    if (msg.includes("Failed to fetch") || msg.includes("network")) return "خطای اتصال به اینترنت.";
-    return msg || "خطایی رخ داد.";
+    if (msg.includes("Invalid login credentials")) return t("ایمیل یا رمز عبور اشتباه است.");
+    if (msg.includes("User already registered")) return t("این ایمیل قبلاً ثبت شده است.");
+    if (msg.toLowerCase().includes("password should be at least")) return t("رمز عبور باید حداقل ۶ کاراکتر باشد.");
+    if (msg.includes("Unable to validate email") || msg.includes("invalid")) return t("ایمیل معتبر نیست.");
+    if (msg.includes("Email not confirmed")) return t("ایمیل هنوز تأیید نشده. لینک تأیید ارسال‌شده به ایمیلت را باز کن.");
+    if (msg.includes("rate limit") || msg.includes("Too many")) return t("تلاش‌های زیاد ناموفق. کمی صبر کن و دوباره امتحان کن.");
+    if (msg.includes("Failed to fetch") || msg.includes("network")) return t("خطای اتصال به اینترنت.");
+    return msg || t("خطایی رخ داد.");
   }
 
   async function handleSubmit(e) {
@@ -9866,7 +9903,7 @@ function LoginScreen({ onSuccess }) {
       setBusy(true);
       const { error: err } = await window.sb.auth.resetPasswordForEmail(email.trim());
       if (err) fail(friendlyError(err));
-      else setInfo("لینک بازیابی رمز به ایمیلت ارسال شد.");
+      else setInfo(t("لینک بازیابی رمز به ایمیلت ارسال شد."));
       setBusy(false);
       return;
     }
@@ -9881,7 +9918,7 @@ function LoginScreen({ onSuccess }) {
       if (data.session) {
         onSuccess();
       } else {
-        setInfo("حساب ساخته شد. لینک تأیید به ایمیلت ارسال شد؛ بعد از تأیید، وارد شو.");
+        setInfo(t("حساب ساخته شد. لینک تأیید به ایمیلت ارسال شد؛ بعد از تأیید، وارد شو."));
         setMode("login");
       }
     } else {
@@ -9893,7 +9930,8 @@ function LoginScreen({ onSuccess }) {
   }
 
   return (
-    <div dir="rtl" className="min-h-screen flex items-center justify-center px-6 relative overflow-hidden" style={{ background: "#14213D" }}>
+    <div dir={lang === "fa" ? "rtl" : "ltr"} className="min-h-screen flex items-center justify-center px-6 relative overflow-hidden" style={{ background: "#14213D" }}>
+      <LoginLanguageToggle lang={lang} setLang={setLang} />
       <Watermark />
       <div className="absolute inset-0 opacity-[0.06]" style={{
         backgroundImage: "linear-gradient(#fff 1px, transparent 1px), linear-gradient(90deg, #fff 1px, transparent 1px)",
@@ -9910,17 +9948,17 @@ function LoginScreen({ onSuccess }) {
             <Building2 size={28} className="text-[#C9A227]" />
           </div>
           <div className="font-extrabold text-lg text-[#14213D]">{APP_NAME}</div>
-          <div className="text-[11px] text-[#9CA3AF] font-medium -mt-0.5">مدیریت پروژه‌های ساختمانی</div>
+          <div className="text-[11px] text-[#9CA3AF] font-medium -mt-0.5">{t("مدیریت پروژه‌های ساختمانی")}</div>
           <div className="text-xs text-[#9CA3AF] mt-1">
-            {mode === "login" && "برای ورود، ایمیل و رمز عبور را وارد کن"}
-            {mode === "signup" && "ساخت حساب جدید"}
-            {mode === "reset" && "بازیابی رمز عبور"}
+            {mode === "login" && t("برای ورود، ایمیل و رمز عبور را وارد کن")}
+            {mode === "signup" && t("ساخت حساب جدید")}
+            {mode === "reset" && t("بازیابی رمز عبور")}
           </div>
         </div>
 
         <form onSubmit={handleSubmit} className="flex flex-col gap-4">
           <div>
-            <label className="text-xs text-[#6B7280] font-medium">ایمیل</label>
+            <label className="text-xs text-[#6B7280] font-medium">{t("ایمیل")}</label>
             <input
               type="email"
               value={email}
@@ -9934,13 +9972,13 @@ function LoginScreen({ onSuccess }) {
 
           {mode !== "reset" && (
             <div>
-              <label className="text-xs text-[#6B7280] font-medium">رمز عبور</label>
+              <label className="text-xs text-[#6B7280] font-medium">{t("رمز عبور")}</label>
               <input
                 type="password"
                 value={pw}
                 onChange={(e) => { setPw(e.target.value); setError(""); }}
                 className="w-full mt-1 bg-[#F4F6F5] border border-black/10 rounded-xl px-4 py-3 text-sm outline-none focus:border-[#14213D]"
-                placeholder="رمز عبور"
+                placeholder={t("رمز عبور")}
                 dir="ltr"
               />
             </div>
@@ -9948,13 +9986,13 @@ function LoginScreen({ onSuccess }) {
 
           {mode === "signup" && (
             <div>
-              <label className="text-xs text-[#6B7280] font-medium">تکرار رمز عبور</label>
+              <label className="text-xs text-[#6B7280] font-medium">{t("تکرار رمز عبور")}</label>
               <input
                 type="password"
                 value={pw2}
                 onChange={(e) => { setPw2(e.target.value); setError(""); }}
                 className="w-full mt-1 bg-[#F4F6F5] border border-black/10 rounded-xl px-4 py-3 text-sm outline-none focus:border-[#14213D]"
-                placeholder="تکرار رمز عبور"
+                placeholder={t("تکرار رمز عبور")}
                 dir="ltr"
               />
             </div>
@@ -9964,18 +10002,18 @@ function LoginScreen({ onSuccess }) {
           {info && <div className="text-xs text-[#166534] text-center -mt-1">{info}</div>}
 
           <button type="submit" disabled={busy} className="w-full bg-[#14213D] text-white font-semibold rounded-xl py-3 text-sm mt-1 disabled:opacity-60" style={{ boxShadow: "0 8px 20px -8px #14213D" }}>
-            {busy ? "لطفاً صبر کن..." : mode === "login" ? "ورود" : mode === "signup" ? "ساخت حساب" : "ارسال لینک بازیابی"}
+            {busy ? t("لطفاً صبر کن...") : mode === "login" ? t("ورود") : mode === "signup" ? t("ساخت حساب") : t("ارسال لینک بازیابی")}
           </button>
         </form>
 
         <div className="flex items-center justify-between mt-4 text-xs">
           {mode === "login" ? (
             <>
-              <button onClick={() => { setMode("reset"); setError(""); setInfo(""); }} className="text-[#6B7280]">رمز را فراموش کرده‌ام</button>
-              <button onClick={() => { setMode("signup"); setError(""); setInfo(""); }} className="text-[#14213D] font-semibold">ساخت حساب جدید</button>
+              <button onClick={() => { setMode("reset"); setError(""); setInfo(""); }} className="text-[#6B7280]">{t("رمز را فراموش کرده‌ام")}</button>
+              <button onClick={() => { setMode("signup"); setError(""); setInfo(""); }} className="text-[#14213D] font-semibold">{t("ساخت حساب جدید")}</button>
             </>
           ) : (
-            <button onClick={() => { setMode("login"); setError(""); setInfo(""); }} className="text-[#14213D] font-semibold mx-auto">بازگشت به ورود</button>
+            <button onClick={() => { setMode("login"); setError(""); setInfo(""); }} className="text-[#14213D] font-semibold mx-auto">{t("بازگشت به ورود")}</button>
           )}
         </div>
       </div>
