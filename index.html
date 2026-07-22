@@ -1851,7 +1851,12 @@ Object.assign(DICT, {
   "بازیابی اطلاعات؟": "Restore data?",
   "بازیابی": "Restore",
   "اطلاعات با موفقیت بازیابی شد.": "Data restored successfully.",
-  "بدون آدرس": "No address",
+  "فایل پشتیبان شامل اطلاعات شرکت و": "The backup file includes company info and",
+  "پروژه (واحدها، خریداران، اقساط، حسابداری) به‌همراه مخاطبین، یادآوری‌ها و موجودی انبار است. آن را در جای امن (Google Drive، ایمیل و...) نگه دارید.": "project(s) (units, buyers, installments, accounting) plus contacts, reminders, and inventory. Keep the file somewhere safe (Google Drive, email, etc.).",
+  " فعال می‌شود. دانلود پشتیبان در همه پلن‌ها رایگان است.": " plan. Backup download is free on all plans.",
+  "⚠️ توجه: بازیابی، تمام اطلاعات فعلی این گوشی را با اطلاعات فایل پشتیبان جایگزین می‌کند.": "⚠️ Warning: Restore replaces all current data on this device with the backup file contents.",
+  "فایل پشتیبان معتبر نیست یا بازیابی ناموفق بود.": "Invalid backup file or restore failed.",
+  "خواندن فایل ناموفق بود.": "Failed to read the file.",
   "هنوز هیچ پروژه‌ای موقعیت مکانی ثبت‌شده نداره. از «تنظیمات پروژه» موقعیت هر پروژه رو مشخص کن.": "No project has a saved location yet. Set each project's location in Project Settings.",
   "بازگشت به پروژه": "Back to project",
   "نقشه‌ها و مدل‌های فنی": "Technical maps & models",
@@ -7178,10 +7183,10 @@ function AppContent() {
         setActiveTab(list.length ? list[0].id : null);
         onDone(true, null);
       } catch (e) {
-        onDone(false, "فایل پشتیبان معتبر نیست یا بازیابی ناموفق بود.");
+        onDone(false, t("فایل پشتیبان معتبر نیست یا بازیابی ناموفق بود."));
       }
     };
-    reader.onerror = () => onDone(false, "خواندن فایل ناموفق بود.");
+    reader.onerror = () => onDone(false, t("خواندن فایل ناموفق بود."));
     reader.readAsText(file);
   }
 
@@ -8638,7 +8643,7 @@ function BackupScreen({ onBack, onExport, onRestore, projectCount, canRestore, r
       <div className="bg-white rounded-2xl p-4 border border-black/5 mb-4">
         <div className="font-semibold text-sm mb-1">{t("دریافت فایل پشتیبان")}</div>
         <div className="text-xs text-[#6B7280] mb-3">
-          یک فایل شامل اطلاعات شرکت، {projectCount} پروژه (واحدها، خریداران، اقساط، حسابداری)، مخاطبین، یادآوری‌ها و موجودی انبار ساخته می‌شود. این فایل را جای امنی (گوگل‌درایو، ایمیل و...) نگه دار.
+          {t("فایل پشتیبان شامل اطلاعات شرکت و")} {projectCount} {t("پروژه (واحدها، خریداران، اقساط، حسابداری) به‌همراه مخاطبین، یادآوری‌ها و موجودی انبار است. آن را در جای امن (Google Drive، ایمیل و...) نگه دارید.")}
         </div>
         <button onClick={onExport} className="w-full flex items-center justify-center gap-2 bg-[#14213D] text-white rounded-xl py-2.5 text-sm font-semibold">
           <Download size={15} /> {t("دانلود فایل پشتیبان")}
@@ -8649,11 +8654,11 @@ function BackupScreen({ onBack, onExport, onRestore, projectCount, canRestore, r
         <div className="font-semibold text-sm mb-1">{t("بازیابی از فایل پشتیبان")}</div>
         {!canRestore && (
           <div className="text-[11px] text-[#6B7280] mb-2 leading-5">
-            بازیابی در پلن {restorePlanLabel} فعال می‌شود. دانلود پشتیبان در همه پلن‌ها رایگان است.
+            {t("بازیابی در پلن ")}{restorePlanLabel}{t(" فعال می‌شود. دانلود پشتیبان در همه پلن‌ها رایگان است.")}
           </div>
         )}
         <div className="text-xs text-[#B91C1C] mb-3">
-          ⚠️ توجه: بازیابی، تمام اطلاعات فعلی این گوشی را با اطلاعات فایل پشتیبان جایگزین می‌کند.
+          {t("⚠️ توجه: بازیابی، تمام اطلاعات فعلی این گوشی را با اطلاعات فایل پشتیبان جایگزین می‌کند.")}
         </div>
         <button
           onClick={pickFile}
@@ -8945,6 +8950,7 @@ function appAssetUrl(path) {
 }
 
 function GuideStepImage({ sectionId, label }) {
+  const { t } = useContext(LanguageContext);
   const pngSrc = sectionId ? appAssetUrl(`guide/${sectionId}.png`) : "";
   const [pngOk, setPngOk] = useState(null);
   useEffect(() => {
@@ -8956,28 +8962,31 @@ function GuideStepImage({ sectionId, label }) {
     img.src = pngSrc;
     return () => { cancelled = true; };
   }, [pngSrc]);
+  const caption = label ? t(label) : "";
   return (
     <div className="rounded-2xl overflow-hidden border border-black/8 bg-white shadow-sm w-full sm:w-[42%] sm:min-w-[160px] sm:max-w-[220px] shrink-0">
       {pngOk ? (
-        <img src={pngSrc} alt={label || "راهنمای تصویری"} className="block w-full h-auto min-h-[120px] object-cover object-top" loading="lazy" />
+        <img src={pngSrc} alt={caption || t("راهنمای تصویری")} className="block w-full h-auto min-h-[120px] object-cover object-top" loading="lazy" />
       ) : (
         <GuideIllustration sectionId={sectionId} />
       )}
-      {label && <div className="text-[9px] text-[#94A3B8] px-2 py-1.5 text-center border-t border-black/5">{label}</div>}
+      {caption && <div className="text-[9px] text-[#94A3B8] px-2 py-1.5 text-center border-t border-black/5">{caption}</div>}
     </div>
   );
 }
 
 function GuideStep({ number, title, body, imageLabel, sectionId }) {
+  const { lang, t } = useContext(LanguageContext);
+  const bodyPad = lang === "fa" ? "pr-10" : "pl-10";
   return (
     <div className="bg-white rounded-2xl border border-black/5 p-4 mb-3">
       <div className="flex flex-col sm:flex-row gap-4 items-start">
         <div className="flex-1 min-w-0">
           <div className="flex items-start gap-3 mb-2">
             <div className="w-7 h-7 rounded-lg bg-[#14213D] text-white text-xs font-bold flex items-center justify-center shrink-0">{number}</div>
-            <div className="font-bold text-sm text-[#14213D] leading-6">{title}</div>
+            <div className="font-bold text-sm text-[#14213D] leading-6">{t(title)}</div>
           </div>
-          <p className="text-sm text-[#4B5563] leading-7 pr-10">{body}</p>
+          <p className={`text-sm text-[#4B5563] leading-7 ${bodyPad}`}>{t(body)}</p>
         </div>
         <GuideStepImage sectionId={sectionId} label={imageLabel} />
       </div>
@@ -8986,8 +8995,15 @@ function GuideStep({ number, title, body, imageLabel, sectionId }) {
 }
 
 function GuidePrintContent() {
+  const { lang, t } = useContext(LanguageContext);
+  const isEn = lang === "en";
+  const printDir = isEn ? "ltr" : "rtl";
+  const printAlign = isEn ? "left" : "right";
+  const accentSide = isEn ? "borderLeft" : "borderRight";
+  const accentPad = isEn ? "paddingLeft" : "paddingRight";
+  const printDate = new Date().toLocaleDateString(isEn ? "en-GB" : "fa-IR");
   return (
-    <div className="print-area" style={{ direction: "rtl", padding: "18mm 15mm", color: "#14213D", fontFamily: "Tahoma, Arial, sans-serif", maxWidth: "210mm", margin: "0 auto" }}>
+    <div className="print-area" style={{ direction: printDir, padding: "18mm 15mm", color: "#14213D", fontFamily: isEn ? "Segoe UI, Arial, sans-serif" : "Tahoma, Arial, sans-serif", maxWidth: "210mm", margin: "0 auto" }}>
       <style>{`
         @page { size: A4; margin: 18mm 15mm; }
         @media print {
@@ -8995,26 +9011,26 @@ function GuidePrintContent() {
           .guide-sec { page-break-inside: avoid; }
         }
       `}</style>
-      <div style={{ borderBottom: "2px solid #14213D", paddingBottom: 12, marginBottom: 20, textAlign: "right" }}>
-        <div style={{ fontWeight: 800, fontSize: 20 }}>راهنمای {APP_NAME}</div>
-        <div style={{ fontSize: 11, color: "#6B7280", marginTop: 4 }}>نسخه {APP_VERSION} — {new Date().toLocaleDateString("fa-IR")}</div>
+      <div style={{ borderBottom: "2px solid #14213D", paddingBottom: 12, marginBottom: 20, textAlign: printAlign }}>
+        <div style={{ fontWeight: 800, fontSize: 20 }}>{t("راهنمای")} {APP_NAME}</div>
+        <div style={{ fontSize: 11, color: "#6B7280", marginTop: 4 }}>{t("نسخه")} {APP_VERSION} — {printDate}</div>
         <div style={{ fontSize: 10, color: "#9CA3AF", marginTop: 6, lineHeight: 1.7 }}>
-          شامل: تغییر زبان FA/EN در ورود · قراردادهای تخصصی A4 · کنترل کیفیت صورت‌وضعیت · ویرایش تعداد واحد هر طبقه
+          {t("شامل: تغییر زبان FA/EN در ورود · قراردادهای تخصصی A4 · کنترل کیفیت صورت‌وضعیت · ویرایش تعداد واحد هر طبقه")}
         </div>
       </div>
       {GUIDE_SECTIONS.map((sec) => (
         <div key={sec.id} className="guide-sec" style={{ marginBottom: 24, pageBreakInside: "avoid" }}>
-          <div style={{ fontWeight: 800, fontSize: 15, marginBottom: 10, color: "#14213D", borderRight: "3px solid #C9A227", paddingRight: 8 }}>{sec.label}</div>
+          <div style={{ fontWeight: 800, fontSize: 15, marginBottom: 10, color: "#14213D", [accentSide]: "3px solid #C9A227", [accentPad]: 8 }}>{t(sec.label)}</div>
           {sec.steps.map((step, i) => (
-            <div key={i} style={{ marginBottom: 12, paddingRight: 8 }}>
-              <div style={{ fontWeight: 700, fontSize: 12, marginBottom: 4 }}>{i + 1}. {step.title}</div>
-              <div style={{ fontSize: 11, color: "#374151", lineHeight: 1.8 }}>{step.body}</div>
+            <div key={i} style={{ marginBottom: 12, [accentPad]: 8 }}>
+              <div style={{ fontWeight: 700, fontSize: 12, marginBottom: 4 }}>{i + 1}. {t(step.title)}</div>
+              <div style={{ fontSize: 11, color: "#374151", lineHeight: 1.8 }}>{t(step.body)}</div>
             </div>
           ))}
         </div>
       ))}
       <div style={{ fontSize: 10, color: "#9CA3AF", borderTop: "1px solid #E5E7EB", paddingTop: 12, marginTop: 16 }}>
-        © {APP_NAME} v{APP_VERSION} — طراحی و توسعه: مهرزاد سعیدی
+        © {APP_NAME} v{APP_VERSION} — {t("طراحی و توسعه: مهرزاد سعیدی")}
       </div>
     </div>
   );
