@@ -12498,6 +12498,7 @@ function DashboardProjectCard({ project, contacts, theme, onOpenProject, onOpenG
 }
 
 function ProjectCarousel({ projects, contacts, onOpenProject, onOpenGallery, onOpenMessages, unreadByProject, onShowBalanceModal }) {
+  const { t } = useContext(LanguageContext);
   const [activeIndex, setActiveIndex] = useState(0);
   const trackRef = useRef(null);
   const cardRefs = useRef([]);
