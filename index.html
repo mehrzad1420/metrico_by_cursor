@@ -1575,6 +1575,13 @@ const DICT = {
   "افراد و واحدهایی که به پروژه بدهکارند": "People and units who owe the project",
   "مخاطبینی که پروژه به آن‌ها بدهکار است": "Contacts the project owes",
   "پروژه قبلی": "Previous project", "پروژه بعدی": "Next project",
+  // Project panel
+  "حسابداری": "Accounting", "نقشه‌ها": "Maps", "مدیریت": "Manage",
+  "سود پروژه (تا این لحظه)": "Project profit (so far)",
+  "زیان پروژه (تا این لحظه)": "Project loss (so far)",
+  "سود خالص": "Net profit", "بدون نام": "No name", " تومان": " Toman",
+  "هنوز پروژه‌ای اضافه نشده. از منوی ☰ بالای صفحه، «پروژه جدید» را بساز.": "No projects yet. Open the ☰ menu and create a new project.",
+  " مورد)": " items)",
   // Misc
   "نسخه": "Version",
 };
@@ -6591,7 +6598,7 @@ function AppContent() {
             />
           ) : (
             <div className="text-center text-[#6B7280] mt-20 text-sm px-8">
-              هنوز پروژه‌ای اضافه نشده. از منوی ☰ بالای صفحه، «پروژه جدید» را بساز.
+              {t("هنوز پروژه‌ای اضافه نشده. از منوی ☰ بالای صفحه، «پروژه جدید» را بساز.")}
             </div>
           )
         )}
@@ -7343,7 +7350,8 @@ function SideMenu({ company, projects, activeTab, currentScreen, isReadOnly, eff
   const [confirmLogout, setConfirmLogout] = useState(false);
   const [projectsOpen, setProjectsOpen] = useState(false);
   const projectsBtnRef = useRef(null);
-  const [flyoutPos, setFlyoutPos] = useState({ top: 0, right: 0 });
+  const [flyoutPos, setFlyoutPos] = useState({ top: 0, left: null, right: null });
+  const menuAlign = menuDir === "fa" ? "text-right" : "text-left";
 
   function locked(featureKey) {
     return !hasPlanFeature(effectivePlan, featureKey, planExpiresAt);
@@ -7355,7 +7363,7 @@ function SideMenu({ company, projects, activeTab, currentScreen, isReadOnly, eff
       <button
         type="button"
         onClick={onClick}
-        className={`text-right px-3 py-2.5 rounded-xl text-sm font-medium flex items-center gap-2 hover:bg-[#F4F6F5] w-full ${
+        className={`${menuAlign} px-3 py-2.5 rounded-xl text-sm font-medium flex items-center gap-2 hover:bg-[#F4F6F5] w-full ${
           active ? "bg-[#14213D] text-white hover:bg-[#14213D]" : "text-[#374151]"
         }`}
       >
@@ -7370,7 +7378,14 @@ function SideMenu({ company, projects, activeTab, currentScreen, isReadOnly, eff
     if (!projectsOpen || !projectsBtnRef.current) return;
     const update = () => {
       const r = projectsBtnRef.current.getBoundingClientRect();
-      setFlyoutPos({ top: r.top, right: window.innerWidth - r.left + 8 });
+      const flyoutW = Math.min(240, window.innerWidth - 80);
+      if (menuDir === "rtl") {
+        setFlyoutPos({ top: r.top, right: window.innerWidth - r.left + 8, left: null });
+      } else {
+        let left = r.right + 8;
+        if (left + flyoutW > window.innerWidth - 8) left = Math.max(8, window.innerWidth - flyoutW - 8);
+        setFlyoutPos({ top: r.top, left, right: null });
+      }
     };
     update();
     window.addEventListener("resize", update);
@@ -7379,7 +7394,7 @@ function SideMenu({ company, projects, activeTab, currentScreen, isReadOnly, eff
       window.removeEventListener("resize", update);
       window.removeEventListener("scroll", update, true);
     };
-  }, [projectsOpen]);
+  }, [projectsOpen, menuDir]);
 
   function toggleProjects() {
     setProjectsOpen((v) => !v);
@@ -7409,7 +7424,7 @@ function SideMenu({ company, projects, activeTab, currentScreen, isReadOnly, eff
         <div className="flex-1 overflow-y-auto px-4 py-4">
           <button
             onClick={onOpenDashboard}
-            className={`w-full text-right px-3 py-2.5 rounded-xl text-sm font-semibold flex items-center gap-2 mb-2 ${
+            className={`w-full ${menuAlign} px-3 py-2.5 rounded-xl text-sm font-semibold flex items-center gap-2 mb-2 ${
               currentScreen === "dashboard" ? "bg-[#14213D] text-white" : "text-[#14213D] bg-[#F4F6F5]"
             }`}
           ><LucideLayoutDashboard size={16} /> {t("داشبورد")}</button>
@@ -7419,14 +7434,14 @@ function SideMenu({ company, projects, activeTab, currentScreen, isReadOnly, eff
               ref={projectsBtnRef}
               type="button"
               onClick={toggleProjects}
-              className={`w-full text-right px-3 py-2.5 rounded-xl text-sm font-semibold flex items-center gap-2 ${
+              className={`w-full ${menuAlign} px-3 py-2.5 rounded-xl text-sm font-semibold flex items-center gap-2 ${
                 currentScreen === "app" || projectsOpen ? "bg-[#14213D]/10 text-[#14213D]" : "text-[#374151] hover:bg-[#F4F6F5]"
               }`}
             >
               <LucideBuilding size={15} />
               <span className="flex-1">{t("پروژه‌ها")}</span>
               <span className="text-[10px] font-bold text-[#9CA3AF] bg-[#F4F6F5] rounded-full px-2 py-0.5">{projects.length}</span>
-              <LucideChevronLeft size={16} className={`text-[#9CA3AF] transition-transform ${projectsOpen ? "-rotate-180" : ""}`} />
+              <LucideChevronLeft size={16} className={`text-[#9CA3AF] transition-transform shrink-0 ${menuDir === "ltr" ? (projectsOpen ? "rotate-90" : "rotate-180") : (projectsOpen ? "-rotate-180" : "")}`} />
             </button>
           </div>
 
@@ -7435,15 +7450,19 @@ function SideMenu({ company, projects, activeTab, currentScreen, isReadOnly, eff
               <div className="fixed inset-0 z-[76]" onClick={() => setProjectsOpen(false)} aria-hidden="true" />
               <div
                 className="fixed z-[77] w-[min(240px,calc(100vw-5rem))] max-h-[min(300px,55vh)] overflow-y-auto bg-white rounded-xl shadow-2xl border border-black/10 py-2"
-                style={{ top: flyoutPos.top, right: flyoutPos.right }}
+                style={{
+                  top: flyoutPos.top,
+                  ...(flyoutPos.left != null ? { left: flyoutPos.left } : {}),
+                  ...(flyoutPos.right != null ? { right: flyoutPos.right } : {}),
+                }}
               >
                 {projects.length === 0 ? (
-                  <div className="text-[11px] text-[#9CA3AF] px-4 py-3">{t("هنوز پروژه‌ای ثبت نشده")}</div>
+                  <div className={`text-[11px] text-[#9CA3AF] px-4 py-3 ${menuAlign}`}>{t("هنوز پروژه‌ای ثبت نشده")}</div>
                 ) : projects.map((p) => (
                   <button
                     key={p.id}
                     onClick={() => pickProject(p.id)}
-                    className={`w-full text-right px-4 py-2.5 text-[13px] font-medium flex items-center gap-2 hover:bg-[#F4F6F5] ${
+                    className={`w-full ${menuAlign} px-4 py-2.5 text-[13px] font-medium flex items-center gap-2 hover:bg-[#F4F6F5] ${
                       currentScreen === "app" && activeTab === p.id ? "bg-[#14213D] text-white hover:bg-[#14213D]" : "text-[#374151]"
                     }`}
                   >
@@ -7455,7 +7474,7 @@ function SideMenu({ company, projects, activeTab, currentScreen, isReadOnly, eff
                   <button
                     onClick={() => { onNewProject(); setProjectsOpen(false); }}
                     disabled={isReadOnly}
-                    className={`w-full text-right px-2 py-2 rounded-lg text-[12px] font-medium text-[#14213D] flex items-center gap-2 border border-dashed border-black/12 ${isReadOnly ? "opacity-40 cursor-not-allowed" : "hover:bg-[#F4F6F5]"}`}
+                    className={`w-full ${menuAlign} px-2 py-2 rounded-lg text-[12px] font-medium text-[#14213D] flex items-center gap-2 border border-dashed border-black/12 ${isReadOnly ? "opacity-40 cursor-not-allowed" : "hover:bg-[#F4F6F5]"}`}
                   >
                     <Plus size={13} /> {t("پروژه جدید")}
                   </button>
@@ -11256,6 +11275,9 @@ function ProjectSettingsSheet({ project, initialView, initialSettingsTab, contac
 }
 
 function ProjectPanel({ project, onOpenUnit, onOpenSettings, onOpenGallery, onOpenMaps, onOpenExpenses, onOpenFinance, onPrint, onFinancialReport, onBackToDashboard, onRemoveNote }) {
+  const { lang, t } = useContext(LanguageContext);
+  const panelDir = lang === "fa" ? "rtl" : "ltr";
+  const panelAlign = lang === "fa" ? "text-right" : "text-left";
   const [showNotes, setShowNotes] = useState(false);
   const byFloor = useMemo(() => {
     const map = {};
@@ -11272,24 +11294,24 @@ function ProjectPanel({ project, onOpenUnit, onOpenSettings, onOpenGallery, onOp
   const notes = project.quickNotes || [];
 
   return (
-    <div className="px-4 pt-4">
+    <div className="px-4 pt-4" dir={panelDir}>
       <button onClick={onBackToDashboard} className="flex items-center gap-1 text-xs text-[#6B7280] mb-3">
-        <ChevronLeft size={14} className="rotate-180" /> داشبورد
+        <ChevronLeft size={14} className={panelDir === "rtl" ? "rotate-180" : ""} /> {t("داشبورد")}
       </button>
 
-      <div className="text-xl font-extrabold text-[#14213D] mb-1">{project.name}</div>
+      <div className={`text-xl font-extrabold text-[#14213D] mb-1 ${panelAlign}`}>{project.name}</div>
       {project.phase && (
         <div className="inline-block text-[11px] font-semibold text-[#14213D] bg-[#F4F6F5] border border-black/10 px-2.5 py-1 rounded-full mb-2">
-          مرحله فعلی: {project.phase}
+          {t("مرحله فعلی:")} {project.phase}
         </div>
       )}
-      <div className="text-sm text-[#6B7280] mb-2">{project.units.length} واحد · {project.floors.length} طبقه</div>
+      <div className={`text-sm text-[#6B7280] mb-2 ${panelAlign}`}>{project.units.length} {t("واحد")} · {project.floors.length} {t("طبقه")}</div>
 
       {notes.length > 0 && (
         <button onClick={() => setShowNotes((v) => !v)} className="w-full flex items-center gap-2 bg-amber-50 border border-amber-200 text-amber-900 text-xs rounded-xl px-3 py-2 mb-3">
           <Bell size={14} />
-          <span className="flex-1 text-right">{notes.length} یادداشت برای این پروژه</span>
-          <ChevronLeft size={13} className={showNotes ? "rotate-90" : "rotate-180"} />
+          <span className={`flex-1 ${panelAlign}`}>{notes.length} {t("یادداشت برای این پروژه")}</span>
+          <ChevronLeft size={13} className={showNotes ? "rotate-90" : (panelDir === "rtl" ? "rotate-180" : "")} />
         </button>
       )}
       {showNotes && notes.length > 0 && (
@@ -11305,22 +11327,22 @@ function ProjectPanel({ project, onOpenUnit, onOpenSettings, onOpenGallery, onOp
 
       <div className="flex gap-2 flex-wrap mb-3">
         <button onClick={onOpenFinance} className="flex items-center gap-1 text-xs text-white bg-[#14213D] rounded-lg px-2.5 py-1.5 font-semibold">
-          <LucideLandmark size={13} /> حسابداری
+          <LucideLandmark size={13} /> {t("حسابداری")}
         </button>
         <button onClick={onPrint} className="flex items-center gap-1 text-xs text-[#6B7280] bg-white border border-black/10 rounded-lg px-2.5 py-1.5">
           <Printer size={13} /> PDF
         </button>
         <button onClick={onFinancialReport} className="flex items-center gap-1 text-xs text-[#6B7280] bg-white border border-black/10 rounded-lg px-2.5 py-1.5">
-          <LucideLineChart size={13} /> گزارش مالی
+          <LucideLineChart size={13} /> {t("گزارش مالی")}
         </button>
         <button onClick={onOpenSettings} className="flex items-center gap-1 text-xs text-[#6B7280] bg-white border border-black/10 rounded-lg px-2.5 py-1.5">
-          <Settings size={13} /> تنظیمات پروژه
+          <Settings size={13} /> {t("تنظیمات پروژه")}
         </button>
         <button onClick={onOpenGallery} className="flex items-center gap-1 text-xs text-[#128C7E] bg-[#ECFDF5] border border-[#128C7E]/25 rounded-lg px-2.5 py-1.5 font-semibold">
-          <LucideImage size={13} /> گالری تصاویر
+          <LucideImage size={13} /> {t("گالری تصاویر")}
         </button>
         <button onClick={onOpenMaps} className="flex items-center gap-1 text-xs text-[#2563EB] bg-[#EFF6FF] border border-[#2563EB]/25 rounded-lg px-2.5 py-1.5 font-semibold">
-          <LucideBlueprint size={13} /> نقشه‌ها
+          <LucideBlueprint size={13} /> {t("نقشه‌ها")}
         </button>
       </div>
 
@@ -11347,10 +11369,10 @@ function ProjectPanel({ project, onOpenUnit, onOpenSettings, onOpenGallery, onOp
                   >
                     <span className="text-[11px] font-bold leading-tight" style={{ color: s.text }}>{u.unitNumber}</span>
                     <span className="text-[9px] leading-tight mt-0.5 text-center" style={{ color: s.text }}>
-                      {u.status === "sold" ? (u.buyerName || "بدون نام") : s.label}
+                      {u.status === "sold" ? (u.buyerName || t("بدون نام")) : t(s.label)}
                     </span>
                     <span className="text-[8px] leading-tight mt-0.5 text-center opacity-80" style={{ color: s.text }}>
-                      {u.area ? `${u.area} m²` : ""}{u.area && u.direction && u.direction !== "none" ? " · " : ""}{u.direction && u.direction !== "none" ? DIRECTIONS[u.direction] : ""}
+                      {u.area ? `${u.area} m²` : ""}{u.area && u.direction && u.direction !== "none" ? " · " : ""}{u.direction && u.direction !== "none" ? t(DIRECTIONS[u.direction]) : ""}
                     </span>
                   </button>
                 );
@@ -11361,35 +11383,35 @@ function ProjectPanel({ project, onOpenUnit, onOpenSettings, onOpenGallery, onOp
       </div>
 
       <div className="flex gap-1.5 mt-2 text-[9px]">
-        <span className="px-1.5 py-0.5 rounded-full" style={{ background: STATUS.sold.bg, color: STATUS.sold.text }}>فروخته‌شده</span>
-        <span className="px-1.5 py-0.5 rounded-full" style={{ background: STATUS.reserved.bg, color: STATUS.reserved.text }}>رزرو</span>
-        <span className="px-1.5 py-0.5 rounded-full" style={{ background: STATUS.vacant.bg, color: STATUS.vacant.text }}>خالی</span>
+        <span className="px-1.5 py-0.5 rounded-full" style={{ background: STATUS.sold.bg, color: STATUS.sold.text }}>{t("فروخته‌شده")}</span>
+        <span className="px-1.5 py-0.5 rounded-full" style={{ background: STATUS.reserved.bg, color: STATUS.reserved.text }}>{t("رزرو")}</span>
+        <span className="px-1.5 py-0.5 rounded-full" style={{ background: STATUS.vacant.bg, color: STATUS.vacant.text }}>{t("خالی")}</span>
       </div>
 
       <div className="mt-4 bg-[#14213D] text-white rounded-2xl p-4 flex items-center justify-between">
         <div>
-          <div className="text-[11px] text-white/60">مجموع درآمد حاصل از فروش ({soldCount} واحد)</div>
-          <div className="text-lg font-extrabold mt-0.5">{fmt(revenue)} تومان</div>
+          <div className="text-[11px] text-white/60">{t("مجموع درآمد حاصل از فروش")} ({soldCount} {t("واحد")})</div>
+          <div className="text-lg font-extrabold mt-0.5">{fmt(revenue)}{t(" تومان")}</div>
         </div>
         <LucideTrendingUp size={22} className="text-[#C9A227]" />
       </div>
 
       <button onClick={onOpenExpenses} className="w-full mt-3 flex items-center justify-between bg-white rounded-2xl border border-black/10 p-4">
-        <div>
-          <div className="text-[11px] text-[#6B7280]">هزینه‌های پروژه ({(project.expenses || []).length} مورد)</div>
-          <div className="text-base font-bold mt-0.5 text-[#B91C1C]">{fmt(expenses)} تومان</div>
+        <div className={panelAlign}>
+          <div className="text-[11px] text-[#6B7280]">{t("هزینه‌های پروژه")} ({(project.expenses || []).length}{t(" مورد)")}</div>
+          <div className="text-base font-bold mt-0.5 text-[#B91C1C]">{fmt(expenses)}{t(" تومان")}</div>
         </div>
-        <span className="text-xs text-[#14213D] font-semibold flex items-center gap-1"><Receipt size={14} /> مدیریت <ChevronLeft size={13} className="rotate-180" /></span>
+        <span className="text-xs text-[#14213D] font-semibold flex items-center gap-1"><Receipt size={14} /> {t("مدیریت")} <ChevronLeft size={13} className={panelDir === "rtl" ? "rotate-180" : ""} /></span>
       </button>
 
       <div className={`mt-3 rounded-2xl p-4 flex items-center justify-between ${profit >= 0 ? "bg-green-50" : "bg-red-50"}`}>
-        <div>
-          <div className="text-[11px] text-[#6B7280]">{profit >= 0 ? "سود پروژه (تا این لحظه)" : "زیان پروژه (تا این لحظه)"}</div>
-          <div className={`text-lg font-extrabold mt-0.5 ${profit >= 0 ? "text-[#166534]" : "text-[#B91C1C]"}`}>{fmt(Math.abs(profit))} تومان</div>
+        <div className={panelAlign}>
+          <div className="text-[11px] text-[#6B7280]">{profit >= 0 ? t("سود پروژه (تا این لحظه)") : t("زیان پروژه (تا این لحظه)")}</div>
+          <div className={`text-lg font-extrabold mt-0.5 ${profit >= 0 ? "text-[#166534]" : "text-[#B91C1C]"}`}>{fmt(Math.abs(profit))}{t(" تومان")}</div>
         </div>
         <DonutChart
-          data={[{ value: expenses, color: "#EF4444", label: "هزینه" }, { value: Math.max(profit, 0), color: "#22C55E", label: "سود" }]}
-          size={72} centerLabel="سود خالص" centerValue={fmt(Math.abs(profit))} dark={false}
+          data={[{ value: expenses, color: "#EF4444", label: t("هزینه") }, { value: Math.max(profit, 0), color: "#22C55E", label: t("سود") }]}
+          size={72} centerLabel={t("سود خالص")} centerValue={fmt(Math.abs(profit))} dark={false}
         />
       </div>
     </div>
