@@ -8586,17 +8586,9 @@ function SideMenu({ company, projects, activeTab, currentScreen, isReadOnly, eff
               <MenuItem onClick={onOpenContracts} icon={<LucideFileSignature size={15} />} label={t("مدیریت قراردادها")} featureKey="contracts" active={currentScreen === "contracts"} />
             )}
             <MenuItem onClick={onOpenBackup} icon={<Download size={15} />} label={t("پشتیبان‌گیری و بازیابی")} />
-            <button onClick={onOpenGuide} className={`text-right px-3 py-2.5 rounded-xl text-sm font-medium flex items-center gap-2 hover:bg-[#F4F6F5] ${
-              currentScreen === "guide" ? "bg-[#14213D] text-white" : "text-[#374151]"
-            }`}>
-              <LucideBookOpen size={15} /> {t("راهنما")}
-            </button>
-            <button onClick={onOpenAbout} className="text-right px-3 py-2.5 rounded-xl text-sm font-medium text-[#374151] flex items-center gap-2 hover:bg-[#F4F6F5]">
-              <Info size={15} /> {t("درباره")}
-            </button>
-            <button onClick={onOpenPrivacy} className="text-right px-3 py-2.5 rounded-xl text-sm font-medium text-[#374151] flex items-center gap-2 hover:bg-[#F4F6F5]">
-              <FileText size={15} /> {t("سیاست حفظ حریم خصوصی")}
-            </button>
+            <MenuItem onClick={onOpenGuide} icon={<LucideBookOpen size={15} />} label={t("راهنما")} active={currentScreen === "guide"} />
+            <MenuItem onClick={onOpenAbout} icon={<Info size={15} />} label={t("درباره")} active={currentScreen === "about"} />
+            <MenuItem onClick={onOpenPrivacy} icon={<FileText size={15} />} label={t("سیاست حفظ حریم خصوصی")} active={currentScreen === "privacy"} />
           </div>
         </div>
 
@@ -8705,10 +8697,10 @@ function AboutScreen({ onBack }) {
   const { lang, t } = useContext(LanguageContext);
   const screenDir = lang === "fa" ? "rtl" : "ltr";
   const teamRowClass = "flex items-start gap-3";
-  const renderTeamMember = (imageSrc, nameKey, roleKey, bioKey) => {
+  const renderTeamMember = (sectionId, nameKey, roleKey, bioKey) => {
     const imageBlock = (
-      <div className="w-[72px] h-[72px] shrink-0 rounded-xl bg-[#F4F6F5] border border-black/5 p-2 flex items-center justify-center">
-        <img src={appAssetUrl(imageSrc)} alt="" className="w-full h-full object-contain" loading="lazy" />
+      <div className="w-[72px] h-[72px] shrink-0 rounded-xl bg-[#F4F6F5] border border-black/5 overflow-hidden flex items-center justify-center">
+        <GuideIllustration sectionId={sectionId} />
       </div>
     );
     const textBlock = (
@@ -8750,13 +8742,13 @@ function AboutScreen({ onBack }) {
           <p className="text-xs text-[#4B5563] leading-6 mb-4">{t("میتریکو حاصل ترکیب تجربه اجرایی میدانی در صنعت ساختمان و تخصص فنی در طراحی نرم‌افزار است. ما به‌صورت یک تیم استارتاپی، بی‌وقفه روی توسعه، پایداری و بهبود تجربه کاربری کار می‌کنیم — از نظرات، پیشنهادها و گزارش اشکالات شما استقبال می‌کنیم و آن‌ها را در اولویت نقشه راه محصول قرار می‌دهیم.")}</p>
           <div className="space-y-3">
             {renderTeamMember(
-              "guide/project_maps.svg",
+              "project_maps",
               "مهرزاد سعیدی",
               "مدیر طراحی و توسعه نرم‌افزار",
               "با سابقه مدیریت و اجرای پروژه‌های ساختمانی و آشنایی عمیق با نیازهای واقعی کارگاه، دفتر فنی و مالک، مسیر طراحی معماری، توسعه و بهبود مستمر محصول را هدایت می‌کند."
             )}
             {renderTeamMember(
-              "guide/accounting.svg",
+              "accounting",
               "سروه خوشکلام",
               "برنامه‌ریز و توسعه‌دهنده بخش حسابداری و مالی",
               "با تمرکز بر فرآیندهای مالی و حسابداری پروژه، ساختار گزارش‌ها، تراز حساب‌ها، جریان‌های مالی و خروجی‌های قابل ارائه به حسابدار را برنامه‌ریزی و در بخش حسابداری و مالی میتریکو پیاده‌سازی می‌کند."
