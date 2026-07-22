@@ -1169,15 +1169,16 @@ function queryHasAny(q, words) {
   return words.some((w) => q.includes(w));
 }
 
-function buildChatAnswer(rawQuery, projectList, contactList, contactBalanceFn) {
+function buildChatAnswer(rawQuery, projectList, contactList, contactBalanceFn, tr) {
+  const tFn = tr || ((k) => k);
   const q = normalizeChatQuery(rawQuery);
-  if (!q) return "سؤالت را بنویس یا با دکمه میکروفون بپرس.";
+  if (!q) return tFn("سؤالت را بنویس یا با دکمه میکروفون بپرس.");
 
   if (queryHasAny(q, ["سلام", "درود", "hello", "hi", "صبح بخیر", "عصر بخیر"])) {
-    return "سلام! من دستیار متریکو هستم. درباره پروژه‌ها، فروش، هزینه، سود، مخاطبین، عرصه، زیربنا و انرژی از من بپرس — لازم نیست جمله‌ات دقیق باشد.";
+    return tFn("سلام! من دستیار متریکو هستم. درباره پروژه‌ها، فروش، هزینه، سود، مخاطبین، عرصه، زیربنا و انرژی از من بپرس — لازم نیست جمله‌ات دقیق باشد.");
   }
   if (queryHasAny(q, ["کمک", "راهنما", "چی بپرسم", "چه سوال", "چطور", "نمونه سوال", "قابلیت"])) {
-    return "چند نمونه سوال:\n• سود پروژه سپهر\n• چند واحد خالی داریم\n• میانگین قیمت فروش\n• محمدی چقدر بدهکاره\n• زیربنا و عرصه برج X\n• مرحله ساخت پروژه\n• مصرف برق پروژه";
+    return tFn("چند نمونه سوال:\n• سود پروژه سپهر\n• چند واحد خالی داریم\n• میانگین قیمت فروش\n• محمدی چقدر بدهکاره\n• زیربنا و عرصه برج X\n• مرحله ساخت پروژه\n• مصرف برق پروژه");
   }
 
   const proj = matchProjectInQuery(rawQuery, projectList);
@@ -1186,96 +1187,102 @@ function buildChatAnswer(rawQuery, projectList, contactList, contactBalanceFn) {
 
   if (contact && queryHasAny(q, ["بدهکار", "طلب", "مانده", "حساب", "بدهی", "طلبکار", "بستانکار", "پول", "تسویه"])) {
     const bal = contactBalanceFn(contact.id);
-    if (bal === 0) return `حساب ${contact.name} تسویه است.`;
+    if (bal === 0) return `${contact.name}${tFn(" تسویه است.")}`;
     return bal > 0
-      ? `ما ${fmt(bal)} تومان به ${contact.name} بدهکاریم.`
-      : `${contact.name} ${fmt(Math.abs(bal))} تومان به ما بدهکار است.`;
+      ? `${tFn("ما ")}${fmt(bal)}${tFn(" تومان")}${tFn(" به ")}${contact.name}${tFn(" بدهکاریم.")}`
+      : `${contact.name} ${fmt(Math.abs(bal))}${tFn(" تومان")}${tFn(" به ما بدهکار است.")}`;
   }
 
-  if (projectList.length === 0) return "هنوز پروژه‌ای ثبت نشده. از منو «پروژه جدید» را بزن.";
+  if (projectList.length === 0) return tFn("هنوز پروژه‌ای ثبت نشده. از منو «پروژه جدید» را بزن.");
 
   if (queryHasAny(q, ["چند پروژه", "تعداد پروژه", "پروژه داری", "پروژه ها"])) {
-    return `${projectList.length} پروژه فعال داری${proj ? `. منظورت ${proj.name} بود؟` : "."}`;
+    return `${projectList.length}${tFn(" پروژه فعال داری")}${proj ? `${tFn(". منظورت ")}${proj.name}${tFn(" بود؟")}` : "."}`;
   }
   if (queryHasAny(q, ["چند مخاطب", "تعداد مخاطب", "مخاطب داری"])) {
-    return `${contactList.length} مخاطب ثبت شده.`;
+    return `${contactList.length}${tFn(" مخاطب ثبت شده.")}`;
   }
 
   if (queryHasAny(q, ["خالی", "فروش نرفته", "بلاقطعه"])) {
     const n = targets.reduce((s, p) => s + p.units.filter((u) => u.status === "vacant").length, 0);
-    return proj ? `در ${proj.name}، ${n} واحد خالی است.` : `مجموع واحدهای خالی: ${n}`;
+    return proj ? `${tFn("در ")}${proj.name}${tFn("، ")}${n}${tFn(" واحد خالی است.")}` : `${tFn("مجموع واحدهای خالی:")} ${n}`;
   }
   if (queryHasAny(q, ["فروخته", "فروش رفته", "فروخته شده", "معامله شده"])) {
     const n = targets.reduce((s, p) => s + p.units.filter((u) => u.status === "sold").length, 0);
-    return proj ? `در ${proj.name}، ${n} واحد فروخته شده.` : `مجموع واحدهای فروخته‌شده: ${n}`;
+    return proj ? `${tFn("در ")}${proj.name}${tFn("، ")}${n}${tFn(" واحد فروخته شده.")}` : `${tFn("مجموع واحدهای فروخته‌شده:")} ${n}`;
   }
   if (queryHasAny(q, ["رزرو", "رزرو شده"])) {
     const n = targets.reduce((s, p) => s + p.units.filter((u) => u.status === "reserved").length, 0);
-    return proj ? `در ${proj.name}، ${n} واحد رزرو است.` : `مجموع واحدهای رزرو: ${n}`;
+    return proj ? `${tFn("در ")}${proj.name}${tFn("، ")}${n}${tFn(" واحد رزرو است.")}` : `${tFn("مجموع واحدهای رزرو:")} ${n}`;
   }
   if (queryHasAny(q, ["چند واحد", "تعداد واحد", "کل واحد", "واحد داری"])) {
     const n = targets.reduce((s, p) => s + p.units.length, 0);
-    return proj ? `${proj.name} مجموعاً ${n} واحد دارد.` : `مجموع واحدهای همه پروژه‌ها: ${n}`;
+    return proj ? `${proj.name}${tFn(" مجموعاً ")}${n}${tFn(" واحد دارد.")}` : `${tFn("مجموع واحدهای همه پروژه‌ها:")} ${n}`;
   }
 
   if (queryHasAny(q, ["میانگین قیمت", "متوسط قیمت", "قیمت متوسط", "قیمت هر متر", "متر مربع"])) {
     if (proj) {
       const avg = avgSalePricePerSqm(proj);
-      return avg > 0 ? `میانگین قیمت فروش ${proj.name}: ${fmt(Math.round(avg))} تومان به ازای هر متر مربع.` : `در ${proj.name} هنوز واحد فروخته‌شده‌ای برای محاسبه قیمت نیست.`;
+      return avg > 0
+        ? `${tFn("میانگین قیمت فروش ")}${proj.name}: ${fmt(Math.round(avg))}${tFn(" تومان")}${tFn(" به ازای هر متر مربع.")}`
+        : `${tFn("در ")}${proj.name}${tFn(" هنوز واحد فروخته‌شده‌ای برای محاسبه قیمت نیست.")}`;
     }
     const lines = projectList.map((p) => {
       const avg = avgSalePricePerSqm(p);
-      return avg > 0 ? `${p.name}: ${fmt(Math.round(avg))} تومان/م²` : `${p.name}: —`;
+      return avg > 0 ? `${p.name}: ${fmt(Math.round(avg))} Toman/m²` : `${p.name}: —`;
     });
-    return "میانگین قیمت فروش:\n" + lines.join("\n");
+    return tFn("میانگین قیمت فروش:\n") + lines.join("\n");
   }
 
   if (queryHasAny(q, ["مطالبات", "طلب پروژه", "بدهکار به ما"])) {
     if (proj) {
       const sum = projectReceivablesList(proj, contactList).reduce((s, i) => s + i.amount, 0);
-      return `مطالبات ${proj.name}: ${fmt(sum)} تومان.`;
+      return `${tFn("مطالبات ")}${proj.name}: ${fmt(sum)}${tFn(" تومان")}.`;
     }
     const sum = projectList.reduce((s, p) => s + projectReceivablesList(p, contactList).reduce((a, i) => a + i.amount, 0), 0);
-    return `مجموع مطالبات همه پروژه‌ها: ${fmt(sum)} تومان.`;
+    return `${tFn("مجموع مطالبات همه پروژه‌ها: ")}${fmt(sum)}${tFn(" تومان")}.`;
   }
   if (queryHasAny(q, ["بدهی پروژه", "بدهی ها", "بدهکاری پروژه"])) {
     if (proj) {
       const sum = projectPayablesList(proj, contactList).reduce((s, i) => s + i.amount, 0);
-      return `بدهی‌های ${proj.name}: ${fmt(sum)} تومان.`;
+      return `${tFn("بدهی‌های ")}${proj.name}: ${fmt(sum)}${tFn(" تومان")}.`;
     }
     const sum = projectList.reduce((s, p) => s + projectPayablesList(p, contactList).reduce((a, i) => a + i.amount, 0), 0);
-    return `مجموع بدهی‌های همه پروژه‌ها: ${fmt(sum)} تومان.`;
+    return `${tFn("مجموع بدهی‌های همه پروژه‌ها: ")}${fmt(sum)}${tFn(" تومان")}.`;
   }
 
   if (queryHasAny(q, ["سود", "زیان", "سودده", "ضرر"])) {
     const revenue = targets.reduce((s, p) => s + revenueOf(p), 0);
     const expenses = targets.reduce((s, p) => s + expensesTotalOf(p), 0);
     const profit = revenue - expenses;
-    const label = profit >= 0 ? "سود" : "زیان";
+    const label = profit >= 0 ? tFn("سود") : tFn("زیان");
     return proj
-      ? `${label} ${proj.name}: ${fmt(Math.abs(profit))} تومان (درآمد ${fmt(revenue)} − هزینه ${fmt(expenses)}).`
-      : `${label} کل پروژه‌ها: ${fmt(Math.abs(profit))} تومان.`;
+      ? `${label} ${proj.name}: ${fmt(Math.abs(profit))}${tFn(" تومان")} (${tFn("درآمد")} ${fmt(revenue)} − ${tFn("هزینه")} ${fmt(expenses)}).`
+      : `${label}${tFn(" کل پروژه‌ها: ")}${fmt(Math.abs(profit))}${tFn(" تومان")}.`;
   }
   if (queryHasAny(q, ["هزینه", "هزینه ها", "خرج", "پرداخت شده"])) {
     const n = targets.reduce((s, p) => s + expensesTotalOf(p), 0);
-    return proj ? `مجموع هزینه‌های ${proj.name}: ${fmt(n)} تومان.` : `مجموع هزینه‌های همه پروژه‌ها: ${fmt(n)} تومان.`;
+    return proj
+      ? `${tFn("مجموع هزینه‌های ")}${proj.name}: ${fmt(n)}${tFn(" تومان")}.`
+      : `${tFn("مجموع هزینه‌های همه پروژه‌ها: ")}${fmt(n)}${tFn(" تومان")}.`;
   }
   if (queryHasAny(q, ["درآمد", "فروش کل", "درامد", "فروش"])) {
     const n = targets.reduce((s, p) => s + revenueOf(p), 0);
-    return proj ? `درآمد فروش ${proj.name}: ${fmt(n)} تومان.` : `درآمد کل همه پروژه‌ها: ${fmt(n)} تومان.`;
+    return proj
+      ? `${tFn("درآمد فروش ")}${proj.name}: ${fmt(n)}${tFn(" تومان")}.`
+      : `${tFn("درآمد کل همه پروژه‌ها: ")}${fmt(n)}${tFn(" تومان")}.`;
   }
 
   if (queryHasAny(q, ["زیربنا", "زیر بنا", "متراژ بنا"])) {
     if (proj) {
       const b = projectBuiltArea(proj);
-      return b > 0 ? `زیربنای ${proj.name}: ${fmt(b)} متر مربع.` : `زیربنای ${proj.name} در تنظیمات ثبت نشده.`;
+      return b > 0 ? `${tFn("زیربنای ")}${proj.name}: ${fmt(b)}${tFn(" متر مربع.")}` : `${tFn("زیربنای ")}${proj.name}${tFn(" در تنظیمات ثبت نشده.")}`;
     }
     return projectList.map((p) => `${p.name}: ${projectBuiltArea(p) > 0 ? fmt(projectBuiltArea(p)) + " m²" : "—"}`).join(" / ");
   }
   if (queryHasAny(q, ["عرصه", "زمین", "مساحت زمین"])) {
     if (proj) {
       const l = projectLandArea(proj);
-      return l > 0 ? `عرصه ${proj.name}: ${fmt(l)} متر مربع.` : `عرصه ${proj.name} ثبت نشده.`;
+      return l > 0 ? `${tFn("عرصه ")}${proj.name}: ${fmt(l)}${tFn(" متر مربع.")}` : `${tFn("عرصه ")}${proj.name}${tFn(" ثبت نشده.")}`;
     }
     return projectList.map((p) => `${p.name}: ${projectLandArea(p) > 0 ? fmt(projectLandArea(p)) + " m²" : "—"}`).join(" / ");
   }
@@ -1284,22 +1291,22 @@ function buildChatAnswer(rawQuery, projectList, contactList, contactBalanceFn) {
     if (proj) {
       const phase = projectPhaseLabel(proj);
       const pct = projectProgressPercent(proj);
-      return `${proj.name}: مرحله «${phase}» — پیشرفت ${pct}٪.`;
+      return `${proj.name}: ${tFn("مرحله «")}${phase}${tFn("» — پیشرفت ")}${pct}${tFn("٪.")}`;
     }
-    return projectList.map((p) => `${p.name}: ${projectPhaseLabel(p)} (${projectProgressPercent(p)}٪)`).join("\n");
+    return projectList.map((p) => `${p.name}: ${projectPhaseLabel(p)} (${projectProgressPercent(p)}%)`).join("\n");
   }
   if (queryHasAny(q, ["آدرس", "کجاست", "موقعیت"])) {
     if (proj) {
-      const loc = proj.lat && proj.lng ? "موقعیت روی نقشه ثبت شده." : "موقعیت نقشه ثبت نشده.";
-      return proj.address ? `آدرس ${proj.name}: ${proj.address}. ${loc}` : `آدرس ${proj.name} ثبت نشده. ${loc}`;
+      const loc = proj.lat && proj.lng ? tFn("موقعیت روی نقشه ثبت شده.") : tFn("موقعیت نقشه ثبت نشده.");
+      return proj.address ? `${tFn("آدرس ")}${proj.name}: ${proj.address}. ${loc}` : `${tFn("آدرس ")}${proj.name}${tFn(" ثبت نشده.")} ${loc}`;
     }
   }
 
   if (queryHasAny(q, ["برق", "آب", "گاز", "انرژی", "مصرف"])) {
     if (proj) {
       const est = computeProjectEnergyEstimate(proj);
-      if (!est.valid) return est.note;
-      return `برآورد انرژی ${proj.name} (زیربنا ${fmt(est.builtArea)} m²):\nبرق ${fmt(est.annualElectricityKwh)} kWh/سال\nآب ${fmt(est.annualWaterM3)} m³/سال\nگاز ${fmt(est.annualGasM3)} m³/سال`;
+      if (!est.valid) return formatEnergyNote(est, tFn);
+      return `${tFn("برآورد انرژی ")}${proj.name} (${tFn("زیربنا")} ${fmt(est.builtArea)} m²):\n${tFn("برق")} ${fmt(est.annualElectricityKwh)} kWh/${tFn("سال")}\n${tFn("آب")} ${fmt(est.annualWaterM3)} m³/${tFn("سال")}\n${tFn("گاز")} ${fmt(est.annualGasM3)} m³/${tFn("سال")}`;
     }
   }
 
@@ -1307,10 +1314,11 @@ function buildChatAnswer(rawQuery, projectList, contactList, contactBalanceFn) {
     const rev = revenueOf(proj);
     const exp = expensesTotalOf(proj);
     const sold = proj.units.filter((u) => u.status === "sold").length;
-    return `خلاصه ${proj.name}: ${proj.units.length} واحد، ${sold} فروخته، درآمد ${fmt(rev)}، هزینه ${fmt(exp)}، ${exp <= rev ? "سود" : "زیان"} ${fmt(Math.abs(rev - exp))} تومان.`;
+    const plLabel = exp <= rev ? tFn("سود") : tFn("زیان");
+    return `${tFn("خلاصه ")}${proj.name}: ${proj.units.length}${tFn(" واحد، ")}${sold}${tFn(" فروخته، درآمد ")}${fmt(rev)}${tFn("، هزینه ")}${fmt(exp)}${tFn("، ")}${plLabel} ${fmt(Math.abs(rev - exp))}${tFn(" تومان")}.`;
   }
 
-  return "دقیق متوجه نشدم، ولی می‌توانی آزاد بپرسی. مثلاً: «سود سپهر»، «واحدهای خالی»، «میانگین قیمت»، یا اسم یک مخاطب + «چقدر بدهکاره».";
+  return tFn("دقیق متوجه نشدم، ولی می‌توانی آزاد بپرسی. مثلاً: «سود سپهر»، «واحدهای خالی»، «میانگین قیمت»، یا اسم یک مخاطب + «چقدر بدهکاره».");
 }
 
 function normalizeBankAccounts(project) {
@@ -2186,7 +2194,183 @@ Object.assign(DICT, {
   "فضا": "Space",
   "مجموع هزینه‌های پروژه": "Total project expenses",
   "بارگذاری نقشه ناموفق بود: ": "Plan upload failed: ",
-});
+  "به‌دلیل ۱۰ دقیقه عدم فعالیت، از حساب خارج شدید.": "You were signed out after 10 minutes of inactivity.",
+  "حساب دمو فقط برای مشاهده است — امکان ذخیره تغییرات وجود ندارد.": "Demo account is read-only — changes cannot be saved.",
+  "خطا در بررسی وضعیت فعال‌سازی: ": "Activation check error: ",
+  "خطا در دریافت اطلاعات از سرور: ": "Server fetch error: ",
+  "ذخیره‌سازی ناموفق بود: ": "Save failed: ",
+  "حداکثر": "max",
+  " پروژه مجاز است. برای پروژه بیشتر، پلن را ارتقا دهید.": " projects allowed. Upgrade your plan for more.",
+  " مخاطب مجاز است. برای افزودن بیشتر، پلن را ارتقا دهید.": " contacts allowed. Upgrade to add more.",
+  " یادآوری مجاز است. برای افزودن بیشتر، پلن را ارتقا دهید.": " reminders allowed. Upgrade to add more.",
+  "ساخت پروژه ناموفق بود: ": "Create project failed: ",
+  "ورود به حساب دمو ناموفق بود: ": "Demo login failed: ",
+  "ساخت پروژه دمو ناموفق بود: ": "Create demo project failed: ",
+  "نمی‌توان واحدهای فروخته‌شده یا رزرو را حذف کرد. ابتدا وضعیت آن‌ها را تغییر دهید.": "Cannot delete sold or reserved units. Change their status first.",
+  "حذف پروژه ناموفق بود: ": "Delete project failed: ",
+  "ساخت گزارش ناموفق بود.": "Report generation failed.",
+  "ساخت گزارش مالی ناموفق بود.": "Financial report generation failed.",
+  "ساخت گزارش واحد ناموفق بود.": "Unit report generation failed.",
+  "ذخیره اطلاعات شرکت ناموفق بود: ": "Save company info failed: ",
+  "ذخیره مخاطبین ناموفق بود: ": "Save contacts failed: ",
+  "ذخیره موجودی انبار ناموفق بود: ": "Save inventory failed: ",
+  "موجودی آزاد کافی نیست.": "Insufficient available stock.",
+  "ذخیره یادآوری‌ها ناموفق بود: ": "Save reminders failed: ",
+  "ساخت فایل پشتیبان ناموفق بود.": "Backup file creation failed.",
+  "گزارش پروژه‌ها": "Projects report",
+  "گزارش پروژه‌های ساختمانی": "Construction projects report",
+  "مجموع درآمد کل پروژه‌ها:": "Total revenue (all projects):",
+  "مجموع درآمد حاصل از فروش این پروژه:": "Total sales revenue (this project):",
+  "مجموع هزینه‌های ثبت‌شده:": "Total recorded expenses:",
+  "سود": "Profit",
+  "زیان": "Loss",
+  " پروژه تا این لحظه:": " (project so far):",
+  "خریدار": "Buyer",
+  "تلفن": "Phone",
+  "کد پستی": "Postal code",
+  "مبلغ کل": "Total amount",
+  "پرداخت‌شده": "Paid",
+  "گزارش واحد": "Unit report",
+  " — واحد ": " — Unit ",
+  " — طبقه ": " — Floor ",
+  "متراژ": "Area",
+  "جهت": "Direction",
+  "قیمت هر متر مربع": "Price per sqm",
+  "نام خریدار": "Buyer name",
+  "تلفن خریدار": "Buyer phone",
+  "کد پستی واحد": "Unit postal code",
+  "پیش‌پرداخت": "Down payment",
+  "مبلغ کل قرارداد": "Contract total",
+  "پرداخت‌نشده": "Unpaid",
+  "جدول اقساط": "Installment schedule",
+  "قسطی ثبت نشده است.": "No installments recorded.",
+  "یادداشت": "Notes",
+  "آدرس ثبت نشده": "Address not set",
+  "فعالیت و طرفین قرارداد را انتخاب کن.": "Select activity and contract parties.",
+  "متراژ و دستمزد واحد را وارد کن.": "Enter quantity and unit rate.",
+  "این فعالیت سفارشی است. لطفاً متن قرارداد متناسب با آن را دستی وارد کن.": "This is a custom activity. Enter contract text manually.",
+  "قرارداد ثبت شد.": "Contract saved.",
+  "قرارداد را انتخاب کن.": "Select a contract.",
+  "مبلغ یا وضعیت انجام را ثبت کن.": "Enter amount or completion status.",
+  "صورت‌وضعیت ثبت شد و به بدهی‌های پروژه اضافه گردید.": "Progress statement saved and added to project payables.",
+  "صورت‌وضعیت ثبت شد.": "Progress statement saved.",
+  "مدیریت اعضا": "Member management",
+  "مدیر کل — پلن، کد فعال‌سازی و کد ارتقا": "Super admin — plan, activation & upgrade codes",
+  "بروزرسانی": "Refresh",
+  "جستجو با ایمیل...": "Search by email...",
+  " از ": " of ",
+  " عضو": " members",
+  "کپی شد": "Copied",
+  "عضوی یافت نشد.": "No members found.",
+  "نتیجه‌ای برای جستجو نیست.": "No search results.",
+  "فعال": "Active",
+  "در انتظار فعال‌سازی": "Pending activation",
+  " · اعتبار تا ": " · Valid until ",
+  "کد فعال‌سازی اولیه": "Initial activation code",
+  "حساب فعال است": "Account active",
+  "هنوز ساخته نشده": "Not created yet",
+  "ساخت": "Create",
+  "کپی": "Copy",
+  "کد تغییر پلن": "Plan change code",
+  "پلن را انتخاب کن، سپس ساخت": "Select plan, then create",
+  "تغییر مستقیم پلن": "Direct plan change",
+  "پلن جدید": "New plan",
+  "ماه": "Months",
+  "ذخیره پلن": "Save plan",
+  "خطا در دریافت لیست اعضا: ": "Failed to load members: ",
+  "خطا در بارگذاری لیست اعضا.": "Failed to load member list.",
+  "ساخت کد فعال‌سازی ناموفق: ": "Create activation code failed: ",
+  "خطا در ساخت کد فعال‌سازی.": "Error creating activation code.",
+  "برای کد ارتقا، پلن پلاس، پرو یا ارک را انتخاب کن.": "For upgrade code, select Plus, Pro, or Arc plan.",
+  "ساخت کد ارتقا ناموفق: ": "Create upgrade code failed: ",
+  "خطا در ساخت کد ارتقا.": "Error creating upgrade code.",
+  "ذخیره ناموفق: ": "Save failed: ",
+  "خطایی در ذخیره پلن رخ داد.": "Error saving plan.",
+  "حساب دمو فقط برای مشاهده است — بازیابی پشتیبان غیرفعال است.": "Demo account is read-only — backup restore is disabled.",
+  "حساب دمو فقط برای مشاهده است.": "Demo account is read-only.",
+  "بازیابی در پلن ": "Restore requires the ",
+  "در پلن ": "On the ",
+  " است.": " plan.",
+  " یادآوری مجاز است. برای افزودن بیشتر، پلن را ارتقا دهید.": " reminders allowed. Upgrade to add more.",
+  "سؤالت را بنویس یا با دکمه میکروفون بپرس.": "Type your question or use the microphone button.",
+  "سلام! من دستیار متریکو هستم. درباره پروژه‌ها، فروش، هزینه، سود، مخاطبین، عرصه، زیربنا و انرژی از من بپرس — لازم نیست جمله‌ات دقیق باشد.": "Hello! I'm the Metrico assistant. Ask about projects, sales, expenses, profit, contacts, land area, built area, and energy — no need for perfect wording.",
+  "سلام! من دستیار متریکو هستم. درباره پروژه‌ها، فروش، هزینه، سود، مخاطبین و انرژی آزاد بپرس — لازم نیست جمله‌ات دقیق باشد. می‌توانی با میکروفون هم صحبت کنی.": "Hello! I'm the Metrico assistant. Ask freely about projects, sales, expenses, profit, contacts, and energy. You can also use the microphone.",
+  "چند نمونه سوال:\n• سود پروژه سپهر\n• چند واحد خالی داریم\n• میانگین قیمت فروش\n• محمدی چقدر بدهکاره\n• زیربنا و عرصه برج X\n• مرحله ساخت پروژه\n• مصرف برق پروژه": "Sample questions:\n• Profit for project X\n• How many vacant units\n• Average sale price\n• How much does contact X owe\n• Built area and land\n• Project construction stage\n• Electricity consumption",
+  " تسویه است.": " is settled.",
+  "ما ": "We owe ",
+  " به ": " to ",
+  " بدهکاریم.": ".",
+  " به ما بدهکار است.": " owes us ",
+  "هنوز پروژه‌ای ثبت نشده. از منو «پروژه جدید» را بزن.": "No projects yet. Use the menu → New Project.",
+  " پروژه فعال داری": " active projects",
+  ". منظورت ": ". Did you mean ",
+  " بود؟": "?",
+  " مخاطب ثبت شده.": " contacts registered.",
+  "، ": ", ",
+  " واحد خالی است.": " vacant units.",
+  "مجموع واحدهای خالی:": "Total vacant units:",
+  " واحد فروخته شده.": " units sold.",
+  "مجموع واحدهای فروخته‌شده:": "Total sold units:",
+  " واحد رزرو است.": " units reserved.",
+  "مجموع واحدهای رزرو:": "Total reserved units:",
+  " مجموعاً ": " has ",
+  " واحد دارد.": " units total.",
+  "مجموع واحدهای همه پروژه‌ها:": "Total units (all projects):",
+  "دقیق متوجه نشدم، ولی می‌توانی آزاد بپرسی. مثلاً: «سود سپهر»، «واحدهای خالی»، «میانگین قیمت»، یا اسم یک مخاطب + «چقدر بدهکاره».": "I didn't quite understand. Try: project profit, vacant units, average price, or a contact name + how much they owe.",
+  "در ": "In ",
+  "میانگین قیمت فروش ": "Average sale price ",
+  "میانگین قیمت فروش:\n": "Average sale price:\n",
+  " به ازای هر متر مربع.": " per sqm.",
+  " هنوز واحد فروخته‌شده‌ای برای محاسبه قیمت نیست.": " — no sold units yet for price calculation.",
+  "مطالبات ": "Receivables ",
+  "مجموع مطالبات همه پروژه‌ها: ": "Total receivables (all projects): ",
+  "بدهی‌های ": "Payables for ",
+  "مجموع بدهی‌های همه پروژه‌ها: ": "Total payables (all projects): ",
+  " کل پروژه‌ها: ": " (all projects): ",
+  "مجموع هزینه‌های ": "Total expenses for ",
+  "مجموع هزینه‌های همه پروژه‌ها: ": "Total expenses (all projects): ",
+  "درآمد فروش ": "Sales revenue ",
+  "درآمد کل همه پروژه‌ها: ": "Total revenue (all projects): ",
+  "زیربنای ": "Built area ",
+  " متر مربع.": " sqm.",
+  " در تنظیمات ثبت نشده.": " not set in settings.",
+  "عرصه ": "Land area ",
+  " ثبت نشده.": " not recorded.",
+  "مرحله «": "Stage «",
+  "» — پیشرفت ": "» — progress ",
+  "٪.": "%.",
+  "موقعیت روی نقشه ثبت شده.": "Location on map is set.",
+  "موقعیت نقشه ثبت نشده.": "Map location not set.",
+  "آدرس ": "Address ",
+  "برآورد انرژی ": "Energy estimate ",
+  "سال": "yr",
+  "گاز": "Gas",
+  "برق": "Electricity",
+  "آب": "Water",
+  "زیربنا": "Built area",
+  "خلاصه ": "Summary ",
+  " واحد، ": " units, ",
+  " فروخته، درآمد ": " sold, revenue ",
+  "، هزینه ": ", expenses ",
+  "در حال بارگذاری...": "Loading...",
+  " برای مدیریت روزمره پروژه‌های ساختمانی طراحی شده است: ثبت طبقات و واحدها، اطلاعات خریداران، متراژ، قیمت هر متر، پیش‌پرداخت و جدول اقساط، هزینه‌ها، و محاسبه خودکار سود و زیان هر پروژه.": " is designed for day-to-day construction project management: floors and units, buyer info, area, price per sqm, down payment and installments, expenses, and automatic profit/loss per project.",
+  "اطلاعات هر حساب کاربری به‌صورت خصوصی و امن در فضای ابری ذخیره می‌شود و فقط از طریق ورود با همان ایمیل و رمز عبور قابل مشاهده است. هر همکار با ساخت حساب جدید، فضای کاری کاملاً جدا و مستقل از دیگران خواهد داشت. برای اشتراک‌گذاری اطلاعات با دیگران می‌توان از گزینه «خروجی PDF» یا «پشتیبان‌گیری» استفاده کرد.": "Each account's data is stored privately and securely in the cloud, accessible only with that email and password. Each team member gets a separate workspace. Use PDF export or backup to share data.",
+  "کلیه حقوق مادی و معنوی نرم‌افزار ": "All material and intellectual property rights to ",
+  " متعلق به مهرزاد سعیدی است. هرگونه کپی‌برداری، بازتولید، توزیع مجدد یا استفاده تجاری از این نرم‌افزار و کدهای آن بدون اجازه کتبی از مالک، ممنوع بوده و پیگرد قانونی دارد.": " belong to Mehrzad Saeedi. Copying, redistribution, or commercial use without written permission is prohibited.",
+  "بخش «سامانه‌های مالیاتی» در ": "The Tax Systems section in ",
+  " برای آماده‌سازی و یکپارچه‌سازی اطلاعات مالی پروژه‌های ساختمانی با الزامات قانونی طراحی شده است.": " prepares and integrates construction project financial data with legal requirements.",
+  "در این ماژول، داده‌های ثبت‌شده در حسابداری پروژه — از جمله درآمد فروش واحدها، هزینه‌های اجرایی، پرداخت‌های نقدی و چکی، انتقال بین حساب‌ها و گردش سرمایه‌گذاران — به‌صورت ساخت‌یافته جمع‌آوری می‌شود.": "This module collects structured data from project accounting — unit sales revenue, execution costs, cash and check payments, account transfers, and investor flows.",
+  "با اتصال به سامانه‌های مالیاتی کشور و بر اساس جدیدترین قوانین و بخشنامه‌های مرتبط، کاربر می‌تواند گزارش‌های موردنیاز سازمان امور مالیاتی، تأمین اجتماعی و سایر مراجع ذی‌صلاح را آماده کند.": "When connected to national tax systems, users can prepare reports for the tax authority, social security, and other regulators based on current laws.",
+  "اطلاعات هر پروژه به‌صورت مجزا نگهداری می‌شود تا گزارش‌های مالیاتی هر پروژه (یا هر شخص حقوقی/حقیقی مرتبط) بدون تداخل با سایر پروژه‌ها استخراج گردد.": "Each project's data is kept separate so tax reports per project (or related legal entity) can be extracted without overlap.",
+  "پیوست مدارک پرداخت، فاکتور، رسید بانکی و چک‌های وصولی در کنار هر تراکنش، مبنای مستندسازی مالیاتی قرار می‌گیرد و از بروز اختلاف در زمان رسیدگی جلوگیری می‌کند.": "Payment documents, invoices, bank receipts, and cleared checks attached to each transaction support tax documentation and reduce disputes during audits.",
+  "در نسخه‌های آتی، امکان خروجی استاندارد (XML/JSON)، ارسال مستقیم به درگاه‌های رسمی، و تطبیق خودکار با کدهای حسابداری مالیاتی فراهم خواهد شد.": "Future versions will offer standard exports (XML/JSON), direct submission to official portals, and automatic mapping to tax accounting codes.",
+  "تا زمان فعال‌سازی اتصال رسمی، می‌توانید از گزارش‌های مالی داخلی، خروجی PDF و پشتیبان‌گیری برای ارائه به حسابدار یا مشاور مالیاتی استفاده کنید.": "Until official integration is live, use internal financial reports, PDF export, and backups for your accountant or tax advisor.",
+  "توصیه می‌شود پیش از ارسال هر گزارش، موجودی حساب‌ها، تراز سرمایه‌گذاران و لیست چک‌های پرداختی/وصولی را از منوی «گزارش‌ها» بازبینی کنید.": "Before submitting any report, review account balances, investor balances, and check lists from the Reports menu.",
+  "این بخش صرفاً ابزار سازماندهی و آماده‌سازی داده است؛ مسئولیت صحت اطلاعات و رعایت مهلت‌های قانونی با کاربر یا حسابدار پروژه است.": "This section is for data organization only; accuracy and legal deadlines remain the user's or project accountant's responsibility.",
+  "برای فعال‌سازی اتصال به سامانه‌های مالیاتی و دریافت راهنمای تکمیلی، از اطلاعات تماس بخش «درباره» استفاده کنید.": "For tax system integration and guidance, use the contact info on the About page.",
+  "پروژه": "Project",
+  "سامانه مالیاتی": "Tax system",
+};
 
 const uid = () => Math.random().toString(36).slice(2, 10);
 const fmt = (n) => (Number(n) || 0).toLocaleString("en-US");
@@ -5547,7 +5731,7 @@ function AppContent() {
   const [activationSuccessSource, setActivationSuccessSource] = useState("code");
   const [pendingActivateCode, setPendingActivateCode] = useState(() => parseActivationCodeFromUrl());
   const [showDueEvents, setShowDueEvents] = useState(false);
-  const [chatLog, setChatLog] = useState([{ role: "bot", text: "سلام! من دستیار متریکو هستم. درباره پروژه‌ها، فروش، هزینه، سود، مخاطبین و انرژی آزاد بپرس — لازم نیست جمله‌ات دقیق باشد. می‌توانی با میکروفون هم صحبت کنی." }]);
+  const [chatLog, setChatLog] = useState([]);
   const [chatInput, setChatInput] = useState("");
   const [chatListening, setChatListening] = useState(false);
   const chatEndRef = useRef(null);
@@ -5638,7 +5822,7 @@ function AppContent() {
     const reset = () => {
       clearTimeout(timer);
       timer = setTimeout(() => {
-        setError("به‌دلیل ۱۰ دقیقه عدم فعالیت، از حساب خارج شدید.");
+        setError(t("به‌دلیل ۱۰ دقیقه عدم فعالیت، از حساب خارج شدید."));
         window.sb.auth.signOut().catch(() => {});
         setShowMenu(false);
         setShowFab(false);
@@ -5655,7 +5839,7 @@ function AppContent() {
 
   function guardWrite(msg) {
     if (!isReadOnly) return true;
-    setError(msg || "حساب دمو فقط برای مشاهده است — امکان ذخیره تغییرات وجود ندارد.");
+    setError(msg || t("حساب دمو فقط برای مشاهده است — امکان ذخیره تغییرات وجود ندارد."));
     return false;
   }
 
@@ -5736,7 +5920,7 @@ function AppContent() {
     }
     window.sb.from("profiles").select("activated, plan, plan_expires_at, role").eq("user_id", user.id).maybeSingle()
       .then(({ data, error: err }) => {
-        if (err) { setError("خطا در بررسی وضعیت فعال‌سازی: " + err.message); setActivated(false); return; }
+        if (err) { setError(t("خطا در بررسی وضعیت فعال‌سازی: ") + err.message); setActivated(false); return; }
         setActivated(!!(data && data.activated));
         setUserPlan(normalizePlanId(data?.plan));
         setPlanExpiresAt(data?.plan_expires_at || null);
@@ -5756,7 +5940,7 @@ function AppContent() {
     window.sb.from("projects").select("*").eq("user_id", user.id).order("created_at", { ascending: true })
       .then(({ data, error: err }) => {
         if (err) {
-          setError("خطا در دریافت اطلاعات از سرور: " + err.message);
+          setError(t("خطا در دریافت اطلاعات از سرور: ") + err.message);
           setLoaded(true);
           return;
         }
@@ -5894,7 +6078,7 @@ function AppContent() {
           delete rest.id;
           delete rest.name;
           window.sb.from("projects").update({ name, data: rest }).eq("id", id)
-            .then(({ error: err }) => { if (err) setError("ذخیره‌سازی ناموفق بود: " + err.message); });
+            .then(({ error: err }) => { if (err) setError(t("ذخیره‌سازی ناموفق بود: ") + err.message); });
         }, 500);
       }
       return next;
@@ -5918,7 +6102,7 @@ function AppContent() {
   async function createProject(name, floors, meta = {}) {
     if (!guardWrite()) return;
     if (projects.length >= planLimits.maxProjects) {
-      setError(`در پلن ${planLabel(effectivePlan)} حداکثر ${planLimits.maxProjects} پروژه مجاز است. برای پروژه بیشتر، پلن را ارتقا دهید.`);
+      setError(`${t("در پلن ")}${planLabel(effectivePlan)} ${t("حداکثر")} ${planLimits.maxProjects}${t(" پروژه مجاز است. برای پروژه بیشتر، پلن را ارتقا دهید.")}`);
       setScreen("plan");
       return;
     }
@@ -5939,7 +6123,7 @@ function AppContent() {
     };
     const { data, error: err } = await window.sb.from("projects")
       .insert({ user_id: user.id, name, data: dataPayload }).select().single();
-    if (err) { setError("ساخت پروژه ناموفق بود: " + err.message); return; }
+    if (err) { setError(t("ساخت پروژه ناموفق بود: ") + err.message); return; }
     const project = normalizeProjectRow(data);
     setProjects((prev) => [...prev, project]);
     setActiveTab(project.id);
@@ -5952,7 +6136,7 @@ function AppContent() {
     setShowMenu(false);
     const { error: err } = await window.sb.auth.signInWithPassword({ email: DEMO_EMAIL, password: DEMO_PASSWORD });
     if (err) {
-      setError("ورود به حساب دمو ناموفق بود: " + err.message);
+      setError(t("ورود به حساب دمو ناموفق بود: ") + err.message);
       return;
     }
     setScreen("dashboard");
@@ -5992,7 +6176,7 @@ function AppContent() {
     const dataPayload = buildDemoFullProjectPayload(investorIds);
     const { data, error: err } = await window.sb.from("projects")
       .insert({ user_id: user.id, name: DEMO_PROJECT_NAME, data: dataPayload }).select().single();
-    if (err) { setError("ساخت پروژه دمو ناموفق بود: " + err.message); return; }
+    if (err) { setError(t("ساخت پروژه دمو ناموفق بود: ") + err.message); return; }
     const project = normalizeProjectRow(data);
     setProjects((prev) => [...prev, project]);
     setActiveTab(project.id);
@@ -6036,7 +6220,7 @@ function AppContent() {
       }
       const toRemove = floorUnits.slice(count);
       if (toRemove.some((u) => u.status === "sold" || u.status === "reserved")) {
-        setError("نمی‌توان واحدهای فروخته‌شده یا رزرو را حذف کرد. ابتدا وضعیت آن‌ها را تغییر دهید.");
+        setError(t("نمی‌توان واحدهای فروخته‌شده یا رزرو را حذف کرد. ابتدا وضعیت آن‌ها را تغییر دهید."));
         return p;
       }
       const removeIds = new Set(toRemove.map((u) => u.id));
@@ -6201,7 +6385,7 @@ function AppContent() {
     });
     setShowProjectSettings(false);
     window.sb.from("projects").delete().eq("id", projectId)
-      .then(({ error: err }) => { if (err) setError("حذف پروژه ناموفق بود: " + err.message); });
+      .then(({ error: err }) => { if (err) setError(t("حذف پروژه ناموفق بود: ") + err.message); });
   }
 
   function buildBuildingGraphicHTML(project, tr) {
@@ -6239,8 +6423,16 @@ function AppContent() {
       </div>`;
   }
 
-  function buildReportHTML(companyInfo, projectList) {
+  function buildReportHTML(companyInfo, projectList, tr, lang) {
     const esc = (v) => (v == null ? "" : String(v)).replace(/&/g, "&amp;").replace(/</g, "&lt;").replace(/>/g, "&gt;");
+    const tFn = tr || ((s) => s);
+    const isEn = lang === "en";
+    const htmlLang = isEn ? "en" : "fa";
+    const dir = isEn ? "ltr" : "rtl";
+    const textAlign = isEn ? "left" : "right";
+    const printBtnPos = isEn ? "right" : "left";
+    const logoMargin = isEn ? "margin-left:auto;" : "margin-right:auto;";
+    const headers = [tFn("طبقه"), tFn("واحد"), tFn("وضعیت"), tFn("متراژ"), tFn("جهت"), tFn("خریدار"), tFn("تلفن"), tFn("کد پستی"), tFn("مبلغ کل"), tFn("پرداخت‌شده"), tFn("مانده")];
     const grandRevenue = projectList.reduce((s, p) => s + p.units.filter((u) => u.status === "sold").reduce((s2, u) => s2 + totalPriceOf(u), 0), 0);
     const projectsHtml = projectList.map((project) => {
       const revenue = revenueOf(project);
@@ -6249,8 +6441,8 @@ function AppContent() {
       const rows = project.units.slice().sort((a, b) => a.floor - b.floor || Number(a.unitNumber) - Number(b.unitNumber));
       const rowsHtml = rows.map((u) => `
         <tr>
-          <td>${esc(u.floor)}</td><td>${esc(u.unitNumber)}</td><td>${esc(STATUS[u.status].label)}</td>
-          <td>${esc(u.area || "-")}</td><td>${esc(u.direction && u.direction !== "none" ? DIRECTIONS[u.direction] : "-")}</td>
+          <td>${esc(u.floor)}</td><td>${esc(u.unitNumber)}</td><td>${esc(tFn(STATUS[u.status].label))}</td>
+          <td>${esc(u.area || "-")}</td><td>${esc(u.direction && u.direction !== "none" ? tFn(DIRECTIONS[u.direction]) : "-")}</td>
           <td>${esc(u.buyerName || "-")}</td><td>${esc(u.buyerPhone || "-")}</td><td>${esc(u.postalCode || "-")}</td>
           <td>${fmt(totalPriceOf(u))}</td><td>${fmt(paidOf(u))}</td><td>${fmt(remainingOf(u))}</td>
         </tr>`).join("");
@@ -6259,41 +6451,41 @@ function AppContent() {
           <div style="font-weight:800;font-size:15px;margin:10px 0;">${esc(project.name)}</div>
           <table style="width:100%;border-collapse:collapse;font-size:11px;">
             <thead><tr style="background:#F4F6F5;">
-              ${["طبقه","واحد","وضعیت","متراژ","جهت","خریدار","تلفن","کد پستی","مبلغ کل","پرداخت‌شده","مانده"].map((h) => `<th style="border:1px solid #E5E7EB;padding:5px 6px;text-align:right;">${h}</th>`).join("")}
+              ${headers.map((h) => `<th style="border:1px solid #E5E7EB;padding:5px 6px;text-align:${textAlign};">${esc(h)}</th>`).join("")}
             </tr></thead>
             <tbody>${rowsHtml}</tbody>
           </table>
-          <div style="font-size:12px;font-weight:700;margin-top:8px;">مجموع درآمد حاصل از فروش این پروژه: ${fmt(revenue)} تومان</div>
-          <div style="font-size:12px;font-weight:700;margin-top:4px;">مجموع هزینه‌های ثبت‌شده: ${fmt(expenses)} تومان</div>
-          <div style="font-size:12px;font-weight:800;margin-top:4px;color:${profit >= 0 ? "#166534" : "#B91C1C"};">${profit >= 0 ? "سود" : "زیان"} پروژه تا این لحظه: ${fmt(Math.abs(profit))} تومان</div>
-          ${buildBuildingGraphicHTML(project)}
+          <div style="font-size:12px;font-weight:700;margin-top:8px;">${esc(tFn("مجموع درآمد حاصل از فروش این پروژه:"))} ${fmt(revenue)}${esc(tFn(" تومان"))}</div>
+          <div style="font-size:12px;font-weight:700;margin-top:4px;">${esc(tFn("مجموع هزینه‌های ثبت‌شده:"))} ${fmt(expenses)}${esc(tFn(" تومان"))}</div>
+          <div style="font-size:12px;font-weight:800;margin-top:4px;color:${profit >= 0 ? "#166534" : "#B91C1C"};">${esc(tFn(profit >= 0 ? "سود" : "زیان"))}${esc(tFn(" پروژه تا این لحظه:"))} ${fmt(Math.abs(profit))}${esc(tFn(" تومان"))}</div>
+          ${buildBuildingGraphicHTML(project, tFn)}
         </div>`;
     }).join("");
 
-    return `<!DOCTYPE html><html lang="fa" dir="rtl"><head><meta charset="UTF-8"><title>گزارش پروژه‌ها</title>
+    return `<!DOCTYPE html><html lang="${htmlLang}" dir="${dir}"><head><meta charset="UTF-8"><title>${esc(tFn("گزارش پروژه‌ها"))}</title>
       <style>
         body{font-family:Tahoma,Arial,sans-serif;color:#14213D;padding:20px;padding-bottom:70px;position:relative;}
         table{width:100%;border-collapse:collapse;}
-        td,th{border:1px solid #E5E7EB;padding:5px 6px;}
-        .print-btn{position:fixed;top:10px;left:10px;background:#14213D;color:#fff;border:none;padding:10px 16px;border-radius:8px;font-size:14px;z-index:10;}
+        td,th{border:1px solid #E5E7EB;padding:5px 6px;text-align:${textAlign};}
+        .print-btn{position:fixed;top:10px;${printBtnPos}:10px;background:#14213D;color:#fff;border:none;padding:10px 16px;border-radius:8px;font-size:14px;z-index:10;cursor:pointer;}
         .wm{position:fixed;top:50%;left:50%;transform:translate(-50%,-50%);width:260px;opacity:0.05;z-index:0;pointer-events:none;}
         .report-footer{position:fixed;bottom:0;left:0;right:0;text-align:center;font-size:9.5px;color:#9CA3AF;border-top:1px solid #E5E7EB;padding:8px 10px;background:#fff;}
         .report-body{position:relative;z-index:1;}
         @media print{.print-btn{display:none;}}
       </style></head><body>
       <img class="wm" src="${METRICO_WATERMARK}">
-      <button class="print-btn" onclick="window.print()">چاپ / ذخیره PDF</button>
+      <button class="print-btn" onclick="window.print()">${esc(tFn("چاپ / ذخیره PDF"))}</button>
       <div class="report-body">
       <div style="display:flex;align-items:center;gap:10px;border-bottom:2px solid #14213D;padding-bottom:12px;margin-bottom:16px;">
         ${companyInfo?.logo ? `<img src="${companyInfo.logo}" style="width:44px;height:44px;border-radius:10px;object-fit:cover;">` : ""}
-        <img src="${METRICO_WATERMARK}" style="width:34px;height:34px;object-fit:contain;margin-right:auto;">
+        <img src="${METRICO_WATERMARK}" style="width:34px;height:34px;object-fit:contain;${logoMargin}">
         <div><div style="font-weight:800;font-size:18px;">${esc(companyInfo?.name)}</div>
-        <div style="font-size:11px;color:#6B7280;">گزارش پروژه‌های ساختمانی — ${new Date().toLocaleDateString("en-GB")}</div></div>
+        <div style="font-size:11px;color:#6B7280;">${esc(tFn("گزارش پروژه‌های ساختمانی"))} — ${new Date().toLocaleDateString("en-GB")}</div></div>
       </div>
-      ${projectList.length > 1 ? `<div style="font-size:13px;font-weight:700;margin-bottom:16px;">مجموع درآمد کل پروژه‌ها: ${fmt(grandRevenue)} تومان</div>` : ""}
+      ${projectList.length > 1 ? `<div style="font-size:13px;font-weight:700;margin-bottom:16px;">${esc(tFn("مجموع درآمد کل پروژه‌ها:"))} ${fmt(grandRevenue)}${esc(tFn(" تومان"))}</div>` : ""}
       ${projectsHtml}
       </div>
-      <div class="report-footer">تهیه شده توسط نرم‌افزار متریکو — با ما در تماس باشید: ۰۹۱۹۲۲۶۴۳۳۲ — ایمیل: mehrzad.saeedi@gmail.com</div>
+      <div class="report-footer">${esc(tFn("تهیه شده توسط نرم‌افزار متریکو — با ما در تماس باشید: ۰۹۱۹۲۲۶۴۳۳۲ — ایمیل: mehrzad.saeedi@gmail.com"))}</div>
     </body></html>`;
   }
 
@@ -6369,72 +6561,79 @@ function AppContent() {
     </body></html>`;
   }
 
-  function buildUnitReportHTML(companyInfo, project, unit) {
+  function buildUnitReportHTML(companyInfo, project, unit, tr, lang) {
     const esc = (v) => (v == null ? "" : String(v)).replace(/&/g, "&amp;").replace(/</g, "&lt;").replace(/>/g, "&gt;");
+    const tFn = tr || ((s) => s);
+    const isEn = lang === "en";
+    const htmlLang = isEn ? "en" : "fa";
+    const dir = isEn ? "ltr" : "rtl";
+    const textAlign = isEn ? "left" : "right";
+    const printBtnPos = isEn ? "right" : "left";
+    const logoMargin = isEn ? "margin-left:auto;" : "margin-right:auto;";
     const total = totalPriceOf(unit);
     const paid = paidOf(unit);
     const remaining = remainingOf(unit);
     const instRows = (unit.installments || []).slice().sort((a, b) => (a.date || "").localeCompare(b.date || "")).map((i) => `
-      <tr><td>${esc(i.date || "-")}</td><td>${fmt(i.amount)}</td><td>${i.paid ? "پرداخت‌شده" : "پرداخت‌نشده"}</td></tr>`).join("");
+      <tr><td>${esc(i.date || "-")}</td><td>${fmt(i.amount)}</td><td>${i.paid ? esc(tFn("پرداخت‌شده")) : esc(tFn("پرداخت‌نشده"))}</td></tr>`).join("");
 
-    return `<!DOCTYPE html><html lang="fa" dir="rtl"><head><meta charset="UTF-8"><title>گزارش واحد ${esc(unit.unitNumber)} - ${esc(project.name)}</title>
+    return `<!DOCTYPE html><html lang="${htmlLang}" dir="${dir}"><head><meta charset="UTF-8"><title>${esc(tFn("گزارش واحد"))} ${esc(unit.unitNumber)} - ${esc(project.name)}</title>
       <style>
         body{font-family:Tahoma,Arial,sans-serif;color:#14213D;padding:20px;padding-bottom:70px;position:relative;}
         table{width:100%;border-collapse:collapse;}
-        td,th{border:1px solid #E5E7EB;padding:6px 8px;font-size:12px;}
+        td,th{border:1px solid #E5E7EB;padding:6px 8px;font-size:12px;text-align:${textAlign};}
         .card{background:#F4F6F5;border-radius:12px;padding:14px;margin-bottom:10px;}
-        .print-btn{position:fixed;top:10px;left:10px;background:#14213D;color:#fff;border:none;padding:10px 16px;border-radius:8px;font-size:14px;z-index:10;}
+        .print-btn{position:fixed;top:10px;${printBtnPos}:10px;background:#14213D;color:#fff;border:none;padding:10px 16px;border-radius:8px;font-size:14px;z-index:10;cursor:pointer;}
         .wm{position:fixed;top:50%;left:50%;transform:translate(-50%,-50%);width:260px;opacity:0.05;z-index:0;pointer-events:none;}
         .report-footer{position:fixed;bottom:0;left:0;right:0;text-align:center;font-size:9.5px;color:#9CA3AF;border-top:1px solid #E5E7EB;padding:8px 10px;background:#fff;}
         .report-body{position:relative;z-index:1;}
         @media print{.print-btn{display:none;}}
       </style></head><body>
       <img class="wm" src="${METRICO_WATERMARK}">
-      <button class="print-btn" onclick="window.print()">چاپ / ذخیره PDF</button>
+      <button class="print-btn" onclick="window.print()">${esc(tFn("چاپ / ذخیره PDF"))}</button>
       <div class="report-body">
       <div style="display:flex;align-items:center;gap:10px;border-bottom:2px solid #14213D;padding-bottom:12px;margin-bottom:16px;">
         ${companyInfo?.logo ? `<img src="${companyInfo.logo}" style="width:44px;height:44px;border-radius:10px;object-fit:cover;">` : ""}
-        <img src="${METRICO_WATERMARK}" style="width:34px;height:34px;object-fit:contain;margin-right:auto;">
+        <img src="${METRICO_WATERMARK}" style="width:34px;height:34px;object-fit:contain;${logoMargin}">
         <div><div style="font-weight:800;font-size:18px;">${esc(companyInfo?.name)}</div>
-        <div style="font-size:11px;color:#6B7280;">گزارش واحد — ${new Date().toLocaleDateString("en-GB")}</div></div>
+        <div style="font-size:11px;color:#6B7280;">${esc(tFn("گزارش واحد"))} — ${new Date().toLocaleDateString("en-GB")}</div></div>
       </div>
 
       <div class="card">
         <div style="font-size:15px;font-weight:800;margin-bottom:4px;">${esc(project.name)}</div>
-        <div style="font-size:11px;color:#6B7280;">${esc(project.address || "آدرس ثبت نشده")}</div>
+        <div style="font-size:11px;color:#6B7280;">${esc(project.address || tFn("آدرس ثبت نشده"))}</div>
       </div>
 
       <div style="display:grid;grid-template-columns:1fr 1fr;gap:10px;margin-bottom:16px;">
-        <div class="card"><div style="font-size:11px;color:#6B7280;">واحد / طبقه</div>
-          <div style="font-size:14px;font-weight:700;margin-top:4px;">واحد ${esc(unit.unitNumber)} — طبقه ${esc(unit.floor)}</div></div>
-        <div class="card"><div style="font-size:11px;color:#6B7280;">وضعیت</div>
-          <div style="font-size:14px;font-weight:700;margin-top:4px;">${esc(STATUS[unit.status].label)}</div></div>
-        <div class="card"><div style="font-size:11px;color:#6B7280;">متراژ / جهت</div>
-          <div style="font-size:14px;font-weight:700;margin-top:4px;">${esc(unit.area || "-")} m² — ${esc(unit.direction && unit.direction !== "none" ? DIRECTIONS[unit.direction] : "نامشخص")}</div></div>
-        <div class="card"><div style="font-size:11px;color:#6B7280;">قیمت هر متر مربع</div>
-          <div style="font-size:14px;font-weight:700;margin-top:4px;">${fmt(unit.pricePerMeter)} تومان</div></div>
-        <div class="card"><div style="font-size:11px;color:#6B7280;">نام خریدار</div>
+        <div class="card"><div style="font-size:11px;color:#6B7280;">${esc(tFn("واحد / طبقه"))}</div>
+          <div style="font-size:14px;font-weight:700;margin-top:4px;">${esc(tFn("واحد"))} ${esc(unit.unitNumber)}${esc(tFn(" — طبقه "))}${esc(unit.floor)}</div></div>
+        <div class="card"><div style="font-size:11px;color:#6B7280;">${esc(tFn("وضعیت"))}</div>
+          <div style="font-size:14px;font-weight:700;margin-top:4px;">${esc(tFn(STATUS[unit.status].label))}</div></div>
+        <div class="card"><div style="font-size:11px;color:#6B7280;">${esc(tFn("متراژ / جهت"))}</div>
+          <div style="font-size:14px;font-weight:700;margin-top:4px;">${esc(unit.area || "-")} m² — ${esc(unit.direction && unit.direction !== "none" ? tFn(DIRECTIONS[unit.direction]) : tFn("نامشخص"))}</div></div>
+        <div class="card"><div style="font-size:11px;color:#6B7280;">${esc(tFn("قیمت هر متر مربع"))}</div>
+          <div style="font-size:14px;font-weight:700;margin-top:4px;">${fmt(unit.pricePerMeter)}${esc(tFn(" تومان"))}</div></div>
+        <div class="card"><div style="font-size:11px;color:#6B7280;">${esc(tFn("نام خریدار"))}</div>
           <div style="font-size:14px;font-weight:700;margin-top:4px;">${esc(unit.buyerName || "-")}</div></div>
-        <div class="card"><div style="font-size:11px;color:#6B7280;">تلفن خریدار</div>
+        <div class="card"><div style="font-size:11px;color:#6B7280;">${esc(tFn("تلفن خریدار"))}</div>
           <div style="font-size:14px;font-weight:700;margin-top:4px;" dir="ltr">${esc(unit.buyerPhone || "-")}</div></div>
-        <div class="card"><div style="font-size:11px;color:#6B7280;">کد پستی واحد</div>
+        <div class="card"><div style="font-size:11px;color:#6B7280;">${esc(tFn("کد پستی واحد"))}</div>
           <div style="font-size:14px;font-weight:700;margin-top:4px;">${esc(unit.postalCode || "-")}</div></div>
-        <div class="card"><div style="font-size:11px;color:#6B7280;">پیش‌پرداخت</div>
-          <div style="font-size:14px;font-weight:700;margin-top:4px;">${fmt(unit.downPayment)} تومان</div></div>
-        <div class="card"><div style="font-size:11px;color:#6B7280;">مبلغ کل قرارداد</div>
-          <div style="font-size:15px;font-weight:800;margin-top:4px;">${fmt(total)} تومان</div></div>
-        <div class="card"><div style="font-size:11px;color:#6B7280;">پرداخت‌شده</div>
-          <div style="font-size:14px;font-weight:700;margin-top:4px;color:#166534;">${fmt(paid)} تومان</div></div>
-        <div class="card" style="grid-column:span 2;"><div style="font-size:11px;color:#6B7280;">مانده</div>
-          <div style="font-size:16px;font-weight:800;margin-top:4px;color:#B91C1C;">${fmt(remaining)} تومان</div></div>
+        <div class="card"><div style="font-size:11px;color:#6B7280;">${esc(tFn("پیش‌پرداخت"))}</div>
+          <div style="font-size:14px;font-weight:700;margin-top:4px;">${fmt(unit.downPayment)}${esc(tFn(" تومان"))}</div></div>
+        <div class="card"><div style="font-size:11px;color:#6B7280;">${esc(tFn("مبلغ کل قرارداد"))}</div>
+          <div style="font-size:15px;font-weight:800;margin-top:4px;">${fmt(total)}${esc(tFn(" تومان"))}</div></div>
+        <div class="card"><div style="font-size:11px;color:#6B7280;">${esc(tFn("پرداخت‌شده"))}</div>
+          <div style="font-size:14px;font-weight:700;margin-top:4px;color:#166534;">${fmt(paid)}${esc(tFn(" تومان"))}</div></div>
+        <div class="card" style="grid-column:span 2;"><div style="font-size:11px;color:#6B7280;">${esc(tFn("مانده"))}</div>
+          <div style="font-size:16px;font-weight:800;margin-top:4px;color:#B91C1C;">${fmt(remaining)}${esc(tFn(" تومان"))}</div></div>
       </div>
 
-      <div style="font-weight:700;font-size:13px;margin-bottom:8px;">جدول اقساط</div>
-      ${instRows ? `<table><thead><tr style="background:#F4F6F5;"><th style="text-align:right;">تاریخ</th><th style="text-align:right;">مبلغ (تومان)</th><th style="text-align:right;">وضعیت</th></tr></thead><tbody>${instRows}</tbody></table>` : `<div style="font-size:12px;color:#9CA3AF;">قسطی ثبت نشده است.</div>`}
+      <div style="font-weight:700;font-size:13px;margin-bottom:8px;">${esc(tFn("جدول اقساط"))}</div>
+      ${instRows ? `<table><thead><tr style="background:#F4F6F5;"><th>${esc(tFn("تاریخ"))}</th><th>${esc(tFn("مبلغ (تومان)"))}</th><th>${esc(tFn("وضعیت"))}</th></tr></thead><tbody>${instRows}</tbody></table>` : `<div style="font-size:12px;color:#9CA3AF;">${esc(tFn("قسطی ثبت نشده است."))}</div>`}
 
-      ${unit.notes ? `<div style="margin-top:16px;"><div style="font-weight:700;font-size:13px;margin-bottom:6px;">یادداشت</div><div style="font-size:12px;color:#374151;">${esc(unit.notes)}</div></div>` : ""}
+      ${unit.notes ? `<div style="margin-top:16px;"><div style="font-weight:700;font-size:13px;margin-bottom:6px;">${esc(tFn("یادداشت"))}</div><div style="font-size:12px;color:#374151;">${esc(unit.notes)}</div></div>` : ""}
       </div>
-      <div class="report-footer">تهیه شده توسط نرم‌افزار متریکو — با ما در تماس باشید: ۰۹۱۹۲۲۶۴۳۳۲ — ایمیل: mehrzad.saeedi@gmail.com</div>
+      <div class="report-footer">${esc(tFn("تهیه شده توسط نرم‌افزار متریکو — با ما در تماس باشید: ۰۹۱۹۲۲۶۴۳۳۲ — ایمیل: mehrzad.saeedi@gmail.com"))}</div>
     </body></html>`;
   }
 
@@ -6442,12 +6641,12 @@ function AppContent() {
     if (!ensurePdfExport()) return;
     try {
       const list = scope === "all" ? projects : projects.filter((p) => p.id === activeTab);
-      const html = buildReportHTML(company, list);
+      const html = buildReportHTML(company, list, t, lang);
       const blob = new Blob([html], { type: "text/html" });
       const url = URL.createObjectURL(blob);
       window.open(url, "_blank");
     } catch (e) {
-      setError("ساخت گزارش ناموفق بود.");
+      setError(t("ساخت گزارش ناموفق بود."));
     }
   }
 
@@ -6459,19 +6658,19 @@ function AppContent() {
       const url = URL.createObjectURL(blob);
       window.open(url, "_blank");
     } catch (e) {
-      setError("ساخت گزارش مالی ناموفق بود.");
+      setError(t("ساخت گزارش مالی ناموفق بود."));
     }
   }
 
   function openUnitReport(project, unit) {
     if (!ensurePdfExport()) return;
     try {
-      const html = buildUnitReportHTML(company, project, unit);
+      const html = buildUnitReportHTML(company, project, unit, t, lang);
       const blob = new Blob([html], { type: "text/html" });
       const url = URL.createObjectURL(blob);
       window.open(url, "_blank");
     } catch (e) {
-      setError("ساخت گزارش واحد ناموفق بود.");
+      setError(t("ساخت گزارش واحد ناموفق بود."));
     }
   }
 
@@ -6499,7 +6698,7 @@ function AppContent() {
     setCompany(c);
     setShowCompanySettings(false);
     const { data, error: err } = await window.sb.auth.updateUser({ data: { company: c } });
-    if (err) setError("ذخیره اطلاعات شرکت ناموفق بود: " + err.message);
+    if (err) setError(t("ذخیره اطلاعات شرکت ناموفق بود: ") + err.message);
     else if (data?.user) setUser(data.user);
   }
 
@@ -6507,12 +6706,12 @@ function AppContent() {
     if (!guardWrite()) return;
     setContacts(list);
     const { data, error: err } = await window.sb.auth.updateUser({ data: { contacts: list } });
-    if (err) setError("ذخیره مخاطبین ناموفق بود: " + err.message);
+    if (err) setError(t("ذخیره مخاطبین ناموفق بود: ") + err.message);
     else if (data?.user) setUser(data.user);
   }
   function addContact(contact) {
     if (contacts.length >= planLimits.maxContacts) {
-      setError(`در پلن ${planLabel(effectivePlan)} حداکثر ${planLimits.maxContacts} مخاطب مجاز است. برای افزودن بیشتر، پلن را ارتقا دهید.`);
+      setError(`${t("در پلن ")}${planLabel(effectivePlan)} ${t("حداکثر")} ${planLimits.maxContacts}${t(" مخاطب مجاز است. برای افزودن بیشتر، پلن را ارتقا دهید.")}`);
       setScreen("plan");
       return null;
     }
@@ -6532,7 +6731,7 @@ function AppContent() {
     if (!guardWrite()) return;
     setInventory(list);
     const { data, error: err } = await window.sb.auth.updateUser({ data: { inventory: list } });
-    if (err) setError("ذخیره موجودی انبار ناموفق بود: " + err.message);
+    if (err) setError(t("ذخیره موجودی انبار ناموفق بود: ") + err.message);
     else if (data?.user) setUser(data.user);
   }
   function adjustInventoryStock(itemId, delta) {
@@ -6571,7 +6770,7 @@ function AppContent() {
         allocations: [...(item.allocations || []), { id: uid(), activity: activity.trim(), quantity: qty, at: new Date().toISOString() }],
       };
     });
-    if (blocked) { setError("موجودی آزاد کافی نیست."); return; }
+    if (blocked) { setError(t("موجودی آزاد کافی نیست.")); return; }
     saveInventory(next);
   }
   function removeAllocation(itemId, allocationId) {
@@ -6597,10 +6796,14 @@ function AppContent() {
     return owe;
   }
 
+  useEffect(() => {
+    setChatLog([{ role: "bot", text: t("سلام! من دستیار متریکو هستم. درباره پروژه‌ها، فروش، هزینه، سود، مخاطبین و انرژی آزاد بپرس — لازم نیست جمله‌ات دقیق باشد. می‌توانی با میکروفون هم صحبت کنی.") }]);
+  }, [lang]);
+
   function sendChatMessage(optionalText) {
     const text = (optionalText ?? chatInput).trim();
     if (!text) return;
-    const answer = buildChatAnswer(text, projects, contacts, contactBalance);
+    const answer = buildChatAnswer(text, projects, contacts, contactBalance, t);
     setChatLog((prev) => [...prev, { role: "user", text }, { role: "bot", text: answer }]);
     setChatInput("");
   }
@@ -6640,12 +6843,12 @@ function AppContent() {
     if (!guardWrite()) return;
     setReminders(list);
     const { data, error: err } = await window.sb.auth.updateUser({ data: { reminders: list } });
-    if (err) setError("ذخیره یادآوری‌ها ناموفق بود: " + err.message);
+    if (err) setError(t("ذخیره یادآوری‌ها ناموفق بود: ") + err.message);
     else if (data?.user) setUser(data.user);
   }
   function addReminder(reminder) {
     if (reminders.length >= planLimits.maxReminders) {
-      setError(`در پلن ${planLabel(effectivePlan)} حداکثر ${planLimits.maxReminders} یادآوری مجاز است. برای افزودن بیشتر، پلن را ارتقا دهید.`);
+      setError(`${t("در پلن ")}${planLabel(effectivePlan)} ${t("حداکثر")} ${planLimits.maxReminders}${t(" یادآوری مجاز است. برای افزودن بیشتر، پلن را ارتقا دهید.")}`);
       setScreen("plan");
       return;
     }
@@ -6697,17 +6900,17 @@ function AppContent() {
       document.body.removeChild(a);
       setTimeout(() => URL.revokeObjectURL(url), 5000);
     } catch (e) {
-      setError("ساخت فایل پشتیبان ناموفق بود.");
+      setError(t("ساخت فایل پشتیبان ناموفق بود."));
     }
   }
 
   function restoreBackup(file, onDone) {
-    if (!guardWrite("حساب دمو فقط برای مشاهده است — بازیابی پشتیبان غیرفعال است.")) {
-      onDone(false, "حساب دمو فقط برای مشاهده است.");
+    if (!guardWrite(t("حساب دمو فقط برای مشاهده است — بازیابی پشتیبان غیرفعال است."))) {
+      onDone(false, t("حساب دمو فقط برای مشاهده است."));
       return;
     }
     if (!hasPlanFeature(effectivePlan, "backup_restore", planExpiresAt)) {
-      onDone(false, `بازیابی در پلن ${planRequiredLabel("backup_restore")} است.`);
+      onDone(false, `${t("بازیابی در پلن ")}${planRequiredLabel("backup_restore")}${t(" است.")}`);
       setScreen("plan");
       return;
     }
@@ -7582,16 +7785,16 @@ function ContractsScreen({ company, projects, activeProjectId, contacts, isReadO
 
   function handleSaveContract() {
     if (!project || isReadOnly) return;
-    if (!activityId || !employerId || !contractorId) { alert("فعالیت و طرفین قرارداد را انتخاب کن."); return; }
-    if (!quantity || !unitPrice) { alert("متراژ و دستمزد واحد را وارد کن."); return; }
+    if (!activityId || !employerId || !contractorId) { alert(t("فعالیت و طرفین قرارداد را انتخاب کن.")); return; }
+    if (!quantity || !unitPrice) { alert(t("متراژ و دستمزد واحد را وارد کن.")); return; }
     if (isCustomActivity && !customClauses.trim()) {
-      alert("این فعالیت سفارشی است. لطفاً متن قرارداد متناسب با آن را دستی وارد کن.");
+      alert(t("این فعالیت سفارشی است. لطفاً متن قرارداد متناسب با آن را دستی وارد کن."));
       return;
     }
     const payload = buildContractPayload();
     onSaveContract(project.id, payload);
     resetContractForm();
-    alert("قرارداد ثبت شد.");
+    alert(t("قرارداد ثبت شد."));
   }
 
   function handlePrintContract(savedContract) {
@@ -7601,8 +7804,8 @@ function ContractsScreen({ company, projects, activeProjectId, contacts, isReadO
 
   function handleSaveStatement() {
     if (!project || isReadOnly) return;
-    if (!stmtContractId) { alert("قرارداد را انتخاب کن."); return; }
-    if (netAmount <= 0 && !completionStatus.trim()) { alert("مبلغ یا وضعیت انجام را ثبت کن."); return; }
+    if (!stmtContractId) { alert(t("قرارداد را انتخاب کن.")); return; }
+    if (netAmount <= 0 && !completionStatus.trim()) { alert(t("مبلغ یا وضعیت انجام را ثبت کن.")); return; }
     const c = contracts.find((x) => x.id === stmtContractId);
     onSaveProgressStatement(project.id, {
       contractId: stmtContractId,
@@ -7631,11 +7834,11 @@ function ContractsScreen({ company, projects, activeProjectId, contacts, isReadO
       qcChecksDone,
     });
     resetProgressForm();
-    alert(netAmount > 0 ? "صورت‌وضعیت ثبت شد و به بدهی‌های پروژه اضافه گردید." : "صورت‌وضعیت ثبت شد.");
+    alert(netAmount > 0 ? t("صورت‌وضعیت ثبت شد و به بدهی‌های پروژه اضافه گردید.") : t("صورت‌وضعیت ثبت شد."));
   }
 
   function handlePrintStatement() {
-    if (!selectedContract) { alert("قرارداد را انتخاب کن."); return; }
+    if (!selectedContract) { alert(t("قرارداد را انتخاب کن.")); return; }
     if (ensurePdfExport && !ensurePdfExport()) return;
     const stmt = {
       statementNo: nextProgressStatementNumber(project),
@@ -8282,7 +8485,7 @@ function AboutScreen({ onBack }) {
   return (
     <div className="px-5 pt-5 pb-10" dir={screenDir}>
       <div className="flex items-center gap-3 mb-6">
-        <button onClick={onBack} className="p-1"><ChevronLeft size={20} className={lang === "ltr" ? "rotate-180" : ""} /></button>
+        <button onClick={onBack} className="p-1"><ChevronLeft size={20} className={lang === "en" ? "rotate-180" : ""} /></button>
         <div className="font-bold text-lg">{t("درباره")}</div>
       </div>
 
@@ -8293,10 +8496,10 @@ function AboutScreen({ onBack }) {
 
       <div className="bg-white rounded-2xl p-5 border border-black/5 text-sm leading-7 text-[#374151]">
         <p className="mb-3">
-          {APP_NAME} برای مدیریت روزمره پروژه‌های ساختمانی طراحی شده است: ثبت طبقات و واحدها، اطلاعات خریداران، متراژ، قیمت هر متر، پیش‌پرداخت و جدول اقساط، هزینه‌ها، و محاسبه خودکار سود و زیان هر پروژه.
+          {APP_NAME}{t(" برای مدیریت روزمره پروژه‌های ساختمانی طراحی شده است: ثبت طبقات و واحدها، اطلاعات خریداران، متراژ، قیمت هر متر، پیش‌پرداخت و جدول اقساط، هزینه‌ها، و محاسبه خودکار سود و زیان هر پروژه.")}
         </p>
         <p className="mb-3">
-          اطلاعات هر حساب کاربری به‌صورت خصوصی و امن در فضای ابری ذخیره می‌شود و فقط از طریق ورود با همان ایمیل و رمز عبور قابل مشاهده است. هر همکار با ساخت حساب جدید، فضای کاری کاملاً جدا و مستقل از دیگران خواهد داشت. برای اشتراک‌گذاری اطلاعات با دیگران می‌توان از گزینه «خروجی PDF» یا «پشتیبان‌گیری» استفاده کرد.
+          {t("اطلاعات هر حساب کاربری به‌صورت خصوصی و امن در فضای ابری ذخیره می‌شود و فقط از طریق ورود با همان ایمیل و رمز عبور قابل مشاهده است. هر همکار با ساخت حساب جدید، فضای کاری کاملاً جدا و مستقل از دیگران خواهد داشت. برای اشتراک‌گذاری اطلاعات با دیگران می‌توان از گزینه «خروجی PDF» یا «پشتیبان‌گیری» استفاده کرد.")}
         </p>
         <p className="mb-4">
           {t("طراحی و توسعه: مهرزاد سعیدی — مدیر پروژه، گروه ساختمانی سپهر.")}
@@ -8306,7 +8509,7 @@ function AboutScreen({ onBack }) {
           <div dir="ltr" className="font-bold text-[#14213D]">۰۹۱۹۲۲۶۴۳۳۲</div>
         </div>
         <div className="text-[11px] text-[#9CA3AF] leading-6 border-t border-black/5 pt-3 mb-2">
-          کلیه حقوق مادی و معنوی نرم‌افزار {APP_NAME} متعلق به مهرزاد سعیدی است. هرگونه کپی‌برداری، بازتولید، توزیع مجدد یا استفاده تجاری از این نرم‌افزار و کدهای آن بدون اجازه کتبی از مالک، ممنوع بوده و پیگرد قانونی دارد.
+          {t("کلیه حقوق مادی و معنوی نرم‌افزار ")}{APP_NAME}{t(" متعلق به مهرزاد سعیدی است. هرگونه کپی‌برداری، بازتولید، توزیع مجدد یا استفاده تجاری از این نرم‌افزار و کدهای آن بدون اجازه کتبی از مالک، ممنوع بوده و پیگرد قانونی دارد.")}
         </div>
         <div className="flex justify-center pt-2 border-t border-black/5">
           <img src="logo.png" alt="" className="w-28 opacity-40" />
@@ -8353,6 +8556,7 @@ function PrivacyScreen({ onBack }) {
 }
 
 function TaxSystemsIllustration() {
+  const { t } = useContext(LanguageContext);
   return (
     <svg viewBox="0 0 320 180" className="w-full max-w-sm mx-auto" aria-hidden="true">
       <rect x="8" y="8" width="304" height="164" rx="16" fill="#EFF6FF" stroke="#BFDBFE" strokeWidth="2" />
@@ -8366,8 +8570,8 @@ function TaxSystemsIllustration() {
       <rect x="36" y="132" width="72" height="28" rx="6" fill="#fff" stroke="#CBD5E1" />
       <rect x="212" y="132" width="72" height="28" rx="6" fill="#fff" stroke="#CBD5E1" />
       <path d="M108 146 H212" stroke="#3B82F6" strokeWidth="2" strokeDasharray="4 3" />
-      <text x="72" y="150" textAnchor="middle" fill="#64748B" fontSize="9" fontFamily="Tahoma">پروژه</text>
-      <text x="248" y="150" textAnchor="middle" fill="#64748B" fontSize="9" fontFamily="Tahoma">سامانه مالیاتی</text>
+      <text x="72" y="150" textAnchor="middle" fill="#64748B" fontSize="9" fontFamily="Tahoma">{t("پروژه")}</text>
+      <text x="248" y="150" textAnchor="middle" fill="#64748B" fontSize="9" fontFamily="Tahoma">{t("سامانه مالیاتی")}</text>
     </svg>
   );
 }
@@ -8388,34 +8592,18 @@ function TaxSystemsScreen({ onBack }) {
 
       <div className="bg-white rounded-2xl p-5 border border-black/5 text-sm leading-7 text-[#374151] flex flex-col gap-3">
         <p>
-          بخش «سامانه‌های مالیاتی» در {APP_NAME} برای آماده‌سازی و یکپارچه‌سازی اطلاعات مالی پروژه‌های ساختمانی با الزامات قانونی طراحی شده است.
+          {t("بخش «سامانه‌های مالیاتی» در ")}{APP_NAME}{t(" برای آماده‌سازی و یکپارچه‌سازی اطلاعات مالی پروژه‌های ساختمانی با الزامات قانونی طراحی شده است.")}
         </p>
-        <p>
-          در این ماژول، داده‌های ثبت‌شده در حسابداری پروژه — از جمله درآمد فروش واحدها، هزینه‌های اجرایی، پرداخت‌های نقدی و چکی، انتقال بین حساب‌ها و گردش سرمایه‌گذاران — به‌صورت ساخت‌یافته جمع‌آوری می‌شود.
-        </p>
-        <p>
-          با اتصال به سامانه‌های مالیاتی کشور و بر اساس جدیدترین قوانین و بخشنامه‌های مرتبط، کاربر می‌تواند گزارش‌های موردنیاز سازمان امور مالیاتی، تأمین اجتماعی و سایر مراجع ذی‌صلاح را آماده کند.
-        </p>
-        <p>
-          اطلاعات هر پروژه به‌صورت مجزا نگهداری می‌شود تا گزارش‌های مالیاتی هر پروژه (یا هر شخص حقوقی/حقیقی مرتبط) بدون تداخل با سایر پروژه‌ها استخراج گردد.
-        </p>
-        <p>
-          پیوست مدارک پرداخت، فاکتور، رسید بانکی و چک‌های وصولی در کنار هر تراکنش، مبنای مستندسازی مالیاتی قرار می‌گیرد و از بروز اختلاف در زمان رسیدگی جلوگیری می‌کند.
-        </p>
-        <p>
-          در نسخه‌های آتی، امکان خروجی استاندارد (XML/JSON)، ارسال مستقیم به درگاه‌های رسمی، و تطبیق خودکار با کدهای حسابداری مالیاتی فراهم خواهد شد.
-        </p>
-        <p>
-          تا زمان فعال‌سازی اتصال رسمی، می‌توانید از گزارش‌های مالی داخلی، خروجی PDF و پشتیبان‌گیری برای ارائه به حسابدار یا مشاور مالیاتی استفاده کنید.
-        </p>
-        <p>
-          توصیه می‌شود پیش از ارسال هر گزارش، موجودی حساب‌ها، تراز سرمایه‌گذاران و لیست چک‌های پرداختی/وصولی را از منوی «گزارش‌ها» بازبینی کنید.
-        </p>
-        <p>
-          این بخش صرفاً ابزار سازماندهی و آماده‌سازی داده است؛ مسئولیت صحت اطلاعات و رعایت مهلت‌های قانونی با کاربر یا حسابدار پروژه است.
-        </p>
+        <p>{t("در این ماژول، داده‌های ثبت‌شده در حسابداری پروژه — از جمله درآمد فروش واحدها، هزینه‌های اجرایی، پرداخت‌های نقدی و چکی، انتقال بین حساب‌ها و گردش سرمایه‌گذاران — به‌صورت ساخت‌یافته جمع‌آوری می‌شود.")}</p>
+        <p>{t("با اتصال به سامانه‌های مالیاتی کشور و بر اساس جدیدترین قوانین و بخشنامه‌های مرتبط، کاربر می‌تواند گزارش‌های موردنیاز سازمان امور مالیاتی، تأمین اجتماعی و سایر مراجع ذی‌صلاح را آماده کند.")}</p>
+        <p>{t("اطلاعات هر پروژه به‌صورت مجزا نگهداری می‌شود تا گزارش‌های مالیاتی هر پروژه (یا هر شخص حقوقی/حقیقی مرتبط) بدون تداخل با سایر پروژه‌ها استخراج گردد.")}</p>
+        <p>{t("پیوست مدارک پرداخت، فاکتور، رسید بانکی و چک‌های وصولی در کنار هر تراکنش، مبنای مستندسازی مالیاتی قرار می‌گیرد و از بروز اختلاف در زمان رسیدگی جلوگیری می‌کند.")}</p>
+        <p>{t("در نسخه‌های آتی، امکان خروجی استاندارد (XML/JSON)، ارسال مستقیم به درگاه‌های رسمی، و تطبیق خودکار با کدهای حسابداری مالیاتی فراهم خواهد شد.")}</p>
+        <p>{t("تا زمان فعال‌سازی اتصال رسمی، می‌توانید از گزارش‌های مالی داخلی، خروجی PDF و پشتیبان‌گیری برای ارائه به حسابدار یا مشاور مالیاتی استفاده کنید.")}</p>
+        <p>{t("توصیه می‌شود پیش از ارسال هر گزارش، موجودی حساب‌ها، تراز سرمایه‌گذاران و لیست چک‌های پرداختی/وصولی را از منوی «گزارش‌ها» بازبینی کنید.")}</p>
+        <p>{t("این بخش صرفاً ابزار سازماندهی و آماده‌سازی داده است؛ مسئولیت صحت اطلاعات و رعایت مهلت‌های قانونی با کاربر یا حسابدار پروژه است.")}</p>
         <div className="bg-[#EFF6FF] border border-[#BFDBFE] rounded-xl p-3 text-xs text-[#1E3A8A] leading-6 mt-1">
-          برای فعال‌سازی اتصال به سامانه‌های مالیاتی و دریافت راهنمای تکمیلی، از اطلاعات تماس بخش «درباره» استفاده کنید.
+          {t("برای فعال‌سازی اتصال به سامانه‌های مالیاتی و دریافت راهنمای تکمیلی، از اطلاعات تماس بخش «درباره» استفاده کنید.")}
         </div>
       </div>
     </div>
@@ -10317,6 +10505,8 @@ function EnergyScreen({ company, onBack, projects, ensurePdfExport }) {
 }
 
 function AdminMembersScreen({ onBack, onError }) {
+  const { lang, t } = useContext(LanguageContext);
+  const screenDir = lang === "fa" ? "rtl" : "ltr";
   const [members, setMembers] = useState([]);
   const [loading, setLoading] = useState(true);
   const [busyId, setBusyId] = useState(null);
@@ -10336,7 +10526,7 @@ function AdminMembersScreen({ onBack, onError }) {
     try {
       const { data, error: err } = await window.sb.rpc("admin_list_members");
       if (err) {
-        onError?.("خطا در دریافت لیست اعضا: " + err.message);
+        onError?.(t("خطا در دریافت لیست اعضا: ") + err.message);
         setMembers([]);
         return;
       }
@@ -10362,7 +10552,7 @@ function AdminMembersScreen({ onBack, onError }) {
         return next;
       });
     } catch (e) {
-      onError?.("خطا در بارگذاری لیست اعضا.");
+      onError?.(t("خطا در بارگذاری لیست اعضا."));
       setMembers([]);
     }
     setLoading(false);
@@ -10378,7 +10568,7 @@ function AdminMembersScreen({ onBack, onError }) {
     if (!text) return;
     if (navigator.clipboard?.writeText) {
       navigator.clipboard.writeText(text).then(() => {
-        setCopyHint("کپی شد");
+        setCopyHint(t("کپی شد"));
         setTimeout(() => setCopyHint(""), 1500);
       }).catch(() => {});
     }
@@ -10390,10 +10580,10 @@ function AdminMembersScreen({ onBack, onError }) {
       const { data, error: err } = await window.sb.rpc("admin_create_activation_code", {
         p_note: member.email || null,
       });
-      if (err) onError?.("ساخت کد فعال‌سازی ناموفق: " + err.message);
+      if (err) onError?.(t("ساخت کد فعال‌سازی ناموفق: ") + err.message);
       else if (data) setDraft(member.user_id, { activationCode: data });
     } catch (e) {
-      onError?.("خطا در ساخت کد فعال‌سازی.");
+      onError?.(t("خطا در ساخت کد فعال‌سازی."));
     }
     setCodeBusyId(null);
   }
@@ -10402,7 +10592,7 @@ function AdminMembersScreen({ onBack, onError }) {
     const draft = drafts[member.user_id];
     if (!draft) return;
     if (draft.plan === "start") {
-      onError?.("برای کد ارتقا، پلن پلاس، پرو یا ارک را انتخاب کن.");
+      onError?.(t("برای کد ارتقا، پلن پلاس، پرو یا ارک را انتخاب کن."));
       return;
     }
     setCodeBusyId(member.user_id + ":plan");
@@ -10413,10 +10603,10 @@ function AdminMembersScreen({ onBack, onError }) {
         p_months: months,
         p_note: member.email || null,
       });
-      if (err) onError?.("ساخت کد ارتقا ناموفق: " + err.message);
+      if (err) onError?.(t("ساخت کد ارتقا ناموفق: ") + err.message);
       else if (data) setDraft(member.user_id, { planCode: data });
     } catch (e) {
-      onError?.("خطا در ساخت کد ارتقا.");
+      onError?.(t("خطا در ساخت کد ارتقا."));
     }
     setCodeBusyId(null);
   }
@@ -10432,24 +10622,24 @@ function AdminMembersScreen({ onBack, onError }) {
         p_plan: draft.plan,
         p_months: months,
       });
-      if (err) onError?.("ذخیره ناموفق: " + err.message);
+      if (err) onError?.(t("ذخیره ناموفق: ") + err.message);
       else await loadMembers();
     } catch (e) {
-      onError?.("خطایی در ذخیره پلن رخ داد.");
+      onError?.(t("خطایی در ذخیره پلن رخ داد."));
     }
     setBusyId(null);
   }
 
   return (
-    <div className="px-5 pt-5 pb-10">
+    <div className="px-5 pt-5 pb-10" dir={screenDir}>
       <div className="flex items-center gap-3 mb-4">
-        <button type="button" onClick={onBack} className="p-1"><ChevronLeft size={20} /></button>
+        <button type="button" onClick={onBack} className="p-1"><ChevronLeft size={20} className={lang === "en" ? "rotate-180" : ""} /></button>
         <div className="flex-1">
-          <div className="font-bold text-lg">مدیریت اعضا</div>
-          <div className="text-[11px] text-[#6B7280]">مدیر کل — پلن، کد فعال‌سازی و کد ارتقا</div>
+          <div className="font-bold text-lg">{t("مدیریت اعضا")}</div>
+          <div className="text-[11px] text-[#6B7280]">{t("مدیر کل — پلن، کد فعال‌سازی و کد ارتقا")}</div>
         </div>
         <button type="button" onClick={loadMembers} className="text-xs font-semibold text-[#14213D] bg-[#F4F6F5] rounded-lg px-3 py-1.5">
-          بروزرسانی
+          {t("بروزرسانی")}
         </button>
       </div>
 
@@ -10458,20 +10648,20 @@ function AdminMembersScreen({ onBack, onError }) {
           type="search"
           value={searchQuery}
           onChange={(e) => setSearchQuery(e.target.value)}
-          placeholder="جستجو با ایمیل..."
+          placeholder={t("جستجو با ایمیل...")}
           className="w-full bg-white rounded-xl px-4 py-2.5 text-sm outline-none border border-black/10"
         />
         <div className="flex items-center justify-between mt-1.5 text-[10px] text-[#9CA3AF]">
-          <span>{filteredMembers.length} از {members.length} عضو</span>
+          <span>{filteredMembers.length}{t(" از ")}{members.length}{t(" عضو")}</span>
           {copyHint && <span className="text-[#128C7E] font-semibold">{copyHint}</span>}
         </div>
       </div>
 
       {loading ? (
-        <div className="text-center text-sm text-[#9CA3AF] py-16">در حال بارگذاری...</div>
+        <div className="text-center text-sm text-[#9CA3AF] py-16">{t("در حال بارگذاری...")}</div>
       ) : filteredMembers.length === 0 ? (
         <div className="text-center text-sm text-[#9CA3AF] py-16">
-          {members.length === 0 ? "عضوی یافت نشد." : "نتیجه‌ای برای جستجو نیست."}
+          {members.length === 0 ? t("عضوی یافت نشد.") : t("نتیجه‌ای برای جستجو نیست.")}
         </div>
       ) : (
         <div className="flex flex-col gap-3">
@@ -10486,24 +10676,24 @@ function AdminMembersScreen({ onBack, onError }) {
                   <div className="min-w-0">
                     <div className="text-sm font-bold text-[#14213D] truncate" dir="ltr">{m.email || "—"}</div>
                     <div className="text-[10px] text-[#9CA3AF] mt-0.5">
-                      {m.activated ? "فعال" : "در انتظار فعال‌سازی"}
+                      {m.activated ? t("فعال") : t("در انتظار فعال‌سازی")}
                       {m.plan_expires_at && effective !== "start" && (
-                        <> · اعتبار تا {new Date(m.plan_expires_at).toLocaleDateString("fa-IR")}</>
+                        <>{t(" · اعتبار تا ")}{new Date(m.plan_expires_at).toLocaleDateString(lang === "fa" ? "fa-IR" : "en-GB")}</>
                       )}
                     </div>
                   </div>
                   <span className="text-[10px] font-bold bg-[#F4F6F5] text-[#374151] rounded-full px-2 py-0.5 shrink-0">
-                    {planLabel(effective).replace("میتریکو ", "")}
+                    {t(planLabel(effective).replace("میتریکو ", ""))}
                   </span>
                 </div>
 
                 <div className="space-y-2 mb-3">
-                  <div className="text-[10px] font-semibold text-[#6B7280]">کد فعال‌سازی اولیه</div>
+                  <div className="text-[10px] font-semibold text-[#6B7280]">{t("کد فعال‌سازی اولیه")}</div>
                   <div className="flex gap-2">
                     <input
                       readOnly
                       value={draft.activationCode || ""}
-                      placeholder={m.activated ? "حساب فعال است" : "هنوز ساخته نشده"}
+                      placeholder={m.activated ? t("حساب فعال است") : t("هنوز ساخته نشده")}
                       dir="ltr"
                       className="flex-1 bg-[#F4F6F5] rounded-xl px-3 py-2 text-xs outline-none border border-black/5"
                     />
@@ -10514,7 +10704,7 @@ function AdminMembersScreen({ onBack, onError }) {
                         disabled={actBusy}
                         className="bg-[#14213D] text-white rounded-xl px-3 py-2 text-xs font-semibold disabled:opacity-40 shrink-0"
                       >
-                        {actBusy ? "..." : "ساخت"}
+                        {actBusy ? "..." : t("ساخت")}
                       </button>
                     )}
                     {draft.activationCode && (
@@ -10523,19 +10713,19 @@ function AdminMembersScreen({ onBack, onError }) {
                         onClick={() => copyCode(draft.activationCode)}
                         className="border border-[#14213D]/20 text-[#14213D] rounded-xl px-3 py-2 text-xs font-semibold shrink-0"
                       >
-                        کپی
+                        {t("کپی")}
                       </button>
                     )}
                   </div>
                 </div>
 
                 <div className="space-y-2 mb-3">
-                  <div className="text-[10px] font-semibold text-[#6B7280]">کد تغییر پلن</div>
+                  <div className="text-[10px] font-semibold text-[#6B7280]">{t("کد تغییر پلن")}</div>
                   <div className="flex gap-2">
                     <input
                       readOnly
                       value={draft.planCode || ""}
-                      placeholder="پلن را انتخاب کن، سپس ساخت"
+                      placeholder={t("پلن را انتخاب کن، سپس ساخت")}
                       dir="ltr"
                       className="flex-1 bg-[#F4F6F5] rounded-xl px-3 py-2 text-xs outline-none border border-black/5"
                     />
@@ -10545,7 +10735,7 @@ function AdminMembersScreen({ onBack, onError }) {
                       disabled={planBusy || draft.plan === "start"}
                       className="bg-[#C9A227] text-[#14213D] rounded-xl px-3 py-2 text-xs font-semibold disabled:opacity-40 shrink-0"
                     >
-                      {planBusy ? "..." : "ساخت"}
+                      {planBusy ? "..." : t("ساخت")}
                     </button>
                     {draft.planCode && (
                       <button
@@ -10553,30 +10743,30 @@ function AdminMembersScreen({ onBack, onError }) {
                         onClick={() => copyCode(draft.planCode)}
                         className="border border-[#14213D]/20 text-[#14213D] rounded-xl px-3 py-2 text-xs font-semibold shrink-0"
                       >
-                        کپی
+                        {t("کپی")}
                       </button>
                     )}
                   </div>
                 </div>
 
                 <div className="border-t border-black/5 pt-3">
-                  <div className="text-[10px] font-semibold text-[#6B7280] mb-2">تغییر مستقیم پلن</div>
+                  <div className="text-[10px] font-semibold text-[#6B7280] mb-2">{t("تغییر مستقیم پلن")}</div>
                   <div className="flex flex-wrap gap-2 items-end">
                     <label className="flex-1 min-w-[120px]">
-                      <span className="text-[10px] text-[#6B7280] block mb-1">پلن جدید</span>
+                      <span className="text-[10px] text-[#6B7280] block mb-1">{t("پلن جدید")}</span>
                       <select
                         value={draft.plan}
                         onChange={(e) => setDraft(m.user_id, { plan: e.target.value, planCode: "" })}
                         className="w-full bg-[#F4F6F5] rounded-xl px-3 py-2 text-sm outline-none border border-black/5"
                       >
                         {METRICO_PLAN_ORDER.map((id) => (
-                          <option key={id} value={id}>{METRICO_PLANS[id].name}</option>
+                          <option key={id} value={id}>{t(METRICO_PLANS[id].name)}</option>
                         ))}
                       </select>
                     </label>
                     {draft.plan !== "start" && (
                       <label className="w-24">
-                        <span className="text-[10px] text-[#6B7280] block mb-1">ماه</span>
+                        <span className="text-[10px] text-[#6B7280] block mb-1">{t("ماه")}</span>
                         <input
                           type="number"
                           min={1}
@@ -10593,7 +10783,7 @@ function AdminMembersScreen({ onBack, onError }) {
                       disabled={busyId === m.user_id}
                       className="bg-[#14213D] text-white rounded-xl px-4 py-2 text-sm font-semibold disabled:opacity-40"
                     >
-                      {busyId === m.user_id ? "..." : "ذخیره پلن"}
+                      {busyId === m.user_id ? "..." : t("ذخیره پلن")}
                     </button>
                   </div>
                 </div>
