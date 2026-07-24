@@ -626,6 +626,8 @@ const FINANCE_TX_LABELS = {
   expense: "پرداخت هزینه",
   income: "دریافت درآمد فروش",
   check_clear: "وصول / پرداخت چک",
+  contact_prepay: "پیش‌پرداخت به مخاطب",
+  contact_debt_pay: "پرداخت بدهی به مخاطب",
 };
 
 const PROJECT_CARD_PALETTE = [
@@ -1463,12 +1465,31 @@ function investorProfitSummary(project, contacts) {
   });
 }
 
+function isPurchaseExpense(e) {
+  if (!e) return false;
+  if (e.paymentMethod === "purchase") return true;
+  if (e.paymentMethod === "credit" && e.materialId) return true;
+  return false;
+}
+
+function expenseContactBalanceDelta(e) {
+  if (!e?.contactId) return 0;
+  const amount = Number(e.amount) || 0;
+  if (isPurchaseExpense(e)) return amount;
+  if (e.paymentMethod === "credit") return amount;
+  return 0;
+}
+
 function projectContactBalanceInProject(project, contactId) {
   let bal = 0;
   (project.expenses || []).forEach((e) => {
     if (e.contactId !== contactId) return;
-    if (e.paymentMethod === "credit") bal += Number(e.amount) || 0;
-    else bal -= Number(e.amount) || 0;
+    bal += expenseContactBalanceDelta(e);
+  });
+  (project.financeTransactions || []).forEach((tx) => {
+    if (tx.contactId !== contactId) return;
+    const amount = Number(tx.amount) || 0;
+    if (tx.type === "contact_prepay" || tx.type === "contact_debt_pay") bal -= amount;
   });
   return bal;
 }
@@ -1519,13 +1540,15 @@ function projectPayablesList(project, contacts) {
   return items.sort((a, b) => b.amount - a.amount);
 }
 
-function collectContactLedgerEntries(contactId, projects) {
+function collectContactLedgerEntries(contactId, projects, projectIdFilter) {
   const entries = [];
-  (projects || []).forEach((project) => {
+  const list = (projects || []).filter((p) => !projectIdFilter || p.id === projectIdFilter);
+  list.forEach((project) => {
     (project.expenses || []).forEach((e) => {
       if (e.contactId !== contactId) return;
       const amount = Number(e.amount) || 0;
-      const isCredit = e.paymentMethod === "credit";
+      const delta = expenseContactBalanceDelta(e);
+      if (!delta) return;
       entries.push({
         id: `exp-${project.id}-${e.id}`,
         date: e.date || "",
@@ -1534,14 +1557,29 @@ function collectContactLedgerEntries(contactId, projects) {
         refType: "expense",
         refId: e.id,
         title: e.title || "",
-        subType: isCredit ? "credit" : (e.paymentMethod || "cash"),
-        debit: isCredit ? 0 : amount,
-        credit: isCredit ? amount : 0,
+        subType: isPurchaseExpense(e) ? "purchase" : (e.paymentMethod || "credit"),
+        debit: 0,
+        credit: delta,
         detail: { kind: "expense", expense: e, project },
       });
     });
     (project.financeTransactions || []).forEach((tx) => {
       const amount = Number(tx.amount) || 0;
+      if (tx.contactId === contactId && (tx.type === "contact_prepay" || tx.type === "contact_debt_pay")) {
+        entries.push({
+          id: `cpay-${project.id}-${tx.id}`,
+          date: tx.date || "",
+          projectId: project.id,
+          projectName: project.name,
+          refType: "finance",
+          refId: tx.id,
+          title: tx.note || FINANCE_TX_LABELS[tx.type] || tx.type,
+          subType: tx.type,
+          debit: amount,
+          credit: 0,
+          detail: { kind: "finance", tx, project },
+        });
+      }
       if (tx.investorContactId === contactId) {
         const isIn = tx.type === "capital_in";
         entries.push({
@@ -2181,6 +2219,18 @@ Object.assign(DICT, {
   "مانده نهایی": "Final balance",
   "گردش مالی (مخاطب)": "Contact ledger",
   "تراکنشی برای این مخاطب ثبت نشده": "No transactions recorded for this contact",
+  "پروژه برای گزارش مالی": "Project for financial report",
+  "گردش مالی هر مخاطب فقط برای یک پروژه نمایش داده می‌شود.": "Contact ledger is shown for one project at a time.",
+  "فاکتور خرید": "Purchase invoice",
+  "نسیه (پیمانکاری)": "Credit (contractor)",
+  "ویرایش هزینه": "Edit expense",
+  "پرداخت به مخاطب": "Payment to contact",
+  "حساب پرداخت": "Payment account",
+  "پیش‌پرداخت: مخاطب به ما بدهکار می‌شود. پرداخت بدهی: تسویه بدهی ما به مخاطب از حساب بانکی.": "Prepayment: the contact owes us. Debt payment: pay what we owe the contact from a bank account.",
+  "فاکتور خرید فقط هزینه پروژه و بدهی را ثبت می‌کند. ابتدا از «حسابداری → انتقال/سرمایه» پیش‌پرداخت بزنید؛ مبلغ خرید از طلب مخاطب کسر می‌شود.": "Purchase invoice records project cost and payable. Record prepayment under Accounting → Transfer/Capital first; purchase amount offsets the contact's credit with you.",
+  "برای فاکتور خرید و نسیه اختیاری است.": "Optional for purchase invoices and credit.",
+  "پیش‌پرداخت به مخاطب": "Prepayment to contact",
+  "پرداخت بدهی به مخاطب": "Pay contact payable",
   "بخش صورت‌وضعیت و کارکرد": "Progress statement section",
   "قرارداد *": "Contract *",
   "انتخاب قرارداد ثبت‌شده...": "Select saved contract...",
@@ -6875,7 +6925,7 @@ function AppContent() {
     updateProject(projectId, (p) => {
       const exp = { id: uid(), ...expense };
       let financeTransactions = [...(p.financeTransactions || [])];
-      if (exp.bankAccountId && Number(exp.amount) > 0) {
+      if (exp.bankAccountId && Number(exp.amount) > 0 && exp.paymentMethod !== "credit" && exp.paymentMethod !== "purchase") {
         financeTransactions.push({
           id: uid(),
           date: exp.date || new Date().toISOString().slice(0, 10),
@@ -6903,11 +6953,73 @@ function AppContent() {
   }
   function removeExpense(projectId, expenseId) {
     if (!guardWrite()) return;
+    const project = projects.find((p) => p.id === projectId);
+    const old = (project?.expenses || []).find((e) => e.id === expenseId);
     updateProject(projectId, (p) => ({
       ...p,
       expenses: (p.expenses || []).filter((e) => e.id !== expenseId),
       financeTransactions: (p.financeTransactions || []).filter((t) => t.expenseId !== expenseId),
     }));
+    if (old?.materialId && Number(old.materialQty) > 0) {
+      const qty = Number(old.materialQty) || 0;
+      const next = inventory.map((item) => (
+        item.id === old.materialId ? { ...item, quantity: Math.max(0, (Number(item.quantity) || 0) - qty) } : item
+      ));
+      setInventory(next);
+      window.sb.auth.updateUser({ data: { inventory: next } }).then(({ data: udata }) => {
+        if (udata?.user) setUser(udata.user);
+      });
+    }
+  }
+
+  function updateExpense(projectId, expenseId, expense) {
+    if (!guardWrite()) return;
+    const project = projects.find((p) => p.id === projectId);
+    const old = (project?.expenses || []).find((e) => e.id === expenseId);
+    if (!old) return;
+    updateProject(projectId, (p) => {
+      const exp = { ...old, ...expense, id: expenseId };
+      let financeTransactions = (p.financeTransactions || []).filter((t) => t.expenseId !== expenseId);
+      if (exp.bankAccountId && Number(exp.amount) > 0 && exp.paymentMethod !== "credit" && exp.paymentMethod !== "purchase") {
+        financeTransactions.push({
+          id: uid(),
+          date: exp.date || new Date().toISOString().slice(0, 10),
+          type: exp.paymentMethod === "check" ? "check_clear" : "expense",
+          amount: Number(exp.amount),
+          fromAccountId: exp.bankAccountId,
+          toAccountId: null,
+          note: exp.note || exp.title,
+          expenseId: exp.id,
+          docs: exp.docs || [],
+        });
+      }
+      return {
+        ...p,
+        expenses: (p.expenses || []).map((e) => (e.id === expenseId ? exp : e)),
+        financeTransactions,
+      };
+    });
+    const oldMat = old.materialId;
+    const oldQty = Number(old.materialQty) || 0;
+    const newMat = expense.materialId || null;
+    const newQty = expense.materialId && expense.materialQty ? Number(expense.materialQty) : 0;
+    if (oldMat !== newMat || oldQty !== newQty) {
+      let next = inventory.map((item) => ({ ...item }));
+      if (oldMat && oldQty > 0) {
+        next = next.map((item) => (
+          item.id === oldMat ? { ...item, quantity: Math.max(0, (Number(item.quantity) || 0) - oldQty) } : item
+        ));
+      }
+      if (newMat && newQty > 0) {
+        next = next.map((item) => (
+          item.id === newMat ? { ...item, quantity: (Number(item.quantity) || 0) + newQty } : item
+        ));
+      }
+      setInventory(next);
+      window.sb.auth.updateUser({ data: { inventory: next } }).then(({ data: udata }) => {
+        if (udata?.user) setUser(udata.user);
+      });
+    }
   }
 
   function saveContract(projectId, contract) {
@@ -7433,15 +7545,9 @@ function AppContent() {
   }
 
   function contactBalance(contactId) {
-    let owe = 0; // چیزی که ما به این شخص بدهکاریم (نسیه‌های تسویه‌نشده)
-    projects.forEach((p) => {
-      (p.expenses || []).forEach((e) => {
-        if (e.contactId !== contactId) return;
-        if (e.paymentMethod === "credit") owe += Number(e.amount) || 0;
-        else owe -= Number(e.amount) || 0;
-      });
-    });
-    return owe;
+    let total = 0;
+    projects.forEach((p) => { total += projectContactBalanceInProject(p, contactId); });
+    return total;
   }
 
   useEffect(() => {
@@ -8174,10 +8280,11 @@ function AppContent() {
           company={company}
           onClose={() => setShowExpenses(false)}
           onAdd={(expense) => addExpense(activeProject.id, expense)}
+          onUpdate={(expenseId, patch) => updateExpense(activeProject.id, expenseId, patch)}
           onRemove={(id) => removeExpense(activeProject.id, id)}
           contacts={contacts}
           onAddContact={addContact}
-          contactBalance={contactBalance}
+          contactBalance={(cid) => projectContactBalanceInProject(activeProject, cid)}
           inventory={inventory}
           isReadOnly={isReadOnly}
           ensurePdfExport={ensurePdfExport}
@@ -9777,8 +9884,21 @@ function ContactLedgerSheet({ contact, projects, contacts, company, onClose, ens
   const thAlign = lang === "fa" ? "text-right" : "text-left";
   const numAlign = lang === "fa" ? "text-left" : "text-right";
   const [selectedId, setSelectedId] = useState(null);
+  const [ledgerProjectId, setLedgerProjectId] = useState(() => projects[0]?.id || "");
 
-  const entries = useMemo(() => collectContactLedgerEntries(contact.id, projects), [contact.id, projects]);
+  useEffect(() => {
+    if (ledgerProjectId && projects.some((p) => p.id === ledgerProjectId)) return;
+    setLedgerProjectId(projects[0]?.id || "");
+    setSelectedId(null);
+  }, [projects, ledgerProjectId]);
+
+  useEffect(() => { setSelectedId(null); }, [ledgerProjectId]);
+
+  const ledgerProject = projects.find((p) => p.id === ledgerProjectId) || projects[0] || null;
+
+  const entries = useMemo(() => (
+    ledgerProjectId ? collectContactLedgerEntries(contact.id, projects, ledgerProjectId) : []
+  ), [contact.id, projects, ledgerProjectId]);
 
   const totals = useMemo(() => {
     let debit = 0;
@@ -9792,7 +9912,10 @@ function ContactLedgerSheet({ contact, projects, contacts, company, onClose, ens
   }, [entries]);
 
   function ledgerTypeLabel(row) {
-    if (row.refType === "expense") return t(PAYMENT_METHODS[row.subType] || PAYMENT_METHODS.cash);
+    if (row.refType === "expense") {
+      if (row.subType === "purchase") return t(PAYMENT_METHODS.purchase);
+      return t(PAYMENT_METHODS[row.subType] || PAYMENT_METHODS.cash);
+    }
     if (row.refType === "finance") return t(FINANCE_TX_LABELS[row.subType] || row.subType);
     if (row.refType === "income") return t("دریافت فروش");
     return row.refType;
@@ -9846,7 +9969,7 @@ function ContactLedgerSheet({ contact, projects, contacts, company, onClose, ens
           <div className={rowCls}><span className={labelClsD}>{t("تاریخ")}</span><span className={valCls}>{formatAppDate(date, false, lang) || "—"}</span></div>
           <div className={rowCls}><span className={labelClsD}>{t("عنوان")}</span><span className={valCls}>{e.title || title}</span></div>
           <div className={rowCls}><span className={labelClsD}>{t("مبلغ (تومان)")}</span><span className={valCls}>{fmt(Number(e.amount) || debit || credit)}</span></div>
-          <div className={rowCls}><span className={labelClsD}>{t("روش")}</span><span className={valCls}>{t(PAYMENT_METHODS[e.paymentMethod] || PAYMENT_METHODS.cash)}</span></div>
+          <div className={rowCls}><span className={labelClsD}>{t("روش")}</span><span className={valCls}>{isPurchaseExpense(e) ? t(PAYMENT_METHODS.purchase) : t(PAYMENT_METHODS[e.paymentMethod] || PAYMENT_METHODS.cash)}</span></div>
           {e.bankAccountId && (
             <div className={rowCls}><span className={labelClsD}>{t("حساب واریز / برداشت")}</span><span className={valCls}>{accountLabel(project, e.bankAccountId, contacts)}</span></div>
           )}
@@ -9912,13 +10035,13 @@ function ContactLedgerSheet({ contact, projects, contacts, company, onClose, ens
 
   function exportPdf() {
     if (ensurePdfExport && !ensurePdfExport()) return;
-    const subtitle = `${contact.name} — ${t("جمع بدهکار")}: ${fmt(totals.debit)} | ${t("جمع بستانکار")}: ${fmt(totals.credit)} | ${t("مانده نهایی")}: ${fmt(totals.balance)}`;
-    openTableReport(company, t("گردش مالی مخاطب"), subtitle, printCols, printRows, lang);
+    const subtitle = `${ledgerProject?.name || ""} — ${t("جمع بدهکار")}: ${fmt(totals.debit)} | ${t("جمع بستانکار")}: ${fmt(totals.credit)} | ${t("مانده نهایی")}: ${fmt(totals.balance)}`;
+    openTableReport(company, t("گردش مالی مخاطب"), subtitle, printCols.filter((c) => c.key !== "projectName"), printRows.map(({ projectName, ...r }) => r), lang);
   }
 
   function exportExcel() {
     const safeName = (contact.name || "contact").replace(/[^\w\u0600-\u06FF\-]+/g, "_");
-    downloadTableCsv(`${safeName}-ledger.csv`, csvCols, entries);
+    downloadTableCsv(`${safeName}-ledger.csv`, csvCols.filter((c) => c.key !== "projectName"), entries);
   }
 
   return (
@@ -9930,6 +10053,19 @@ function ContactLedgerSheet({ contact, projects, contacts, company, onClose, ens
             <button type="button" onClick={onClose}><X size={20} /></button>
           </div>
           <div className="text-sm font-semibold text-[#14213D]">{contact.name}</div>
+          {projects.length > 0 && (
+            <div className="mt-3">
+              <label className="text-[11px] font-semibold text-[#6B7280] mb-1 block">{t("پروژه برای گزارش مالی")}</label>
+              <select
+                value={ledgerProjectId}
+                onChange={(e) => setLedgerProjectId(e.target.value)}
+                className="w-full bg-white border border-black/10 rounded-xl px-3 py-2.5 text-sm outline-none"
+              >
+                {projects.map((p) => <option key={p.id} value={p.id}>{p.name}</option>)}
+              </select>
+              <div className="text-[10px] text-[#9CA3AF] mt-1.5">{t("گردش مالی هر مخاطب فقط برای یک پروژه نمایش داده می‌شود.")}</div>
+            </div>
+          )}
           <div className="flex flex-wrap gap-2 mt-3">
             <button type="button" onClick={exportPdf} disabled={!entries.length} className="text-xs font-semibold flex items-center gap-1.5 bg-[#14213D] text-white rounded-lg px-3 py-2 disabled:opacity-40">
               <Printer size={14} /> {t("چاپ / PDF")}
@@ -9962,7 +10098,6 @@ function ContactLedgerSheet({ contact, projects, contacts, company, onClose, ens
                 <thead>
                   <tr className="bg-[#F4F6F5] text-[#6B7280]">
                     <th className={`${thAlign} px-2 py-2 font-medium`}>{t("تاریخ")}</th>
-                    <th className={`${thAlign} px-2 py-2 font-medium`}>{t("پروژه")}</th>
                     <th className={`${thAlign} px-2 py-2 font-medium`}>{t("نوع تراکنش")}</th>
                     <th className={`${thAlign} px-2 py-2 font-medium`}>{t("عنوان")}</th>
                     <th className={`${numAlign} px-2 py-2 font-medium`}>{t("بدهکار")}</th>
@@ -9974,7 +10109,6 @@ function ContactLedgerSheet({ contact, projects, contacts, company, onClose, ens
                   {entries.map((r) => (
                     <tr key={r.id} className="border-t border-black/5 hover:bg-[#F9FAFB] cursor-pointer" onClick={() => setSelectedId(r.id)}>
                       <td className={`${thAlign} px-2 py-2 whitespace-nowrap`}>{formatAppDate(r.date, false, lang) || "—"}</td>
-                      <td className={`${thAlign} px-2 py-2`}>{r.projectName}</td>
                       <td className={`${thAlign} px-2 py-2`}>{ledgerTypeLabel(r)}</td>
                       <td className={`${thAlign} px-2 py-2 max-w-[120px] truncate`}>{r.title}</td>
                       <td className={`${numAlign} px-2 py-2 text-[#B91C1C] font-medium`}>{r.debit ? fmt(r.debit) : "—"}</td>
@@ -13353,7 +13487,7 @@ function ProjectPanel({ project, onOpenUnit, onOpenSettings, onOpenGallery, onOp
 }
 
 const CONTACT_ROLES = { investor: "سرمایه‌گذار", buyer: "خریدار", contractor: "پیمانکار", supplier: "تأمین‌کننده", other: "سایر" };
-const PAYMENT_METHODS = { cash: "نقدی", check: "چک", credit: "نسیه" };
+const PAYMENT_METHODS = { cash: "نقدی", check: "چک", purchase: "فاکتور خرید", credit: "نسیه (پیمانکاری)" };
 
 function ReportsScreen({ company, project, projects, contacts, initialView, onBack, onSelectProject, embedded, ensurePdfExport }) {
   const { lang, t } = useContext(LanguageContext);
@@ -13683,6 +13817,12 @@ function FinanceScreen({ company, onBack, project, contacts, isReadOnly, onAddTr
   const [capAmount, setCapAmount] = useState("");
   const [capNote, setCapNote] = useState("");
   const [capDocs, setCapDocs] = useState([]);
+  const [cpType, setCpType] = useState("contact_prepay");
+  const [cpContact, setCpContact] = useState("");
+  const [cpAccount, setCpAccount] = useState("");
+  const [cpAmount, setCpAmount] = useState("");
+  const [cpNote, setCpNote] = useState("");
+  const [cpDocs, setCpDocs] = useState([]);
 
   const accounts = normalizeBankAccounts(project);
   const investors = normalizeInvestors(project);
@@ -13721,6 +13861,21 @@ function FinanceScreen({ company, onBack, project, contacts, isReadOnly, onAddTr
       docs: capDocs,
     });
     setCapAmount(""); setCapNote(""); setCapDocs([]);
+  }
+
+  function submitContactPay() {
+    if (!cpContact || !cpAccount || !(Number(cpAmount) > 0) || !cpNote.trim()) return;
+    onAddTransaction({
+      date: new Date().toISOString().slice(0, 10),
+      type: cpType,
+      amount: Number(cpAmount),
+      fromAccountId: cpAccount,
+      toAccountId: null,
+      contactId: cpContact,
+      note: cpNote.trim(),
+      docs: cpDocs,
+    });
+    setCpAmount(""); setCpNote(""); setCpDocs([]);
   }
 
   const views = useMemo(() => ([
@@ -13907,6 +14062,9 @@ function FinanceScreen({ company, onBack, project, contacts, isReadOnly, onAddTr
                   {tx.toAccountId && <span>{t("→ به:")} {accountLabel(project, tx.toAccountId, contacts)}</span>}
                 </div>
               )}
+              {tx.contactId && (
+                <div className="text-[10px] text-[#6B7280] mt-1">{t("مخاطب")}: {(contacts || []).find((c) => c.id === tx.contactId)?.name || "—"}</div>
+              )}
             </div>
           ))}
         </>
@@ -13965,6 +14123,39 @@ function FinanceScreen({ company, onBack, project, contacts, isReadOnly, onAddTr
             <CompactDocUploader docs={capDocs} onChange={setCapDocs} label={t("پیوست مدارک")} />
             <button type="button" onClick={submitCapital} disabled={!capAccount || !capAmount || !capNote.trim()}
               className="w-full bg-[#128C7E] text-white rounded-xl py-2.5 text-sm font-semibold disabled:opacity-40 mt-2">{t("ثبت ")}{t(FINANCE_TX_LABELS[capType])}</button>
+          </div>
+
+          <div className="bg-[#F4F6F5] rounded-2xl p-4">
+            <div className="text-xs font-bold text-[#14213D] mb-3">{t("پرداخت به مخاطب")}</div>
+            <div className="flex gap-2 mb-2">
+              {["contact_prepay", "contact_debt_pay"].map((k) => (
+                <button key={k} type="button" onClick={() => setCpType(k)}
+                  className="flex-1 rounded-lg py-2 text-[11px] font-semibold border"
+                  style={{ background: cpType === k ? "#14213D" : "#fff", color: cpType === k ? "#fff" : "#4B5563" }}>
+                  {t(FINANCE_TX_LABELS[k])}
+                </button>
+              ))}
+            </div>
+            <ContactPicker
+              contacts={contacts}
+              value={cpContact}
+              onChange={setCpContact}
+              placeholder={t("جستجوی مخاطب...")}
+              className="mb-2"
+              inputClassName="w-full bg-white border border-black/10 rounded-xl px-3 py-2.5 text-sm outline-none focus:border-[#14213D]/40"
+            />
+            <select value={cpAccount} onChange={(e) => setCpAccount(e.target.value)} className="w-full bg-white border border-black/10 rounded-xl px-3 py-2.5 text-sm mb-2 outline-none">
+              <option value="">{t("حساب پرداخت")}</option>
+              {accounts.map((a) => <option key={a.id} value={a.id}>{a.name}</option>)}
+            </select>
+            <input type="number" value={cpAmount} onChange={(e) => setCpAmount(e.target.value)} placeholder={t("مبلغ (تومان)")}
+              className="w-full bg-white border border-black/10 rounded-xl px-3 py-2.5 text-sm mb-2 outline-none" />
+            <textarea value={cpNote} onChange={(e) => setCpNote(e.target.value)} placeholder={t("توضیحات عملیات *")} rows={2}
+              className="w-full bg-white border border-black/10 rounded-xl px-3 py-2.5 text-sm mb-2 outline-none resize-none" />
+            <CompactDocUploader docs={cpDocs} onChange={setCpDocs} label={t("پیوست مدارک")} />
+            <p className="text-[10px] text-[#6B7280] mt-2 leading-relaxed">{t("پیش‌پرداخت: مخاطب به ما بدهکار می‌شود. پرداخت بدهی: تسویه بدهی ما به مخاطب از حساب بانکی.")}</p>
+            <button type="button" onClick={submitContactPay} disabled={!cpContact || !cpAccount || !cpAmount || !cpNote.trim()}
+              className="w-full bg-[#B45309] text-white rounded-xl py-2.5 text-sm font-semibold disabled:opacity-40 mt-2">{t("ثبت ")}{t(FINANCE_TX_LABELS[cpType])}</button>
           </div>
         </div>
       )}
@@ -14047,10 +14238,11 @@ function TransferModal({ project, projects, contacts, isReadOnly, onClose, onSel
   );
 }
 
-function ExpensesSheet({ project, company, onClose, onAdd, onRemove, contacts, onAddContact, contactBalance, inventory, isReadOnly, ensurePdfExport }) {
+function ExpensesSheet({ project, company, onClose, onAdd, onUpdate, onRemove, contacts, onAddContact, contactBalance, inventory, isReadOnly, ensurePdfExport }) {
   const { lang, t } = useContext(LanguageContext);
   const sheetDir = lang === "fa" ? "rtl" : "ltr";
   const [tab, setTab] = useState(isReadOnly ? "history" : "new");
+  const [editExpenseId, setEditExpenseId] = useState(null);
   const [title, setTitle] = useState("");
   const [note, setNote] = useState("");
   const [amount, setAmount] = useState("");
@@ -14087,21 +14279,47 @@ function ExpensesSheet({ project, company, onClose, onAdd, onRemove, contacts, o
     { key: "note", label: t("توضیحات"), render: (r) => r.note || "—" },
   ];
 
+  function resetExpenseForm() {
+    setEditExpenseId(null);
+    setTitle(""); setNote(""); setAmount(""); setDate(""); setPaymentMethod("cash");
+    setMaterialId(""); setMaterialQty(""); setBankAccountId(""); setDocs([]); setContactId("");
+    setFormError("");
+  }
+
+  function openEditExpense(e) {
+    setEditExpenseId(e.id);
+    setTitle(e.title || "");
+    setNote(e.note || "");
+    setAmount(String(e.amount ?? ""));
+    setDate(e.date || "");
+    setPaymentMethod(e.paymentMethod || "cash");
+    setBankAccountId(e.bankAccountId || "");
+    setContactId(e.contactId || "");
+    setMaterialId(e.materialId || "");
+    setMaterialQty(e.materialQty ? String(e.materialQty) : "");
+    setDocs(e.docs || []);
+    setTab("new");
+    setFormError("");
+  }
+
   function submit() {
     if (isReadOnly) return;
     if (!title.trim() || !amount) return;
     if (!note.trim()) { setFormError(t("فیلد توضیحات الزامی است.")); return; }
-    if (paymentMethod !== "credit" && !(docs.length > 0)) { setFormError(t("مستندات پرداخت (فاکتور/رسید) الزامی است.")); return; }
+    const needsDocs = paymentMethod !== "credit" && paymentMethod !== "purchase";
+    if (needsDocs && !(docs.length > 0)) { setFormError(t("مستندات پرداخت (فاکتور/رسید) الزامی است.")); return; }
     setFormError("");
-    onAdd({
+    const payload = {
       title: title.trim(), note: note.trim(), amount: Number(amount), date, paymentMethod,
       contactId: contactId || null,
-      bankAccountId: paymentMethod !== "credit" && bankAccountId ? bankAccountId : null,
+      bankAccountId: paymentMethod !== "credit" && paymentMethod !== "purchase" && bankAccountId ? bankAccountId : null,
       materialId: materialId || null,
       materialQty: materialId && materialQty ? Number(materialQty) : 0,
       docs,
-    });
-    setTitle(""); setNote(""); setAmount(""); setDate(""); setMaterialId(""); setMaterialQty(""); setBankAccountId(""); setDocs([]);
+    };
+    if (editExpenseId && onUpdate) onUpdate(editExpenseId, payload);
+    else onAdd(payload);
+    resetExpenseForm();
     setTab("history");
   }
 
@@ -14139,6 +14357,12 @@ function ExpensesSheet({ project, company, onClose, onAdd, onRemove, contacts, o
 
         {tab === "new" && !isReadOnly && (
         <div className="bg-[#F4F6F5] rounded-xl p-3 flex flex-col gap-2 mb-4">
+          {editExpenseId && (
+            <div className="flex items-center justify-between text-xs font-semibold text-[#1D4ED8] bg-white rounded-lg px-2 py-1.5 border border-[#93C5FD]">
+              <span>{t("ویرایش هزینه")}</span>
+              <button type="button" onClick={() => { resetExpenseForm(); setTab("history"); }} className="text-[#6B7280] underline">{t("انصراف")}</button>
+            </div>
+          )}
           <input value={title} onChange={(e) => setTitle(e.target.value)} placeholder={t("عنوان هزینه (مثلاً خرید سیمان)")}
             className="w-full bg-white border border-black/10 rounded-lg px-3 py-2.5 text-sm outline-none" />
           <textarea value={note} onChange={(e) => setNote(e.target.value)} placeholder={t("توضیحات پرداخت *")} rows={2}
@@ -14149,17 +14373,23 @@ function ExpensesSheet({ project, company, onClose, onAdd, onRemove, contacts, o
             <JalaliDateInput value={date} onChange={setDate} inputClassName="flex-1 bg-white border border-black/10 rounded-lg px-3 py-2.5 text-sm outline-none" />
           </div>
 
-          <div className="flex gap-2">
+          <div className="flex flex-wrap gap-2">
             {Object.entries(PAYMENT_METHODS).map(([key, label]) => (
-              <button key={key} onClick={() => setPaymentMethod(key)}
-                className="flex-1 rounded-lg py-2 text-xs font-semibold border"
+              <button key={key} type="button" onClick={() => setPaymentMethod(key)}
+                className="flex-1 min-w-[calc(50%-4px)] rounded-lg py-2 text-[11px] font-semibold border"
                 style={{ background: paymentMethod === key ? "#14213D" : "#fff", color: paymentMethod === key ? "#fff" : "#4B5563", borderColor: paymentMethod === key ? "#14213D" : "#00000020" }}>
                 {t(label)}
               </button>
             ))}
           </div>
 
-          {paymentMethod !== "credit" && bankAccounts.length > 0 && (
+          {paymentMethod === "purchase" && contactId && (
+            <div className="text-[11px] text-[#92400E] bg-amber-50 border border-amber-100 rounded-lg px-2 py-2">
+              {t("فاکتور خرید فقط هزینه پروژه و بدهی را ثبت می‌کند. ابتدا از «حسابداری → انتقال/سرمایه» پیش‌پرداخت بزنید؛ مبلغ خرید از طلب مخاطب کسر می‌شود.")}
+            </div>
+          )}
+
+          {paymentMethod !== "credit" && paymentMethod !== "purchase" && bankAccounts.length > 0 && (
             <select value={bankAccountId} onChange={(e) => setBankAccountId(e.target.value)}
               className="w-full bg-white border border-black/10 rounded-lg px-3 py-2.5 text-sm outline-none">
               <option value="">{t("حساب پرداخت / تسویه چک")}</option>
@@ -14203,7 +14433,11 @@ function ExpensesSheet({ project, company, onClose, onAdd, onRemove, contacts, o
             </div>
           )}
 
-          <select value={materialId} onChange={(e) => setMaterialId(e.target.value)}
+          <select value={materialId} onChange={(e) => {
+            const id = e.target.value;
+            setMaterialId(id);
+            if (id && paymentMethod === "cash") setPaymentMethod("purchase");
+          }}
             className="w-full bg-white border border-black/10 rounded-lg px-3 py-2.5 text-sm outline-none">
             <option value="">{t("بدون ارتباط با انبار")}</option>
             {inventory.map((m) => <option key={m.id} value={m.id}>{m.name} ({m.unit})</option>)}
@@ -14217,15 +14451,15 @@ function ExpensesSheet({ project, company, onClose, onAdd, onRemove, contacts, o
           <CompactDocUploader
             docs={docs}
             onChange={setDocs}
-            required={paymentMethod !== "credit"}
+            required={paymentMethod !== "credit" && paymentMethod !== "purchase"}
             label={t("مستندات پرداخت")}
-            hint={paymentMethod === "credit" ? t("برای نسیه اختیاری است.") : t("فاکتور، رسید بانکی یا تصویر چک الزامی است.")}
+            hint={paymentMethod === "credit" || paymentMethod === "purchase" ? t("برای فاکتور خرید و نسیه اختیاری است.") : t("فاکتور، رسید بانکی یا تصویر چک الزامی است.")}
           />
 
           {formError && <div className="text-xs text-[#B91C1C]">{formError}</div>}
 
-          <button onClick={submit} disabled={!title.trim() || !amount || !note.trim()} className="bg-[#14213D] text-white rounded-lg py-2.5 text-sm font-semibold disabled:opacity-40">
-            {t("افزودن هزینه")}
+          <button type="button" onClick={submit} disabled={!title.trim() || !amount || !note.trim()} className="bg-[#14213D] text-white rounded-lg py-2.5 text-sm font-semibold disabled:opacity-40">
+            {editExpenseId ? t("ذخیره تغییرات") : t("افزودن هزینه")}
           </button>
         </div>
         )}
@@ -14278,8 +14512,9 @@ function ExpensesSheet({ project, company, onClose, onAdd, onRemove, contacts, o
                         </td>
                         <td className={`${lang === "fa" ? "text-left" : "text-right"} px-3 py-2.5 font-bold text-[#B91C1C] whitespace-nowrap`}>{fmt(e.amount)}</td>
                         {!isReadOnly && (
-                          <td className="px-2 py-2.5">
-                            <button onClick={() => onRemove(e.id)} className="text-[#B91C1C] p-1"><Trash2 size={14} /></button>
+                          <td className="px-2 py-2.5 whitespace-nowrap">
+                            <button type="button" onClick={() => openEditExpense(e)} className="text-[#14213D] p-1 inline-flex"><Pencil size={14} /></button>
+                            <button type="button" onClick={() => onRemove(e.id)} className="text-[#B91C1C] p-1 inline-flex"><Trash2 size={14} /></button>
                           </td>
                         )}
                       </tr>
