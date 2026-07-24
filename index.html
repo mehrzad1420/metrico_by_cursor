@@ -49,9 +49,366 @@
     background: linear-gradient(135deg, #F4F6F5 0%, #E8EDEA 100%);
     border: 2px dashed #CBD5E1;
   }
+
+  /* Metrico design system (rollback: backups/pre-ui-redesign-20260724-1710) */
+  :root {
+    --m-navy: #14213D;
+    --m-navy-mid: #1a2d52;
+    --m-navy-deep: #0a1224;
+    --m-gold: #C9A227;
+    --m-gold-soft: #e8d48b;
+    --m-bg: #eef2f0;
+    --m-bg-warm: #e8efe9;
+    --m-surface: #ffffff;
+    --m-text: #14213D;
+    --m-text-secondary: #374151;
+    --m-text-muted: #6B7280;
+    --m-border: rgba(20, 33, 61, 0.09);
+    --m-radius-lg: 1rem;
+    --m-radius-xl: 1.25rem;
+    --m-radius-2xl: 1.5rem;
+    --m-shadow-card: 0 1px 2px rgba(15, 23, 42, 0.04), 0 10px 28px -8px rgba(20, 33, 61, 0.14);
+    --m-shadow-float: 0 16px 40px -12px rgba(20, 33, 61, 0.22);
+    --m-transition: 180ms cubic-bezier(0.4, 0, 0.2, 1);
+  }
+  .m-app-bg {
+    background:
+      radial-gradient(ellipse 120% 80% at 100% -20%, rgba(201, 162, 39, 0.07), transparent 55%),
+      radial-gradient(ellipse 90% 60% at -10% 100%, rgba(20, 33, 61, 0.06), transparent 50%),
+      linear-gradient(180deg, var(--m-bg) 0%, var(--m-bg-warm) 100%);
+    color: var(--m-text);
+  }
+  .m-app-header {
+    background: linear-gradient(135deg, var(--m-navy-deep) 0%, var(--m-navy) 48%, var(--m-navy-mid) 100%);
+    box-shadow: 0 4px 24px -8px rgba(10, 18, 36, 0.45);
+    border-bottom: 1px solid rgba(201, 162, 39, 0.22);
+  }
+  .m-card {
+    background: var(--m-surface);
+    border: 1px solid var(--m-border);
+    border-radius: var(--m-radius-2xl);
+    box-shadow: var(--m-shadow-card);
+  }
+  .m-card-hero {
+    background: linear-gradient(145deg, var(--m-navy-deep) 0%, var(--m-navy) 55%, #243a5c 100%);
+    color: #fff;
+    border-radius: var(--m-radius-2xl);
+    box-shadow: var(--m-shadow-card), inset 0 1px 0 rgba(255, 255, 255, 0.08);
+    border: 1px solid rgba(255, 255, 255, 0.06);
+  }
+  .m-card-muted {
+    background: rgba(255, 255, 255, 0.72);
+    backdrop-filter: blur(8px);
+    border: 1px solid var(--m-border);
+    border-radius: var(--m-radius-2xl);
+  }
+  .m-btn-primary {
+    background: var(--m-navy);
+    color: #fff;
+    border-radius: var(--m-radius-lg);
+    font-weight: 600;
+    transition: transform var(--m-transition), box-shadow var(--m-transition), opacity var(--m-transition);
+    box-shadow: 0 8px 20px -10px rgba(20, 33, 61, 0.65);
+  }
+  .m-btn-primary:hover:not(:disabled) { transform: translateY(-1px); box-shadow: 0 12px 24px -10px rgba(20, 33, 61, 0.55); }
+  .m-btn-primary:disabled { opacity: 0.45; }
+  .m-input-field {
+    background: var(--m-surface);
+    border: 1px solid var(--m-border);
+    border-radius: var(--m-radius-lg);
+    transition: border-color var(--m-transition), box-shadow var(--m-transition);
+  }
+  .m-input-field:focus {
+    outline: none;
+    border-color: rgba(20, 33, 61, 0.25);
+    box-shadow: 0 0 0 3px rgba(201, 162, 39, 0.28);
+  }
+  .m-side-drawer {
+    background: var(--m-surface);
+    box-shadow: var(--m-shadow-float);
+  }
+  .m-side-drawer-head {
+    background: linear-gradient(135deg, var(--m-navy-deep) 0%, var(--m-navy) 100%);
+    border-bottom: 1px solid rgba(201, 162, 39, 0.2);
+  }
+  .m-plan-table thead th { background: linear-gradient(180deg, #fafbfc 0%, #f4f6f5 100%); }
+  .m-plan-table tbody tr:hover td { background: rgba(20, 33, 61, 0.02); }
+  .m-auth-backdrop {
+    background: linear-gradient(160deg, var(--m-navy-deep) 0%, var(--m-navy) 40%, #1e3a5f 100%);
+  }
+  .m-auth-panel {
+    background: var(--m-surface);
+    border-radius: var(--m-radius-2xl);
+    box-shadow: var(--m-shadow-float);
+    border: 1px solid rgba(255, 255, 255, 0.12);
+  }
+  .m-popover {
+    background: var(--m-surface);
+    border: 1px solid var(--m-border);
+    border-radius: var(--m-radius-2xl);
+    box-shadow: var(--m-shadow-float);
+  }
+  .m-section-kicker {
+    font-size: 0.6875rem;
+    font-weight: 600;
+    letter-spacing: 0.02em;
+    color: var(--m-text-muted);
+    text-transform: uppercase;
+  }
+  .m-dashboard-title {
+    font-weight: 800;
+    font-size: 1.25rem;
+    letter-spacing: -0.02em;
+    color: var(--m-text);
+  }
+  .m-menu-item-active {
+    background: linear-gradient(135deg, var(--m-navy) 0%, var(--m-navy-mid) 100%) !important;
+    color: #fff !important;
+    box-shadow: 0 4px 12px -4px rgba(20, 33, 61, 0.4);
+  }
+  .m-project-card {
+    border-radius: var(--m-radius-2xl);
+    box-shadow: var(--m-shadow-card);
+    transition: transform var(--m-transition), box-shadow var(--m-transition);
+  }
+  .m-project-card:active { transform: scale(0.995); }
+
+  .m-modal-backdrop {
+    background: rgba(10, 18, 36, 0.44);
+    backdrop-filter: blur(5px);
+    -webkit-backdrop-filter: blur(5px);
+  }
+  .m-modal-sheet {
+    background: var(--m-surface);
+    box-shadow: var(--m-shadow-float);
+    border: 1px solid var(--m-border);
+  }
+  .m-modal-sheet.rounded-top {
+    border-radius: var(--m-radius-2xl) var(--m-radius-2xl) 0 0;
+  }
+  @media (min-width: 640px) {
+    .m-modal-sheet.rounded-top { border-radius: var(--m-radius-2xl); }
+  }
+  .m-modal-head {
+    background: linear-gradient(135deg, var(--m-navy-deep) 0%, var(--m-navy) 100%);
+    color: #fff;
+    border-bottom: 1px solid rgba(201, 162, 39, 0.18);
+  }
+  .m-segment {
+    display: flex;
+    gap: 0.25rem;
+    padding: 0.25rem;
+    border-radius: var(--m-radius-xl);
+    background: rgba(20, 33, 61, 0.06);
+    border: 1px solid var(--m-border);
+  }
+  .m-segment-btn {
+    flex: 1;
+    border-radius: var(--m-radius-lg);
+    font-size: 0.875rem;
+    font-weight: 600;
+    padding: 0.625rem 0.5rem;
+    color: var(--m-text-secondary);
+    transition: background var(--m-transition), color var(--m-transition), box-shadow var(--m-transition);
+  }
+  .m-segment-btn-active {
+    background: var(--m-surface);
+    color: var(--m-navy);
+    box-shadow: var(--m-shadow-sm);
+  }
+  .m-pill {
+    flex-shrink: 0;
+    font-size: 0.6875rem;
+    font-weight: 600;
+    padding: 0.5rem 0.75rem;
+    border-radius: 9999px;
+    border: 1px solid var(--m-border);
+    background: var(--m-surface);
+    color: var(--m-text-secondary);
+    transition: all var(--m-transition);
+  }
+  .m-pill-active {
+    background: var(--m-navy);
+    color: #fff;
+    border-color: var(--m-navy);
+    box-shadow: 0 4px 12px -6px rgba(20, 33, 61, 0.45);
+  }
+  .m-pill-active-amber {
+    background: #b45309;
+    color: #fff;
+    border-color: #b45309;
+  }
+  .m-pill-active-teal {
+    background: #128c7e;
+    color: #fff;
+    border-color: #128c7e;
+  }
+  .m-pill-row {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 0.5rem;
+    margin-bottom: 1rem;
+  }
+  .m-chip {
+    display: inline-flex;
+    align-items: center;
+    gap: 0.25rem;
+    font-size: 0.75rem;
+    font-weight: 600;
+    padding: 0.375rem 0.625rem;
+    border-radius: var(--m-radius-lg);
+    border: 1px solid var(--m-border);
+    background: var(--m-surface);
+    color: var(--m-text-muted);
+    transition: border-color var(--m-transition), box-shadow var(--m-transition);
+  }
+  .m-chip:hover { border-color: rgba(20, 33, 61, 0.18); }
+  .m-chip-primary {
+    background: var(--m-navy);
+    color: #fff;
+    border-color: var(--m-navy);
+    box-shadow: 0 4px 10px -6px rgba(20, 33, 61, 0.5);
+  }
+  .m-chip-accent-teal {
+    color: #128c7e;
+    background: #ecfdf5;
+    border-color: rgba(18, 140, 126, 0.28);
+  }
+  .m-chip-accent-blue {
+    color: #2563eb;
+    background: #eff6ff;
+    border-color: rgba(37, 99, 235, 0.28);
+  }
+  .m-fab-core {
+    background: linear-gradient(145deg, var(--m-navy) 0%, var(--m-navy-mid) 100%);
+    color: #fff;
+    box-shadow: 0 12px 28px -8px rgba(20, 33, 61, 0.55), inset 0 1px 0 rgba(255, 255, 255, 0.12);
+    border: 1px solid rgba(201, 162, 39, 0.25);
+  }
+  .m-chat-fab {
+    background: var(--m-surface);
+    box-shadow: var(--m-shadow-float);
+    border: 1px solid rgba(59, 75, 212, 0.15);
+  }
+  .m-chat-shell {
+    background: var(--m-surface);
+    box-shadow: var(--m-shadow-float);
+    border: 1px solid var(--m-border);
+    overflow: hidden;
+  }
+  .m-chat-head {
+    background: linear-gradient(120deg, #2a3a8c 0%, var(--m-navy) 55%, var(--m-navy-deep) 100%);
+    color: #fff;
+  }
+  .m-chat-bubble-bot {
+    background: rgba(20, 33, 61, 0.06);
+    color: var(--m-navy);
+    border: 1px solid var(--m-border);
+  }
+  .m-chat-bubble-user {
+    background: linear-gradient(135deg, var(--m-navy) 0%, var(--m-navy-mid) 100%);
+    color: #fff;
+  }
+  .m-building-card {
+    background: var(--m-surface);
+    border-radius: var(--m-radius-2xl);
+    border: 1px solid var(--m-border);
+    box-shadow: var(--m-shadow-card);
+  }
+  .m-form-panel {
+    background: rgba(20, 33, 61, 0.04);
+    border: 1px solid var(--m-border);
+    border-radius: var(--m-radius-xl);
+    padding: 0.75rem;
+  }
+  .m-btn-secondary {
+    background: var(--m-surface);
+    color: var(--m-navy);
+    border: 1px solid rgba(20, 33, 61, 0.15);
+    border-radius: var(--m-radius-lg);
+    font-weight: 600;
+    transition: background var(--m-transition), border-color var(--m-transition);
+  }
+  .m-btn-secondary:hover { background: rgba(20, 33, 61, 0.04); }
+  .m-screen-title {
+    font-weight: 800;
+    font-size: 1.125rem;
+    letter-spacing: -0.02em;
+    color: var(--m-text);
+  }
+  .m-data-table {
+    background: var(--m-surface);
+    border-radius: var(--m-radius-2xl);
+    border: 1px solid var(--m-border);
+    box-shadow: var(--m-shadow-card);
+    overflow: hidden;
+  }
+  .m-data-table thead tr {
+    background: linear-gradient(180deg, #fafbfc 0%, #f4f6f5 100%);
+  }
+  .m-badge-project {
+    display: inline-block;
+    font-size: 0.6875rem;
+    font-weight: 600;
+    color: var(--m-gold-soft);
+    background: var(--m-navy);
+    padding: 0.125rem 0.5rem;
+    border-radius: 9999px;
+  }
+  .m-btn-danger {
+    background: #b91c1c;
+    color: #fff;
+    border-radius: var(--m-radius-lg);
+    font-weight: 600;
+  }
+  .m-setup-panel {
+    background: var(--m-surface);
+    border-radius: var(--m-radius-2xl);
+    box-shadow: var(--m-shadow-float);
+    border: 1px solid var(--m-border);
+  }
+  .m-picker-dropdown {
+    background: var(--m-surface);
+    border: 1px solid var(--m-border);
+    border-radius: var(--m-radius-lg);
+    box-shadow: var(--m-shadow-md);
+  }
+  .m-sheet-shell {
+    background: var(--m-surface);
+    border-radius: var(--m-radius-2xl) var(--m-radius-2xl) 0 0;
+    box-shadow: var(--m-shadow-float);
+    border: 1px solid var(--m-border);
+    border-bottom: none;
+  }
+  @media (min-width: 640px) {
+    .m-sheet-shell.rounded-full-sheet { border-radius: var(--m-radius-2xl); border-bottom: 1px solid var(--m-border); }
+  }
+  .m-info-emerald {
+    background: linear-gradient(135deg, #ecfdf5 0%, #ffffff 72%);
+    border: 1px solid rgba(16, 185, 129, 0.28);
+    border-radius: var(--m-radius-2xl);
+  }
+  .m-stat-card {
+    background: var(--m-surface);
+    border-radius: var(--m-radius-2xl);
+    border: 1px solid var(--m-border);
+    box-shadow: var(--m-shadow-sm);
+  }
+  .m-map-frame {
+    border-radius: var(--m-radius-2xl);
+    overflow: hidden;
+    border: 1px solid var(--m-border);
+    box-shadow: var(--m-shadow-card);
+  }
+  .m-prose-panel {
+    background: var(--m-surface);
+    border-radius: var(--m-radius-2xl);
+    border: 1px solid var(--m-border);
+    box-shadow: var(--m-shadow-card);
+  }
 </style>
 </head>
-<body class="bg-[#F4F6F5]">
+<body class="m-app-bg">
 <div id="root"></div>
 
 <script type="text/babel" data-presets="react">
@@ -723,7 +1080,7 @@ function projectCardTheme(projectId) {
   return PROJECT_CARD_PALETTE[Math.abs(h) % PROJECT_CARD_PALETTE.length];
 }
 const APP_NAME = "Metrico";
-const APP_VERSION = "2.50.7";
+const APP_VERSION = "2.51.3";
 
 const METRICO_PLAN_ORDER = ["start", "plus", "pro", "ark"];
 const METRICO_PLANS = {
@@ -1722,6 +2079,7 @@ const DICT = {
   "خروجی PDF همه پروژه‌ها": "PDF Export - All Projects", "پشتیبان‌گیری و بازیابی": "Backup & Restore",
   "درباره": "About", "سیاست حفظ حریم خصوصی": "Privacy Policy", "دفترچه مخاطبین": "Contacts",
   "یادداشت‌ها": "Notes", "یادآوری‌ها": "Reminders", "نقشه پروژه‌ها": "Projects Map",
+  "گزارش PDF": "PDF reports", "چت هوشمند": "Smart chat",
   "خروج از برنامه": "Log out", "برای ورود مجدد باید رمز عبور را دوباره وارد کنی. مطمئنی؟": "You'll need to log in again. Are you sure?",
   // Dashboard
   "داشبورد": "Dashboard",
@@ -3024,7 +3382,7 @@ function PrintExportButton({ company, title, subtitle, columns, rows, disabled, 
       type="button"
       disabled={disabled}
       onClick={handleClick}
-      className={`text-xs font-semibold flex items-center gap-1.5 bg-[#14213D] text-white rounded-lg px-3 py-2 disabled:opacity-40 ${className}`}
+      className={`text-xs font-semibold flex items-center gap-1.5 m-btn-primary px-3 py-2 disabled:opacity-40 ${className}`}
     >
       <Printer size={14} /> {t("چاپ / PDF")}
     </button>
@@ -3079,10 +3437,10 @@ function ContactPicker({ contacts, value, onChange, placeholder, emptyOption, em
         onChange={(e) => { setQuery(e.target.value); if (!open) setOpen(true); }}
         onFocus={() => { if (!disabled) { setOpen(true); setQuery(""); } }}
         placeholder={placeholder || "انتخاب مخاطب — نام را تایپ کنید..."}
-        className={inputClassName || "w-full border border-black/10 rounded-xl px-3 py-2.5 text-sm bg-white outline-none focus:border-[#14213D]/40"}
+        className={inputClassName || "w-full m-input-field px-3 py-2.5 text-sm outline-none"}
       />
       {open && !disabled && (
-        <div className="absolute z-[80] top-full left-0 right-0 mt-1 bg-white border border-black/10 rounded-xl shadow-lg max-h-52 overflow-y-auto">
+        <div className="absolute z-[80] top-full left-0 right-0 mt-1 m-picker-dropdown max-h-52 overflow-y-auto">
           {emptyOption && (
             <button type="button" onClick={() => pick("")} className="w-full text-right px-3 py-2.5 text-sm hover:bg-[#F4F6F5] text-[#6B7280] border-b border-black/5">
               {emptyLabel || "بدون مخاطب"}
@@ -4517,7 +4875,7 @@ function RadialFabMenu({ open, onToggle, onClose, branches }) {
 
   return (
     <>
-      {open && <div className="fixed inset-0 bg-black/35 z-[55]" onClick={onClose} aria-hidden="true" />}
+      {open && <div className="fixed inset-0 m-modal-backdrop z-[55]" onClick={onClose} aria-hidden="true" />}
       <div
         className="fixed z-[56]"
         style={{
@@ -4571,7 +4929,7 @@ function RadialFabMenu({ open, onToggle, onClose, branches }) {
           <button
             type="button"
             onClick={onToggle}
-            className="absolute w-14 h-14 rounded-full bg-[#14213D] text-white shadow-xl flex items-center justify-center z-10"
+            className="absolute w-14 h-14 rounded-full m-fab-core flex items-center justify-center z-10"
             style={{
               left: open ? cx - btn / 2 : 0,
               top: open ? cy - btn / 2 : 0,
@@ -4590,14 +4948,14 @@ function RadialFabMenu({ open, onToggle, onClose, branches }) {
 
 function ReportPopupModal({ title, onClose, children }) {
   return (
-    <div className="fixed inset-0 bg-black/45 z-[70] flex items-end sm:items-center justify-center" onClick={onClose}>
+    <div className="fixed inset-0 m-modal-backdrop z-[70] flex items-end sm:items-center justify-center" onClick={onClose}>
       <div
-        className="bg-white w-full sm:max-w-md rounded-t-2xl sm:rounded-2xl max-h-[88vh] flex flex-col shadow-2xl"
+        className="m-modal-sheet rounded-top w-full sm:max-w-md max-h-[88vh] flex flex-col"
         onClick={(e) => e.stopPropagation()}
       >
-        <div className="flex items-center justify-between px-4 py-3 border-b border-black/5 shrink-0">
-          <div className="font-bold text-base text-[#14213D]">{title}</div>
-          <button type="button" onClick={onClose} className="p-1 text-[#6B7280]"><X size={20} /></button>
+        <div className="m-modal-head flex items-center justify-between px-4 py-3 shrink-0 sm:rounded-t-2xl rounded-t-2xl">
+          <div className="font-bold text-base">{title}</div>
+          <button type="button" onClick={onClose} className="p-1 text-white/70 hover:text-white"><X size={20} /></button>
         </div>
         <div className="overflow-y-auto flex-1 px-4 pb-6 pt-3">{children}</div>
       </div>
@@ -6255,7 +6613,7 @@ function ActivationSuccessScreen({ onContinue, source }) {
         <button
           type="button"
           onClick={onContinue}
-          className="w-full bg-[#14213D] text-white font-semibold rounded-xl py-3.5 text-sm"
+          className="w-full m-btn-primary font-semibold py-3.5 text-sm"
         >
           {t("ورود به برنامه")}
         </button>
@@ -6326,14 +6684,14 @@ function DueEventsModal({ events, projects, onClose, onOpenReminders, onOpenProj
   const { lang, t } = useContext(LanguageContext);
   const modalDir = lang === "fa" ? "rtl" : "ltr";
   return (
-    <div className="fixed inset-0 bg-black/40 flex items-end z-[75]" onClick={onClose}>
-      <div className="bg-white w-full rounded-t-2xl max-h-[80vh] flex flex-col" dir={modalDir} onClick={(e) => e.stopPropagation()}>
-        <div className="px-5 pt-5 pb-3 border-b border-black/5 flex items-center justify-between shrink-0">
+    <div className="fixed inset-0 m-modal-backdrop flex items-end z-[75]" onClick={onClose}>
+      <div className="m-modal-sheet rounded-top w-full max-h-[80vh] flex flex-col" dir={modalDir} onClick={(e) => e.stopPropagation()}>
+        <div className="m-modal-head px-5 pt-5 pb-3 flex items-center justify-between shrink-0 rounded-t-2xl">
           <div>
-            <div className="font-bold text-lg flex items-center gap-2"><Bell size={18} className="text-[#B45309]" /> {t("سررسیدها و یادآوری‌ها")}</div>
-            <div className="text-xs text-[#6B7280] mt-0.5">{events.length}{t(" مورد نیازمند توجه")}</div>
+            <div className="font-bold text-lg flex items-center gap-2"><Bell size={18} className="text-[#FDE68A]" /> {t("سررسیدها و یادآوری‌ها")}</div>
+            <div className="text-xs text-white/70 mt-0.5">{events.length}{t(" مورد نیازمند توجه")}</div>
           </div>
-          <button type="button" onClick={onClose}><X size={20} /></button>
+          <button type="button" onClick={onClose} className="text-white/80"><X size={20} /></button>
         </div>
         <div className="flex-1 overflow-y-auto p-5 flex flex-col gap-2">
           {events.length === 0 ? (
@@ -6369,7 +6727,7 @@ function DueEventsModal({ events, projects, onClose, onOpenReminders, onOpenProj
 
 function SplashScreen() {
   return (
-    <div className="min-h-screen bg-[#F4F6F5] flex flex-col items-center justify-center gap-4">
+    <div className="min-h-screen m-app-bg flex flex-col items-center justify-center gap-4">
       <img src="logo.png" alt="Metrico" style={{ width: 200, maxWidth: "60%" }} />
     </div>
   );
@@ -8053,7 +8411,7 @@ function AppContent() {
   ];
 
   return (
-    <div dir={appDir} className="h-[100dvh] max-h-[100dvh] flex flex-col overflow-hidden bg-[#F4F6F5] text-[#14213D] relative">
+    <div dir={appDir} className="h-[100dvh] max-h-[100dvh] flex flex-col overflow-hidden m-app-bg text-[#14213D] relative">
       <Watermark />
       {error && (
         <div className="fixed top-3 left-1/2 -translate-x-1/2 z-[70] bg-red-600 text-white text-sm px-4 py-2 rounded-lg shadow-lg max-w-[92vw]">
@@ -8088,15 +8446,15 @@ function AppContent() {
 
       {!showChat && (
         <button onClick={() => requirePlan("chat", () => setShowChat(true))}
-          className={`fixed bottom-6 z-[57] w-14 h-14 rounded-full bg-white shadow-xl flex items-center justify-center border border-[#3B4BD4]/20 ${lang === "en" ? "right-4" : "left-4"}`}>
+          className={`fixed bottom-6 z-[57] w-14 h-14 rounded-full m-chat-fab flex items-center justify-center ${lang === "en" ? "right-4" : "left-4"}`}>
           <ChatIcon size={44} />
         </button>
       )}
 
       {showChat && (
-        <div className={`fixed inset-0 z-[90] flex items-end bg-black/30 ${lang === "en" ? "sm:justify-end sm:pr-3" : "sm:items-center sm:justify-center"}`} onClick={() => setShowChat(false)}>
-          <div className={`bg-white w-full sm:max-w-sm sm:rounded-2xl rounded-t-2xl h-[75vh] sm:h-[560px] flex flex-col ${lang === "en" ? "sm:mb-4" : ""}`} dir={lang === "en" ? "ltr" : "rtl"} onClick={(e) => e.stopPropagation()}>
-            <div className="bg-[#3B4BD4] text-white px-4 py-3 flex items-center gap-2 sm:rounded-t-2xl rounded-t-2xl">
+        <div className={`fixed inset-0 z-[90] flex items-end m-modal-backdrop ${lang === "en" ? "sm:justify-end sm:pr-3" : "sm:items-center sm:justify-center"}`} onClick={() => setShowChat(false)}>
+          <div className={`m-chat-shell w-full sm:max-w-sm sm:rounded-2xl rounded-t-2xl h-[75vh] sm:h-[560px] flex flex-col ${lang === "en" ? "sm:mb-4" : ""}`} dir={lang === "en" ? "ltr" : "rtl"} onClick={(e) => e.stopPropagation()}>
+            <div className="m-chat-head px-4 py-3 flex items-center gap-2 sm:rounded-t-2xl rounded-t-2xl">
               <ChatIcon size={32} />
               <div className="flex-1">
                 <div className="font-bold text-sm">{t("پیام‌ها")}</div>
@@ -8106,7 +8464,7 @@ function AppContent() {
             </div>
             <div className="flex-1 overflow-y-auto px-3 py-3 flex flex-col gap-2">
               {chatLog.map((m, i) => (
-                <div key={i} className={`max-w-[85%] text-xs rounded-2xl px-3 py-2 whitespace-pre-wrap ${m.role === "bot" ? "bg-[#F4F6F5] text-[#14213D] self-start" : "bg-[#14213D] text-white self-end"}`}>
+                <div key={i} className={`max-w-[85%] text-xs rounded-2xl px-3 py-2 whitespace-pre-wrap ${m.role === "bot" ? "m-chat-bubble-bot self-start" : "m-chat-bubble-user self-end"}`}>
                   {m.text}
                 </div>
               ))}
@@ -8128,7 +8486,7 @@ function AppContent() {
                 placeholder={chatListening ? t("در حال گوش دادن...") : t("سؤالت را بنویس یا با میکروفون بپرس...")}
                 className="flex-1 bg-[#F4F6F5] rounded-xl px-3 py-2.5 text-sm outline-none"
               />
-              <button onClick={() => sendChatMessage()} disabled={!chatInput.trim()} className="w-10 h-10 rounded-xl bg-[#14213D] text-white flex items-center justify-center disabled:opacity-40">
+              <button onClick={() => sendChatMessage()} disabled={!chatInput.trim()} className="w-10 h-10 rounded-xl m-btn-primary flex items-center justify-center disabled:opacity-40 p-0">
                 <SendIcon size={15} />
               </button>
             </div>
@@ -8136,7 +8494,7 @@ function AppContent() {
         </div>
       )}
 
-      <header className="shrink-0 z-40 relative bg-[#14213D] shadow-sm">
+      <header className="shrink-0 z-40 relative m-app-header">
         {isReadOnly && (
           <div className="bg-[#128C7E]/10 border-b border-[#128C7E]/25 text-[#0F6B5F] text-xs text-center py-2 px-4 font-medium">
             {t("حساب دمو — فقط مشاهده. برای ویرایش، حساب خود را بسازید یا از راهنما خارج شوید.")}
@@ -8193,7 +8551,7 @@ function AppContent() {
         </div>
 
         {showSearch && searchQuery.trim() && ReactDOM.createPortal(
-          <div className="fixed left-0 right-0 top-[84px] mx-3 bg-white shadow-2xl rounded-2xl overflow-y-auto z-[95] max-h-80 border border-black/10">
+          <div className="fixed left-0 right-0 top-[84px] mx-3 m-popover overflow-y-auto z-[95] max-h-80">
             {searchResults.length === 0 ? (
               <div className="text-center text-xs text-[#9CA3AF] py-4">{t("نتیجه‌ای پیدا نشد")}</div>
             ) : (
@@ -8937,11 +9295,11 @@ function ContractsScreen({ company, projects, activeProjectId, contacts, isReadO
         </div>
       )}
 
-      <div className="flex gap-2 mb-5 bg-[#F4F6F5] p-1 rounded-xl">
-        <button type="button" onClick={() => setTab("contract")} className={`flex-1 py-2.5 rounded-lg text-sm font-semibold flex items-center justify-center gap-1.5 transition-colors ${tab === "contract" ? tabThemes.contract.active : tabThemes.contract.idle}`}>
+      <div className="m-segment mb-5">
+        <button type="button" onClick={() => setTab("contract")} className={`m-segment-btn flex items-center justify-center gap-1.5 ${tab === "contract" ? "m-segment-btn-active" : ""}`}>
           <LucideFileSignature size={15} /> {t("تنظیم قرارداد")}
         </button>
-        <button type="button" onClick={() => setTab("progress")} className={`flex-1 py-2.5 rounded-lg text-sm font-semibold flex items-center justify-center gap-1.5 transition-colors ${tab === "progress" ? tabThemes.progress.active : tabThemes.progress.idle}`}>
+        <button type="button" onClick={() => setTab("progress")} className={`m-segment-btn flex items-center justify-center gap-1.5 ${tab === "progress" ? "m-segment-btn-active" : ""}`}>
           <LucideScrollText size={15} /> {t("تنظیم صورت‌وضعیت")}
         </button>
       </div>
@@ -9062,7 +9420,7 @@ function ContractsScreen({ company, projects, activeProjectId, contacts, isReadO
           )}
 
           <div className="flex gap-2 pt-2">
-            <button type="button" disabled={isReadOnly} onClick={handleSaveContract} className="flex-1 bg-[#14213D] text-white rounded-xl py-3 text-sm font-semibold disabled:opacity-40">
+            <button type="button" disabled={isReadOnly} onClick={handleSaveContract} className="flex-1 m-btn-primary py-3 text-sm disabled:opacity-40">
               {contractFormMode === "edit" ? t("ذخیره تغییرات") : contractFormMode === "amendment" ? t("ثبت متمم") : t("ثبت قرارداد")}
             </button>
             {contractFormMode !== "amendment" && (
@@ -9246,7 +9604,7 @@ function ContractsScreen({ company, projects, activeProjectId, contacts, isReadO
               </div>
 
               <div className="flex gap-2 pt-2">
-                <button type="button" disabled={isReadOnly} onClick={handleSaveStatement} className="flex-1 bg-[#14213D] text-white rounded-xl py-3 text-sm font-semibold disabled:opacity-40">{t("ثبت و افزودن به بدهی‌ها")}</button>
+                <button type="button" disabled={isReadOnly} onClick={handleSaveStatement} className="flex-1 m-btn-primary py-3 text-sm disabled:opacity-40">{t("ثبت و افزودن به بدهی‌ها")}</button>
                 <button type="button" onClick={handlePrintStatement} className="flex items-center gap-1.5 bg-[#F4F6F5] text-[#14213D] rounded-xl px-4 py-3 text-sm font-semibold"><Printer size={15} /> {t("چاپ")}</button>
               </div>
             </>
@@ -9290,8 +9648,8 @@ function SideMenu({ company, projects, activeTab, currentScreen, isReadOnly, eff
       <button
         type="button"
         onClick={onClick}
-        className={`${menuAlign} px-3 py-2.5 rounded-xl text-sm font-medium flex items-center gap-2 hover:bg-[#F4F6F5] w-full ${
-          active ? "bg-[#14213D] text-white hover:bg-[#14213D]" : "text-[#374151]"
+        className={`${menuAlign} px-3 py-2.5 rounded-xl text-sm font-medium flex items-center gap-2 hover:bg-[#F4F6F5] w-full transition-colors ${
+          active ? "m-menu-item-active hover:bg-[#14213D]" : "text-[#374151]"
         }`}
       >
         {icon}
@@ -9334,8 +9692,8 @@ function SideMenu({ company, projects, activeTab, currentScreen, isReadOnly, eff
 
   return (
     <div className="fixed inset-0 z-[75] flex" dir={menuDir}>
-      <div className="w-[82%] max-w-xs bg-white h-full flex flex-col shadow-2xl relative">
-        <div className="bg-[#14213D] text-white px-5 pt-6 pb-4 flex items-center gap-3">
+      <div className="w-[82%] max-w-xs m-side-drawer h-full flex flex-col relative">
+        <div className="m-side-drawer-head text-white px-5 pt-6 pb-4 flex items-center gap-3">
           {company?.logo ? (
             <img src={company.logo} alt="" className="w-10 h-10 rounded-xl object-cover border border-white/20" />
           ) : (
@@ -9527,20 +9885,20 @@ function BackupScreen({ onBack, onExport, onRestore, projectCount, canRestore, r
     <div className="px-5 pt-5 pb-10" dir={screenDir}>
       <div className="flex items-center gap-3 mb-6">
         <button onClick={onBack} className="p-1"><ChevronLeft size={20} className={lang === "en" ? "rotate-180" : ""} /></button>
-        <div className="font-bold text-lg">{t("پشتیبان‌گیری و بازیابی")}</div>
+        <div className="m-screen-title flex-1">{t("پشتیبان‌گیری و بازیابی")}</div>
       </div>
 
-      <div className="bg-white rounded-2xl p-4 border border-black/5 mb-4">
+      <div className="m-card p-4 mb-4">
         <div className="font-semibold text-sm mb-1">{t("دریافت فایل پشتیبان")}</div>
         <div className="text-xs text-[#6B7280] mb-3">
           {t("فایل پشتیبان شامل اطلاعات شرکت و")} {projectCount} {t("پروژه (واحدها، خریداران، اقساط، حسابداری) به‌همراه مخاطبین، یادآوری‌ها و موجودی انبار است. آن را در جای امن (Google Drive، ایمیل و...) نگه دارید.")}
         </div>
-        <button onClick={onExport} className="w-full flex items-center justify-center gap-2 bg-[#14213D] text-white rounded-xl py-2.5 text-sm font-semibold">
+        <button onClick={onExport} className="w-full flex items-center justify-center gap-2 m-btn-primary py-2.5 text-sm">
           <Download size={15} /> {t("دانلود فایل پشتیبان")}
         </button>
       </div>
 
-      <div className="bg-white rounded-2xl p-4 border border-black/5">
+      <div className="m-card p-4">
         <div className="font-semibold text-sm mb-1">{t("بازیابی از فایل پشتیبان")}</div>
         {!canRestore && (
           <div className="text-[11px] text-[#6B7280] mb-2 leading-5">
@@ -9553,7 +9911,7 @@ function BackupScreen({ onBack, onExport, onRestore, projectCount, canRestore, r
         <button
           onClick={pickFile}
           disabled={!canRestore}
-          className={`w-full flex items-center justify-center gap-2 border border-[#14213D]/20 text-[#14213D] rounded-xl py-2.5 text-sm font-semibold ${!canRestore ? "opacity-40 cursor-not-allowed" : ""}`}
+          className={`w-full flex items-center justify-center gap-2 m-btn-secondary py-2.5 text-sm ${!canRestore ? "opacity-40 cursor-not-allowed" : ""}`}
         >
           <Upload size={15} /> {t("انتخاب فایل پشتیبان")}
         </button>
@@ -9567,13 +9925,13 @@ function BackupScreen({ onBack, onExport, onRestore, projectCount, canRestore, r
       )}
 
       {confirmRestore && (
-        <div className="fixed inset-0 bg-black/40 flex items-end z-[80]">
-          <div className="bg-white w-full rounded-t-2xl p-5">
+        <div className="fixed inset-0 m-modal-backdrop flex items-end z-[80]">
+          <div className="m-modal-sheet rounded-top w-full p-5">
             <div className="font-bold mb-1">{t("بازیابی اطلاعات؟")}</div>
             <div className="text-sm text-[#6B7280] mb-4">{t("تمام اطلاعات فعلی با محتوای فایل")} «{confirmRestore.name}» {t("جایگزین می‌شود. این کار قابل بازگشت نیست.")}</div>
             <div className="flex gap-2">
-              <button onClick={() => setConfirmRestore(null)} className="flex-1 border border-black/10 rounded-xl py-2.5 text-sm font-medium">{t("لغو")}</button>
-              <button onClick={doRestore} className="flex-1 bg-[#B91C1C] text-white rounded-xl py-2.5 text-sm font-medium">{t("بازیابی")}</button>
+              <button onClick={() => setConfirmRestore(null)} className="flex-1 m-btn-secondary py-2.5 text-sm font-medium">{t("لغو")}</button>
+              <button onClick={doRestore} className="flex-1 m-btn-danger py-2.5 text-sm font-medium">{t("بازیابی")}</button>
             </div>
           </div>
         </div>
@@ -9600,7 +9958,7 @@ function AboutScreen({ onBack }) {
       </div>
     );
     return (
-      <div className={`bg-white rounded-lg p-3 border border-black/5 ${teamRowClass}`}>
+      <div className={`m-card p-3 ${teamRowClass}`}>
         {lang === "fa" ? (<>{textBlock}{imageBlock}</>) : (<>{imageBlock}{textBlock}</>)}
       </div>
     );
@@ -9609,22 +9967,22 @@ function AboutScreen({ onBack }) {
     <div className="px-5 pt-5 pb-10" dir={screenDir}>
       <div className="flex items-center gap-3 mb-6">
         <button onClick={onBack} className="p-1"><ChevronLeft size={20} className={lang === "en" ? "rotate-180" : ""} /></button>
-        <div className="font-bold text-lg">{t("درباره")}</div>
+        <div className="m-screen-title">{t("درباره")}</div>
       </div>
 
-      <div className="bg-white rounded-2xl p-5 border border-black/5 flex flex-col items-center text-center mb-4">
+      <div className="m-card p-5 flex flex-col items-center text-center mb-4">
         <img src="logo.png" alt={APP_NAME} className="w-40 mb-1" />
         <div className="text-xs text-[#9CA3AF] mt-1">{t("نسخه")} {APP_VERSION}</div>
       </div>
 
-      <div className="bg-white rounded-2xl p-5 border border-black/5 text-sm leading-7 text-[#374151]">
+      <div className="m-prose-panel p-5 text-sm leading-7 text-[#374151]">
         <p className="mb-3">
           {APP_NAME}{t(" برای مدیریت روزمره پروژه‌های ساختمانی طراحی شده است: ثبت طبقات و واحدها، اطلاعات خریداران، متراژ، قیمت هر متر، پیش‌پرداخت و جدول اقساط، هزینه‌ها، و محاسبه خودکار سود و زیان هر پروژه.")}
         </p>
         <p className="mb-3">
           {t("اطلاعات هر حساب کاربری به‌صورت خصوصی و امن در فضای ابری ذخیره می‌شود و فقط از طریق ورود با همان ایمیل و رمز عبور قابل مشاهده است. هر همکار با ساخت حساب جدید، فضای کاری کاملاً جدا و مستقل از دیگران خواهد داشت. برای اشتراک‌گذاری اطلاعات با دیگران می‌توان از گزینه «خروجی PDF» یا «پشتیبان‌گیری» استفاده کرد.")}
         </p>
-        <div className="bg-[#F4F6F5] rounded-xl p-4 mb-4 border border-black/5">
+        <div className="m-card-muted p-4 mb-4">
           <div className="font-bold text-[#14213D] text-sm mb-2">{t("تیم بنیان‌گذار")}</div>
           <p className="text-sm leading-7 mb-3">{t("میتریکو یک محصول استارتاپی است که توسط تیم ما طراحی، توسعه و به‌صورت مستمر بهبود می‌یابد.")}</p>
           <p className="text-xs text-[#6B7280] leading-6 mb-4">{t("ما به‌عنوان مالکان و ایده‌پردازان میتریکو، این اپلیکیشن را به‌صورت تیمی خلق کرده‌ایم تا مدیریت پروژه‌های ساختمانی را ساده‌تر، دقیق‌تر و در دسترس‌تر کنیم.")}</p>
@@ -9644,7 +10002,7 @@ function AboutScreen({ onBack }) {
             )}
           </div>
         </div>
-        <div className="bg-[#F4F6F5] rounded-xl p-3 text-center mb-4">
+        <div className="m-card-muted p-3 text-center mb-4">
           <div className="text-xs text-[#6B7280] mb-1">{t("برای دریافت کد فعال‌سازی حساب تماس بگیرید")}</div>
           <div dir="ltr" className="font-bold text-[#14213D]">۰۹۱۹۲۲۶۴۳۳۲</div>
         </div>
@@ -9666,9 +10024,9 @@ function PrivacyScreen({ onBack }) {
     <div className="px-5 pt-5 pb-10" dir={screenDir}>
       <div className="flex items-center gap-3 mb-6">
         <button onClick={onBack} className="p-1"><ChevronLeft size={20} className={lang === "en" ? "rotate-180" : ""} /></button>
-        <div className="font-bold text-lg">{t("سیاست حفظ حریم خصوصی")}</div>
+        <div className="m-screen-title">{t("سیاست حفظ حریم خصوصی")}</div>
       </div>
-      <div className="bg-white rounded-2xl p-5 border border-black/5 text-sm leading-7 text-[#374151] flex flex-col gap-4">
+      <div className="m-prose-panel p-5 text-sm leading-7 text-[#374151] flex flex-col gap-4">
         <p>{APP_NAME} {t("برای مدیریت پروژه‌های ساختمانی طراحی شده و به حریم خصوصی کاربران خود احترام می‌گذارد. این صفحه به‌طور خلاصه توضیح می‌دهد چه اطلاعاتی جمع‌آوری می‌شود و چگونه از آن‌ها محافظت می‌شود.")}</p>
         <div>
           <div className="font-bold text-[#14213D] mb-1">{t("چه اطلاعاتی ذخیره می‌شود؟")}</div>
@@ -9723,14 +10081,14 @@ function TaxSystemsScreen({ onBack }) {
     <div className="px-5 pt-5 pb-10" dir={screenDir}>
       <div className="flex items-center gap-3 mb-6">
         <button type="button" onClick={onBack} className="p-1"><ChevronLeft size={20} className={lang === "en" ? "rotate-180" : ""} /></button>
-        <div className="font-bold text-lg">{t("سامانه‌های مالیاتی")}</div>
+        <div className="m-screen-title">{t("سامانه‌های مالیاتی")}</div>
       </div>
 
-      <div className="bg-white rounded-2xl p-5 border border-black/5 mb-4">
+      <div className="m-card p-5 mb-4">
         <TaxSystemsIllustration />
       </div>
 
-      <div className="bg-white rounded-2xl p-5 border border-black/5 text-sm leading-7 text-[#374151] flex flex-col gap-3">
+      <div className="m-prose-panel p-5 text-sm leading-7 text-[#374151] flex flex-col gap-3">
         <p>
           {t("بخش «سامانه‌های مالیاتی» در ")}{APP_NAME}{t(" برای آماده‌سازی و یکپارچه‌سازی اطلاعات مالی پروژه‌های ساختمانی با الزامات قانونی طراحی شده است.")}
         </p>
@@ -9996,13 +10354,13 @@ function GuideScreen({ onBack, onDemoLogin }) {
       <div className="px-5 pt-5 pb-10 no-print" dir={screenDir}>
         <div className="flex items-center gap-3 mb-4">
           <button onClick={onBack} className="p-1"><ChevronLeft size={20} className={lang === "en" ? "rotate-180" : ""} /></button>
-          <div className="font-bold text-lg flex items-center gap-2">
+          <div className="font-bold text-lg flex items-center gap-2 m-screen-title">
             <LucideBookOpen size={20} className="text-[#14213D]" />
             {t("راهنما")}
           </div>
         </div>
 
-        <div className="bg-gradient-to-br from-[#14213D] to-[#1e3a5f] rounded-2xl p-5 text-white mb-5 shadow-lg">
+        <div className="m-card-hero p-5 mb-5">
           <div className="flex items-start gap-3">
             <div className="w-11 h-11 rounded-xl bg-white/15 flex items-center justify-center shrink-0">
               <LucideBookOpen size={22} />
@@ -10020,9 +10378,7 @@ function GuideScreen({ onBack, onDemoLogin }) {
             const active = tab === s.id;
             return (
               <button key={s.id} onClick={() => setTab(s.id)}
-                className={`shrink-0 flex items-center gap-1.5 px-3.5 py-2.5 rounded-xl text-xs font-semibold transition-all ${
-                  active ? "bg-[#14213D] text-white shadow-md" : "bg-white text-[#374151] border border-black/8"
-                }`}>
+                className={`shrink-0 flex items-center gap-1.5 m-pill ${active ? "m-pill-active" : ""}`}>
                 <Icon size={14} /> {t(s.label)}
               </button>
             );
@@ -10045,7 +10401,7 @@ function GuideScreen({ onBack, onDemoLogin }) {
 
         <div className="mt-6 space-y-3">
           <button onClick={downloadGuidePDF}
-            className="w-full flex items-center justify-center gap-2 bg-white border-2 border-[#14213D]/20 text-[#14213D] rounded-2xl py-3.5 text-sm font-bold hover:bg-[#F4F6F5] transition-colors">
+            className="w-full flex items-center justify-center gap-2 m-btn-secondary py-3.5 text-sm font-bold">
             <LucideDownload size={18} />
             {t("دانلود راهنما به‌صورت PDF")}
           </button>
@@ -10284,7 +10640,7 @@ function ContactLedgerSheet({ contact, projects, contacts, company, onClose, ens
             </div>
           )}
           <div className="flex flex-wrap gap-2 mt-3">
-            <button type="button" onClick={exportPdf} disabled={!entries.length} className="text-xs font-semibold flex items-center gap-1.5 bg-[#14213D] text-white rounded-lg px-3 py-2 disabled:opacity-40">
+            <button type="button" onClick={exportPdf} disabled={!entries.length} className="text-xs font-semibold flex items-center gap-1.5 m-btn-primary px-3 py-2 disabled:opacity-40">
               <Printer size={14} /> {t("چاپ / PDF")}
             </button>
             <button type="button" onClick={exportExcel} disabled={!entries.length} className="text-xs font-semibold flex items-center gap-1.5 bg-[#F4F6F5] text-[#14213D] rounded-lg px-3 py-2 disabled:opacity-40">
@@ -10385,7 +10741,7 @@ function ContactsScreen({ company, onBack, contacts, projects, contactBalance, o
       {!embedded ? (
       <div className="flex items-center gap-3 mb-4">
         <button onClick={onBack} className="p-1"><ChevronLeft size={20} className={lang === "ltr" ? "rotate-180" : ""} /></button>
-        <div className="font-bold text-lg flex-1">{t("دفترچه مخاطبین")}</div>
+        <div className="m-screen-title flex-1">{t("دفترچه مخاطبین")}</div>
         <PrintExportButton
           company={company}
           title={t("لیست مخاطبین")}
@@ -10399,7 +10755,7 @@ function ContactsScreen({ company, onBack, contacts, projects, contactBalance, o
           rows={contactPrintRows}
           ensurePdfExport={ensurePdfExport}
         />
-        <button onClick={openNew} className="text-xs bg-[#14213D] text-white rounded-lg px-3 py-2 font-semibold flex items-center gap-1">
+        <button onClick={openNew} className="text-xs m-btn-primary px-3 py-2 flex items-center gap-1">
           <Plus size={13} /> {t("مخاطب جدید")}
         </button>
       </div>
@@ -10423,11 +10779,9 @@ function ContactsScreen({ company, onBack, contacts, projects, contactBalance, o
 
       {!embedded && (
       <div className="flex gap-1.5 mb-4 flex-wrap">
-        <button onClick={() => setFilterRole("all")} className="text-[11px] font-semibold px-2.5 py-1 rounded-full"
-          style={{ background: filterRole === "all" ? "#14213D" : "#F4F6F5", color: filterRole === "all" ? "#fff" : "#4B5563" }}>{t("همه")}</button>
+        <button onClick={() => setFilterRole("all")} className={`m-pill ${filterRole === "all" ? "m-pill-active" : ""}`}>{t("همه")}</button>
         {Object.entries(CONTACT_ROLES).map(([key, label]) => (
-          <button key={key} onClick={() => setFilterRole(key)} className="text-[11px] font-semibold px-2.5 py-1 rounded-full"
-            style={{ background: filterRole === key ? "#14213D" : "#F4F6F5", color: filterRole === key ? "#fff" : "#4B5563" }}>{t(label)}</button>
+          <button key={key} onClick={() => setFilterRole(key)} className={`m-pill ${filterRole === key ? "m-pill-active" : ""}`}>{t(label)}</button>
         ))}
       </div>
       )}
@@ -10435,10 +10789,10 @@ function ContactsScreen({ company, onBack, contacts, projects, contactBalance, o
       {filtered.length === 0 && <div className="text-center text-[#9CA3AF] text-sm mt-16">{t("مخاطبی ثبت نشده")}</div>}
 
       {filtered.length > 0 && (
-        <div className="bg-white rounded-2xl border border-black/5 overflow-hidden overflow-x-auto">
+        <div className="m-data-table overflow-x-auto">
           <table className="w-full text-xs min-w-[480px]">
             <thead>
-              <tr className="bg-[#F4F6F5] text-[#6B7280]">
+              <tr className="text-[#6B7280]">
                 <th className={`${thAlign} px-3 py-2.5 font-medium`}>{t("نام / نقش")}</th>
                 <th className="text-center px-2 py-2.5 font-medium">{t("گردش مالی (مخاطب)")}</th>
                 <th className="text-center px-2 py-2.5 font-medium">{t("تماس")}</th>
@@ -10529,7 +10883,7 @@ function ContactsScreen({ company, onBack, contacts, projects, contactBalance, o
             </div>
             <textarea value={note} onChange={(e) => setNote(e.target.value)} placeholder={t("یادداشت (اختیاری)")} rows={2}
               className="w-full mb-4 bg-[#F4F6F5] border border-black/10 rounded-xl px-3 py-2.5 text-sm outline-none" />
-            <button onClick={submit} disabled={!name.trim()} className="w-full bg-[#14213D] text-white rounded-xl py-3 text-sm font-semibold disabled:opacity-40">{t("ذخیره")}</button>
+            <button onClick={submit} disabled={!name.trim()} className="w-full m-btn-primary py-3 text-sm disabled:opacity-40">{t("ذخیره")}</button>
           </div>
         </div>
       )}
@@ -10562,7 +10916,7 @@ function NotesScreen({ company, onBack, projects, onAddNote, onRemoveNote, ensur
     <div className="px-5 pt-5 pb-10" dir={screenDir}>
       <div className="flex items-center gap-3 mb-6">
         <button onClick={onBack} className="p-1"><ChevronLeft size={20} className={lang === "ltr" ? "rotate-180" : ""} /></button>
-        <div className="font-bold text-lg flex-1">{t("یادداشت‌های پروژه‌ها")}</div>
+        <div className="m-screen-title flex-1">{t("یادداشت‌های پروژه‌ها")}</div>
         <PrintExportButton
           company={company}
           title={t("یادداشت‌های پروژه‌ها")}
@@ -10578,14 +10932,14 @@ function NotesScreen({ company, onBack, projects, onAddNote, onRemoveNote, ensur
       </div>
 
       {projects.length > 0 && (
-        <div className="bg-white rounded-2xl border border-black/5 p-4 mb-4">
+        <div className="m-card p-4 mb-4">
           <select value={projectId} onChange={(e) => setProjectId(e.target.value)}
-            className="w-full mb-2 bg-[#F4F6F5] border border-black/10 rounded-xl px-3 py-2.5 text-sm outline-none">
+            className="w-full mb-2 m-input-field px-3 py-2.5 text-sm outline-none">
             {projects.map((p) => <option key={p.id} value={p.id}>{p.name}</option>)}
           </select>
           <textarea value={text} onChange={(e) => setText(e.target.value)} placeholder={t("یادداشت جدید...")} rows={2}
             className="w-full mb-2 bg-[#F4F6F5] border border-black/10 rounded-xl px-3 py-2.5 text-sm outline-none" />
-          <button onClick={submit} disabled={!text.trim()} className="w-full bg-[#14213D] text-white rounded-xl py-2.5 text-sm font-semibold disabled:opacity-40">{t("افزودن یادداشت")}</button>
+          <button onClick={submit} disabled={!text.trim()} className="w-full m-btn-primary py-2.5 text-sm disabled:opacity-40">{t("افزودن یادداشت")}</button>
         </div>
       )}
 
@@ -10595,7 +10949,7 @@ function NotesScreen({ company, onBack, projects, onAddNote, onRemoveNote, ensur
         {allNotes.map((n) => (
           <div key={n.id} className="bg-white rounded-2xl border border-black/5 p-4">
             <div className="flex items-center justify-between mb-1">
-              <span className="text-[11px] font-semibold text-[#C9A227] bg-[#14213D] px-2 py-0.5 rounded-full">{n.projectName}</span>
+              <span className="m-badge-project">{n.projectName}</span>
               <button onClick={() => onRemoveNote(n.projectId, n.id)} className="text-[#B91C1C] p-1"><Trash2 size={13} /></button>
             </div>
             <div className="text-sm text-[#374151] mt-2">{n.text}</div>
@@ -10635,7 +10989,7 @@ function RemindersScreen({ company, onBack, projects, reminders, onAdd, onRemove
     <div className="px-5 pt-5 pb-10" dir={screenDir}>
       <div className="flex items-center gap-3 mb-6">
         <button onClick={onBack} className="p-1"><ChevronLeft size={20} className={lang === "ltr" ? "rotate-180" : ""} /></button>
-        <div className="font-bold text-lg flex-1">{t("یادآوری‌ها")}</div>
+        <div className="m-screen-title flex-1">{t("یادآوری‌ها")}</div>
         <PrintExportButton
           company={company}
           title={t("لیست یادآوری‌ها")}
@@ -10666,7 +11020,7 @@ function RemindersScreen({ company, onBack, projects, reminders, onAdd, onRemove
             {projects.map((p) => <option key={p.id} value={p.id}>{p.name}</option>)}
           </select>
         )}
-        <button onClick={submit} disabled={!text.trim() || !datetime} className="w-full bg-[#14213D] text-white rounded-xl py-2.5 text-sm font-semibold disabled:opacity-40">{t("افزودن یادآوری")}</button>
+        <button onClick={submit} disabled={!text.trim() || !datetime} className="w-full m-btn-primary py-2.5 text-sm disabled:opacity-40">{t("افزودن یادآوری")}</button>
       </div>
 
       {upcoming.length > 0 && <div className="text-xs font-semibold text-[#6B7280] mb-2">{t("در انتظار")}</div>}
@@ -10677,7 +11031,7 @@ function RemindersScreen({ company, onBack, projects, reminders, onAdd, onRemove
               <div className="text-sm text-[#374151]">{r.text}</div>
               <div className="text-[11px] text-[#9CA3AF] mt-0.5">{formatAppDate(r.datetime, true, lang)}</div>
               {r.projectId && projects.find((p) => p.id === r.projectId) && (
-                <span className="inline-block mt-1 text-[10px] font-semibold text-[#C9A227] bg-[#14213D] px-2 py-0.5 rounded-full">{projects.find((p) => p.id === r.projectId).name}</span>
+                <span className="inline-block mt-1 m-badge-project">{projects.find((p) => p.id === r.projectId).name}</span>
               )}
             </div>
             <button onClick={() => onRemove(r.id)} className="text-[#B91C1C] p-1 flex-shrink-0"><Trash2 size={14} /></button>
@@ -11032,7 +11386,7 @@ function TakeoffScreen({ onBack, projects, onSave, onError, inventory, isReadOnl
       <div className="px-5 pt-5 pb-10" dir={screenDir}>
         <div className="flex items-center gap-3 mb-6">
           <button onClick={onBack} className="p-1"><ChevronLeft size={20} className={lang === "en" ? "rotate-180" : ""} /></button>
-          <div className="font-bold text-lg">{t("متره و برآورد")}</div>
+          <div className="m-screen-title">{t("متره و برآورد")}</div>
         </div>
         <div className="text-center text-[#9CA3AF] text-sm mt-16">{t("اول یه پروژه بساز تا بتونی براوردش کنی.")}</div>
       </div>
@@ -11043,20 +11397,20 @@ function TakeoffScreen({ onBack, projects, onSave, onError, inventory, isReadOnl
     <div className="px-5 pt-5 pb-10" dir={screenDir}>
       <div className="flex items-center gap-3 mb-5">
         <button onClick={onBack} className="p-1"><ChevronLeft size={20} className={lang === "en" ? "rotate-180" : ""} /></button>
-        <div className="font-bold text-lg flex-1">{t("متره و برآورد مصالح")}</div>
+        <div className="m-screen-title flex-1">{t("متره و برآورد مصالح")}</div>
       </div>
 
       <select value={projectId} onChange={(e) => setProjectId(e.target.value)}
-        className="w-full mb-4 bg-white border border-black/10 rounded-xl px-3 py-2.5 text-sm outline-none">
+        className="w-full mb-4 m-input-field px-3 py-2.5 text-sm outline-none">
         {projects.map((p) => <option key={p.id} value={p.id}>{p.name}</option>)}
       </select>
 
-      <div className="bg-white rounded-2xl border border-black/5 p-4 mb-4">
+      <div className="m-card p-4 mb-4">
         <div className="font-bold text-sm text-[#14213D] mb-3">{t("اطلاعات ورودی پروژه")}</div>
 
         <label className="text-xs text-[#6B7280] font-medium">{t("متراژ زیربنای کل (متر مربع)")}</label>
         <input type="number" value={area} onChange={(e) => setArea(e.target.value)}
-          className="w-full mt-1 mb-3 bg-[#F4F6F5] border border-black/10 rounded-xl px-3 py-2.5 text-sm outline-none" />
+          className="w-full mt-1 mb-3 m-input-field px-3 py-2.5 text-sm outline-none" />
 
         <div className="grid grid-cols-2 gap-3 mb-3">
           <div>
@@ -11093,7 +11447,7 @@ function TakeoffScreen({ onBack, projects, onSave, onError, inventory, isReadOnl
           className="w-full mt-1 bg-[#F4F6F5] border border-black/10 rounded-xl px-3 py-2.5 text-sm outline-none" />
       </div>
 
-      <button onClick={() => setShowCoefs((v) => !v)} className="w-full flex items-center justify-between bg-white rounded-2xl border border-black/5 p-4 mb-4">
+      <button onClick={() => setShowCoefs((v) => !v)} className="w-full flex items-center justify-between m-card p-4 mb-4">
         <span className="font-bold text-sm text-[#14213D]">{t("ضرایب محاسبه به تفکیک مصالح (قابل ویرایش)")}</span>
         <ChevronLeft size={15} className={showCoefs ? "rotate-90" : (lang === "fa" ? "rotate-180" : "")} />
       </button>
@@ -11102,7 +11456,7 @@ function TakeoffScreen({ onBack, projects, onSave, onError, inventory, isReadOnl
         <div className="flex flex-col gap-4 mb-4">
           <div className="text-[10px] text-[#9CA3AF] bg-amber-50 rounded-xl p-2.5">{t("این ضرایب میانگین‌های رایج صنعت ساختمانند و بسته به منطقه و طراحی متفاوتند؛ برای دقت بیشتر با مهندس محاسب پروژه تنظیمشون کن.")}</div>
           {MATERIAL_CONFIG.map((cat) => (
-            <div key={cat.category} className="bg-white rounded-2xl border border-black/5 p-4">
+            <div key={cat.category} className="m-card p-4">
               <div className="font-semibold text-xs text-[#14213D] mb-3">{t(cat.category)}</div>
               <div className="grid grid-cols-2 gap-3">
                 {cat.items.map((it) => (
@@ -11115,12 +11469,12 @@ function TakeoffScreen({ onBack, projects, onSave, onError, inventory, isReadOnl
         </div>
       )}
 
-      <button onClick={calculate} className="w-full bg-[#14213D] text-white rounded-xl py-3 text-sm font-semibold mb-4">{t("محاسبه برآورد کامل")}</button>
+      <button onClick={calculate} className="w-full m-btn-primary py-3 text-sm mb-4">{t("محاسبه برآورد کامل")}</button>
 
       {results && (
         <div className="flex flex-col gap-3 mb-4">
           {MATERIAL_CONFIG.map((cat) => (
-            <div key={cat.category} className="bg-white rounded-2xl border border-black/5 p-4">
+            <div key={cat.category} className="m-card p-4">
               <div className="font-bold text-xs text-[#14213D] mb-3">{t(cat.category)}</div>
               <div className="grid grid-cols-2 gap-2">
                 {cat.items.map((it) => (
@@ -11130,9 +11484,9 @@ function TakeoffScreen({ onBack, projects, onSave, onError, inventory, isReadOnl
             </div>
           ))}
           {inventoryCompare.length > 0 && (
-            <div className="bg-white rounded-2xl border border-black/5 p-4">
+            <div className="m-card p-4">
               <div className="font-bold text-xs text-[#14213D] mb-3">{t("مقایسه برآورد با موجودی انبار")}</div>
-              <div className="overflow-x-auto">
+              <div className="m-data-table overflow-x-auto">
                 <table className="w-full text-[11px] min-w-[420px]">
                   <thead>
                     <tr className="bg-[#F4F6F5] text-[#6B7280]">
@@ -11162,7 +11516,7 @@ function TakeoffScreen({ onBack, projects, onSave, onError, inventory, isReadOnl
             </div>
           )}
           <button onClick={saveEstimate} disabled={isReadOnly}
-            className="w-full border border-[#14213D]/20 text-[#14213D] rounded-xl py-2.5 text-sm font-semibold disabled:opacity-40">
+            className="w-full m-btn-secondary py-2.5 text-sm disabled:opacity-40">
             {isReadOnly ? t("حساب دمو — ذخیره غیرفعال") : t("ذخیره این برآورد برای پروژه")}
           </button>
           {saveMsg && <div className="text-xs text-[#166534] text-center">{saveMsg}</div>}
@@ -11346,7 +11700,7 @@ function TakeoffDigitizer({ project, onError, onUseArea }) {
               {t("۲. اندازه‌گیری فضا")}
             </button>
             {mode === "measure" && polygon.length >= 3 && (
-              <button onClick={finishPolygon} className="text-xs rounded-lg px-3 py-2 font-semibold bg-[#14213D] text-white">{t("پایان و ثبت متراژ")}</button>
+              <button onClick={finishPolygon} className="text-xs rounded-lg px-3 py-2 font-semibold m-btn-primary">{t("پایان و ثبت متراژ")}</button>
             )}
             <button onClick={() => fileRef.current.click()} className="text-xs rounded-lg px-3 py-2 font-semibold border border-black/10 text-[#6B7280]">{t("نقشه دیگر")}</button>
           </div>
@@ -11370,7 +11724,7 @@ function TakeoffDigitizer({ project, onError, onUseArea }) {
                 <span>{t("جمع کل")}</span>
                 <span>{Math.round(totalMeasured * 100) / 100} m²</span>
               </div>
-              <button onClick={() => onUseArea(Math.round(totalMeasured * 100) / 100)} className="w-full bg-[#14213D] text-white rounded-xl py-2.5 text-xs font-semibold mt-1">
+              <button onClick={() => onUseArea(Math.round(totalMeasured * 100) / 100)} className="w-full m-btn-primary py-2.5 text-xs mt-1">
                 {t("افزودن این متراژ به فرم برآورد")}
               </button>
             </div>
@@ -11386,7 +11740,7 @@ function TakeoffDigitizer({ project, onError, onUseArea }) {
               className="w-full bg-[#F4F6F5] border border-black/10 rounded-xl px-3 py-2.5 text-sm outline-none mb-3" />
             <div className="flex gap-2">
               <button onClick={() => { setAskDistance(false); setCalibPoints([]); }} className="flex-1 border border-black/10 rounded-xl py-2 text-sm">{t("لغو")}</button>
-              <button onClick={confirmDistance} disabled={!distanceInput} className="flex-1 bg-[#14213D] text-white rounded-xl py-2 text-sm disabled:opacity-40">{t("تأیید")}</button>
+              <button onClick={confirmDistance} disabled={!distanceInput} className="flex-1 m-btn-primary py-2 text-sm disabled:opacity-40">{t("تأیید")}</button>
             </div>
           </div>
         </div>
@@ -11400,7 +11754,7 @@ function TakeoffDigitizer({ project, onError, onUseArea }) {
               className="w-full bg-[#F4F6F5] border border-black/10 rounded-xl px-3 py-2.5 text-sm outline-none mb-3" />
             <div className="flex gap-2">
               <button onClick={() => { setAskName(false); setPolygon([]); }} className="flex-1 border border-black/10 rounded-xl py-2 text-sm">{t("لغو")}</button>
-              <button onClick={confirmName} className="flex-1 bg-[#14213D] text-white rounded-xl py-2 text-sm">{t("ثبت")}</button>
+              <button onClick={confirmName} className="flex-1 m-btn-primary py-2 text-sm">{t("ثبت")}</button>
             </div>
           </div>
         </div>
@@ -11488,7 +11842,7 @@ function InventoryScreen({ company, onBack, inventory, isReadOnly, onAddItem, on
     <div className="px-5 pt-5 pb-10" dir={screenDir}>
       <div className="flex items-center gap-3 mb-4">
         <button onClick={onBack} className="p-1"><ChevronLeft size={20} className={lang === "en" ? "rotate-180" : ""} /></button>
-        <div className="font-bold text-lg flex-1">{t("انبارگردانی و موجودی مصالح")}</div>
+        <div className="m-screen-title flex-1">{t("انبارگردانی و موجودی مصالح")}</div>
         <PrintExportButton
           company={company}
           title={t("لیست موجودی انبار")}
@@ -11505,7 +11859,7 @@ function InventoryScreen({ company, onBack, inventory, isReadOnly, onAddItem, on
           ensurePdfExport={ensurePdfExport}
         />
         {!isReadOnly && (
-          <button onClick={() => setShowAdd(true)} className="text-xs bg-[#14213D] text-white rounded-lg px-3 py-2 font-semibold flex items-center gap-1">
+          <button onClick={() => setShowAdd(true)} className="text-xs m-btn-primary px-3 py-2 flex items-center gap-1">
             <Plus size={13} /> {t("مصالح جدید")}
           </button>
         )}
@@ -11518,13 +11872,12 @@ function InventoryScreen({ company, onBack, inventory, isReadOnly, onAddItem, on
       )}
 
       <input value={search} onChange={(e) => setSearch(e.target.value)} placeholder={t("جستجوی مصالح...")}
-        className="w-full bg-white border border-black/10 rounded-xl px-3 py-2.5 text-sm outline-none mb-3" />
+        className="w-full m-input-field px-3 py-2.5 text-sm outline-none mb-3" />
 
       <div className="flex gap-1.5 mb-4 flex-wrap">
         {categories.map((cat) => (
           <button key={cat} onClick={() => setFilterCat(cat)}
-            className="text-[11px] font-semibold px-2.5 py-1 rounded-full"
-            style={{ background: filterCat === cat ? "#14213D" : "#F4F6F5", color: filterCat === cat ? "#fff" : "#4B5563" }}>
+            className={`m-pill ${filterCat === cat ? "m-pill-active" : ""}`}>
             {cat === "all" ? t("همه") : t(cat)}
           </button>
         ))}
@@ -11540,7 +11893,7 @@ function InventoryScreen({ company, onBack, inventory, isReadOnly, onAddItem, on
           const available = inventoryAvailable(item);
           const expanded = expandedId === item.id;
           return (
-            <div key={item.id} className="bg-white rounded-2xl border border-black/5 p-4">
+            <div key={item.id} className="m-card p-4">
               <div className="flex items-start justify-between gap-2 mb-2">
                 <div className="flex-1 min-w-0">
                   <div className="font-semibold text-sm text-[#14213D]">{t(item.name)}</div>
@@ -11599,7 +11952,7 @@ function InventoryScreen({ company, onBack, inventory, isReadOnly, onAddItem, on
                     value={editQty[item.id] ?? ""}
                     onChange={(e) => setEditQty((prev) => ({ ...prev, [item.id]: e.target.value }))}
                     className="flex-1 bg-[#F4F6F5] border border-black/10 rounded-lg px-3 py-2 text-xs outline-none" />
-                  <button onClick={() => commitQty(item)} className="text-xs bg-[#14213D] text-white rounded-lg px-3 font-semibold">{t("ثبت")}</button>
+                  <button onClick={() => commitQty(item)} className="text-xs m-btn-primary px-3 font-semibold">{t("ثبت")}</button>
                   <button onClick={() => setAllocateItem(item)} className="text-xs border border-[#128C7E]/30 text-[#128C7E] rounded-lg px-3 font-semibold">{t("تخصیص")}</button>
                 </div>
               )}
@@ -11648,7 +12001,7 @@ function InventoryScreen({ company, onBack, inventory, isReadOnly, onAddItem, on
               <input value={newVariant} onChange={(e) => setNewVariant(e.target.value)} placeholder={t("تیپ (مثلاً سایز ۱۲)")}
                 className="flex-1 bg-[#F4F6F5] border border-black/10 rounded-xl px-3 py-2.5 text-sm outline-none" />
             </div>
-            <button onClick={submitAdd} disabled={!newName.trim()} className="w-full bg-[#14213D] text-white rounded-xl py-3 text-sm font-semibold disabled:opacity-40">
+            <button onClick={submitAdd} disabled={!newName.trim()} className="w-full m-btn-primary py-3 text-sm disabled:opacity-40">
               {t("افزودن به انبار")}
             </button>
           </div>
@@ -11711,7 +12064,7 @@ function LocationScreen({ onBack, projects, onOpenProject, onExportKml }) {
     <div className="px-5 pt-5 pb-10" dir={screenDir}>
       <div className="flex items-center gap-3 mb-6">
         <button onClick={onBack} className="p-1"><ChevronLeft size={20} className={lang === "en" ? "rotate-180" : ""} /></button>
-        <div className="font-bold text-lg">{t("موقعیت مکانی پروژه‌ها")}</div>
+        <div className="m-screen-title">{t("موقعیت مکانی پروژه‌ها")}</div>
       </div>
 
       {located.length === 0 ? (
@@ -11720,12 +12073,12 @@ function LocationScreen({ onBack, projects, onOpenProject, onExportKml }) {
         </div>
       ) : (
         <>
-          <div className="rounded-2xl overflow-hidden border border-black/10 mb-4">
+          <div className="m-map-frame mb-4">
             <LeafletMap height={320} markers={markers} fitAll={true} zoom={5} center={[35.7, 51.4]} />
           </div>
           <div className="flex flex-col gap-2 mb-4">
             {located.map((p) => (
-              <button key={p.id} onClick={() => onOpenProject(p.id)} className={`bg-white border border-black/10 rounded-xl p-3 flex items-center justify-between ${lang === "fa" ? "text-right" : "text-left"}`}>
+              <button key={p.id} onClick={() => onOpenProject(p.id)} className={`m-card p-3 flex items-center justify-between ${lang === "fa" ? "text-right" : "text-left"}`}>
                 <div>
                   <div className="text-sm font-semibold text-[#14213D]">{p.name}</div>
                   <div className="text-[11px] text-[#9CA3AF]">{p.address || t("بدون آدرس")}</div>
@@ -11736,7 +12089,7 @@ function LocationScreen({ onBack, projects, onOpenProject, onExportKml }) {
           </div>
           <button
             onClick={() => (onExportKml ? onExportKml(located, "metrico-projects.kml") : downloadKML(located, "metrico-projects.kml"))}
-            className="w-full bg-[#14213D] text-white rounded-xl py-3 text-sm font-semibold"
+            className="w-full m-btn-primary py-3 text-sm"
           >
             {t("دریافت خروجی KML همه پروژه‌ها")}
           </button>
@@ -11791,10 +12144,10 @@ function EnergyScreen({ company, onBack, projects, ensurePdfExport }) {
     <div className="px-5 pt-5 pb-10" dir={screenDir}>
       <div className="flex items-center gap-3 mb-5">
         <button type="button" onClick={onBack} className="p-1"><ChevronLeft size={20} className={lang === "en" ? "rotate-180" : ""} /></button>
-        <div className="font-bold text-lg">{t("محاسبات انرژی")}</div>
+        <div className="m-screen-title">{t("محاسبات انرژی")}</div>
       </div>
 
-      <div className="bg-gradient-to-l from-emerald-50 to-white border border-emerald-200/80 rounded-2xl p-4 mb-4">
+      <div className="m-info-emerald p-4 mb-4">
         <div className="flex items-start gap-2">
           <LucideZap size={20} className="text-emerald-600 shrink-0 mt-0.5" />
           <div>
@@ -11812,12 +12165,12 @@ function EnergyScreen({ company, onBack, projects, ensurePdfExport }) {
         </div>
       ) : (
         <>
-          <div className="bg-white rounded-2xl border border-black/5 p-4 mb-4">
+          <div className="m-card p-4 mb-4">
             <label className="text-xs font-semibold text-[#6B7280] mb-2 block">{t("انتخاب پروژه")}</label>
             <select
               value={projectId || ""}
               onChange={(e) => setProjectId(e.target.value)}
-              className="w-full bg-[#F4F6F5] border border-black/10 rounded-xl px-3 py-2.5 text-sm outline-none"
+              className="w-full m-input-field px-3 py-2.5 text-sm outline-none"
             >
               {projects.map((p) => (
                 <option key={p.id} value={String(p.id)}>{p.name}</option>
@@ -11876,7 +12229,7 @@ function EnergyScreen({ company, onBack, projects, ensurePdfExport }) {
                 />
               </div>
 
-              <div className="bg-[#14213D] text-white rounded-2xl p-4 mb-4 flex items-center justify-between">
+              <div className="m-card-hero p-4 mb-4 flex items-center justify-between">
                 <div>
                   <div className="text-xs text-white/60">{t("امتیاز کارایی انرژی (برآورد)")}</div>
                   <div className="text-3xl font-extrabold mt-1">{estimate.energyScore}<span className="text-lg font-normal text-white/70">/100</span></div>
@@ -11889,19 +12242,19 @@ function EnergyScreen({ company, onBack, projects, ensurePdfExport }) {
               </div>
 
               <div className="grid grid-cols-1 sm:grid-cols-3 gap-3 mb-4">
-                <div className="bg-white border border-amber-100 rounded-2xl p-4 shadow-sm">
+                <div className="m-stat-card border-amber-100 p-4">
                   <div className="text-[11px] text-[#6B7280] mb-1">{t("⚡ برق")}</div>
                   <div className="text-lg font-extrabold text-[#14213D]">{fmt(estimate.annualElectricityKwh)}</div>
                   <div className="text-[10px] text-[#9CA3AF]">{t("kWh در سال")}</div>
                   <div className="text-xs text-[#D97706] font-semibold mt-2">~{fmt(estimate.monthlyElectricityKwh)} {t("kWh/ماه")}</div>
                 </div>
-                <div className="bg-white border border-blue-100 rounded-2xl p-4 shadow-sm">
+                <div className="m-stat-card border-blue-100 p-4">
                   <div className="text-[11px] text-[#6B7280] mb-1">{t("💧 آب")}</div>
                   <div className="text-lg font-extrabold text-[#14213D]">{fmt(estimate.annualWaterM3)}</div>
                   <div className="text-[10px] text-[#9CA3AF]">{t("m³ در سال")}</div>
                   <div className="text-xs text-[#2563EB] font-semibold mt-2">~{fmt(estimate.monthlyWaterM3)} {t("m³/ماه")}</div>
                 </div>
-                <div className="bg-white border border-orange-100 rounded-2xl p-4 shadow-sm">
+                <div className="m-stat-card border-orange-100 p-4">
                   <div className="text-[11px] text-[#6B7280] mb-1">{t("🔥 گاز")}</div>
                   <div className="text-lg font-extrabold text-[#14213D]">{fmt(estimate.annualGasM3)}</div>
                   <div className="text-[10px] text-[#9CA3AF]">{t("m³ در سال (گرمایش)")}</div>
@@ -11909,7 +12262,7 @@ function EnergyScreen({ company, onBack, projects, ensurePdfExport }) {
                 </div>
               </div>
 
-              <div className="bg-white border border-black/5 rounded-2xl p-4 mb-3">
+              <div className="m-card p-4 mb-3">
                 <div className="text-sm font-bold text-[#14213D] mb-2">{t("اثر کربن تقریبی")}</div>
                 <div className="text-2xl font-extrabold text-[#15803D]">{fmt(estimate.co2KgYear)} <span className="text-sm font-medium text-[#6B7280]">{t("kg CO₂e / سال")}</span></div>
                 <p className="text-[11px] text-[#6B7280] leading-5 mt-2">{energyNote}</p>
@@ -12124,7 +12477,7 @@ function AdminMembersScreen({ onBack, onError }) {
                         type="button"
                         onClick={() => createActivationCode(m)}
                         disabled={actBusy}
-                        className="bg-[#14213D] text-white rounded-xl px-3 py-2 text-xs font-semibold disabled:opacity-40 shrink-0"
+                        className="m-btn-primary px-3 py-2 text-xs disabled:opacity-40 shrink-0"
                       >
                         {actBusy ? "..." : t("ساخت")}
                       </button>
@@ -12203,7 +12556,7 @@ function AdminMembersScreen({ onBack, onError }) {
                       type="button"
                       onClick={() => savePlan(m)}
                       disabled={busyId === m.user_id}
-                      className="bg-[#14213D] text-white rounded-xl px-4 py-2 text-sm font-semibold disabled:opacity-40"
+                      className="m-btn-primary px-4 py-2 text-sm disabled:opacity-40"
                     >
                       {busyId === m.user_id ? "..." : t("ذخیره پلن")}
                     </button>
@@ -12247,8 +12600,8 @@ function PlanCompareTable({ effectivePlanId, company, ensurePdfExport }) {
     ...METRICO_PLAN_ORDER.map((id) => ({ key: `plan_${id}`, label: t(planLabel(id)) })),
   ], [t]);
   return (
-    <div className="rounded-2xl border border-black/8 bg-white overflow-hidden shadow-sm mb-4">
-      <div className="px-4 py-3 border-b border-black/5 bg-gradient-to-l from-[#F4F6F5] to-white flex items-start justify-between gap-2">
+    <div className="m-card m-plan-table overflow-hidden mb-4">
+      <div className="px-4 py-3.5 border-b border-black/[0.06] bg-gradient-to-l from-[#F8FAF9] to-white flex items-start justify-between gap-2">
         <div>
           <div className="text-sm font-bold text-[#14213D]">{t("مقایسه پلن‌ها")}</div>
           <div className="text-[10px] text-[#6B7280] mt-0.5">{t("امکانات هر سطح اشتراک")}</div>
@@ -12266,7 +12619,7 @@ function PlanCompareTable({ effectivePlanId, company, ensurePdfExport }) {
         )}
       </div>
       <div className="overflow-x-auto">
-        <table className="w-full min-w-[580px] border-collapse text-[11px]">
+        <table className="w-full min-w-[580px] border-collapse text-[11px] m-plan-table">
           <thead>
             <tr>
               <th className={`sticky ${stickySide}-0 z-10 bg-[#FAFAFA] ${textAlign} py-3 px-3 font-semibold text-[#6B7280] border-b border-black/5 min-w-[128px]`}>{t("امکان")}</th>
@@ -12361,7 +12714,7 @@ function PlanScreen({ onBack, userPlan, planExpiresAt, onRedeemed, company, ensu
         <div className="font-bold text-lg">{t("پلن اشتراک")}</div>
       </div>
 
-      <div className="bg-[#14213D] text-white rounded-2xl p-4 mb-4">
+      <div className="m-card-hero p-4 mb-4">
         <div className="text-xs text-white/60 mb-1">{t("پلن فعلی شما")}</div>
         <div className="text-xl font-extrabold">{t(planLabel(effective))}</div>
         <div className="text-xs text-white/70 mt-1">{t(METRICO_PLANS[effective].tagline)}</div>
@@ -12376,7 +12729,7 @@ function PlanScreen({ onBack, userPlan, planExpiresAt, onRedeemed, company, ensu
 
       <PlanCompareTable effectivePlanId={effective} company={company} ensurePdfExport={ensurePdfExport} />
 
-      <div className="bg-[#F4F6F5] rounded-2xl p-4 border border-black/5">
+      <div className="m-card-muted p-4 mb-4">
         <div className="text-sm font-bold text-[#14213D] mb-2">{t("کد ارتقا")}</div>
         <p className="text-[11px] text-[#6B7280] leading-5 mb-3">
           {t("پس از پرداخت (یا دریافت کد آزمایشی از مدیر)، کد را اینجا وارد کنید. در آینده پرداخت آنلاین مستقیم از همین صفحه فعال می‌شود.")}
@@ -12386,14 +12739,14 @@ function PlanScreen({ onBack, userPlan, planExpiresAt, onRedeemed, company, ensu
             value={code}
             onChange={(e) => setCode(e.target.value)}
             placeholder={t("مثلاً PLUS-PILOT-01")}
-            className="flex-1 bg-white rounded-xl px-3 py-2.5 text-sm outline-none border border-black/10"
+            className="flex-1 m-input-field px-3 py-2.5 text-sm outline-none"
             dir="ltr"
           />
           <button
             type="button"
             onClick={redeem}
             disabled={busy || !code.trim()}
-            className="bg-[#14213D] text-white rounded-xl px-4 py-2.5 text-sm font-semibold disabled:opacity-40"
+            className="m-btn-primary px-4 py-2.5 text-sm disabled:opacity-40"
           >
             {busy ? "..." : t("فعال‌سازی")}
           </button>
@@ -12489,7 +12842,7 @@ function ActivationGate({ onActivated, onLogout, initialCode }) {
             dir="ltr"
           />
           {error && <div className="text-xs text-[#B91C1C] text-center">{error}</div>}
-          <button type="submit" disabled={busy} className="w-full bg-[#14213D] text-white font-semibold rounded-xl py-3 text-sm disabled:opacity-60">
+          <button type="submit" disabled={busy} className="w-full m-btn-primary font-semibold py-3 text-sm disabled:opacity-60">
             {busy ? t("در حال بررسی...") : t("فعال‌سازی")}
           </button>
         </form>
@@ -12621,7 +12974,7 @@ function LoginScreen({ onSuccess }) {
   }
 
   return (
-    <div dir={lang === "fa" ? "rtl" : "ltr"} className="min-h-screen flex items-center justify-center px-6 relative overflow-hidden" style={{ background: "#14213D" }}>
+    <div dir={lang === "fa" ? "rtl" : "ltr"} className="min-h-screen flex items-center justify-center px-6 relative overflow-hidden m-auth-backdrop">
       <LoginLanguageToggle lang={lang} setLang={setLang} />
       <Watermark />
       <div className="absolute inset-0 opacity-[0.06]" style={{
@@ -12633,9 +12986,9 @@ function LoginScreen({ onSuccess }) {
         .shake-anim { animation: shakeX 0.4s; }
       `}</style>
 
-      <div className={`relative w-full max-w-sm bg-white rounded-3xl shadow-2xl p-8 ${shake ? "shake-anim" : ""}`}>
+      <div className={`relative w-full max-w-sm m-auth-panel p-8 ${shake ? "shake-anim" : ""}`}>
         <div className="flex flex-col items-center mb-7">
-          <div className="w-16 h-16 rounded-2xl flex items-center justify-center mb-3" style={{ background: "#14213D" }}>
+          <div className="w-16 h-16 rounded-2xl flex items-center justify-center mb-3 m-card-hero shadow-lg">
             <Building2 size={28} className="text-[#C9A227]" />
           </div>
           <div className="font-extrabold text-lg text-[#14213D]">{APP_NAME}</div>
@@ -12654,7 +13007,7 @@ function LoginScreen({ onSuccess }) {
               type="email"
               value={email}
               onChange={(e) => { setEmail(e.target.value); setError(""); }}
-              className="w-full mt-1 bg-[#F4F6F5] border border-black/10 rounded-xl px-4 py-3 text-sm outline-none focus:border-[#14213D]"
+              className="w-full mt-1 m-input-field px-4 py-3 text-sm"
               placeholder="you@example.com"
               autoCapitalize="none"
               dir="ltr"
@@ -12668,7 +13021,7 @@ function LoginScreen({ onSuccess }) {
                 type="password"
                 value={pw}
                 onChange={(e) => { setPw(e.target.value); setError(""); }}
-                className="w-full mt-1 bg-[#F4F6F5] border border-black/10 rounded-xl px-4 py-3 text-sm outline-none focus:border-[#14213D]"
+                className="w-full mt-1 m-input-field px-4 py-3 text-sm"
                 placeholder={t("رمز عبور")}
                 dir="ltr"
               />
@@ -12682,7 +13035,7 @@ function LoginScreen({ onSuccess }) {
                 type="password"
                 value={pw2}
                 onChange={(e) => { setPw2(e.target.value); setError(""); }}
-                className="w-full mt-1 bg-[#F4F6F5] border border-black/10 rounded-xl px-4 py-3 text-sm outline-none focus:border-[#14213D]"
+                className="w-full mt-1 m-input-field px-4 py-3 text-sm"
                 placeholder={t("تکرار رمز عبور")}
                 dir="ltr"
               />
@@ -12692,7 +13045,7 @@ function LoginScreen({ onSuccess }) {
           {error && <div className="text-xs text-[#B91C1C] text-center -mt-1">{error}</div>}
           {info && <div className="text-xs text-[#166534] text-center -mt-1">{info}</div>}
 
-          <button type="submit" disabled={busy} className="w-full bg-[#14213D] text-white font-semibold rounded-xl py-3 text-sm mt-1 disabled:opacity-60" style={{ boxShadow: "0 8px 20px -8px #14213D" }}>
+          <button type="submit" disabled={busy} className="w-full m-btn-primary font-semibold py-3 text-sm mt-1 disabled:opacity-60">
             {busy ? t("لطفاً صبر کن...") : mode === "login" ? t("ورود") : mode === "signup" ? t("ساخت حساب") : t("ارسال لینک بازیابی")}
           </button>
         </form>
@@ -12766,7 +13119,7 @@ function CompanySetup({ initial, onSave, onClose, user, onError }) {
   }
 
   const body = (
-    <div className="w-full max-w-sm bg-white rounded-2xl p-6 shadow-xl" dir={setupDir}>
+    <div className="w-full max-w-sm m-setup-panel p-6" dir={setupDir}>
       <div className="flex items-center gap-2 text-[#14213D] font-extrabold text-lg mb-1">
         <Building2 size={20} /> {t("اطلاعات شرکت")}
       </div>
@@ -12785,7 +13138,7 @@ function CompanySetup({ initial, onSave, onClose, user, onError }) {
         value={name}
         onChange={(e) => setName(e.target.value)}
         placeholder={t("مثلاً گروه ساختمانی سپهر")}
-        className="w-full mt-1 mb-5 bg-[#F4F6F5] border border-black/10 rounded-xl px-3 py-2.5 text-sm outline-none focus:border-[#14213D]"
+        className="w-full mt-1 mb-5 m-input-field px-3 py-2.5 text-sm outline-none"
       />
 
       {onClose && user && (
@@ -12797,13 +13150,13 @@ function CompanySetup({ initial, onSave, onClose, user, onError }) {
           {showPwForm && (
             <div className="flex flex-col gap-2 mt-3">
               <input type="password" value={curPw} onChange={(e) => setCurPw(e.target.value)} placeholder={t("رمز فعلی")}
-                className="w-full bg-[#F4F6F5] border border-black/10 rounded-xl px-3 py-2.5 text-sm outline-none focus:border-[#14213D]" />
+                className="w-full m-input-field px-3 py-2.5 text-sm outline-none" />
               <input type="password" value={newPw} onChange={(e) => setNewPw(e.target.value)} placeholder={t("رمز جدید (حداقل ۶ کاراکتر)")}
-                className="w-full bg-[#F4F6F5] border border-black/10 rounded-xl px-3 py-2.5 text-sm outline-none focus:border-[#14213D]" />
+                className="w-full m-input-field px-3 py-2.5 text-sm outline-none" />
               <input type="password" value={confirmPw} onChange={(e) => setConfirmPw(e.target.value)} placeholder={t("تکرار رمز جدید")}
-                className="w-full bg-[#F4F6F5] border border-black/10 rounded-xl px-3 py-2.5 text-sm outline-none focus:border-[#14213D]" />
+                className="w-full m-input-field px-3 py-2.5 text-sm outline-none" />
               {pwMsg && <div className={`text-xs ${pwMsg === t("رمز عبور با موفقیت تغییر کرد.") ? "text-[#166534]" : "text-[#B91C1C]"}`}>{pwMsg}</div>}
-              <button onClick={handlePasswordChange} disabled={pwBusy} className="bg-[#14213D] text-white rounded-xl py-2.5 text-sm font-semibold disabled:opacity-50">
+              <button onClick={handlePasswordChange} disabled={pwBusy} className="w-full m-btn-primary py-2.5 text-sm disabled:opacity-50">
                 {pwBusy ? t("در حال ثبت...") : t("ثبت رمز جدید")}
               </button>
             </div>
@@ -12812,11 +13165,11 @@ function CompanySetup({ initial, onSave, onClose, user, onError }) {
       )}
 
       <div className="flex gap-2">
-        {onClose && <button onClick={onClose} className="flex-1 border border-black/10 rounded-xl py-2.5 text-sm font-medium">{t("لغو")}</button>}
+        {onClose && <button onClick={onClose} className="flex-1 m-btn-secondary py-2.5 text-sm font-medium">{t("لغو")}</button>}
         <button
           disabled={!name.trim()}
           onClick={() => onSave({ name: name.trim(), logo })}
-          className="flex-1 bg-[#14213D] text-white rounded-xl py-2.5 text-sm font-semibold disabled:opacity-40"
+          className="flex-1 m-btn-primary py-2.5 text-sm disabled:opacity-40"
         >{t("ذخیره")}</button>
       </div>
     </div>
@@ -12824,10 +13177,10 @@ function CompanySetup({ initial, onSave, onClose, user, onError }) {
 
   if (!onClose) {
     return (
-      <div dir={setupDir} className="min-h-screen bg-[#F4F6F5] flex items-center justify-center px-5">{body}</div>
+      <div dir={setupDir} className="min-h-screen m-app-bg flex items-center justify-center px-5">{body}</div>
     );
   }
-  return <div className="fixed inset-0 bg-black/40 flex items-center justify-center z-[60] px-5 py-8 overflow-y-auto">{body}</div>;
+  return <div className="fixed inset-0 m-modal-backdrop flex items-center justify-center z-[60] px-5 py-8 overflow-y-auto">{body}</div>;
 }
 
 function NewProjectSheet({ onCancel, onCreate }) {
@@ -12851,10 +13204,10 @@ function NewProjectSheet({ onCancel, onCreate }) {
   const totalUnits = floors.reduce((s, f) => s + (Number(f.count) || 0), 0);
 
   return (
-    <div className="fixed inset-0 bg-black/40 flex items-end z-[60]">
-      <div className="bg-white w-full rounded-t-2xl p-5 max-h-[85vh] overflow-y-auto" dir={sheetDir}>
+    <div className="fixed inset-0 m-modal-backdrop flex items-end z-[60]">
+      <div className="m-sheet-shell w-full p-5 max-h-[85vh] overflow-y-auto" dir={sheetDir}>
         <div className="flex items-center justify-between mb-4">
-          <div className="font-bold text-lg">{t("پروژه جدید")}</div>
+          <div className="m-screen-title">{t("پروژه جدید")}</div>
           <button onClick={onCancel}><X size={20} /></button>
         </div>
 
@@ -12863,7 +13216,7 @@ function NewProjectSheet({ onCancel, onCreate }) {
           value={name}
           onChange={(e) => setName(e.target.value)}
           placeholder={t("مثلاً سپهر ۴")}
-          className="w-full mt-1 mb-4 bg-[#F4F6F5] border border-black/10 rounded-xl px-3 py-2.5 text-sm outline-none focus:border-[#14213D]"
+          className="w-full mt-1 mb-4 m-input-field px-3 py-2.5 text-sm outline-none"
         />
 
         <label className="text-xs text-[#6B7280] font-medium">{t("آدرس پروژه")}</label>
@@ -12871,7 +13224,7 @@ function NewProjectSheet({ onCancel, onCreate }) {
           value={address}
           onChange={(e) => setAddress(e.target.value)}
           placeholder={t("مثلاً خیابان...")}
-          className="w-full mt-1 mb-4 bg-[#F4F6F5] border border-black/10 rounded-xl px-3 py-2.5 text-sm outline-none focus:border-[#14213D]"
+          className="w-full mt-1 mb-4 m-input-field px-3 py-2.5 text-sm outline-none"
         />
 
         <div className="grid grid-cols-2 gap-3 mb-4">
@@ -12913,7 +13266,7 @@ function NewProjectSheet({ onCancel, onCreate }) {
         <button
           disabled={!canSave}
           onClick={() => onCreate(name.trim(), floors, { address: address.trim(), landArea, totalBuiltArea })}
-          className="w-full bg-[#14213D] text-white font-semibold rounded-xl py-3 text-sm disabled:opacity-40"
+          className="w-full m-btn-primary font-semibold py-3 text-sm disabled:opacity-40"
         >
           {t("ساخت پروژه")}
         </button>
@@ -13129,9 +13482,9 @@ function ProjectSettingsSheet({ project, initialView, initialSettingsTab, contac
   }
 
   return (
-    <div className="fixed inset-0 bg-black/40 flex items-end z-[60]">
-      <div className="bg-white w-full rounded-t-2xl max-h-[88vh] flex flex-col" dir={sheetDir}>
-        <div className="px-5 pt-5 pb-3 shrink-0 border-b border-black/5">
+    <div className="fixed inset-0 m-modal-backdrop flex items-end z-[60]">
+      <div className="m-sheet-shell w-full max-h-[88vh] flex flex-col" dir={sheetDir}>
+        <div className="px-5 pt-5 pb-3 shrink-0 border-b border-black/[0.06] bg-gradient-to-b from-[#fafbfc] to-white">
           <div className="flex items-center justify-between mb-3">
             <div className="flex-1">
               <div className="flex gap-2 mb-1 flex-wrap">
@@ -13170,11 +13523,7 @@ function ProjectSettingsSheet({ project, initialView, initialSettingsTab, contac
                 key={tab.id}
                 type="button"
                 onClick={() => setSettingsTab(tab.id)}
-                className="shrink-0 text-[11px] font-semibold px-3 py-2 rounded-full transition-colors"
-                style={{
-                  background: settingsTab === tab.id ? "#14213D" : "#F4F6F5",
-                  color: settingsTab === tab.id ? "#fff" : "#4B5563",
-                }}
+                className={`shrink-0 m-pill ${settingsTab === tab.id ? "m-pill-active" : ""}`}
               >
                 {tab.label}
               </button>
@@ -13206,7 +13555,7 @@ function ProjectSettingsSheet({ project, initialView, initialSettingsTab, contac
                 <input value={name} onChange={(e) => setName(e.target.value)} disabled={isReadOnly}
                   className="flex-1 bg-[#F4F6F5] border border-black/10 rounded-xl px-3 py-2.5 text-sm outline-none disabled:opacity-60" />
                 {!isReadOnly && (
-                  <button onClick={() => onRename(name.trim())} className="bg-[#14213D] text-white px-4 rounded-xl text-sm font-semibold">{t("ذخیره")}</button>
+                  <button onClick={() => onRename(name.trim())} className="m-btn-primary px-4 rounded-xl text-sm font-semibold">{t("ذخیره")}</button>
                 )}
               </div>
 
@@ -13236,7 +13585,7 @@ function ProjectSettingsSheet({ project, initialView, initialSettingsTab, contac
 
               {!isReadOnly && (
                 <div className="flex items-center gap-2">
-                  <button onClick={saveMeta} className="bg-[#14213D] text-white px-4 py-2 rounded-xl text-sm font-semibold">{t("ذخیره اطلاعات")}</button>
+                  <button onClick={saveMeta} className="m-btn-primary px-4 py-2 rounded-xl text-sm font-semibold">{t("ذخیره اطلاعات")}</button>
                   {metaMsg && <span className="text-xs text-[#166534]">{metaMsg}</span>}
                 </div>
               )}
@@ -13286,7 +13635,7 @@ function ProjectSettingsSheet({ project, initialView, initialSettingsTab, contac
                     <input type="number" value={invShare} onChange={(e) => setInvShare(e.target.value)} placeholder={t("درصد سهم")}
                       className="flex-1 bg-white border border-black/10 rounded-xl px-3 py-2.5 text-sm outline-none" />
                     <button type="button" onClick={addInvestor} disabled={!invContactId}
-                      className="bg-[#14213D] text-white rounded-xl px-4 text-sm font-semibold disabled:opacity-40">{t("افزودن")}</button>
+                      className="m-btn-primary rounded-xl px-4 text-sm font-semibold disabled:opacity-40">{t("افزودن")}</button>
                   </div>
                   {investorContactOptions.length === 0 && (
                     <div className="text-[10px] text-[#92400E]">{t("ابتدا در دفترچه مخاطبین، نقش سرمایه‌گذار تعریف کنید.")}</div>
@@ -13388,7 +13737,7 @@ function ProjectSettingsSheet({ project, initialView, initialSettingsTab, contac
                   </div>
                   <div className="flex gap-2">
                     <button type="button" onClick={submitBankAccount} disabled={!accName.trim() || !accNumber.trim()}
-                      className="flex-1 bg-[#14213D] text-white rounded-xl py-2.5 text-sm font-semibold disabled:opacity-40">
+                      className="flex-1 m-btn-primary py-2.5 text-sm font-semibold disabled:opacity-40">
                       {editAccountId ? t("ذخیره تغییرات") : t("افزودن حساب")}
                     </button>
                     {editAccountId && (
@@ -13425,7 +13774,7 @@ function ProjectSettingsSheet({ project, initialView, initialSettingsTab, contac
               {!isReadOnly && (
                 <div className="flex gap-2 mb-2">
                   <button onClick={useCurrentLocation} className="flex-1 border border-[#14213D]/20 text-[#14213D] rounded-xl py-2 text-xs font-semibold">{t("دریافت موقعیت فعلی من")}</button>
-                  <button onClick={saveLocation} className="flex-1 bg-[#14213D] text-white rounded-xl py-2 text-xs font-semibold">{t("ذخیره موقعیت")}</button>
+                  <button onClick={saveLocation} className="flex-1 m-btn-primary py-2 text-xs font-semibold">{t("ذخیره موقعیت")}</button>
                 </div>
               )}
               {locMsg && <div className="text-xs text-[#166534] mb-2">{locMsg}</div>}
@@ -13487,7 +13836,7 @@ function ProjectSettingsSheet({ project, initialView, initialSettingsTab, contac
                     className="flex-1 bg-[#F4F6F5] border border-black/10 rounded-xl px-3 py-2 text-xs outline-none"
                     onKeyDown={(e) => { if (e.key === "Enter") addActivity(); }} />
                   <button type="button" onClick={addActivity} disabled={!newActivity.trim()}
-                    className="bg-[#14213D] text-white rounded-xl px-3 text-xs font-semibold disabled:opacity-40">{t("افزودن")}</button>
+                    className="m-btn-primary px-3 text-xs disabled:opacity-40">{t("افزودن")}</button>
                 </div>
               )}
               {actMsg && <div className="text-xs text-[#166534]">{actMsg}</div>}
@@ -13527,7 +13876,7 @@ function ProjectSettingsSheet({ project, initialView, initialSettingsTab, contac
                           <button
                             type="button"
                             onClick={() => onUpdateFloorCount(f.number, floorEditCounts[f.number] ?? f.count)}
-                            className="text-[10px] font-semibold text-white bg-[#14213D] rounded-lg px-2.5 py-1.5"
+                            className="text-[10px] font-semibold m-btn-primary px-2.5 py-1.5"
                           >
                             {t("ذخیره")}
                           </button>
@@ -13650,22 +13999,22 @@ function ProjectPanel({ project, onOpenUnit, onOpenSettings, onOpenGallery, onOp
       )}
 
       <div className="flex gap-2 flex-wrap mb-3">
-        <button onClick={onOpenFinance} className="flex items-center gap-1 text-xs text-white bg-[#14213D] rounded-lg px-2.5 py-1.5 font-semibold">
+        <button onClick={onOpenFinance} className="m-chip m-chip-primary">
           <LucideLandmark size={13} /> {t("حسابداری")}
         </button>
-        <button onClick={onPrint} className="flex items-center gap-1 text-xs text-[#6B7280] bg-white border border-black/10 rounded-lg px-2.5 py-1.5">
+        <button onClick={onPrint} className="m-chip">
           <Printer size={13} /> PDF
         </button>
-        <button onClick={onFinancialReport} className="flex items-center gap-1 text-xs text-[#6B7280] bg-white border border-black/10 rounded-lg px-2.5 py-1.5">
+        <button onClick={onFinancialReport} className="m-chip">
           <LucideLineChart size={13} /> {t("گزارش مالی")}
         </button>
-        <button onClick={onOpenSettings} className="flex items-center gap-1 text-xs text-[#6B7280] bg-white border border-black/10 rounded-lg px-2.5 py-1.5">
+        <button onClick={onOpenSettings} className="m-chip">
           <Settings size={13} /> {t("تنظیمات پروژه")}
         </button>
-        <button onClick={onOpenGallery} className="flex items-center gap-1 text-xs text-[#128C7E] bg-[#ECFDF5] border border-[#128C7E]/25 rounded-lg px-2.5 py-1.5 font-semibold">
+        <button onClick={onOpenGallery} className="m-chip m-chip-accent-teal">
           <LucideImage size={13} /> {t("گالری تصاویر")}
         </button>
-        <button onClick={onOpenMaps} className="flex items-center gap-1 text-xs text-[#2563EB] bg-[#EFF6FF] border border-[#2563EB]/25 rounded-lg px-2.5 py-1.5 font-semibold">
+        <button onClick={onOpenMaps} className="m-chip m-chip-accent-blue">
           <LucideBlueprint size={13} /> {t("نقشه‌ها")}
         </button>
       </div>
@@ -13677,7 +14026,7 @@ function ProjectPanel({ project, onOpenUnit, onOpenSettings, onOpenGallery, onOp
         variant="panel"
       />
 
-      <div className="bg-white rounded-2xl border border-black/10 p-3 flex flex-col gap-1.5 shadow-sm">
+      <div className="m-building-card p-3 flex flex-col gap-1.5">
         {byFloor.map(({ floor, units }) => (
           <div key={floor} className="flex items-stretch gap-1.5">
             <div className="w-7 flex-shrink-0 flex items-center justify-center text-[10px] font-bold text-[#9CA3AF]">{floor}</div>
@@ -13712,7 +14061,7 @@ function ProjectPanel({ project, onOpenUnit, onOpenSettings, onOpenGallery, onOp
         <span className="px-1.5 py-0.5 rounded-full" style={{ background: STATUS.vacant.bg, color: STATUS.vacant.text }}>{t("خالی")}</span>
       </div>
 
-      <div className="mt-4 bg-[#14213D] text-white rounded-2xl p-4 flex items-center justify-between">
+      <div className="mt-4 m-card-hero p-4 flex items-center justify-between">
         <div>
           <div className="text-[11px] text-white/60">{t("مجموع درآمد حاصل از فروش")} ({soldCount} {t("واحد")})</div>
           <div className="text-lg font-extrabold mt-0.5">{fmt(contractRevenue)}{t(" تومان")}</div>
@@ -14246,7 +14595,7 @@ function FinanceScreen({ company, onBack, project, contacts, isReadOnly, onAddTr
         )}
       </div>
 
-      <div className="bg-[#14213D] text-white rounded-2xl p-4 mb-4 grid grid-cols-3 gap-2 text-center">
+      <div className="m-card-hero p-4 mb-4 grid grid-cols-3 gap-2 text-center">
         <div>
           <div className="text-[10px] text-white/60">{t("درآمد محقق‌شده")}</div>
           <div className="text-xs font-bold mt-0.5">{fmt(recognized)}</div>
@@ -14262,11 +14611,10 @@ function FinanceScreen({ company, onBack, project, contacts, isReadOnly, onAddTr
         </div>
       </div>
 
-      <div className="flex gap-1.5 overflow-x-auto mb-4 pb-1">
+      <div className="flex gap-1.5 overflow-x-auto mb-4 pb-1 no-scrollbar">
         {views.map((v) => (
           <button key={v.id} type="button" onClick={() => setView(v.id)}
-            className="shrink-0 text-[11px] font-semibold px-3 py-2 rounded-full"
-            style={{ background: view === v.id ? "#14213D" : "#F4F6F5", color: view === v.id ? "#fff" : "#4B5563" }}>
+            className={`m-pill ${view === v.id ? "m-pill-active" : ""}`}>
             {v.label}
           </button>
         ))}
@@ -14311,7 +14659,7 @@ function FinanceScreen({ company, onBack, project, contacts, isReadOnly, onAddTr
               <JalaliDateInput value={lockDate} onChange={setLockDate} inputClassName="w-full bg-white border border-black/10 rounded-lg px-3 py-2 text-sm mb-2 outline-none" />
               <div className="flex gap-2">
                 <button type="button" onClick={() => onUpdateProjectMeta({ financialLockedThrough: lockDate || null })}
-                  className="flex-1 bg-[#14213D] text-white rounded-lg py-2 text-xs font-semibold">{t("ذخیره قفل")}</button>
+                  className="flex-1 m-btn-primary py-2 text-xs">{t("ذخیره قفل")}</button>
                 <button type="button" onClick={() => { setLockDate(""); onUpdateProjectMeta({ financialLockedThrough: null }); }}
                   className="flex-1 border border-black/10 rounded-lg py-2 text-xs font-semibold">{t("حذف قفل")}</button>
               </div>
@@ -14443,7 +14791,7 @@ function FinanceScreen({ company, onBack, project, contacts, isReadOnly, onAddTr
               className="w-full bg-white border border-black/10 rounded-xl px-3 py-2.5 text-sm mb-2 outline-none resize-none" />
             <CompactDocUploader docs={trDocs} onChange={setTrDocs} label={t("پیوست مدارک")} />
             <button type="button" onClick={submitTransfer} disabled={!fromId || !toId || fromId === toId || !trAmount || !trNote.trim()}
-              className="w-full bg-[#14213D] text-white rounded-xl py-2.5 text-sm font-semibold disabled:opacity-40 mt-2">{t("ثبت انتقال")}</button>
+              className="w-full m-btn-primary py-2.5 text-sm disabled:opacity-40 mt-2">{t("ثبت انتقال")}</button>
           </div>
 
           <div className="bg-[#F4F6F5] rounded-2xl p-4">
@@ -14546,8 +14894,8 @@ function TransferModal({ project, projects, contacts, isReadOnly, onClose, onSel
   }
 
   return (
-    <div className="fixed inset-0 bg-black/40 flex items-end sm:items-center sm:justify-center z-[70]" onClick={onClose}>
-      <div className="bg-white w-full sm:max-w-sm sm:rounded-2xl rounded-t-2xl p-5 max-h-[88vh] overflow-y-auto" onClick={(e) => e.stopPropagation()} dir={modalDir}>
+    <div className="fixed inset-0 m-modal-backdrop flex items-end sm:items-center sm:justify-center z-[70]" onClick={onClose}>
+      <div className="m-modal-sheet rounded-top w-full sm:max-w-sm p-5 max-h-[88vh] overflow-y-auto" onClick={(e) => e.stopPropagation()} dir={modalDir}>
         <div className="flex items-center justify-between mb-1">
           <div className="font-bold text-lg">{t("جابجایی بین حساب‌ها")}</div>
           <button type="button" onClick={onClose}><X size={20} /></button>
@@ -14583,7 +14931,7 @@ function TransferModal({ project, projects, contacts, isReadOnly, onClose, onSel
               className="w-full bg-[#F4F6F5] border border-black/10 rounded-xl px-3 py-2.5 text-sm outline-none resize-none" />
             <CompactDocUploader docs={docs} onChange={setDocs} label={t("پیوست مدارک")} hint={t("رسید بانکی، فیش انتقال و...")} />
             <button type="button" onClick={submit} disabled={!fromId || !toId || fromId === toId || !amount || !note.trim()}
-              className="w-full bg-[#14213D] text-white rounded-xl py-2.5 text-sm font-semibold disabled:opacity-40 mt-1">
+              className="w-full m-btn-primary py-2.5 text-sm disabled:opacity-40 mt-1">
               {t("ثبت جابجایی")}
             </button>
           </div>
@@ -14726,7 +15074,7 @@ function ExpensesSheet({ project, company, onClose, onAdd, onUpdate, onRemove, o
 
   function renderContactPayForm(payType) {
     return (
-      <div className="bg-[#F4F6F5] rounded-xl p-3 flex flex-col gap-2 mb-4">
+      <div className="m-form-panel flex flex-col gap-2 mb-4">
         <ContactPicker
           contacts={contacts}
           value={payContactId}
@@ -14764,7 +15112,7 @@ function ExpensesSheet({ project, company, onClose, onAdd, onUpdate, onRemove, o
           className="w-full bg-white border border-black/10 rounded-lg px-3 py-2.5 text-sm outline-none resize-none" />
         <CompactDocUploader docs={payDocs} onChange={setPayDocs} required label={t("مستندات پرداخت")} />
         {payFormError && <div className="text-xs text-[#B91C1C]">{payFormError}</div>}
-        <button type="button" onClick={() => submitContactPay(payType)} className="bg-[#14213D] text-white rounded-lg py-2.5 text-sm font-semibold">
+        <button type="button" onClick={() => submitContactPay(payType)} className="w-full m-btn-primary py-2.5 text-sm">
           {payType === "contact_prepay" ? t("ثبت پیش‌پرداخت") : t("ثبت تسویه بدهی")}
         </button>
       </div>
@@ -14780,37 +15128,33 @@ function ExpensesSheet({ project, company, onClose, onAdd, onUpdate, onRemove, o
   }
 
   return (
-    <div className="fixed inset-0 bg-black/40 flex items-end z-[60]">
-      <div className="bg-white w-full rounded-t-2xl p-5 max-h-[88vh] overflow-y-auto" dir={sheetDir}>
+    <div className="fixed inset-0 m-modal-backdrop flex items-end z-[60]">
+      <div className="m-modal-sheet rounded-top w-full p-5 max-h-[88vh] overflow-y-auto" dir={sheetDir}>
         <div className="flex items-center justify-between mb-1">
           <div className="font-bold text-lg">{t("هزینه‌های پروژه")}</div>
           <button onClick={onClose}><X size={20} /></button>
         </div>
         <div className="text-xs text-[#6B7280] mb-3">{project.name}</div>
 
-        <div className="flex flex-wrap gap-2 mb-4">
+        <div className="m-pill-row">
           {!isReadOnly && (
             <>
               <button type="button" onClick={() => { resetExpenseForm(); setTab("new"); }}
-                className="flex-1 min-w-[45%] rounded-xl py-2.5 text-[11px] font-semibold border"
-                style={{ background: tab === "new" ? "#14213D" : "#fff", color: tab === "new" ? "#fff" : "#4B5563", borderColor: tab === "new" ? "#14213D" : "#E5E7EB" }}>
+                className={`flex-1 min-w-[45%] m-pill ${tab === "new" ? "m-pill-active" : ""}`}>
                 {t("ثبت هزینه جدید")}
               </button>
               <button type="button" onClick={() => { resetPayForm(); setTab("prepay"); }}
-                className="flex-1 min-w-[45%] rounded-xl py-2.5 text-[11px] font-semibold border"
-                style={{ background: tab === "prepay" ? "#B45309" : "#fff", color: tab === "prepay" ? "#fff" : "#4B5563", borderColor: tab === "prepay" ? "#B45309" : "#E5E7EB" }}>
+                className={`flex-1 min-w-[45%] m-pill ${tab === "prepay" ? "m-pill-active-amber" : ""}`}>
                 {t("پیش‌پرداخت")}
               </button>
               <button type="button" onClick={() => { resetPayForm(); setTab("settle"); }}
-                className="flex-1 min-w-[45%] rounded-xl py-2.5 text-[11px] font-semibold border"
-                style={{ background: tab === "settle" ? "#128C7E" : "#fff", color: tab === "settle" ? "#fff" : "#4B5563", borderColor: tab === "settle" ? "#128C7E" : "#E5E7EB" }}>
+                className={`flex-1 min-w-[45%] m-pill ${tab === "settle" ? "m-pill-active-teal" : ""}`}>
                 {t("تسویه بدهی")}
               </button>
             </>
           )}
           <button type="button" onClick={() => setTab("history")}
-            className="flex-1 min-w-[45%] rounded-xl py-2.5 text-[11px] font-semibold border"
-            style={{ background: tab === "history" ? "#14213D" : "#fff", color: tab === "history" ? "#fff" : "#4B5563", borderColor: tab === "history" ? "#14213D" : "#E5E7EB" }}>
+            className={`flex-1 min-w-[45%] m-pill ${tab === "history" ? "m-pill-active" : ""}`}>
             {t("هزینه‌های انجام شده")} ({expenses.length})
           </button>
         </div>
@@ -14819,7 +15163,7 @@ function ExpensesSheet({ project, company, onClose, onAdd, onUpdate, onRemove, o
         {tab === "settle" && !isReadOnly && renderContactPayForm("contact_debt_pay")}
 
         {tab === "new" && !isReadOnly && (
-        <div className="bg-[#F4F6F5] rounded-xl p-3 flex flex-col gap-2 mb-4">
+        <div className="m-form-panel flex flex-col gap-2 mb-4">
           {editExpenseId && (
             <div className="flex items-center justify-between text-xs font-semibold text-[#1D4ED8] bg-white rounded-lg px-2 py-1.5 border border-[#93C5FD]">
               <span>{t("ویرایش هزینه")}</span>
@@ -14879,7 +15223,7 @@ function ExpensesSheet({ project, company, onClose, onAdd, onUpdate, onRemove, o
             <div className="flex gap-2">
               <input value={newContactName} onChange={(e) => setNewContactName(e.target.value)} placeholder={t("نام مخاطب جدید")}
                 className="flex-1 bg-white border border-black/10 rounded-lg px-3 py-2.5 text-sm outline-none" />
-              <button onClick={confirmNewContact} className="text-xs bg-[#14213D] text-white rounded-lg px-3">{t("ثبت")}</button>
+              <button onClick={confirmNewContact} className="text-xs m-btn-primary px-3">{t("ثبت")}</button>
               <button onClick={() => setShowNewContact(false)} className="text-xs border border-black/10 rounded-lg px-3">{t("لغو")}</button>
             </div>
           )}
@@ -14921,7 +15265,7 @@ function ExpensesSheet({ project, company, onClose, onAdd, onUpdate, onRemove, o
 
           {formError && <div className="text-xs text-[#B91C1C]">{formError}</div>}
 
-          <button type="button" onClick={submit} disabled={!title.trim() || !amount || !note.trim()} className="bg-[#14213D] text-white rounded-lg py-2.5 text-sm font-semibold disabled:opacity-40">
+          <button type="button" onClick={submit} disabled={!title.trim() || !amount || !note.trim()} className="w-full m-btn-primary py-2.5 text-sm disabled:opacity-40">
             {editExpenseId ? t("ذخیره تغییرات") : t("افزودن هزینه")}
           </button>
         </div>
@@ -14987,7 +15331,7 @@ function ExpensesSheet({ project, company, onClose, onAdd, onUpdate, onRemove, o
               </div>
             )}
 
-            <div className="bg-[#14213D] text-white rounded-xl p-3 flex items-center justify-between">
+            <div className="m-card-hero p-3 flex items-center justify-between">
               <span className="text-sm">{t("هزینه دوره")} ({t("مجموع هزینه‌ها")})</span>
               <span className="font-bold">{fmt(total)}{t(" تومان")}</span>
             </div>
@@ -15078,7 +15422,7 @@ function DashboardProjectCard({ project, contacts, theme, onOpenProject, onOpenG
 
   return (
     <div
-      className="rounded-2xl border p-4 text-right"
+      className="m-project-card rounded-2xl border p-4 text-right"
       style={{
         background: `linear-gradient(165deg, ${theme.bg} 0%, ${theme.surface || "#FFFFFF"} 72%)`,
         borderColor: theme.border,
@@ -15345,7 +15689,7 @@ function DashboardScreen({ projects, contacts, backHandlerRef, onOpenProject, on
     <div className="px-4 pt-4 pb-8">
       <div className="mb-4">
         <div className="flex items-center justify-between gap-2">
-          <div className="font-extrabold text-lg">{t("داشبورد")}</div>
+          <div className="m-dashboard-title">{t("داشبورد")}</div>
           {totalUnreadMessages > 0 && (
             <span className="text-[10px] font-bold bg-[#B91C1C] text-white rounded-full px-2.5 py-1 flex items-center gap-1">
               <Bell size={12} /> {totalUnreadMessages} {t("پیام مالک")}
@@ -15356,7 +15700,7 @@ function DashboardScreen({ projects, contacts, backHandlerRef, onOpenProject, on
       </div>
 
       {projects.length > 0 && (
-        <div className="bg-[#14213D] rounded-2xl p-4 text-white flex items-center gap-4 mb-5">
+        <div className="m-card-hero rounded-2xl p-4 text-white flex items-center gap-4 mb-5">
           <PolarProfitChart revenue={totals.revenue} expenses={totals.expenses} profit={totals.profit} size={118} dark />
           <div className="flex-1">
             <div className="flex justify-between text-xs mb-1"><span className="text-white/60">{t("درآمد محقق‌شده")}</span><span className="font-semibold">{fmt(totals.revenue)}</span></div>
@@ -15374,7 +15718,7 @@ function DashboardScreen({ projects, contacts, backHandlerRef, onOpenProject, on
       {projects.length === 0 ? (
         <div className="text-center text-[#6B7280] mt-16 text-sm px-8">
           {t("هنوز پروژه‌ای اضافه نشده.")}
-          <button onClick={onNewProject} className="block mx-auto mt-4 bg-[#14213D] text-white rounded-xl px-5 py-2.5 text-sm font-semibold">
+          <button onClick={onNewProject} className="block mx-auto mt-4 m-btn-primary px-5 py-2.5 text-sm">
             {t("ساخت اولین پروژه")}
           </button>
         </div>
@@ -15644,7 +15988,7 @@ function UnitModal({ unit, project, company, user, canUseOwnerPortal, onRequireO
                 <input value={newBuyerPhone} onChange={(e) => setNewBuyerPhone(e.target.value)} placeholder={t("تلفن (اختیاری)")} dir="ltr"
                   className="w-full bg-[#F4F6F5] border border-black/10 rounded-lg px-3 py-2 text-sm outline-none" />
                 <div className="flex gap-2">
-                  <button onClick={confirmNewBuyerContact} disabled={!newBuyerName.trim()} className="flex-1 bg-[#14213D] text-white rounded-lg py-2 text-xs font-semibold disabled:opacity-40">{t("ثبت و انتخاب")}</button>
+                  <button onClick={confirmNewBuyerContact} disabled={!newBuyerName.trim()} className="flex-1 m-btn-primary py-2 text-xs disabled:opacity-40">{t("ثبت و انتخاب")}</button>
                   <button onClick={() => { setShowNewBuyerContact(false); setNewBuyerName(""); setNewBuyerPhone(""); }} className="flex-1 border border-black/10 rounded-lg py-2 text-xs font-medium">{t("لغو")}</button>
                 </div>
               </div>
@@ -15831,7 +16175,7 @@ function Field({ label, value, onChange, type = "text", icon }) {
     <div>
       <label className="text-xs text-[#6B7280] font-medium flex items-center gap-1">{icon}{label}</label>
       <input type={type} value={value} onChange={(e) => onChange(e.target.value)}
-        className="w-full mt-1 bg-white border border-black/10 rounded-xl px-3 py-2.5 text-sm outline-none focus:border-[#14213D]" />
+        className="w-full mt-1 m-input-field px-3 py-2.5 text-sm outline-none" />
     </div>
   );
 }
