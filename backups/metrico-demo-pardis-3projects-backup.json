@@ -1,0 +1,5217 @@
+{
+  "version": 3,
+  "exportedAt": "2026-07-24T13:23:15.345391+00:00",
+  "company": {
+    "name": "شرکت ساختمانی نمونه — مجموعه پردیس",
+    "phone": "02176234567",
+    "address": "تهران — دفتر مرکزی: بلوار میرداماد",
+    "logo": null
+  },
+  "projects": [
+    {
+      "id": "projd84x1zh",
+      "name": "برج مسکونی نگین — پردیس فاز ۱",
+      "floors": [
+        {
+          "number": 1,
+          "count": 3
+        },
+        {
+          "number": 2,
+          "count": 3
+        },
+        {
+          "number": 3,
+          "count": 3
+        },
+        {
+          "number": 4,
+          "count": 3
+        },
+        {
+          "number": 5,
+          "count": 3
+        },
+        {
+          "number": 6,
+          "count": 3
+        }
+      ],
+      "units": [
+        {
+          "id": "u490lvsn",
+          "floor": 1,
+          "unitNumber": "11",
+          "area": "88",
+          "status": "sold",
+          "direction": "east",
+          "buyerName": "علی رضایی",
+          "buyerPhone": "09191000000",
+          "buyerContactId": "c9zbikc",
+          "postalCode": "144710001",
+          "pricePerMeter": "39700000",
+          "downPayment": "1048080000",
+          "depositAccountId": "acc4658kxo",
+          "installments": [
+            {
+              "id": "inst4btz0yn",
+              "date": "1404/04/15",
+              "amount": "611380000",
+              "paid": true,
+              "accountId": "acc4658kxo",
+              "financeTxId": "fta3qlgzu"
+            },
+            {
+              "id": "inst4ccxll4",
+              "date": "1404/07/15",
+              "amount": "611380000",
+              "paid": false,
+              "accountId": "acc4658kxo",
+              "financeTxId": null
+            },
+            {
+              "id": "inst4dzkloo",
+              "date": "1404/10/15",
+              "amount": "611380000",
+              "paid": false,
+              "accountId": "acc4658kxo",
+              "financeTxId": null
+            },
+            {
+              "id": "inst4ekep7y",
+              "date": "1404/13/15",
+              "amount": "611380000",
+              "paid": false,
+              "accountId": "acc4658kxo",
+              "financeTxId": null
+            }
+          ],
+          "contractDocs": [
+            {
+              "id": "doc4aujza7",
+              "name": "مبایعه‌نامه.pdf",
+              "dataUrl": "data:application/pdf;base64,JVBERi0xLjQKMSAwIG9iago8PC9UeXBlL0NhdGFsb2cKL1BhZ2VzIDIgMCBSCj4+CmVuZG9iagoyIDAgb2IKPDwKL1R5cGUgL1BhZ2VzCi9LaWRzIFszIDAgUl0KL0NvdW50IDE+PgplbmRvYmoKMyAwIG9iago8PC9UeXBlL0FnZS9QYXJlbnQgMiAwIFIKL01lZGlhQm94IFswIDAgMyAzXQo+PgplbmRvYmoKeHJlZgowIDQKMDAwMDAwMDAwMDAwMDAwMDAwMDAwMDAwMDAwMDAwCjAwMDAwMDAwMTIgMDAwMDAgbiAKMDAwMDAwMDA2MCAwMDAwMCBuIAowMDAwMDAwMTMzIDAwMDAwIG4gCnRyYWlsZXIKPDwKL1NpemUgNC9Sb290IDEgMCBSCj4+CmVuZG9iagolJUVPRg=="
+            }
+          ],
+          "checkDocs": [],
+          "notes": "",
+          "downPaymentReceived": true
+        },
+        {
+          "id": "u4f6wkta",
+          "floor": 1,
+          "unitNumber": "12",
+          "area": "93",
+          "status": "sold",
+          "direction": "west",
+          "buyerName": "مریم احمدی",
+          "buyerPhone": "09191000173",
+          "buyerContactId": "caidkwn",
+          "postalCode": "144710002",
+          "pricePerMeter": "39700000",
+          "downPayment": "1107630000",
+          "depositAccountId": "acc4658kxo",
+          "installments": [
+            {
+              "id": "inst51phr62",
+              "date": "1404/04/15",
+              "amount": "646117500",
+              "paid": false,
+              "accountId": "acc4658kxo",
+              "financeTxId": null
+            },
+            {
+              "id": "inst52gdswm",
+              "date": "1404/07/15",
+              "amount": "646117500",
+              "paid": false,
+              "accountId": "acc4658kxo",
+              "financeTxId": null
+            },
+            {
+              "id": "inst5331yih",
+              "date": "1404/10/15",
+              "amount": "646117500",
+              "paid": false,
+              "accountId": "acc4658kxo",
+              "financeTxId": null
+            },
+            {
+              "id": "inst54air4c",
+              "date": "1404/13/15",
+              "amount": "646117500",
+              "paid": false,
+              "accountId": "acc4658kxo",
+              "financeTxId": null
+            }
+          ],
+          "contractDocs": [
+            {
+              "id": "doc50kpuxq",
+              "name": "مبایعه‌نامه.pdf",
+              "dataUrl": "data:application/pdf;base64,JVBERi0xLjQKMSAwIG9iago8PC9UeXBlL0NhdGFsb2cKL1BhZ2VzIDIgMCBSCj4+CmVuZG9iagoyIDAgb2IKPDwKL1R5cGUgL1BhZ2VzCi9LaWRzIFszIDAgUl0KL0NvdW50IDE+PgplbmRvYmoKMyAwIG9iago8PC9UeXBlL0FnZS9QYXJlbnQgMiAwIFIKL01lZGlhQm94IFswIDAgMyAzXQo+PgplbmRvYmoKeHJlZgowIDQKMDAwMDAwMDAwMDAwMDAwMDAwMDAwMDAwMDAwMDAwCjAwMDAwMDAwMTIgMDAwMDAgbiAKMDAwMDAwMDA2MCAwMDAwMCBuIAowMDAwMDAwMTMzIDAwMDAwIG4gCnRyYWlsZXIKPDwKL1NpemUgNC9Sb290IDEgMCBSCj4+CmVuZG9iagolJUVPRg=="
+            }
+          ],
+          "checkDocs": [],
+          "notes": "",
+          "downPaymentReceived": true
+        },
+        {
+          "id": "u55owgzr",
+          "floor": 1,
+          "unitNumber": "13",
+          "area": "98",
+          "status": "sold",
+          "direction": "north",
+          "buyerName": "حسین کریمی",
+          "buyerPhone": "09191000346",
+          "buyerContactId": "cbnhj7x",
+          "postalCode": "144710003",
+          "pricePerMeter": "39700000",
+          "downPayment": "1167180000",
+          "depositAccountId": "acc4658kxo",
+          "installments": [
+            {
+              "id": "inst57dpg8s",
+              "date": "1404/04/15",
+              "amount": "680855000",
+              "paid": true,
+              "accountId": "acc4658kxo",
+              "financeTxId": "fta9myx44"
+            },
+            {
+              "id": "inst58bi4q2",
+              "date": "1404/07/15",
+              "amount": "680855000",
+              "paid": false,
+              "accountId": "acc4658kxo",
+              "financeTxId": null
+            },
+            {
+              "id": "inst59y9v86",
+              "date": "1404/10/15",
+              "amount": "680855000",
+              "paid": false,
+              "accountId": "acc4658kxo",
+              "financeTxId": null
+            },
+            {
+              "id": "inst5awzs3t",
+              "date": "1404/13/15",
+              "amount": "680855000",
+              "paid": false,
+              "accountId": "acc4658kxo",
+              "financeTxId": null
+            }
+          ],
+          "contractDocs": [
+            {
+              "id": "doc56ixa11",
+              "name": "مبایعه‌نامه.pdf",
+              "dataUrl": "data:application/pdf;base64,JVBERi0xLjQKMSAwIG9iago8PC9UeXBlL0NhdGFsb2cKL1BhZ2VzIDIgMCBSCj4+CmVuZG9iagoyIDAgb2IKPDwKL1R5cGUgL1BhZ2VzCi9LaWRzIFszIDAgUl0KL0NvdW50IDE+PgplbmRvYmoKMyAwIG9iago8PC9UeXBlL0FnZS9QYXJlbnQgMiAwIFIKL01lZGlhQm94IFswIDAgMyAzXQo+PgplbmRvYmoKeHJlZgowIDQKMDAwMDAwMDAwMDAwMDAwMDAwMDAwMDAwMDAwMDAwCjAwMDAwMDAwMTIgMDAwMDAgbiAKMDAwMDAwMDA2MCAwMDAwMCBuIAowMDAwMDAwMTMzIDAwMDAwIG4gCnRyYWlsZXIKPDwKL1NpemUgNC9Sb290IDEgMCBSCj4+CmVuZG9iagolJUVPRg=="
+            }
+          ],
+          "checkDocs": [],
+          "notes": "",
+          "downPaymentReceived": true
+        },
+        {
+          "id": "u5b60rji",
+          "floor": 2,
+          "unitNumber": "21",
+          "area": "103",
+          "status": "sold",
+          "direction": "east",
+          "buyerName": "زهرا موسوی",
+          "buyerPhone": "09191000519",
+          "buyerContactId": "ccvg0fn",
+          "postalCode": "144710004",
+          "pricePerMeter": "39700000",
+          "downPayment": "1226730000",
+          "depositAccountId": "acc4658kxo",
+          "installments": [
+            {
+              "id": "inst5dckjlt",
+              "date": "1404/04/15",
+              "amount": "715592500",
+              "paid": false,
+              "accountId": "acc4658kxo",
+              "financeTxId": null
+            },
+            {
+              "id": "inst5eeiyzc",
+              "date": "1404/07/15",
+              "amount": "715592500",
+              "paid": false,
+              "accountId": "acc4658kxo",
+              "financeTxId": null
+            },
+            {
+              "id": "inst5fotohp",
+              "date": "1404/10/15",
+              "amount": "715592500",
+              "paid": false,
+              "accountId": "acc4658kxo",
+              "financeTxId": null
+            },
+            {
+              "id": "inst606vz41",
+              "date": "1404/13/15",
+              "amount": "715592500",
+              "paid": false,
+              "accountId": "acc4658kxo",
+              "financeTxId": null
+            }
+          ],
+          "contractDocs": [
+            {
+              "id": "doc5cw1swj",
+              "name": "مبایعه‌نامه.pdf",
+              "dataUrl": "data:application/pdf;base64,JVBERi0xLjQKMSAwIG9iago8PC9UeXBlL0NhdGFsb2cKL1BhZ2VzIDIgMCBSCj4+CmVuZG9iagoyIDAgb2IKPDwKL1R5cGUgL1BhZ2VzCi9LaWRzIFszIDAgUl0KL0NvdW50IDE+PgplbmRvYmoKMyAwIG9iago8PC9UeXBlL0FnZS9QYXJlbnQgMiAwIFIKL01lZGlhQm94IFswIDAgMyAzXQo+PgplbmRvYmoKeHJlZgowIDQKMDAwMDAwMDAwMDAwMDAwMDAwMDAwMDAwMDAwMDAwCjAwMDAwMDAwMTIgMDAwMDAgbiAKMDAwMDAwMDA2MCAwMDAwMCBuIAowMDAwMDAwMTMzIDAwMDAwIG4gCnRyYWlsZXIKPDwKL1NpemUgNC9Sb290IDEgMCBSCj4+CmVuZG9iagolJUVPRg=="
+            }
+          ],
+          "checkDocs": [],
+          "notes": "",
+          "downPaymentReceived": true
+        },
+        {
+          "id": "u61nam14",
+          "floor": 2,
+          "unitNumber": "22",
+          "area": "78",
+          "status": "sold",
+          "direction": "west",
+          "buyerName": "رضا نوری",
+          "buyerPhone": "09191000692",
+          "buyerContactId": "cd9xuy4",
+          "postalCode": "144710005",
+          "pricePerMeter": "39700000",
+          "downPayment": "928980000",
+          "depositAccountId": "acc4658kxo",
+          "installments": [
+            {
+              "id": "inst63hhpbm",
+              "date": "1404/04/15",
+              "amount": "541905000",
+              "paid": true,
+              "accountId": "acc4658kxo",
+              "financeTxId": "ftafu2gc5"
+            },
+            {
+              "id": "inst64yofqe",
+              "date": "1404/07/15",
+              "amount": "541905000",
+              "paid": false,
+              "accountId": "acc4658kxo",
+              "financeTxId": null
+            },
+            {
+              "id": "inst65waoua",
+              "date": "1404/10/15",
+              "amount": "541905000",
+              "paid": false,
+              "accountId": "acc4658kxo",
+              "financeTxId": null
+            },
+            {
+              "id": "inst66xeqbn",
+              "date": "1404/13/15",
+              "amount": "541905000",
+              "paid": false,
+              "accountId": "acc4658kxo",
+              "financeTxId": null
+            }
+          ],
+          "contractDocs": [
+            {
+              "id": "doc628p0tv",
+              "name": "مبایعه‌نامه.pdf",
+              "dataUrl": "data:application/pdf;base64,JVBERi0xLjQKMSAwIG9iago8PC9UeXBlL0NhdGFsb2cKL1BhZ2VzIDIgMCBSCj4+CmVuZG9iagoyIDAgb2IKPDwKL1R5cGUgL1BhZ2VzCi9LaWRzIFszIDAgUl0KL0NvdW50IDE+PgplbmRvYmoKMyAwIG9iago8PC9UeXBlL0FnZS9QYXJlbnQgMiAwIFIKL01lZGlhQm94IFswIDAgMyAzXQo+PgplbmRvYmoKeHJlZgowIDQKMDAwMDAwMDAwMDAwMDAwMDAwMDAwMDAwMDAwMDAwCjAwMDAwMDAwMTIgMDAwMDAgbiAKMDAwMDAwMDA2MCAwMDAwMCBuIAowMDAwMDAwMTMzIDAwMDAwIG4gCnRyYWlsZXIKPDwKL1NpemUgNC9Sb290IDEgMCBSCj4+CmVuZG9iagolJUVPRg=="
+            }
+          ],
+          "checkDocs": [],
+          "notes": "",
+          "downPaymentReceived": true
+        },
+        {
+          "id": "u67hl1n1",
+          "floor": 2,
+          "unitNumber": "23",
+          "area": "83",
+          "status": "sold",
+          "direction": "north",
+          "buyerName": "فاطمه حسینی",
+          "buyerPhone": "09191000865",
+          "buyerContactId": "ce1iblj",
+          "postalCode": "144710006",
+          "pricePerMeter": "39700000",
+          "downPayment": "988530000",
+          "depositAccountId": "acc4658kxo",
+          "installments": [
+            {
+              "id": "inst699mx2x",
+              "date": "1404/04/15",
+              "amount": "576642500",
+              "paid": false,
+              "accountId": "acc4658kxo",
+              "financeTxId": null
+            },
+            {
+              "id": "inst6a18haf",
+              "date": "1404/07/15",
+              "amount": "576642500",
+              "paid": false,
+              "accountId": "acc4658kxo",
+              "financeTxId": null
+            },
+            {
+              "id": "inst6beyuhz",
+              "date": "1404/10/15",
+              "amount": "576642500",
+              "paid": false,
+              "accountId": "acc4658kxo",
+              "financeTxId": null
+            },
+            {
+              "id": "inst6c1gv0e",
+              "date": "1404/13/15",
+              "amount": "576642500",
+              "paid": false,
+              "accountId": "acc4658kxo",
+              "financeTxId": null
+            }
+          ],
+          "contractDocs": [
+            {
+              "id": "doc683jcat",
+              "name": "مبایعه‌نامه.pdf",
+              "dataUrl": "data:application/pdf;base64,JVBERi0xLjQKMSAwIG9iago8PC9UeXBlL0NhdGFsb2cKL1BhZ2VzIDIgMCBSCj4+CmVuZG9iagoyIDAgb2IKPDwKL1R5cGUgL1BhZ2VzCi9LaWRzIFszIDAgUl0KL0NvdW50IDE+PgplbmRvYmoKMyAwIG9iago8PC9UeXBlL0FnZS9QYXJlbnQgMiAwIFIKL01lZGlhQm94IFswIDAgMyAzXQo+PgplbmRvYmoKeHJlZgowIDQKMDAwMDAwMDAwMDAwMDAwMDAwMDAwMDAwMDAwMDAwCjAwMDAwMDAwMTIgMDAwMDAgbiAKMDAwMDAwMDA2MCAwMDAwMCBuIAowMDAwMDAwMTMzIDAwMDAwIG4gCnRyYWlsZXIKPDwKL1NpemUgNC9Sb290IDEgMCBSCj4+CmVuZG9iagolJUVPRg=="
+            }
+          ],
+          "checkDocs": [],
+          "notes": "",
+          "downPaymentReceived": true
+        },
+        {
+          "id": "u6d38dal",
+          "floor": 3,
+          "unitNumber": "31",
+          "area": "88",
+          "status": "sold",
+          "direction": "east",
+          "buyerName": "محمد جعفری",
+          "buyerPhone": "09191001038",
+          "buyerContactId": "cfh75lx",
+          "postalCode": "144710007",
+          "pricePerMeter": "39700000",
+          "downPayment": "1048080000",
+          "depositAccountId": "acc4658kxo",
+          "installments": [
+            {
+              "id": "inst6fywd14",
+              "date": "1404/04/15",
+              "amount": "611380000",
+              "paid": true,
+              "accountId": "acc4658kxo",
+              "financeTxId": "ftb59k9xj"
+            },
+            {
+              "id": "inst70ve92m",
+              "date": "1404/07/15",
+              "amount": "611380000",
+              "paid": false,
+              "accountId": "acc4658kxo",
+              "financeTxId": null
+            },
+            {
+              "id": "inst71pnsm4",
+              "date": "1404/10/15",
+              "amount": "611380000",
+              "paid": false,
+              "accountId": "acc4658kxo",
+              "financeTxId": null
+            },
+            {
+              "id": "inst723d8w3",
+              "date": "1404/13/15",
+              "amount": "611380000",
+              "paid": false,
+              "accountId": "acc4658kxo",
+              "financeTxId": null
+            }
+          ],
+          "contractDocs": [
+            {
+              "id": "doc6ey8ozc",
+              "name": "مبایعه‌نامه.pdf",
+              "dataUrl": "data:application/pdf;base64,JVBERi0xLjQKMSAwIG9iago8PC9UeXBlL0NhdGFsb2cKL1BhZ2VzIDIgMCBSCj4+CmVuZG9iagoyIDAgb2IKPDwKL1R5cGUgL1BhZ2VzCi9LaWRzIFszIDAgUl0KL0NvdW50IDE+PgplbmRvYmoKMyAwIG9iago8PC9UeXBlL0FnZS9QYXJlbnQgMiAwIFIKL01lZGlhQm94IFswIDAgMyAzXQo+PgplbmRvYmoKeHJlZgowIDQKMDAwMDAwMDAwMDAwMDAwMDAwMDAwMDAwMDAwMDAwCjAwMDAwMDAwMTIgMDAwMDAgbiAKMDAwMDAwMDA2MCAwMDAwMCBuIAowMDAwMDAwMTMzIDAwMDAwIG4gCnRyYWlsZXIKPDwKL1NpemUgNC9Sb290IDEgMCBSCj4+CmVuZG9iagolJUVPRg=="
+            }
+          ],
+          "checkDocs": [],
+          "notes": "",
+          "downPaymentReceived": true
+        },
+        {
+          "id": "u73zp08j",
+          "floor": 3,
+          "unitNumber": "32",
+          "area": "93",
+          "status": "sold",
+          "direction": "west",
+          "buyerName": "سارا محمدی",
+          "buyerPhone": "09191001211",
+          "buyerContactId": "c10o6qji",
+          "postalCode": "144710008",
+          "pricePerMeter": "39700000",
+          "downPayment": "1107630000",
+          "depositAccountId": "acc4658kxo",
+          "installments": [
+            {
+              "id": "inst75j43d5",
+              "date": "1404/04/15",
+              "amount": "646117500",
+              "paid": false,
+              "accountId": "acc4658kxo",
+              "financeTxId": null
+            },
+            {
+              "id": "inst76iqvnb",
+              "date": "1404/07/15",
+              "amount": "646117500",
+              "paid": false,
+              "accountId": "acc4658kxo",
+              "financeTxId": null
+            },
+            {
+              "id": "inst774gh2m",
+              "date": "1404/10/15",
+              "amount": "646117500",
+              "paid": false,
+              "accountId": "acc4658kxo",
+              "financeTxId": null
+            },
+            {
+              "id": "inst785zja8",
+              "date": "1404/13/15",
+              "amount": "646117500",
+              "paid": false,
+              "accountId": "acc4658kxo",
+              "financeTxId": null
+            }
+          ],
+          "contractDocs": [
+            {
+              "id": "doc743trp0",
+              "name": "مبایعه‌نامه.pdf",
+              "dataUrl": "data:application/pdf;base64,JVBERi0xLjQKMSAwIG9iago8PC9UeXBlL0NhdGFsb2cKL1BhZ2VzIDIgMCBSCj4+CmVuZG9iagoyIDAgb2IKPDwKL1R5cGUgL1BhZ2VzCi9LaWRzIFszIDAgUl0KL0NvdW50IDE+PgplbmRvYmoKMyAwIG9iago8PC9UeXBlL0FnZS9QYXJlbnQgMiAwIFIKL01lZGlhQm94IFswIDAgMyAzXQo+PgplbmRvYmoKeHJlZgowIDQKMDAwMDAwMDAwMDAwMDAwMDAwMDAwMDAwMDAwMDAwCjAwMDAwMDAwMTIgMDAwMDAgbiAKMDAwMDAwMDA2MCAwMDAwMCBuIAowMDAwMDAwMTMzIDAwMDAwIG4gCnRyYWlsZXIKPDwKL1NpemUgNC9Sb290IDEgMCBSCj4+CmVuZG9iagolJUVPRg=="
+            }
+          ],
+          "checkDocs": [],
+          "notes": "",
+          "downPaymentReceived": true
+        },
+        {
+          "id": "u79dzr1y",
+          "floor": 3,
+          "unitNumber": "33",
+          "area": "98",
+          "status": "sold",
+          "direction": "north",
+          "buyerName": "امیر کاظمی",
+          "buyerPhone": "09191001384",
+          "buyerContactId": "c11ujv6o",
+          "postalCode": "144710009",
+          "pricePerMeter": "39700000",
+          "downPayment": "1167180000",
+          "depositAccountId": "acc4658kxo",
+          "installments": [
+            {
+              "id": "inst7bylurt",
+              "date": "1404/04/15",
+              "amount": "680855000",
+              "paid": true,
+              "accountId": "acc4658kxo",
+              "financeTxId": "ftbbk0get"
+            },
+            {
+              "id": "inst7cp0lzj",
+              "date": "1404/07/15",
+              "amount": "680855000",
+              "paid": false,
+              "accountId": "acc4658kxo",
+              "financeTxId": null
+            },
+            {
+              "id": "inst7djeget",
+              "date": "1404/10/15",
+              "amount": "680855000",
+              "paid": false,
+              "accountId": "acc4658kxo",
+              "financeTxId": null
+            },
+            {
+              "id": "inst7e1ghr0",
+              "date": "1404/13/15",
+              "amount": "680855000",
+              "paid": false,
+              "accountId": "acc4658kxo",
+              "financeTxId": null
+            }
+          ],
+          "contractDocs": [
+            {
+              "id": "doc7axr2dh",
+              "name": "مبایعه‌نامه.pdf",
+              "dataUrl": "data:application/pdf;base64,JVBERi0xLjQKMSAwIG9iago8PC9UeXBlL0NhdGFsb2cKL1BhZ2VzIDIgMCBSCj4+CmVuZG9iagoyIDAgb2IKPDwKL1R5cGUgL1BhZ2VzCi9LaWRzIFszIDAgUl0KL0NvdW50IDE+PgplbmRvYmoKMyAwIG9iago8PC9UeXBlL0FnZS9QYXJlbnQgMiAwIFIKL01lZGlhQm94IFswIDAgMyAzXQo+PgplbmRvYmoKeHJlZgowIDQKMDAwMDAwMDAwMDAwMDAwMDAwMDAwMDAwMDAwMDAwCjAwMDAwMDAwMTIgMDAwMDAgbiAKMDAwMDAwMDA2MCAwMDAwMCBuIAowMDAwMDAwMTMzIDAwMDAwIG4gCnRyYWlsZXIKPDwKL1NpemUgNC9Sb290IDEgMCBSCj4+CmVuZG9iagolJUVPRg=="
+            }
+          ],
+          "checkDocs": [],
+          "notes": "",
+          "downPaymentReceived": true
+        },
+        {
+          "id": "u7f9skdg",
+          "floor": 4,
+          "unitNumber": "41",
+          "area": "103",
+          "status": "sold",
+          "direction": "east",
+          "buyerName": "نرگس صادقی",
+          "buyerPhone": "09191001557",
+          "buyerContactId": "c12h9sdb",
+          "postalCode": "144710010",
+          "pricePerMeter": "39700000",
+          "downPayment": "1226730000",
+          "depositAccountId": "acc4658kxo",
+          "installments": [
+            {
+              "id": "inst819tze5",
+              "date": "1404/04/15",
+              "amount": "715592500",
+              "paid": false,
+              "accountId": "acc4658kxo",
+              "financeTxId": null
+            },
+            {
+              "id": "inst82r5uqp",
+              "date": "1404/07/15",
+              "amount": "715592500",
+              "paid": false,
+              "accountId": "acc4658kxo",
+              "financeTxId": null
+            },
+            {
+              "id": "inst83gb7r3",
+              "date": "1404/10/15",
+              "amount": "715592500",
+              "paid": false,
+              "accountId": "acc4658kxo",
+              "financeTxId": null
+            },
+            {
+              "id": "inst84ocwbf",
+              "date": "1404/13/15",
+              "amount": "715592500",
+              "paid": false,
+              "accountId": "acc4658kxo",
+              "financeTxId": null
+            }
+          ],
+          "contractDocs": [
+            {
+              "id": "doc80igatj",
+              "name": "مبایعه‌نامه.pdf",
+              "dataUrl": "data:application/pdf;base64,JVBERi0xLjQKMSAwIG9iago8PC9UeXBlL0NhdGFsb2cKL1BhZ2VzIDIgMCBSCj4+CmVuZG9iagoyIDAgb2IKPDwKL1R5cGUgL1BhZ2VzCi9LaWRzIFszIDAgUl0KL0NvdW50IDE+PgplbmRvYmoKMyAwIG9iago8PC9UeXBlL0FnZS9QYXJlbnQgMiAwIFIKL01lZGlhQm94IFswIDAgMyAzXQo+PgplbmRvYmoKeHJlZgowIDQKMDAwMDAwMDAwMDAwMDAwMDAwMDAwMDAwMDAwMDAwCjAwMDAwMDAwMTIgMDAwMDAgbiAKMDAwMDAwMDA2MCAwMDAwMCBuIAowMDAwMDAwMTMzIDAwMDAwIG4gCnRyYWlsZXIKPDwKL1NpemUgNC9Sb290IDEgMCBSCj4+CmVuZG9iagolJUVPRg=="
+            }
+          ],
+          "checkDocs": [],
+          "notes": "",
+          "downPaymentReceived": true
+        },
+        {
+          "id": "u85uk9e1",
+          "floor": 4,
+          "unitNumber": "42",
+          "area": "78",
+          "status": "sold",
+          "direction": "west",
+          "buyerName": "پارسا مرادی",
+          "buyerPhone": "09191001730",
+          "buyerContactId": "c13dw2pc",
+          "postalCode": "144710011",
+          "pricePerMeter": "39700000",
+          "downPayment": "928980000",
+          "depositAccountId": "acc4658kxo",
+          "installments": [
+            {
+              "id": "inst87p49kw",
+              "date": "1404/04/15",
+              "amount": "541905000",
+              "paid": true,
+              "accountId": "acc4658kxo",
+              "financeTxId": "ftc1yv37d"
+            },
+            {
+              "id": "inst88v08hh",
+              "date": "1404/07/15",
+              "amount": "541905000",
+              "paid": false,
+              "accountId": "acc4658kxo",
+              "financeTxId": null
+            },
+            {
+              "id": "inst89xfgca",
+              "date": "1404/10/15",
+              "amount": "541905000",
+              "paid": false,
+              "accountId": "acc4658kxo",
+              "financeTxId": null
+            },
+            {
+              "id": "inst8aqvkiz",
+              "date": "1404/13/15",
+              "amount": "541905000",
+              "paid": false,
+              "accountId": "acc4658kxo",
+              "financeTxId": null
+            }
+          ],
+          "contractDocs": [
+            {
+              "id": "doc86v2isq",
+              "name": "مبایعه‌نامه.pdf",
+              "dataUrl": "data:application/pdf;base64,JVBERi0xLjQKMSAwIG9iago8PC9UeXBlL0NhdGFsb2cKL1BhZ2VzIDIgMCBSCj4+CmVuZG9iagoyIDAgb2IKPDwKL1R5cGUgL1BhZ2VzCi9LaWRzIFszIDAgUl0KL0NvdW50IDE+PgplbmRvYmoKMyAwIG9iago8PC9UeXBlL0FnZS9QYXJlbnQgMiAwIFIKL01lZGlhQm94IFswIDAgMyAzXQo+PgplbmRvYmoKeHJlZgowIDQKMDAwMDAwMDAwMDAwMDAwMDAwMDAwMDAwMDAwMDAwCjAwMDAwMDAwMTIgMDAwMDAgbiAKMDAwMDAwMDA2MCAwMDAwMCBuIAowMDAwMDAwMTMzIDAwMDAwIG4gCnRyYWlsZXIKPDwKL1NpemUgNC9Sb290IDEgMCBSCj4+CmVuZG9iagolJUVPRg=="
+            }
+          ],
+          "checkDocs": [],
+          "notes": "",
+          "downPaymentReceived": true
+        },
+        {
+          "id": "u8bzqy72",
+          "floor": 4,
+          "unitNumber": "43",
+          "area": "83",
+          "status": "reserved",
+          "direction": "north",
+          "buyerName": "لیلا اکبری",
+          "buyerPhone": "09191001903",
+          "buyerContactId": "c14n9t84",
+          "postalCode": "144710012",
+          "pricePerMeter": "39700000",
+          "downPayment": "988530000",
+          "depositAccountId": "acc4658kxo",
+          "installments": [
+            {
+              "id": "inst8cwx7pt",
+              "date": "1404/04/15",
+              "amount": "576642500",
+              "paid": false,
+              "accountId": "acc4658kxo",
+              "financeTxId": null
+            },
+            {
+              "id": "inst8dx63cf",
+              "date": "1404/07/15",
+              "amount": "576642500",
+              "paid": false,
+              "accountId": "acc4658kxo",
+              "financeTxId": null
+            },
+            {
+              "id": "inst8el0uke",
+              "date": "1404/10/15",
+              "amount": "576642500",
+              "paid": false,
+              "accountId": "acc4658kxo",
+              "financeTxId": null
+            },
+            {
+              "id": "inst8fyz7sr",
+              "date": "1404/13/15",
+              "amount": "576642500",
+              "paid": false,
+              "accountId": "acc4658kxo",
+              "financeTxId": null
+            }
+          ],
+          "contractDocs": [],
+          "checkDocs": [],
+          "notes": "",
+          "downPaymentReceived": false
+        },
+        {
+          "id": "u90cbplj",
+          "floor": 5,
+          "unitNumber": "51",
+          "area": "88",
+          "status": "reserved",
+          "direction": "east",
+          "buyerName": "مهدی رحیمی",
+          "buyerPhone": "09191002076",
+          "buyerContactId": "c15azytj",
+          "postalCode": "144710013",
+          "pricePerMeter": "39700000",
+          "downPayment": "1048080000",
+          "depositAccountId": "acc4658kxo",
+          "installments": [
+            {
+              "id": "inst91d84u8",
+              "date": "1404/04/15",
+              "amount": "611380000",
+              "paid": false,
+              "accountId": "acc4658kxo",
+              "financeTxId": null
+            },
+            {
+              "id": "inst929yjb1",
+              "date": "1404/07/15",
+              "amount": "611380000",
+              "paid": false,
+              "accountId": "acc4658kxo",
+              "financeTxId": null
+            },
+            {
+              "id": "inst93qx6gv",
+              "date": "1404/10/15",
+              "amount": "611380000",
+              "paid": false,
+              "accountId": "acc4658kxo",
+              "financeTxId": null
+            },
+            {
+              "id": "inst94wrdml",
+              "date": "1404/13/15",
+              "amount": "611380000",
+              "paid": false,
+              "accountId": "acc4658kxo",
+              "financeTxId": null
+            }
+          ],
+          "contractDocs": [],
+          "checkDocs": [],
+          "notes": "",
+          "downPaymentReceived": false
+        },
+        {
+          "id": "u95y4lyk",
+          "floor": 5,
+          "unitNumber": "52",
+          "area": "93",
+          "status": "reserved",
+          "direction": "west",
+          "buyerName": "نسرین فلاح",
+          "buyerPhone": "09191002249",
+          "buyerContactId": "c16xepq8",
+          "postalCode": "144710014",
+          "pricePerMeter": "39700000",
+          "downPayment": "1107630000",
+          "depositAccountId": "acc4658kxo",
+          "installments": [
+            {
+              "id": "inst9683tql",
+              "date": "1404/04/15",
+              "amount": "646117500",
+              "paid": false,
+              "accountId": "acc4658kxo",
+              "financeTxId": null
+            },
+            {
+              "id": "inst97l8os9",
+              "date": "1404/07/15",
+              "amount": "646117500",
+              "paid": false,
+              "accountId": "acc4658kxo",
+              "financeTxId": null
+            },
+            {
+              "id": "inst98xtogn",
+              "date": "1404/10/15",
+              "amount": "646117500",
+              "paid": false,
+              "accountId": "acc4658kxo",
+              "financeTxId": null
+            },
+            {
+              "id": "inst991w1ht",
+              "date": "1404/13/15",
+              "amount": "646117500",
+              "paid": false,
+              "accountId": "acc4658kxo",
+              "financeTxId": null
+            }
+          ],
+          "contractDocs": [],
+          "checkDocs": [],
+          "notes": "",
+          "downPaymentReceived": false
+        },
+        {
+          "id": "u9a7pze9",
+          "floor": 5,
+          "unitNumber": "53",
+          "area": "98",
+          "status": "vacant",
+          "direction": "north",
+          "buyerName": "",
+          "buyerPhone": "",
+          "buyerContactId": null,
+          "postalCode": "",
+          "pricePerMeter": "",
+          "downPayment": "",
+          "depositAccountId": "",
+          "installments": [],
+          "contractDocs": [],
+          "checkDocs": [],
+          "notes": "",
+          "downPaymentReceived": false
+        },
+        {
+          "id": "u9bviftt",
+          "floor": 6,
+          "unitNumber": "61",
+          "area": "103",
+          "status": "vacant",
+          "direction": "east",
+          "buyerName": "",
+          "buyerPhone": "",
+          "buyerContactId": null,
+          "postalCode": "",
+          "pricePerMeter": "",
+          "downPayment": "",
+          "depositAccountId": "",
+          "installments": [],
+          "contractDocs": [],
+          "checkDocs": [],
+          "notes": "",
+          "downPaymentReceived": false
+        },
+        {
+          "id": "u9cd96qe",
+          "floor": 6,
+          "unitNumber": "62",
+          "area": "78",
+          "status": "vacant",
+          "direction": "west",
+          "buyerName": "",
+          "buyerPhone": "",
+          "buyerContactId": null,
+          "postalCode": "",
+          "pricePerMeter": "",
+          "downPayment": "",
+          "depositAccountId": "",
+          "installments": [],
+          "contractDocs": [],
+          "checkDocs": [],
+          "notes": "",
+          "downPaymentReceived": false
+        },
+        {
+          "id": "u9d3rzsj",
+          "floor": 6,
+          "unitNumber": "63",
+          "area": "83",
+          "status": "vacant",
+          "direction": "north",
+          "buyerName": "",
+          "buyerPhone": "",
+          "buyerContactId": null,
+          "postalCode": "",
+          "pricePerMeter": "",
+          "downPayment": "",
+          "depositAccountId": "",
+          "installments": [],
+          "contractDocs": [],
+          "checkDocs": [],
+          "notes": "",
+          "downPaymentReceived": false
+        }
+      ],
+      "activities": [
+        {
+          "id": "actd9qimqo",
+          "name": "خاکبرداری و تسطیح زمین",
+          "order": 0
+        },
+        {
+          "id": "actdadpxnf",
+          "name": "گودبرداری",
+          "order": 1
+        },
+        {
+          "id": "actdb7c3dd",
+          "name": "اجرای سازه نگهبان (راهبم)",
+          "order": 2
+        },
+        {
+          "id": "actdc03uvu",
+          "name": "فونداسیون و کلنی",
+          "order": 3
+        },
+        {
+          "id": "actddlemx1",
+          "name": "اسکلت بتنی — همکف و طبقات",
+          "order": 4
+        },
+        {
+          "id": "actde5z8vm",
+          "name": "اجرای سقف‌ها و دال بتنی",
+          "order": 5
+        },
+        {
+          "id": "actdfuhxid",
+          "name": "دیوارچینی و تیغه‌چینی",
+          "order": 6
+        },
+        {
+          "id": "acte04n1u3",
+          "name": "عایق‌کاری رطوبتی",
+          "order": 7
+        },
+        {
+          "id": "acte1493wx",
+          "name": "گچ و خاک",
+          "order": 8
+        },
+        {
+          "id": "acte2a73jg",
+          "name": "کاشی‌کاری و سرامیک",
+          "order": 9
+        },
+        {
+          "id": "acte3zlma5",
+          "name": "تأسیسات مکانیکی",
+          "order": 10
+        },
+        {
+          "id": "acte4uofwb",
+          "name": "تأسیسات برق",
+          "order": 11
+        }
+      ],
+      "investors": [
+        {
+          "id": "inve50hpmn",
+          "contactId": "c1xaji0",
+          "sharePercent": 100
+        }
+      ],
+      "bankAccounts": [
+        {
+          "id": "acc4658kxo",
+          "name": "ملت — نگین فاز ۱",
+          "accountNumber": "1122334455661",
+          "accountType": "current",
+          "initialBalance": "1200000000",
+          "ownerType": "project",
+          "investorContactId": null
+        },
+        {
+          "id": "acc479t7e8",
+          "name": "تنخواه کارگاه",
+          "accountNumber": "9988776655441",
+          "accountType": "petty",
+          "initialBalance": "50000000",
+          "ownerType": "project",
+          "investorContactId": null
+        },
+        {
+          "id": "acc48g8jdp",
+          "name": "حساب چک‌های پروژه",
+          "accountNumber": "5544332211001",
+          "accountType": "current",
+          "initialBalance": "100000000",
+          "ownerType": "project",
+          "investorContactId": null
+        }
+      ],
+      "financeTransactions": [
+        {
+          "id": "ft9e49itn",
+          "date": "1403/11/01",
+          "type": "capital_in",
+          "amount": 8500000000,
+          "fromAccountId": null,
+          "toAccountId": "acc4658kxo",
+          "investorContactId": "c1xaji0",
+          "note": "ورود سرمایه اولیه پروژه",
+          "docs": [
+            {
+              "id": "doc9f7s55j",
+              "name": "رسید واریز سرمایه.pdf",
+              "dataUrl": "data:application/pdf;base64,JVBERi0xLjQKMSAwIG9iago8PC9UeXBlL0NhdGFsb2cKL1BhZ2VzIDIgMCBSCj4+CmVuZG9iagoyIDAgb2IKPDwKL1R5cGUgL1BhZ2VzCi9LaWRzIFszIDAgUl0KL0NvdW50IDE+PgplbmRvYmoKMyAwIG9iago8PC9UeXBlL0FnZS9QYXJlbnQgMiAwIFIKL01lZGlhQm94IFswIDAgMyAzXQo+PgplbmRvYmoKeHJlZgowIDQKMDAwMDAwMDAwMDAwMDAwMDAwMDAwMDAwMDAwMDAwCjAwMDAwMDAwMTIgMDAwMDAgbiAKMDAwMDAwMDA2MCAwMDAwMCBuIAowMDAwMDAwMTMzIDAwMDAwIG4gCnRyYWlsZXIKPDwKL1NpemUgNC9Sb290IDEgMCBSCj4+CmVuZG9iagolJUVPRg=="
+            }
+          ]
+        },
+        {
+          "id": "fta1kkv9r",
+          "date": "1404/02/10",
+          "type": "income",
+          "amount": 1048080000,
+          "fromAccountId": null,
+          "toAccountId": "acc4658kxo",
+          "unitId": "u490lvsn",
+          "installmentId": null,
+          "note": "پیش‌پرداخت واحد 11",
+          "docs": [
+            {
+              "id": "doca2ftmtt",
+              "name": "رسید دریافت پیش‌پرداخت.png",
+              "dataUrl": "data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAYAAAAfFcSJAAAADUlEQVR42mNk+M9QDwADhgGAWjR9awAAAABJRU5ErkJggg=="
+            }
+          ]
+        },
+        {
+          "id": "fta3qlgzu",
+          "date": "1404/05/20",
+          "type": "income",
+          "amount": 611380000,
+          "fromAccountId": null,
+          "toAccountId": "acc4658kxo",
+          "unitId": "u490lvsn",
+          "installmentId": "inst4btz0yn",
+          "note": "قسط اول واحد 11",
+          "docs": [
+            {
+              "id": "doca4i1b0z",
+              "name": "رسید قسط.png",
+              "dataUrl": "data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAYAAAAfFcSJAAAADUlEQVR42mNk+M9QDwADhgGAWjR9awAAAABJRU5ErkJggg=="
+            }
+          ]
+        },
+        {
+          "id": "fta53nx39",
+          "date": "1404/02/10",
+          "type": "income",
+          "amount": 1107630000,
+          "fromAccountId": null,
+          "toAccountId": "acc4658kxo",
+          "unitId": "u4f6wkta",
+          "installmentId": null,
+          "note": "پیش‌پرداخت واحد 12",
+          "docs": [
+            {
+              "id": "doca6rbsv5",
+              "name": "رسید دریافت پیش‌پرداخت.png",
+              "dataUrl": "data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAYAAAAfFcSJAAAADUlEQVR42mNk+M9QDwADhgGAWjR9awAAAABJRU5ErkJggg=="
+            }
+          ]
+        },
+        {
+          "id": "fta75psq0",
+          "date": "1404/02/10",
+          "type": "income",
+          "amount": 1167180000,
+          "fromAccountId": null,
+          "toAccountId": "acc4658kxo",
+          "unitId": "u55owgzr",
+          "installmentId": null,
+          "note": "پیش‌پرداخت واحد 13",
+          "docs": [
+            {
+              "id": "doca8oxfq8",
+              "name": "رسید دریافت پیش‌پرداخت.png",
+              "dataUrl": "data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAYAAAAfFcSJAAAADUlEQVR42mNk+M9QDwADhgGAWjR9awAAAABJRU5ErkJggg=="
+            }
+          ]
+        },
+        {
+          "id": "fta9myx44",
+          "date": "1404/05/20",
+          "type": "income",
+          "amount": 680855000,
+          "fromAccountId": null,
+          "toAccountId": "acc4658kxo",
+          "unitId": "u55owgzr",
+          "installmentId": "inst57dpg8s",
+          "note": "قسط اول واحد 13",
+          "docs": [
+            {
+              "id": "docaa4nlz1",
+              "name": "رسید قسط.png",
+              "dataUrl": "data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAYAAAAfFcSJAAAADUlEQVR42mNk+M9QDwADhgGAWjR9awAAAABJRU5ErkJggg=="
+            }
+          ]
+        },
+        {
+          "id": "ftab5bcw7",
+          "date": "1404/02/10",
+          "type": "income",
+          "amount": 1226730000,
+          "fromAccountId": null,
+          "toAccountId": "acc4658kxo",
+          "unitId": "u5b60rji",
+          "installmentId": null,
+          "note": "پیش‌پرداخت واحد 21",
+          "docs": [
+            {
+              "id": "docac90pdw",
+              "name": "رسید دریافت پیش‌پرداخت.png",
+              "dataUrl": "data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAYAAAAfFcSJAAAADUlEQVR42mNk+M9QDwADhgGAWjR9awAAAABJRU5ErkJggg=="
+            }
+          ]
+        },
+        {
+          "id": "ftad5py6b",
+          "date": "1404/02/10",
+          "type": "income",
+          "amount": 928980000,
+          "fromAccountId": null,
+          "toAccountId": "acc4658kxo",
+          "unitId": "u61nam14",
+          "installmentId": null,
+          "note": "پیش‌پرداخت واحد 22",
+          "docs": [
+            {
+              "id": "docae2knft",
+              "name": "رسید دریافت پیش‌پرداخت.png",
+              "dataUrl": "data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAYAAAAfFcSJAAAADUlEQVR42mNk+M9QDwADhgGAWjR9awAAAABJRU5ErkJggg=="
+            }
+          ]
+        },
+        {
+          "id": "ftafu2gc5",
+          "date": "1404/05/20",
+          "type": "income",
+          "amount": 541905000,
+          "fromAccountId": null,
+          "toAccountId": "acc4658kxo",
+          "unitId": "u61nam14",
+          "installmentId": "inst63hhpbm",
+          "note": "قسط اول واحد 22",
+          "docs": [
+            {
+              "id": "docb0wi6fq",
+              "name": "رسید قسط.png",
+              "dataUrl": "data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAYAAAAfFcSJAAAADUlEQVR42mNk+M9QDwADhgGAWjR9awAAAABJRU5ErkJggg=="
+            }
+          ]
+        },
+        {
+          "id": "ftb1jja26",
+          "date": "1404/02/10",
+          "type": "income",
+          "amount": 988530000,
+          "fromAccountId": null,
+          "toAccountId": "acc4658kxo",
+          "unitId": "u67hl1n1",
+          "installmentId": null,
+          "note": "پیش‌پرداخت واحد 23",
+          "docs": [
+            {
+              "id": "docb2yfpmv",
+              "name": "رسید دریافت پیش‌پرداخت.png",
+              "dataUrl": "data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAYAAAAfFcSJAAAADUlEQVR42mNk+M9QDwADhgGAWjR9awAAAABJRU5ErkJggg=="
+            }
+          ]
+        },
+        {
+          "id": "ftb3xpj4h",
+          "date": "1404/02/10",
+          "type": "income",
+          "amount": 1048080000,
+          "fromAccountId": null,
+          "toAccountId": "acc4658kxo",
+          "unitId": "u6d38dal",
+          "installmentId": null,
+          "note": "پیش‌پرداخت واحد 31",
+          "docs": [
+            {
+              "id": "docb4nriuu",
+              "name": "رسید دریافت پیش‌پرداخت.png",
+              "dataUrl": "data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAYAAAAfFcSJAAAADUlEQVR42mNk+M9QDwADhgGAWjR9awAAAABJRU5ErkJggg=="
+            }
+          ]
+        },
+        {
+          "id": "ftb59k9xj",
+          "date": "1404/05/20",
+          "type": "income",
+          "amount": 611380000,
+          "fromAccountId": null,
+          "toAccountId": "acc4658kxo",
+          "unitId": "u6d38dal",
+          "installmentId": "inst6fywd14",
+          "note": "قسط اول واحد 31",
+          "docs": [
+            {
+              "id": "docb6uy0bv",
+              "name": "رسید قسط.png",
+              "dataUrl": "data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAYAAAAfFcSJAAAADUlEQVR42mNk+M9QDwADhgGAWjR9awAAAABJRU5ErkJggg=="
+            }
+          ]
+        },
+        {
+          "id": "ftb7r6k2v",
+          "date": "1404/02/10",
+          "type": "income",
+          "amount": 1107630000,
+          "fromAccountId": null,
+          "toAccountId": "acc4658kxo",
+          "unitId": "u73zp08j",
+          "installmentId": null,
+          "note": "پیش‌پرداخت واحد 32",
+          "docs": [
+            {
+              "id": "docb8mwwyz",
+              "name": "رسید دریافت پیش‌پرداخت.png",
+              "dataUrl": "data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAYAAAAfFcSJAAAADUlEQVR42mNk+M9QDwADhgGAWjR9awAAAABJRU5ErkJggg=="
+            }
+          ]
+        },
+        {
+          "id": "ftb9x4w6x",
+          "date": "1404/02/10",
+          "type": "income",
+          "amount": 1167180000,
+          "fromAccountId": null,
+          "toAccountId": "acc4658kxo",
+          "unitId": "u79dzr1y",
+          "installmentId": null,
+          "note": "پیش‌پرداخت واحد 33",
+          "docs": [
+            {
+              "id": "docbalpu0d",
+              "name": "رسید دریافت پیش‌پرداخت.png",
+              "dataUrl": "data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAYAAAAfFcSJAAAADUlEQVR42mNk+M9QDwADhgGAWjR9awAAAABJRU5ErkJggg=="
+            }
+          ]
+        },
+        {
+          "id": "ftbbk0get",
+          "date": "1404/05/20",
+          "type": "income",
+          "amount": 680855000,
+          "fromAccountId": null,
+          "toAccountId": "acc4658kxo",
+          "unitId": "u79dzr1y",
+          "installmentId": "inst7bylurt",
+          "note": "قسط اول واحد 33",
+          "docs": [
+            {
+              "id": "docbc8t63j",
+              "name": "رسید قسط.png",
+              "dataUrl": "data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAYAAAAfFcSJAAAADUlEQVR42mNk+M9QDwADhgGAWjR9awAAAABJRU5ErkJggg=="
+            }
+          ]
+        },
+        {
+          "id": "ftbd3r30m",
+          "date": "1404/02/10",
+          "type": "income",
+          "amount": 1226730000,
+          "fromAccountId": null,
+          "toAccountId": "acc4658kxo",
+          "unitId": "u7f9skdg",
+          "installmentId": null,
+          "note": "پیش‌پرداخت واحد 41",
+          "docs": [
+            {
+              "id": "docbee8f84",
+              "name": "رسید دریافت پیش‌پرداخت.png",
+              "dataUrl": "data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAYAAAAfFcSJAAAADUlEQVR42mNk+M9QDwADhgGAWjR9awAAAABJRU5ErkJggg=="
+            }
+          ]
+        },
+        {
+          "id": "ftbf0982n",
+          "date": "1404/02/10",
+          "type": "income",
+          "amount": 928980000,
+          "fromAccountId": null,
+          "toAccountId": "acc4658kxo",
+          "unitId": "u85uk9e1",
+          "installmentId": null,
+          "note": "پیش‌پرداخت واحد 42",
+          "docs": [
+            {
+              "id": "docc02atqy",
+              "name": "رسید دریافت پیش‌پرداخت.png",
+              "dataUrl": "data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAYAAAAfFcSJAAAADUlEQVR42mNk+M9QDwADhgGAWjR9awAAAABJRU5ErkJggg=="
+            }
+          ]
+        },
+        {
+          "id": "ftc1yv37d",
+          "date": "1404/05/20",
+          "type": "income",
+          "amount": 541905000,
+          "fromAccountId": null,
+          "toAccountId": "acc4658kxo",
+          "unitId": "u85uk9e1",
+          "installmentId": "inst87p49kw",
+          "note": "قسط اول واحد 42",
+          "docs": [
+            {
+              "id": "docc2ia5u6",
+              "name": "رسید قسط.png",
+              "dataUrl": "data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAYAAAAfFcSJAAAADUlEQVR42mNk+M9QDwADhgGAWjR9awAAAABJRU5ErkJggg=="
+            }
+          ]
+        },
+        {
+          "id": "ftc5d5eqy",
+          "date": "1404/03/05",
+          "type": "expense",
+          "amount": 320000000,
+          "fromAccountId": "acc4658kxo",
+          "toAccountId": null,
+          "expenseId": "expc3hc36k",
+          "note": "خرید سیمان پروژه",
+          "docs": [
+            {
+              "id": "docc608p0f",
+              "name": "فاکتور سیمان.pdf",
+              "dataUrl": "data:application/pdf;base64,JVBERi0xLjQKMSAwIG9iago8PC9UeXBlL0NhdGFsb2cKL1BhZ2VzIDIgMCBSCj4+CmVuZG9iagoyIDAgb2IKPDwKL1R5cGUgL1BhZ2VzCi9LaWRzIFszIDAgUl0KL0NvdW50IDE+PgplbmRvYmoKMyAwIG9iago8PC9UeXBlL0FnZS9QYXJlbnQgMiAwIFIKL01lZGlhQm94IFswIDAgMyAzXQo+PgplbmRvYmoKeHJlZgowIDQKMDAwMDAwMDAwMDAwMDAwMDAwMDAwMDAwMDAwMDAwCjAwMDAwMDAwMTIgMDAwMDAgbiAKMDAwMDAwMDA2MCAwMDAwMCBuIAowMDAwMDAwMTMzIDAwMDAwIG4gCnRyYWlsZXIKPDwKL1NpemUgNC9Sb290IDEgMCBSCj4+CmVuZG9iagolJUVPRg=="
+            }
+          ]
+        },
+        {
+          "id": "ftcbxxva2",
+          "date": "1404/04/20",
+          "type": "check_clear",
+          "amount": 185000000,
+          "fromAccountId": "acc48g8jdp",
+          "toAccountId": null,
+          "expenseId": "expc9dyt9m",
+          "note": "اجاره جرثقیل",
+          "docs": [
+            {
+              "id": "docccieuc1",
+              "name": "چک جرثقیل.pdf",
+              "dataUrl": "data:application/pdf;base64,JVBERi0xLjQKMSAwIG9iago8PC9UeXBlL0NhdGFsb2cKL1BhZ2VzIDIgMCBSCj4+CmVuZG9iagoyIDAgb2IKPDwKL1R5cGUgL1BhZ2VzCi9LaWRzIFszIDAgUl0KL0NvdW50IDE+PgplbmRvYmoKMyAwIG9iago8PC9UeXBlL0FnZS9QYXJlbnQgMiAwIFIKL01lZGlhQm94IFswIDAgMyAzXQo+PgplbmRvYmoKeHJlZgowIDQKMDAwMDAwMDAwMDAwMDAwMDAwMDAwMDAwMDAwMDAwCjAwMDAwMDAwMTIgMDAwMDAgbiAKMDAwMDAwMDA2MCAwMDAwMCBuIAowMDAwMDAwMTMzIDAwMDAwIG4gCnRyYWlsZXIKPDwKL1NpemUgNC9Sb290IDEgMCBSCj4+CmVuZG9iagolJUVPRg=="
+            }
+          ]
+        },
+        {
+          "id": "ftcdhh5lf",
+          "date": "1404/05/15",
+          "type": "contact_debt_pay",
+          "amount": 534000000,
+          "fromAccountId": "acc4658kxo",
+          "toAccountId": null,
+          "contactId": "c53zmf8",
+          "note": "تسویه بخشی بدهی میلگرد",
+          "docs": [
+            {
+              "id": "docce6a4fe",
+              "name": "رسید پرداخت بدهی.pdf",
+              "dataUrl": "data:application/pdf;base64,JVBERi0xLjQKMSAwIG9iago8PC9UeXBlL0NhdGFsb2cKL1BhZ2VzIDIgMCBSCj4+CmVuZG9iagoyIDAgb2IKPDwKL1R5cGUgL1BhZ2VzCi9LaWRzIFszIDAgUl0KL0NvdW50IDE+PgplbmRvYmoKMyAwIG9iago8PC9UeXBlL0FnZS9QYXJlbnQgMiAwIFIKL01lZGlhQm94IFswIDAgMyAzXQo+PgplbmRvYmoKeHJlZgowIDQKMDAwMDAwMDAwMDAwMDAwMDAwMDAwMDAwMDAwMDAwCjAwMDAwMDAwMTIgMDAwMDAgbiAKMDAwMDAwMDA2MCAwMDAwMCBuIAowMDAwMDAwMTMzIDAwMDAwIG4gCnRyYWlsZXIKPDwKL1NpemUgNC9Sb290IDEgMCBSCj4+CmVuZG9iagolJUVPRg=="
+            }
+          ],
+          "apAllocations": [
+            {
+              "expenseId": "expc7odro8",
+              "amount": 534000000,
+              "expenseTitle": "میلگرد اسکلت — فاکتور نسیه"
+            }
+          ]
+        },
+        {
+          "id": "ftcfjgxaa",
+          "date": "1404/05/01",
+          "type": "contact_prepay",
+          "amount": 45000000,
+          "fromAccountId": "acc4658kxo",
+          "toAccountId": null,
+          "contactId": "c3hsahx",
+          "note": "پیش‌پرداخت پیمانکار نازک‌کاری",
+          "docs": [
+            {
+              "id": "docd02ilgb",
+              "name": "رسید پیش‌پرداخت.pdf",
+              "dataUrl": "data:application/pdf;base64,JVBERi0xLjQKMSAwIG9iago8PC9UeXBlL0NhdGFsb2cKL1BhZ2VzIDIgMCBSCj4+CmVuZG9iagoyIDAgb2IKPDwKL1R5cGUgL1BhZ2VzCi9LaWRzIFszIDAgUl0KL0NvdW50IDE+PgplbmRvYmoKMyAwIG9iago8PC9UeXBlL0FnZS9QYXJlbnQgMiAwIFIKL01lZGlhQm94IFswIDAgMyAzXQo+PgplbmRvYmoKeHJlZgowIDQKMDAwMDAwMDAwMDAwMDAwMDAwMDAwMDAwMDAwMDAwCjAwMDAwMDAwMTIgMDAwMDAgbiAKMDAwMDAwMDA2MCAwMDAwMCBuIAowMDAwMDAwMTMzIDAwMDAwIG4gCnRyYWlsZXIKPDwKL1NpemUgNC9Sb290IDEgMCBSCj4+CmVuZG9iagolJUVPRg=="
+            }
+          ]
+        },
+        {
+          "id": "ftd10s0r2",
+          "date": "1404/06/01",
+          "type": "transfer",
+          "amount": 120000000,
+          "fromAccountId": "acc4658kxo",
+          "toAccountId": "acc479t7e8",
+          "note": "انتقال به تنخواه کارگاه",
+          "docs": [
+            {
+              "id": "docd2sds8b",
+              "name": "حواله انتقال.png",
+              "dataUrl": "data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAYAAAAfFcSJAAAADUlEQVR42mNk+M9QDwADhgGAWjR9awAAAABJRU5ErkJggg=="
+            }
+          ]
+        }
+      ],
+      "expenses": [
+        {
+          "id": "expc3hc36k",
+          "title": "خرید سیمان پروژه",
+          "amount": "320000000",
+          "date": "1404/03/05",
+          "paymentMethod": "cash",
+          "contactId": "c53zmf8",
+          "bankAccountId": "acc4658kxo",
+          "materialId": "inv3f6hid2",
+          "materialQty": 800,
+          "note": "رسید انبار — شارژ موجودی",
+          "docs": [
+            {
+              "id": "docc4of8kr",
+              "name": "فاکتور سیمان.pdf",
+              "dataUrl": "data:application/pdf;base64,JVBERi0xLjQKMSAwIG9iago8PC9UeXBlL0NhdGFsb2cKL1BhZ2VzIDIgMCBSCj4+CmVuZG9iagoyIDAgb2IKPDwKL1R5cGUgL1BhZ2VzCi9LaWRzIFszIDAgUl0KL0NvdW50IDE+PgplbmRvYmoKMyAwIG9iago8PC9UeXBlL0FnZS9QYXJlbnQgMiAwIFIKL01lZGlhQm94IFswIDAgMyAzXQo+PgplbmRvYmoKeHJlZgowIDQKMDAwMDAwMDAwMDAwMDAwMDAwMDAwMDAwMDAwMDAwCjAwMDAwMDAwMTIgMDAwMDAgbiAKMDAwMDAwMDA2MCAwMDAwMCBuIAowMDAwMDAwMTMzIDAwMDAwIG4gCnRyYWlsZXIKPDwKL1NpemUgNC9Sb290IDEgMCBSCj4+CmVuZG9iagolJUVPRg=="
+            }
+          ]
+        },
+        {
+          "id": "expc7odro8",
+          "title": "میلگرد اسکلت — فاکتور نسیه",
+          "amount": "890000000",
+          "date": "1404/04/12",
+          "paymentMethod": "credit",
+          "contactId": "c53zmf8",
+          "materialId": "inv420l725",
+          "materialQty": 12000,
+          "note": "فاکتور ۱۴۰۴/۰۴/۱۲",
+          "docs": [
+            {
+              "id": "docc8bnp84",
+              "name": "فاکتور میلگرد.pdf",
+              "dataUrl": "data:application/pdf;base64,JVBERi0xLjQKMSAwIG9iago8PC9UeXBlL0NhdGFsb2cKL1BhZ2VzIDIgMCBSCj4+CmVuZG9iagoyIDAgb2IKPDwKL1R5cGUgL1BhZ2VzCi9LaWRzIFszIDAgUl0KL0NvdW50IDE+PgplbmRvYmoKMyAwIG9iago8PC9UeXBlL0FnZS9QYXJlbnQgMiAwIFIKL01lZGlhQm94IFswIDAgMyAzXQo+PgplbmRvYmoKeHJlZgowIDQKMDAwMDAwMDAwMDAwMDAwMDAwMDAwMDAwMDAwMDAwCjAwMDAwMDAwMTIgMDAwMDAgbiAKMDAwMDAwMDA2MCAwMDAwMCBuIAowMDAwMDAwMTMzIDAwMDAwIG4gCnRyYWlsZXIKPDwKL1NpemUgNC9Sb290IDEgMCBSCj4+CmVuZG9iagolJUVPRg=="
+            }
+          ]
+        },
+        {
+          "id": "expc9dyt9m",
+          "title": "اجاره جرثقیل",
+          "amount": "185000000",
+          "date": "1404/04/20",
+          "paymentMethod": "check",
+          "contactId": "c3hsahx",
+          "bankAccountId": "acc48g8jdp",
+          "note": "چک سررسید ۱۴۰۴/۰۶/۰۱",
+          "docs": [
+            {
+              "id": "doccaoge4q",
+              "name": "چک جرثقیل.pdf",
+              "dataUrl": "data:application/pdf;base64,JVBERi0xLjQKMSAwIG9iago8PC9UeXBlL0NhdGFsb2cKL1BhZ2VzIDIgMCBSCj4+CmVuZG9iagoyIDAgb2IKPDwKL1R5cGUgL1BhZ2VzCi9LaWRzIFszIDAgUl0KL0NvdW50IDE+PgplbmRvYmoKMyAwIG9iago8PC9UeXBlL0FnZS9QYXJlbnQgMiAwIFIKL01lZGlhQm94IFswIDAgMyAzXQo+PgplbmRvYmoKeHJlZgowIDQKMDAwMDAwMDAwMDAwMDAwMDAwMDAwMDAwMDAwMDAwCjAwMDAwMDAwMTIgMDAwMDAgbiAKMDAwMDAwMDA2MCAwMDAwMCBuIAowMDAwMDAwMTMzIDAwMDAwIG4gCnRyYWlsZXIKPDwKL1NpemUgNC9Sb290IDEgMCBSCj4+CmVuZG9iagolJUVPRg=="
+            }
+          ]
+        },
+        {
+          "id": "expd6jwtl9",
+          "title": "صورت‌وضعیت 1",
+          "amount": "680000000",
+          "date": "1404/04/15",
+          "paymentMethod": "credit",
+          "contactId": "c3hsahx",
+          "progressStatementId": "stmtd56ccvc",
+          "note": "صورت وضعیت — ۴۵٪ پیشرفت",
+          "docs": [
+            {
+              "id": "docd7tqvdz",
+              "name": "صورت وضعیت 1.pdf",
+              "dataUrl": "data:application/pdf;base64,JVBERi0xLjQKMSAwIG9iago8PC9UeXBlL0NhdGFsb2cKL1BhZ2VzIDIgMCBSCj4+CmVuZG9iagoyIDAgb2IKPDwKL1R5cGUgL1BhZ2VzCi9LaWRzIFszIDAgUl0KL0NvdW50IDE+PgplbmRvYmoKMyAwIG9iago8PC9UeXBlL0FnZS9QYXJlbnQgMiAwIFIKL01lZGlhQm94IFswIDAgMyAzXQo+PgplbmRvYmoKeHJlZgowIDQKMDAwMDAwMDAwMDAwMDAwMDAwMDAwMDAwMDAwMDAwCjAwMDAwMDAwMTIgMDAwMDAgbiAKMDAwMDAwMDA2MCAwMDAwMCBuIAowMDAwMDAwMTMzIDAwMDAwIG4gCnRyYWlsZXIKPDwKL1NpemUgNC9Sb290IDEgMCBSCj4+CmVuZG9iagolJUVPRg=="
+            }
+          ]
+        }
+      ],
+      "contracts": [
+        {
+          "id": "cond325sq8",
+          "createdAt": "1404-01-10T08:00:00.000Z",
+          "activityName": "اجرای اسکلت بتنی",
+          "activityId": null,
+          "employerContactId": "c1xaji0",
+          "contractorContactId": "c3hsahx",
+          "contractNumber": "NGN-F1-1404-01",
+          "contractDate": "1404/01/10",
+          "quantity": 4590.0,
+          "unitPrice": 8500000,
+          "totalAmount": 39015000000,
+          "unitLabel": "متر مربع",
+          "startDate": "1404/02/01",
+          "endDate": "1404/09/30",
+          "durationDays": 240,
+          "advancePercent": 15,
+          "retentionPercent": 10,
+          "warrantyDays": 365,
+          "penaltyPerDay": 5000000,
+          "activityNotes": "طبق نقشه‌های اجرایی و دستور کار",
+          "customClauses": "",
+          "customClausesOnly": false,
+          "amendments": [
+            {
+              "id": "amdd4croyr",
+              "createdAt": "1404-05-01T10:00:00.000Z",
+              "amendmentNo": 1,
+              "amendmentDate": "1404/05/01",
+              "quantity": 120,
+              "unitPrice": 9200000,
+              "totalAmount": 1104000000,
+              "unitLabel": "متر مربع",
+              "notes": "متمم — اضافه‌کاری سقف طبقه شش"
+            }
+          ]
+        }
+      ],
+      "progressStatements": [
+        {
+          "id": "stmtd56ccvc",
+          "createdAt": "1404-04-15T09:00:00.000Z",
+          "statementNo": 1,
+          "date": "1404/04/15",
+          "contractLabel": "NGN-F1-1404-01 — اسکلت",
+          "contractorContactId": "c3hsahx",
+          "netAmount": 680000000,
+          "completionStatus": "۴۵٪ پیشرفت فیزیکی",
+          "defectsNotes": "بدون نقص"
+        }
+      ],
+      "auditLog": [
+        {
+          "id": "auda02o7s3",
+          "at": "1403-11-01T10:00:00.000Z",
+          "action": "finance.add",
+          "details": {
+            "type": "capital_in",
+            "amount": 8500000000
+          }
+        }
+      ],
+      "documents": [
+        {
+          "id": "doce6z1udb",
+          "name": "پروانه ساختمانی.pdf",
+          "dataUrl": "data:application/pdf;base64,JVBERi0xLjQKMSAwIG9iago8PC9UeXBlL0NhdGFsb2cKL1BhZ2VzIDIgMCBSCj4+CmVuZG9iagoyIDAgb2IKPDwKL1R5cGUgL1BhZ2VzCi9LaWRzIFszIDAgUl0KL0NvdW50IDE+PgplbmRvYmoKMyAwIG9iago8PC9UeXBlL0FnZS9QYXJlbnQgMiAwIFIKL01lZGlhQm94IFswIDAgMyAzXQo+PgplbmRvYmoKeHJlZgowIDQKMDAwMDAwMDAwMDAwMDAwMDAwMDAwMDAwMDAwMDAwCjAwMDAwMDAwMTIgMDAwMDAgbiAKMDAwMDAwMDA2MCAwMDAwMCBuIAowMDAwMDAwMTMzIDAwMDAwIG4gCnRyYWlsZXIKPDwKL1NpemUgNC9Sb290IDEgMCBSCj4+CmVuZG9iagolJUVPRg=="
+        },
+        {
+          "id": "doce7fwyjx",
+          "name": "بیمه کارگاه.pdf",
+          "dataUrl": "data:application/pdf;base64,JVBERi0xLjQKMSAwIG9iago8PC9UeXBlL0NhdGFsb2cKL1BhZ2VzIDIgMCBSCj4+CmVuZG9iagoyIDAgb2IKPDwKL1R5cGUgL1BhZ2VzCi9LaWRzIFszIDAgUl0KL0NvdW50IDE+PgplbmRvYmoKMyAwIG9iago8PC9UeXBlL0FnZS9QYXJlbnQgMiAwIFIKL01lZGlhQm94IFswIDAgMyAzXQo+PgplbmRvYmoKeHJlZgowIDQKMDAwMDAwMDAwMDAwMDAwMDAwMDAwMDAwMDAwMDAwCjAwMDAwMDAwMTIgMDAwMDAgbiAKMDAwMDAwMDA2MCAwMDAwMCBuIAowMDAwMDAwMTMzIDAwMDAwIG4gCnRyYWlsZXIKPDwKL1NpemUgNC9Sb290IDEgMCBSCj4+CmVuZG9iagolJUVPRg=="
+        }
+      ],
+      "address": "پردیس، فاز ۱، بلوار امام خمینی، پلاک ۱۲",
+      "landArea": "920",
+      "totalBuiltArea": "5400",
+      "phase": "سفت‌کاری (دیوارچینی و سقف‌ها)",
+      "lat": 35.7442,
+      "lng": 51.8223,
+      "financialLockedThrough": "1403/12/29",
+      "gallery": [
+        {
+          "id": "gale8rpj1e",
+          "caption": "پیشرفت اسکلت",
+          "dataUrl": "data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAYAAAAfFcSJAAAADUlEQVR42mNk+M9QDwADhgGAWjR9awAAAABJRU5ErkJggg==",
+          "createdAt": "2026-07-24T13:23:15.345391+00:00"
+        },
+        {
+          "id": "gale9pkyry",
+          "caption": "کارگاه",
+          "dataUrl": "data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAYAAAAfFcSJAAAADUlEQVR42mNk+M9QDwADhgGAWjR9awAAAABJRU5ErkJggg==",
+          "createdAt": "2026-07-24T13:23:15.345391+00:00"
+        }
+      ],
+      "quickNotes": [
+        {
+          "id": "qneabovak",
+          "text": "داده نمایشی — برج مسکونی نگین — پردیس فاز ۱ — برای تست پشتیبان‌گیری و حسابداری",
+          "createdAt": "2026-07-24T13:23:15.345391+00:00"
+        }
+      ],
+      "takeoff": {
+        "area": 5400,
+        "bathroomsPerUnit": 1,
+        "kitchensPerUnit": 1,
+        "structureType": "concrete",
+        "wallType": "brick",
+        "coefficients": {
+          "wallRatio": 0.6,
+          "concrete": 0.45,
+          "rebar": 45
+        },
+        "results": {
+          "concrete": 2430.0,
+          "rebar": 243000
+        },
+        "savedAt": "2026-07-24T13:23:15.345391+00:00"
+      }
+    },
+    {
+      "id": "proj171k9tr7",
+      "name": "مجتمع یاس — پردیس فاز ۸",
+      "floors": [
+        {
+          "number": 1,
+          "count": 3
+        },
+        {
+          "number": 2,
+          "count": 3
+        },
+        {
+          "number": 3,
+          "count": 3
+        },
+        {
+          "number": 4,
+          "count": 3
+        },
+        {
+          "number": 5,
+          "count": 3
+        },
+        {
+          "number": 6,
+          "count": 3
+        }
+      ],
+      "units": [
+        {
+          "id": "ueea75uu",
+          "floor": 1,
+          "unitNumber": "11",
+          "area": "93",
+          "status": "sold",
+          "direction": "east",
+          "buyerName": "بهرام زارعی",
+          "buyerPhone": "09191003114",
+          "buyerContactId": "c1blc58d",
+          "postalCode": "144710001",
+          "pricePerMeter": "40900000",
+          "downPayment": "1141110000",
+          "depositAccountId": "accebhejla",
+          "installments": [
+            {
+              "id": "instf02w37d",
+              "date": "1404/04/15",
+              "amount": "665647500",
+              "paid": true,
+              "accountId": "accebhejla",
+              "financeTxId": "ft1424u3bb"
+            },
+            {
+              "id": "instf14ivso",
+              "date": "1404/07/15",
+              "amount": "665647500",
+              "paid": false,
+              "accountId": "accebhejla",
+              "financeTxId": null
+            },
+            {
+              "id": "instf2lmlgs",
+              "date": "1404/10/15",
+              "amount": "665647500",
+              "paid": false,
+              "accountId": "accebhejla",
+              "financeTxId": null
+            },
+            {
+              "id": "instf3es6m0",
+              "date": "1404/13/15",
+              "amount": "665647500",
+              "paid": false,
+              "accountId": "accebhejla",
+              "financeTxId": null
+            }
+          ],
+          "contractDocs": [
+            {
+              "id": "docefzpeal",
+              "name": "مبایعه‌نامه.pdf",
+              "dataUrl": "data:application/pdf;base64,JVBERi0xLjQKMSAwIG9iago8PC9UeXBlL0NhdGFsb2cKL1BhZ2VzIDIgMCBSCj4+CmVuZG9iagoyIDAgb2IKPDwKL1R5cGUgL1BhZ2VzCi9LaWRzIFszIDAgUl0KL0NvdW50IDE+PgplbmRvYmoKMyAwIG9iago8PC9UeXBlL0FnZS9QYXJlbnQgMiAwIFIKL01lZGlhQm94IFswIDAgMyAzXQo+PgplbmRvYmoKeHJlZgowIDQKMDAwMDAwMDAwMDAwMDAwMDAwMDAwMDAwMDAwMDAwCjAwMDAwMDAwMTIgMDAwMDAgbiAKMDAwMDAwMDA2MCAwMDAwMCBuIAowMDAwMDAwMTMzIDAwMDAwIG4gCnRyYWlsZXIKPDwKL1NpemUgNC9Sb290IDEgMCBSCj4+CmVuZG9iagolJUVPRg=="
+            }
+          ],
+          "checkDocs": [],
+          "notes": "",
+          "downPaymentReceived": true
+        },
+        {
+          "id": "uf433ifh",
+          "floor": 1,
+          "unitNumber": "12",
+          "area": "98",
+          "status": "sold",
+          "direction": "west",
+          "buyerName": "شیما عباسی",
+          "buyerPhone": "09191003287",
+          "buyerContactId": "c1crc11e",
+          "postalCode": "144710002",
+          "pricePerMeter": "40900000",
+          "downPayment": "1202460000",
+          "depositAccountId": "accebhejla",
+          "installments": [
+            {
+              "id": "instf6r11q7",
+              "date": "1404/04/15",
+              "amount": "701435000",
+              "paid": false,
+              "accountId": "accebhejla",
+              "financeTxId": null
+            },
+            {
+              "id": "instf7uww5w",
+              "date": "1404/07/15",
+              "amount": "701435000",
+              "paid": false,
+              "accountId": "accebhejla",
+              "financeTxId": null
+            },
+            {
+              "id": "instf8fcpkj",
+              "date": "1404/10/15",
+              "amount": "701435000",
+              "paid": false,
+              "accountId": "accebhejla",
+              "financeTxId": null
+            },
+            {
+              "id": "instf9cslqc",
+              "date": "1404/13/15",
+              "amount": "701435000",
+              "paid": false,
+              "accountId": "accebhejla",
+              "financeTxId": null
+            }
+          ],
+          "contractDocs": [
+            {
+              "id": "docf5v1xg1",
+              "name": "مبایعه‌نامه.pdf",
+              "dataUrl": "data:application/pdf;base64,JVBERi0xLjQKMSAwIG9iago8PC9UeXBlL0NhdGFsb2cKL1BhZ2VzIDIgMCBSCj4+CmVuZG9iagoyIDAgb2IKPDwKL1R5cGUgL1BhZ2VzCi9LaWRzIFszIDAgUl0KL0NvdW50IDE+PgplbmRvYmoKMyAwIG9iago8PC9UeXBlL0FnZS9QYXJlbnQgMiAwIFIKL01lZGlhQm94IFswIDAgMyAzXQo+PgplbmRvYmoKeHJlZgowIDQKMDAwMDAwMDAwMDAwMDAwMDAwMDAwMDAwMDAwMDAwCjAwMDAwMDAwMTIgMDAwMDAgbiAKMDAwMDAwMDA2MCAwMDAwMCBuIAowMDAwMDAwMTMzIDAwMDAwIG4gCnRyYWlsZXIKPDwKL1NpemUgNC9Sb290IDEgMCBSCj4+CmVuZG9iagolJUVPRg=="
+            }
+          ],
+          "checkDocs": [],
+          "notes": "",
+          "downPaymentReceived": true
+        },
+        {
+          "id": "ufa3c54w",
+          "floor": 1,
+          "unitNumber": "13",
+          "area": "103",
+          "status": "sold",
+          "direction": "north",
+          "buyerName": "کوروش داوودی",
+          "buyerPhone": "09191003460",
+          "buyerContactId": "c1drtj5p",
+          "postalCode": "144710003",
+          "pricePerMeter": "40900000",
+          "downPayment": "1263810000",
+          "depositAccountId": "accebhejla",
+          "installments": [
+            {
+              "id": "instfcq3xlr",
+              "date": "1404/04/15",
+              "amount": "737222500",
+              "paid": true,
+              "accountId": "accebhejla",
+              "financeTxId": "ft148enulq"
+            },
+            {
+              "id": "instfdfcd6m",
+              "date": "1404/07/15",
+              "amount": "737222500",
+              "paid": false,
+              "accountId": "accebhejla",
+              "financeTxId": null
+            },
+            {
+              "id": "instfezsgip",
+              "date": "1404/10/15",
+              "amount": "737222500",
+              "paid": false,
+              "accountId": "accebhejla",
+              "financeTxId": null
+            },
+            {
+              "id": "instffpsfnk",
+              "date": "1404/13/15",
+              "amount": "737222500",
+              "paid": false,
+              "accountId": "accebhejla",
+              "financeTxId": null
+            }
+          ],
+          "contractDocs": [
+            {
+              "id": "docfbsqt26",
+              "name": "مبایعه‌نامه.pdf",
+              "dataUrl": "data:application/pdf;base64,JVBERi0xLjQKMSAwIG9iago8PC9UeXBlL0NhdGFsb2cKL1BhZ2VzIDIgMCBSCj4+CmVuZG9iagoyIDAgb2IKPDwKL1R5cGUgL1BhZ2VzCi9LaWRzIFszIDAgUl0KL0NvdW50IDE+PgplbmRvYmoKMyAwIG9iago8PC9UeXBlL0FnZS9QYXJlbnQgMiAwIFIKL01lZGlhQm94IFswIDAgMyAzXQo+PgplbmRvYmoKeHJlZgowIDQKMDAwMDAwMDAwMDAwMDAwMDAwMDAwMDAwMDAwMDAwCjAwMDAwMDAwMTIgMDAwMDAgbiAKMDAwMDAwMDA2MCAwMDAwMCBuIAowMDAwMDAwMTMzIDAwMDAwIG4gCnRyYWlsZXIKPDwKL1NpemUgNC9Sb290IDEgMCBSCj4+CmVuZG9iagolJUVPRg=="
+            }
+          ],
+          "checkDocs": [],
+          "notes": "",
+          "downPaymentReceived": true
+        },
+        {
+          "id": "u100omv2x",
+          "floor": 2,
+          "unitNumber": "21",
+          "area": "78",
+          "status": "sold",
+          "direction": "east",
+          "buyerName": "نگین طاهری",
+          "buyerPhone": "09191003633",
+          "buyerContactId": "c1eht0hl",
+          "postalCode": "144710004",
+          "pricePerMeter": "40900000",
+          "downPayment": "957060000",
+          "depositAccountId": "accebhejla",
+          "installments": [
+            {
+              "id": "inst102x65mu",
+              "date": "1404/04/15",
+              "amount": "558285000",
+              "paid": false,
+              "accountId": "accebhejla",
+              "financeTxId": null
+            },
+            {
+              "id": "inst103fm8zo",
+              "date": "1404/07/15",
+              "amount": "558285000",
+              "paid": false,
+              "accountId": "accebhejla",
+              "financeTxId": null
+            },
+            {
+              "id": "inst104v7ln2",
+              "date": "1404/10/15",
+              "amount": "558285000",
+              "paid": false,
+              "accountId": "accebhejla",
+              "financeTxId": null
+            },
+            {
+              "id": "inst1053y30y",
+              "date": "1404/13/15",
+              "amount": "558285000",
+              "paid": false,
+              "accountId": "accebhejla",
+              "financeTxId": null
+            }
+          ],
+          "contractDocs": [
+            {
+              "id": "doc101cdyk0",
+              "name": "مبایعه‌نامه.pdf",
+              "dataUrl": "data:application/pdf;base64,JVBERi0xLjQKMSAwIG9iago8PC9UeXBlL0NhdGFsb2cKL1BhZ2VzIDIgMCBSCj4+CmVuZG9iagoyIDAgb2IKPDwKL1R5cGUgL1BhZ2VzCi9LaWRzIFszIDAgUl0KL0NvdW50IDE+PgplbmRvYmoKMyAwIG9iago8PC9UeXBlL0FnZS9QYXJlbnQgMiAwIFIKL01lZGlhQm94IFswIDAgMyAzXQo+PgplbmRvYmoKeHJlZgowIDQKMDAwMDAwMDAwMDAwMDAwMDAwMDAwMDAwMDAwMDAwCjAwMDAwMDAwMTIgMDAwMDAgbiAKMDAwMDAwMDA2MCAwMDAwMCBuIAowMDAwMDAwMTMzIDAwMDAwIG4gCnRyYWlsZXIKPDwKL1NpemUgNC9Sb290IDEgMCBSCj4+CmVuZG9iagolJUVPRg=="
+            }
+          ],
+          "checkDocs": [],
+          "notes": "",
+          "downPaymentReceived": true
+        },
+        {
+          "id": "u106sxpnn",
+          "floor": 2,
+          "unitNumber": "22",
+          "area": "83",
+          "status": "sold",
+          "direction": "west",
+          "buyerName": "فرهاد امینی",
+          "buyerPhone": "09191003806",
+          "buyerContactId": "c1f9xpse",
+          "postalCode": "144710005",
+          "pricePerMeter": "40900000",
+          "downPayment": "1018410000",
+          "depositAccountId": "accebhejla",
+          "installments": [
+            {
+              "id": "inst108ec4d1",
+              "date": "1404/04/15",
+              "amount": "594072500",
+              "paid": true,
+              "accountId": "accebhejla",
+              "financeTxId": "ft14e5xqt4"
+            },
+            {
+              "id": "inst10945bm1",
+              "date": "1404/07/15",
+              "amount": "594072500",
+              "paid": false,
+              "accountId": "accebhejla",
+              "financeTxId": null
+            },
+            {
+              "id": "inst10aenf31",
+              "date": "1404/10/15",
+              "amount": "594072500",
+              "paid": false,
+              "accountId": "accebhejla",
+              "financeTxId": null
+            },
+            {
+              "id": "inst10b3fpoy",
+              "date": "1404/13/15",
+              "amount": "594072500",
+              "paid": false,
+              "accountId": "accebhejla",
+              "financeTxId": null
+            }
+          ],
+          "contractDocs": [
+            {
+              "id": "doc107gh8ri",
+              "name": "مبایعه‌نامه.pdf",
+              "dataUrl": "data:application/pdf;base64,JVBERi0xLjQKMSAwIG9iago8PC9UeXBlL0NhdGFsb2cKL1BhZ2VzIDIgMCBSCj4+CmVuZG9iagoyIDAgb2IKPDwKL1R5cGUgL1BhZ2VzCi9LaWRzIFszIDAgUl0KL0NvdW50IDE+PgplbmRvYmoKMyAwIG9iago8PC9UeXBlL0FnZS9QYXJlbnQgMiAwIFIKL01lZGlhQm94IFswIDAgMyAzXQo+PgplbmRvYmoKeHJlZgowIDQKMDAwMDAwMDAwMDAwMDAwMDAwMDAwMDAwMDAwMDAwCjAwMDAwMDAwMTIgMDAwMDAgbiAKMDAwMDAwMDA2MCAwMDAwMCBuIAowMDAwMDAwMTMzIDAwMDAwIG4gCnRyYWlsZXIKPDwKL1NpemUgNC9Sb290IDEgMCBSCj4+CmVuZG9iagolJUVPRg=="
+            }
+          ],
+          "checkDocs": [],
+          "notes": "",
+          "downPaymentReceived": true
+        },
+        {
+          "id": "u10cipk0q",
+          "floor": 2,
+          "unitNumber": "23",
+          "area": "88",
+          "status": "sold",
+          "direction": "north",
+          "buyerName": "آرزو شفیعی",
+          "buyerPhone": "09191003979",
+          "buyerContactId": "c20imvih",
+          "postalCode": "144710006",
+          "pricePerMeter": "40900000",
+          "downPayment": "1079760000",
+          "depositAccountId": "accebhejla",
+          "installments": [
+            {
+              "id": "inst10en89qk",
+              "date": "1404/04/15",
+              "amount": "629860000",
+              "paid": false,
+              "accountId": "accebhejla",
+              "financeTxId": null
+            },
+            {
+              "id": "inst10fns832",
+              "date": "1404/07/15",
+              "amount": "629860000",
+              "paid": false,
+              "accountId": "accebhejla",
+              "financeTxId": null
+            },
+            {
+              "id": "inst110ejx5t",
+              "date": "1404/10/15",
+              "amount": "629860000",
+              "paid": false,
+              "accountId": "accebhejla",
+              "financeTxId": null
+            },
+            {
+              "id": "inst111d44k1",
+              "date": "1404/13/15",
+              "amount": "629860000",
+              "paid": false,
+              "accountId": "accebhejla",
+              "financeTxId": null
+            }
+          ],
+          "contractDocs": [
+            {
+              "id": "doc10dtl3q4",
+              "name": "مبایعه‌نامه.pdf",
+              "dataUrl": "data:application/pdf;base64,JVBERi0xLjQKMSAwIG9iago8PC9UeXBlL0NhdGFsb2cKL1BhZ2VzIDIgMCBSCj4+CmVuZG9iagoyIDAgb2IKPDwKL1R5cGUgL1BhZ2VzCi9LaWRzIFszIDAgUl0KL0NvdW50IDE+PgplbmRvYmoKMyAwIG9iago8PC9UeXBlL0FnZS9QYXJlbnQgMiAwIFIKL01lZGlhQm94IFswIDAgMyAzXQo+PgplbmRvYmoKeHJlZgowIDQKMDAwMDAwMDAwMDAwMDAwMDAwMDAwMDAwMDAwMDAwCjAwMDAwMDAwMTIgMDAwMDAgbiAKMDAwMDAwMDA2MCAwMDAwMCBuIAowMDAwMDAwMTMzIDAwMDAwIG4gCnRyYWlsZXIKPDwKL1NpemUgNC9Sb290IDEgMCBSCj4+CmVuZG9iagolJUVPRg=="
+            }
+          ],
+          "checkDocs": [],
+          "notes": "",
+          "downPaymentReceived": true
+        },
+        {
+          "id": "u112j6fp8",
+          "floor": 3,
+          "unitNumber": "31",
+          "area": "93",
+          "status": "sold",
+          "direction": "east",
+          "buyerName": "دانیال موسوی",
+          "buyerPhone": "09191004152",
+          "buyerContactId": "c21cwi64",
+          "postalCode": "144710007",
+          "pricePerMeter": "40900000",
+          "downPayment": "1141110000",
+          "depositAccountId": "accebhejla",
+          "installments": [
+            {
+              "id": "inst114si9nb",
+              "date": "1404/04/15",
+              "amount": "665647500",
+              "paid": true,
+              "accountId": "accebhejla",
+              "financeTxId": "ft154belrq"
+            },
+            {
+              "id": "inst11574x2e",
+              "date": "1404/07/15",
+              "amount": "665647500",
+              "paid": false,
+              "accountId": "accebhejla",
+              "financeTxId": null
+            },
+            {
+              "id": "inst116k3zez",
+              "date": "1404/10/15",
+              "amount": "665647500",
+              "paid": false,
+              "accountId": "accebhejla",
+              "financeTxId": null
+            },
+            {
+              "id": "inst117qacj4",
+              "date": "1404/13/15",
+              "amount": "665647500",
+              "paid": false,
+              "accountId": "accebhejla",
+              "financeTxId": null
+            }
+          ],
+          "contractDocs": [
+            {
+              "id": "doc113hqmab",
+              "name": "مبایعه‌نامه.pdf",
+              "dataUrl": "data:application/pdf;base64,JVBERi0xLjQKMSAwIG9iago8PC9UeXBlL0NhdGFsb2cKL1BhZ2VzIDIgMCBSCj4+CmVuZG9iagoyIDAgb2IKPDwKL1R5cGUgL1BhZ2VzCi9LaWRzIFszIDAgUl0KL0NvdW50IDE+PgplbmRvYmoKMyAwIG9iago8PC9UeXBlL0FnZS9QYXJlbnQgMiAwIFIKL01lZGlhQm94IFswIDAgMyAzXQo+PgplbmRvYmoKeHJlZgowIDQKMDAwMDAwMDAwMDAwMDAwMDAwMDAwMDAwMDAwMDAwCjAwMDAwMDAwMTIgMDAwMDAgbiAKMDAwMDAwMDA2MCAwMDAwMCBuIAowMDAwMDAwMTMzIDAwMDAwIG4gCnRyYWlsZXIKPDwKL1NpemUgNC9Sb290IDEgMCBSCj4+CmVuZG9iagolJUVPRg=="
+            }
+          ],
+          "checkDocs": [],
+          "notes": "",
+          "downPaymentReceived": true
+        },
+        {
+          "id": "u118t0sek",
+          "floor": 3,
+          "unitNumber": "32",
+          "area": "98",
+          "status": "sold",
+          "direction": "west",
+          "buyerName": "هانیه قاسمی",
+          "buyerPhone": "09191004325",
+          "buyerContactId": "c22ciyhe",
+          "postalCode": "144710008",
+          "pricePerMeter": "40900000",
+          "downPayment": "1202460000",
+          "depositAccountId": "accebhejla",
+          "installments": [
+            {
+              "id": "inst11ad6vas",
+              "date": "1404/04/15",
+              "amount": "701435000",
+              "paid": false,
+              "accountId": "accebhejla",
+              "financeTxId": null
+            },
+            {
+              "id": "inst11bifpwi",
+              "date": "1404/07/15",
+              "amount": "701435000",
+              "paid": false,
+              "accountId": "accebhejla",
+              "financeTxId": null
+            },
+            {
+              "id": "inst11coxd9c",
+              "date": "1404/10/15",
+              "amount": "701435000",
+              "paid": false,
+              "accountId": "accebhejla",
+              "financeTxId": null
+            },
+            {
+              "id": "inst11dss9to",
+              "date": "1404/13/15",
+              "amount": "701435000",
+              "paid": false,
+              "accountId": "accebhejla",
+              "financeTxId": null
+            }
+          ],
+          "contractDocs": [
+            {
+              "id": "doc119kbp2q",
+              "name": "مبایعه‌نامه.pdf",
+              "dataUrl": "data:application/pdf;base64,JVBERi0xLjQKMSAwIG9iago8PC9UeXBlL0NhdGFsb2cKL1BhZ2VzIDIgMCBSCj4+CmVuZG9iagoyIDAgb2IKPDwKL1R5cGUgL1BhZ2VzCi9LaWRzIFszIDAgUl0KL0NvdW50IDE+PgplbmRvYmoKMyAwIG9iago8PC9UeXBlL0FnZS9QYXJlbnQgMiAwIFIKL01lZGlhQm94IFswIDAgMyAzXQo+PgplbmRvYmoKeHJlZgowIDQKMDAwMDAwMDAwMDAwMDAwMDAwMDAwMDAwMDAwMDAwCjAwMDAwMDAwMTIgMDAwMDAgbiAKMDAwMDAwMDA2MCAwMDAwMCBuIAowMDAwMDAwMTMzIDAwMDAwIG4gCnRyYWlsZXIKPDwKL1NpemUgNC9Sb290IDEgMCBSCj4+CmVuZG9iagolJUVPRg=="
+            }
+          ],
+          "checkDocs": [],
+          "notes": "",
+          "downPaymentReceived": true
+        },
+        {
+          "id": "u11eqw9ja",
+          "floor": 3,
+          "unitNumber": "33",
+          "area": "103",
+          "status": "sold",
+          "direction": "north",
+          "buyerName": "پیمان نیکزاد",
+          "buyerPhone": "09191004498",
+          "buyerContactId": "c237ur23",
+          "postalCode": "144710009",
+          "pricePerMeter": "40900000",
+          "downPayment": "1263810000",
+          "depositAccountId": "accebhejla",
+          "installments": [
+            {
+              "id": "inst1200lbt3",
+              "date": "1404/04/15",
+              "amount": "737222500",
+              "paid": true,
+              "accountId": "accebhejla",
+              "financeTxId": "ft15a1uzvg"
+            },
+            {
+              "id": "inst121g2qzw",
+              "date": "1404/07/15",
+              "amount": "737222500",
+              "paid": false,
+              "accountId": "accebhejla",
+              "financeTxId": null
+            },
+            {
+              "id": "inst1223c1qk",
+              "date": "1404/10/15",
+              "amount": "737222500",
+              "paid": false,
+              "accountId": "accebhejla",
+              "financeTxId": null
+            },
+            {
+              "id": "inst123bhb7s",
+              "date": "1404/13/15",
+              "amount": "737222500",
+              "paid": false,
+              "accountId": "accebhejla",
+              "financeTxId": null
+            }
+          ],
+          "contractDocs": [
+            {
+              "id": "doc11f2m0w1",
+              "name": "مبایعه‌نامه.pdf",
+              "dataUrl": "data:application/pdf;base64,JVBERi0xLjQKMSAwIG9iago8PC9UeXBlL0NhdGFsb2cKL1BhZ2VzIDIgMCBSCj4+CmVuZG9iagoyIDAgb2IKPDwKL1R5cGUgL1BhZ2VzCi9LaWRzIFszIDAgUl0KL0NvdW50IDE+PgplbmRvYmoKMyAwIG9iago8PC9UeXBlL0FnZS9QYXJlbnQgMiAwIFIKL01lZGlhQm94IFswIDAgMyAzXQo+PgplbmRvYmoKeHJlZgowIDQKMDAwMDAwMDAwMDAwMDAwMDAwMDAwMDAwMDAwMDAwCjAwMDAwMDAwMTIgMDAwMDAgbiAKMDAwMDAwMDA2MCAwMDAwMCBuIAowMDAwMDAwMTMzIDAwMDAwIG4gCnRyYWlsZXIKPDwKL1NpemUgNC9Sb290IDEgMCBSCj4+CmVuZG9iagolJUVPRg=="
+            }
+          ],
+          "checkDocs": [],
+          "notes": "",
+          "downPaymentReceived": true
+        },
+        {
+          "id": "u1249tj1g",
+          "floor": 4,
+          "unitNumber": "41",
+          "area": "78",
+          "status": "reserved",
+          "direction": "east",
+          "buyerName": "سودابه مرادی",
+          "buyerPhone": "09191004671",
+          "buyerContactId": "c24gdppq",
+          "postalCode": "144710010",
+          "pricePerMeter": "40900000",
+          "downPayment": "957060000",
+          "depositAccountId": "accebhejla",
+          "installments": [
+            {
+              "id": "inst125m25le",
+              "date": "1404/04/15",
+              "amount": "558285000",
+              "paid": false,
+              "accountId": "accebhejla",
+              "financeTxId": null
+            },
+            {
+              "id": "inst126n606n",
+              "date": "1404/07/15",
+              "amount": "558285000",
+              "paid": false,
+              "accountId": "accebhejla",
+              "financeTxId": null
+            },
+            {
+              "id": "inst1279rr7s",
+              "date": "1404/10/15",
+              "amount": "558285000",
+              "paid": false,
+              "accountId": "accebhejla",
+              "financeTxId": null
+            },
+            {
+              "id": "inst12820cv3",
+              "date": "1404/13/15",
+              "amount": "558285000",
+              "paid": false,
+              "accountId": "accebhejla",
+              "financeTxId": null
+            }
+          ],
+          "contractDocs": [],
+          "checkDocs": [],
+          "notes": "",
+          "downPaymentReceived": false
+        },
+        {
+          "id": "u129tlcxl",
+          "floor": 4,
+          "unitNumber": "42",
+          "area": "83",
+          "status": "reserved",
+          "direction": "west",
+          "buyerName": "یاسر حاتمی",
+          "buyerPhone": "09191004844",
+          "buyerContactId": "c250y9do",
+          "postalCode": "144710011",
+          "pricePerMeter": "40900000",
+          "downPayment": "1018410000",
+          "depositAccountId": "accebhejla",
+          "installments": [
+            {
+              "id": "inst12avpymb",
+              "date": "1404/04/15",
+              "amount": "594072500",
+              "paid": false,
+              "accountId": "accebhejla",
+              "financeTxId": null
+            },
+            {
+              "id": "inst12b5m9j9",
+              "date": "1404/07/15",
+              "amount": "594072500",
+              "paid": false,
+              "accountId": "accebhejla",
+              "financeTxId": null
+            },
+            {
+              "id": "inst12c8cwn2",
+              "date": "1404/10/15",
+              "amount": "594072500",
+              "paid": false,
+              "accountId": "accebhejla",
+              "financeTxId": null
+            },
+            {
+              "id": "inst12dy8fv2",
+              "date": "1404/13/15",
+              "amount": "594072500",
+              "paid": false,
+              "accountId": "accebhejla",
+              "financeTxId": null
+            }
+          ],
+          "contractDocs": [],
+          "checkDocs": [],
+          "notes": "",
+          "downPaymentReceived": false
+        },
+        {
+          "id": "u12ebc2nn",
+          "floor": 4,
+          "unitNumber": "43",
+          "area": "88",
+          "status": "reserved",
+          "direction": "north",
+          "buyerName": "ندا کریمی",
+          "buyerPhone": "09191005017",
+          "buyerContactId": "c26m5igq",
+          "postalCode": "144710012",
+          "pricePerMeter": "40900000",
+          "downPayment": "1079760000",
+          "depositAccountId": "accebhejla",
+          "installments": [
+            {
+              "id": "inst12fuvy8n",
+              "date": "1404/04/15",
+              "amount": "629860000",
+              "paid": false,
+              "accountId": "accebhejla",
+              "financeTxId": null
+            },
+            {
+              "id": "inst1301utox",
+              "date": "1404/07/15",
+              "amount": "629860000",
+              "paid": false,
+              "accountId": "accebhejla",
+              "financeTxId": null
+            },
+            {
+              "id": "inst131ie0rn",
+              "date": "1404/10/15",
+              "amount": "629860000",
+              "paid": false,
+              "accountId": "accebhejla",
+              "financeTxId": null
+            },
+            {
+              "id": "inst132ujjq9",
+              "date": "1404/13/15",
+              "amount": "629860000",
+              "paid": false,
+              "accountId": "accebhejla",
+              "financeTxId": null
+            }
+          ],
+          "contractDocs": [],
+          "checkDocs": [],
+          "notes": "",
+          "downPaymentReceived": false
+        },
+        {
+          "id": "u133k6re4",
+          "floor": 5,
+          "unitNumber": "51",
+          "area": "93",
+          "status": "reserved",
+          "direction": "east",
+          "buyerName": "مجید سلطانی",
+          "buyerPhone": "09191005190",
+          "buyerContactId": "c27pki7p",
+          "postalCode": "144710013",
+          "pricePerMeter": "40900000",
+          "downPayment": "1141110000",
+          "depositAccountId": "accebhejla",
+          "installments": [
+            {
+              "id": "inst134q6qdy",
+              "date": "1404/04/15",
+              "amount": "665647500",
+              "paid": false,
+              "accountId": "accebhejla",
+              "financeTxId": null
+            },
+            {
+              "id": "inst1354lmct",
+              "date": "1404/07/15",
+              "amount": "665647500",
+              "paid": false,
+              "accountId": "accebhejla",
+              "financeTxId": null
+            },
+            {
+              "id": "inst13664z7w",
+              "date": "1404/10/15",
+              "amount": "665647500",
+              "paid": false,
+              "accountId": "accebhejla",
+              "financeTxId": null
+            },
+            {
+              "id": "inst1372sehe",
+              "date": "1404/13/15",
+              "amount": "665647500",
+              "paid": false,
+              "accountId": "accebhejla",
+              "financeTxId": null
+            }
+          ],
+          "contractDocs": [],
+          "checkDocs": [],
+          "notes": "",
+          "downPaymentReceived": false
+        },
+        {
+          "id": "u1382atn2",
+          "floor": 5,
+          "unitNumber": "52",
+          "area": "98",
+          "status": "vacant",
+          "direction": "west",
+          "buyerName": "",
+          "buyerPhone": "",
+          "buyerContactId": null,
+          "postalCode": "",
+          "pricePerMeter": "",
+          "downPayment": "",
+          "depositAccountId": "",
+          "installments": [],
+          "contractDocs": [],
+          "checkDocs": [],
+          "notes": "",
+          "downPaymentReceived": false
+        },
+        {
+          "id": "u139twdl9",
+          "floor": 5,
+          "unitNumber": "53",
+          "area": "103",
+          "status": "vacant",
+          "direction": "north",
+          "buyerName": "",
+          "buyerPhone": "",
+          "buyerContactId": null,
+          "postalCode": "",
+          "pricePerMeter": "",
+          "downPayment": "",
+          "depositAccountId": "",
+          "installments": [],
+          "contractDocs": [],
+          "checkDocs": [],
+          "notes": "",
+          "downPaymentReceived": false
+        },
+        {
+          "id": "u13azs13c",
+          "floor": 6,
+          "unitNumber": "61",
+          "area": "78",
+          "status": "vacant",
+          "direction": "east",
+          "buyerName": "",
+          "buyerPhone": "",
+          "buyerContactId": null,
+          "postalCode": "",
+          "pricePerMeter": "",
+          "downPayment": "",
+          "depositAccountId": "",
+          "installments": [],
+          "contractDocs": [],
+          "checkDocs": [],
+          "notes": "",
+          "downPaymentReceived": false
+        },
+        {
+          "id": "u13b9xqym",
+          "floor": 6,
+          "unitNumber": "62",
+          "area": "83",
+          "status": "vacant",
+          "direction": "west",
+          "buyerName": "",
+          "buyerPhone": "",
+          "buyerContactId": null,
+          "postalCode": "",
+          "pricePerMeter": "",
+          "downPayment": "",
+          "depositAccountId": "",
+          "installments": [],
+          "contractDocs": [],
+          "checkDocs": [],
+          "notes": "",
+          "downPaymentReceived": false
+        },
+        {
+          "id": "u13c52xg8",
+          "floor": 6,
+          "unitNumber": "63",
+          "area": "88",
+          "status": "vacant",
+          "direction": "north",
+          "buyerName": "",
+          "buyerPhone": "",
+          "buyerContactId": null,
+          "postalCode": "",
+          "pricePerMeter": "",
+          "downPayment": "",
+          "depositAccountId": "",
+          "installments": [],
+          "contractDocs": [],
+          "checkDocs": [],
+          "notes": "",
+          "downPaymentReceived": false
+        }
+      ],
+      "activities": [
+        {
+          "id": "act1724qgef",
+          "name": "خاکبرداری و تسطیح زمین",
+          "order": 0
+        },
+        {
+          "id": "act173qjg02",
+          "name": "گودبرداری",
+          "order": 1
+        },
+        {
+          "id": "act174u1g46",
+          "name": "اجرای سازه نگهبان (راهبم)",
+          "order": 2
+        },
+        {
+          "id": "act1753sdyg",
+          "name": "فونداسیون و کلنی",
+          "order": 3
+        },
+        {
+          "id": "act176fliji",
+          "name": "اسکلت بتنی — همکف و طبقات",
+          "order": 4
+        },
+        {
+          "id": "act17718k0a",
+          "name": "اجرای سقف‌ها و دال بتنی",
+          "order": 5
+        },
+        {
+          "id": "act178xycel",
+          "name": "دیوارچینی و تیغه‌چینی",
+          "order": 6
+        },
+        {
+          "id": "act179os6zl",
+          "name": "عایق‌کاری رطوبتی",
+          "order": 7
+        },
+        {
+          "id": "act17ae6kwh",
+          "name": "گچ و خاک",
+          "order": 8
+        },
+        {
+          "id": "act17bef0vo",
+          "name": "کاشی‌کاری و سرامیک",
+          "order": 9
+        },
+        {
+          "id": "act17ctqtxh",
+          "name": "تأسیسات مکانیکی",
+          "order": 10
+        },
+        {
+          "id": "act17di15cq",
+          "name": "تأسیسات برق",
+          "order": 11
+        }
+      ],
+      "investors": [
+        {
+          "id": "inv17ezcuct",
+          "contactId": "c2y6dpb",
+          "sharePercent": 100
+        }
+      ],
+      "bankAccounts": [
+        {
+          "id": "accebhejla",
+          "name": "ملت — یاس فاز ۸",
+          "accountNumber": "2233445566772",
+          "accountType": "current",
+          "initialBalance": "950000000",
+          "ownerType": "project",
+          "investorContactId": null
+        },
+        {
+          "id": "accec0gnzs",
+          "name": "تنخواه کارگاه",
+          "accountNumber": "8877665544332",
+          "accountType": "petty",
+          "initialBalance": "50000000",
+          "ownerType": "project",
+          "investorContactId": null
+        },
+        {
+          "id": "acced43c5b",
+          "name": "حساب چک‌های پروژه",
+          "accountNumber": "6655443322112",
+          "accountType": "current",
+          "initialBalance": "100000000",
+          "ownerType": "project",
+          "investorContactId": null
+        }
+      ],
+      "financeTransactions": [
+        {
+          "id": "ft13dp6bef",
+          "date": "1403/11/01",
+          "type": "capital_in",
+          "amount": 7200000000,
+          "fromAccountId": null,
+          "toAccountId": "accebhejla",
+          "investorContactId": "c2y6dpb",
+          "note": "ورود سرمایه اولیه پروژه",
+          "docs": [
+            {
+              "id": "doc13eflzm7",
+              "name": "رسید واریز سرمایه.pdf",
+              "dataUrl": "data:application/pdf;base64,JVBERi0xLjQKMSAwIG9iago8PC9UeXBlL0NhdGFsb2cKL1BhZ2VzIDIgMCBSCj4+CmVuZG9iagoyIDAgb2IKPDwKL1R5cGUgL1BhZ2VzCi9LaWRzIFszIDAgUl0KL0NvdW50IDE+PgplbmRvYmoKMyAwIG9iago8PC9UeXBlL0FnZS9QYXJlbnQgMiAwIFIKL01lZGlhQm94IFswIDAgMyAzXQo+PgplbmRvYmoKeHJlZgowIDQKMDAwMDAwMDAwMDAwMDAwMDAwMDAwMDAwMDAwMDAwCjAwMDAwMDAwMTIgMDAwMDAgbiAKMDAwMDAwMDA2MCAwMDAwMCBuIAowMDAwMDAwMTMzIDAwMDAwIG4gCnRyYWlsZXIKPDwKL1NpemUgNC9Sb290IDEgMCBSCj4+CmVuZG9iagolJUVPRg=="
+            }
+          ]
+        },
+        {
+          "id": "ft140ektsg",
+          "date": "1404/02/10",
+          "type": "income",
+          "amount": 1141110000,
+          "fromAccountId": null,
+          "toAccountId": "accebhejla",
+          "unitId": "ueea75uu",
+          "installmentId": null,
+          "note": "پیش‌پرداخت واحد 11",
+          "docs": [
+            {
+              "id": "doc1417fxzv",
+              "name": "رسید دریافت پیش‌پرداخت.png",
+              "dataUrl": "data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAYAAAAfFcSJAAAADUlEQVR42mNk+M9QDwADhgGAWjR9awAAAABJRU5ErkJggg=="
+            }
+          ]
+        },
+        {
+          "id": "ft1424u3bb",
+          "date": "1404/05/20",
+          "type": "income",
+          "amount": 665647500,
+          "fromAccountId": null,
+          "toAccountId": "accebhejla",
+          "unitId": "ueea75uu",
+          "installmentId": "instf02w37d",
+          "note": "قسط اول واحد 11",
+          "docs": [
+            {
+              "id": "doc143xux1o",
+              "name": "رسید قسط.png",
+              "dataUrl": "data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAYAAAAfFcSJAAAADUlEQVR42mNk+M9QDwADhgGAWjR9awAAAABJRU5ErkJggg=="
+            }
+          ]
+        },
+        {
+          "id": "ft144xrwk8",
+          "date": "1404/02/10",
+          "type": "income",
+          "amount": 1202460000,
+          "fromAccountId": null,
+          "toAccountId": "accebhejla",
+          "unitId": "uf433ifh",
+          "installmentId": null,
+          "note": "پیش‌پرداخت واحد 12",
+          "docs": [
+            {
+              "id": "doc145r2ykc",
+              "name": "رسید دریافت پیش‌پرداخت.png",
+              "dataUrl": "data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAYAAAAfFcSJAAAADUlEQVR42mNk+M9QDwADhgGAWjR9awAAAABJRU5ErkJggg=="
+            }
+          ]
+        },
+        {
+          "id": "ft146cprhv",
+          "date": "1404/02/10",
+          "type": "income",
+          "amount": 1263810000,
+          "fromAccountId": null,
+          "toAccountId": "accebhejla",
+          "unitId": "ufa3c54w",
+          "installmentId": null,
+          "note": "پیش‌پرداخت واحد 13",
+          "docs": [
+            {
+              "id": "doc147lz049",
+              "name": "رسید دریافت پیش‌پرداخت.png",
+              "dataUrl": "data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAYAAAAfFcSJAAAADUlEQVR42mNk+M9QDwADhgGAWjR9awAAAABJRU5ErkJggg=="
+            }
+          ]
+        },
+        {
+          "id": "ft148enulq",
+          "date": "1404/05/20",
+          "type": "income",
+          "amount": 737222500,
+          "fromAccountId": null,
+          "toAccountId": "accebhejla",
+          "unitId": "ufa3c54w",
+          "installmentId": "instfcq3xlr",
+          "note": "قسط اول واحد 13",
+          "docs": [
+            {
+              "id": "doc149jidkn",
+              "name": "رسید قسط.png",
+              "dataUrl": "data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAYAAAAfFcSJAAAADUlEQVR42mNk+M9QDwADhgGAWjR9awAAAABJRU5ErkJggg=="
+            }
+          ]
+        },
+        {
+          "id": "ft14awi5fl",
+          "date": "1404/02/10",
+          "type": "income",
+          "amount": 957060000,
+          "fromAccountId": null,
+          "toAccountId": "accebhejla",
+          "unitId": "u100omv2x",
+          "installmentId": null,
+          "note": "پیش‌پرداخت واحد 21",
+          "docs": [
+            {
+              "id": "doc14bul1rs",
+              "name": "رسید دریافت پیش‌پرداخت.png",
+              "dataUrl": "data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAYAAAAfFcSJAAAADUlEQVR42mNk+M9QDwADhgGAWjR9awAAAABJRU5ErkJggg=="
+            }
+          ]
+        },
+        {
+          "id": "ft14crla8s",
+          "date": "1404/02/10",
+          "type": "income",
+          "amount": 1018410000,
+          "fromAccountId": null,
+          "toAccountId": "accebhejla",
+          "unitId": "u106sxpnn",
+          "installmentId": null,
+          "note": "پیش‌پرداخت واحد 22",
+          "docs": [
+            {
+              "id": "doc14d8hmbr",
+              "name": "رسید دریافت پیش‌پرداخت.png",
+              "dataUrl": "data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAYAAAAfFcSJAAAADUlEQVR42mNk+M9QDwADhgGAWjR9awAAAABJRU5ErkJggg=="
+            }
+          ]
+        },
+        {
+          "id": "ft14e5xqt4",
+          "date": "1404/05/20",
+          "type": "income",
+          "amount": 594072500,
+          "fromAccountId": null,
+          "toAccountId": "accebhejla",
+          "unitId": "u106sxpnn",
+          "installmentId": "inst108ec4d1",
+          "note": "قسط اول واحد 22",
+          "docs": [
+            {
+              "id": "doc14fp501n",
+              "name": "رسید قسط.png",
+              "dataUrl": "data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAYAAAAfFcSJAAAADUlEQVR42mNk+M9QDwADhgGAWjR9awAAAABJRU5ErkJggg=="
+            }
+          ]
+        },
+        {
+          "id": "ft150ouhtc",
+          "date": "1404/02/10",
+          "type": "income",
+          "amount": 1079760000,
+          "fromAccountId": null,
+          "toAccountId": "accebhejla",
+          "unitId": "u10cipk0q",
+          "installmentId": null,
+          "note": "پیش‌پرداخت واحد 23",
+          "docs": [
+            {
+              "id": "doc151s1k9y",
+              "name": "رسید دریافت پیش‌پرداخت.png",
+              "dataUrl": "data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAYAAAAfFcSJAAAADUlEQVR42mNk+M9QDwADhgGAWjR9awAAAABJRU5ErkJggg=="
+            }
+          ]
+        },
+        {
+          "id": "ft152e9o2m",
+          "date": "1404/02/10",
+          "type": "income",
+          "amount": 1141110000,
+          "fromAccountId": null,
+          "toAccountId": "accebhejla",
+          "unitId": "u112j6fp8",
+          "installmentId": null,
+          "note": "پیش‌پرداخت واحد 31",
+          "docs": [
+            {
+              "id": "doc15371hss",
+              "name": "رسید دریافت پیش‌پرداخت.png",
+              "dataUrl": "data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAYAAAAfFcSJAAAADUlEQVR42mNk+M9QDwADhgGAWjR9awAAAABJRU5ErkJggg=="
+            }
+          ]
+        },
+        {
+          "id": "ft154belrq",
+          "date": "1404/05/20",
+          "type": "income",
+          "amount": 665647500,
+          "fromAccountId": null,
+          "toAccountId": "accebhejla",
+          "unitId": "u112j6fp8",
+          "installmentId": "inst114si9nb",
+          "note": "قسط اول واحد 31",
+          "docs": [
+            {
+              "id": "doc155vslwf",
+              "name": "رسید قسط.png",
+              "dataUrl": "data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAYAAAAfFcSJAAAADUlEQVR42mNk+M9QDwADhgGAWjR9awAAAABJRU5ErkJggg=="
+            }
+          ]
+        },
+        {
+          "id": "ft15690km3",
+          "date": "1404/02/10",
+          "type": "income",
+          "amount": 1202460000,
+          "fromAccountId": null,
+          "toAccountId": "accebhejla",
+          "unitId": "u118t0sek",
+          "installmentId": null,
+          "note": "پیش‌پرداخت واحد 32",
+          "docs": [
+            {
+              "id": "doc157tzk3n",
+              "name": "رسید دریافت پیش‌پرداخت.png",
+              "dataUrl": "data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAYAAAAfFcSJAAAADUlEQVR42mNk+M9QDwADhgGAWjR9awAAAABJRU5ErkJggg=="
+            }
+          ]
+        },
+        {
+          "id": "ft158y9v20",
+          "date": "1404/02/10",
+          "type": "income",
+          "amount": 1263810000,
+          "fromAccountId": null,
+          "toAccountId": "accebhejla",
+          "unitId": "u11eqw9ja",
+          "installmentId": null,
+          "note": "پیش‌پرداخت واحد 33",
+          "docs": [
+            {
+              "id": "doc159yar82",
+              "name": "رسید دریافت پیش‌پرداخت.png",
+              "dataUrl": "data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAYAAAAfFcSJAAAADUlEQVR42mNk+M9QDwADhgGAWjR9awAAAABJRU5ErkJggg=="
+            }
+          ]
+        },
+        {
+          "id": "ft15a1uzvg",
+          "date": "1404/05/20",
+          "type": "income",
+          "amount": 737222500,
+          "fromAccountId": null,
+          "toAccountId": "accebhejla",
+          "unitId": "u11eqw9ja",
+          "installmentId": "inst1200lbt3",
+          "note": "قسط اول واحد 33",
+          "docs": [
+            {
+              "id": "doc15bww4fy",
+              "name": "رسید قسط.png",
+              "dataUrl": "data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAYAAAAfFcSJAAAADUlEQVR42mNk+M9QDwADhgGAWjR9awAAAABJRU5ErkJggg=="
+            }
+          ]
+        },
+        {
+          "id": "ft15e50ceh",
+          "date": "1404/03/05",
+          "type": "expense",
+          "amount": 280000000,
+          "fromAccountId": "accebhejla",
+          "toAccountId": null,
+          "expenseId": "exp15cb8dal",
+          "note": "خرید سیمان پروژه",
+          "docs": [
+            {
+              "id": "doc15flxslg",
+              "name": "فاکتور سیمان.pdf",
+              "dataUrl": "data:application/pdf;base64,JVBERi0xLjQKMSAwIG9iago8PC9UeXBlL0NhdGFsb2cKL1BhZ2VzIDIgMCBSCj4+CmVuZG9iagoyIDAgb2IKPDwKL1R5cGUgL1BhZ2VzCi9LaWRzIFszIDAgUl0KL0NvdW50IDE+PgplbmRvYmoKMyAwIG9iago8PC9UeXBlL0FnZS9QYXJlbnQgMiAwIFIKL01lZGlhQm94IFswIDAgMyAzXQo+PgplbmRvYmoKeHJlZgowIDQKMDAwMDAwMDAwMDAwMDAwMDAwMDAwMDAwMDAwMDAwCjAwMDAwMDAwMTIgMDAwMDAgbiAKMDAwMDAwMDA2MCAwMDAwMCBuIAowMDAwMDAwMTMzIDAwMDAwIG4gCnRyYWlsZXIKPDwKL1NpemUgNC9Sb290IDEgMCBSCj4+CmVuZG9iagolJUVPRg=="
+            }
+          ]
+        },
+        {
+          "id": "ft1642jeyn",
+          "date": "1404/04/20",
+          "type": "check_clear",
+          "amount": 160000000,
+          "fromAccountId": "acced43c5b",
+          "toAccountId": null,
+          "expenseId": "exp162ui9kk",
+          "note": "اجاره جرثقیل",
+          "docs": [
+            {
+              "id": "doc1659382k",
+              "name": "چک جرثقیل.pdf",
+              "dataUrl": "data:application/pdf;base64,JVBERi0xLjQKMSAwIG9iago8PC9UeXBlL0NhdGFsb2cKL1BhZ2VzIDIgMCBSCj4+CmVuZG9iagoyIDAgb2IKPDwKL1R5cGUgL1BhZ2VzCi9LaWRzIFszIDAgUl0KL0NvdW50IDE+PgplbmRvYmoKMyAwIG9iago8PC9UeXBlL0FnZS9QYXJlbnQgMiAwIFIKL01lZGlhQm94IFswIDAgMyAzXQo+PgplbmRvYmoKeHJlZgowIDQKMDAwMDAwMDAwMDAwMDAwMDAwMDAwMDAwMDAwMDAwCjAwMDAwMDAwMTIgMDAwMDAgbiAKMDAwMDAwMDA2MCAwMDAwMCBuIAowMDAwMDAwMTMzIDAwMDAwIG4gCnRyYWlsZXIKPDwKL1NpemUgNC9Sb290IDEgMCBSCj4+CmVuZG9iagolJUVPRg=="
+            }
+          ]
+        },
+        {
+          "id": "ft166kzmpj",
+          "date": "1404/05/15",
+          "type": "contact_debt_pay",
+          "amount": 456000000,
+          "fromAccountId": "accebhejla",
+          "toAccountId": null,
+          "contactId": "c53zmf8",
+          "note": "تسویه بخشی بدهی میلگرد",
+          "docs": [
+            {
+              "id": "doc167rht7z",
+              "name": "رسید پرداخت بدهی.pdf",
+              "dataUrl": "data:application/pdf;base64,JVBERi0xLjQKMSAwIG9iago8PC9UeXBlL0NhdGFsb2cKL1BhZ2VzIDIgMCBSCj4+CmVuZG9iagoyIDAgb2IKPDwKL1R5cGUgL1BhZ2VzCi9LaWRzIFszIDAgUl0KL0NvdW50IDE+PgplbmRvYmoKMyAwIG9iago8PC9UeXBlL0FnZS9QYXJlbnQgMiAwIFIKL01lZGlhQm94IFswIDAgMyAzXQo+PgplbmRvYmoKeHJlZgowIDQKMDAwMDAwMDAwMDAwMDAwMDAwMDAwMDAwMDAwMDAwCjAwMDAwMDAwMTIgMDAwMDAgbiAKMDAwMDAwMDA2MCAwMDAwMCBuIAowMDAwMDAwMTMzIDAwMDAwIG4gCnRyYWlsZXIKPDwKL1NpemUgNC9Sb290IDEgMCBSCj4+CmVuZG9iagolJUVPRg=="
+            }
+          ],
+          "apAllocations": [
+            {
+              "expenseId": "exp1606mm1z",
+              "amount": 456000000,
+              "expenseTitle": "میلگرد اسکلت — فاکتور نسیه"
+            }
+          ]
+        },
+        {
+          "id": "ft168ewviy",
+          "date": "1404/05/01",
+          "type": "contact_prepay",
+          "amount": 45000000,
+          "fromAccountId": "accebhejla",
+          "toAccountId": null,
+          "contactId": "c4thv3a",
+          "note": "پیش‌پرداخت پیمانکار نازک‌کاری",
+          "docs": [
+            {
+              "id": "doc169twboz",
+              "name": "رسید پیش‌پرداخت.pdf",
+              "dataUrl": "data:application/pdf;base64,JVBERi0xLjQKMSAwIG9iago8PC9UeXBlL0NhdGFsb2cKL1BhZ2VzIDIgMCBSCj4+CmVuZG9iagoyIDAgb2IKPDwKL1R5cGUgL1BhZ2VzCi9LaWRzIFszIDAgUl0KL0NvdW50IDE+PgplbmRvYmoKMyAwIG9iago8PC9UeXBlL0FnZS9QYXJlbnQgMiAwIFIKL01lZGlhQm94IFswIDAgMyAzXQo+PgplbmRvYmoKeHJlZgowIDQKMDAwMDAwMDAwMDAwMDAwMDAwMDAwMDAwMDAwMDAwCjAwMDAwMDAwMTIgMDAwMDAgbiAKMDAwMDAwMDA2MCAwMDAwMCBuIAowMDAwMDAwMTMzIDAwMDAwIG4gCnRyYWlsZXIKPDwKL1NpemUgNC9Sb290IDEgMCBSCj4+CmVuZG9iagolJUVPRg=="
+            }
+          ]
+        },
+        {
+          "id": "ft16ad1at7",
+          "date": "1404/06/01",
+          "type": "transfer",
+          "amount": 120000000,
+          "fromAccountId": "accebhejla",
+          "toAccountId": "accec0gnzs",
+          "note": "انتقال به تنخواه کارگاه",
+          "docs": [
+            {
+              "id": "doc16bo75rh",
+              "name": "حواله انتقال.png",
+              "dataUrl": "data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAYAAAAfFcSJAAAADUlEQVR42mNk+M9QDwADhgGAWjR9awAAAABJRU5ErkJggg=="
+            }
+          ]
+        }
+      ],
+      "expenses": [
+        {
+          "id": "exp15cb8dal",
+          "title": "خرید سیمان پروژه",
+          "amount": "280000000",
+          "date": "1404/03/05",
+          "paymentMethod": "cash",
+          "contactId": "c53zmf8",
+          "bankAccountId": "accebhejla",
+          "materialId": "inv3f6hid2",
+          "materialQty": 800,
+          "note": "رسید انبار — شارژ موجودی",
+          "docs": [
+            {
+              "id": "doc15dfyo17",
+              "name": "فاکتور سیمان.pdf",
+              "dataUrl": "data:application/pdf;base64,JVBERi0xLjQKMSAwIG9iago8PC9UeXBlL0NhdGFsb2cKL1BhZ2VzIDIgMCBSCj4+CmVuZG9iagoyIDAgb2IKPDwKL1R5cGUgL1BhZ2VzCi9LaWRzIFszIDAgUl0KL0NvdW50IDE+PgplbmRvYmoKMyAwIG9iago8PC9UeXBlL0FnZS9QYXJlbnQgMiAwIFIKL01lZGlhQm94IFswIDAgMyAzXQo+PgplbmRvYmoKeHJlZgowIDQKMDAwMDAwMDAwMDAwMDAwMDAwMDAwMDAwMDAwMDAwCjAwMDAwMDAwMTIgMDAwMDAgbiAKMDAwMDAwMDA2MCAwMDAwMCBuIAowMDAwMDAwMTMzIDAwMDAwIG4gCnRyYWlsZXIKPDwKL1NpemUgNC9Sb290IDEgMCBSCj4+CmVuZG9iagolJUVPRg=="
+            }
+          ]
+        },
+        {
+          "id": "exp1606mm1z",
+          "title": "میلگرد اسکلت — فاکتور نسیه",
+          "amount": "760000000",
+          "date": "1404/04/12",
+          "paymentMethod": "credit",
+          "contactId": "c53zmf8",
+          "materialId": "inv420l725",
+          "materialQty": 12000,
+          "note": "فاکتور ۱۴۰۴/۰۴/۱۲",
+          "docs": [
+            {
+              "id": "doc161xyvgi",
+              "name": "فاکتور میلگرد.pdf",
+              "dataUrl": "data:application/pdf;base64,JVBERi0xLjQKMSAwIG9iago8PC9UeXBlL0NhdGFsb2cKL1BhZ2VzIDIgMCBSCj4+CmVuZG9iagoyIDAgb2IKPDwKL1R5cGUgL1BhZ2VzCi9LaWRzIFszIDAgUl0KL0NvdW50IDE+PgplbmRvYmoKMyAwIG9iago8PC9UeXBlL0FnZS9QYXJlbnQgMiAwIFIKL01lZGlhQm94IFswIDAgMyAzXQo+PgplbmRvYmoKeHJlZgowIDQKMDAwMDAwMDAwMDAwMDAwMDAwMDAwMDAwMDAwMDAwCjAwMDAwMDAwMTIgMDAwMDAgbiAKMDAwMDAwMDA2MCAwMDAwMCBuIAowMDAwMDAwMTMzIDAwMDAwIG4gCnRyYWlsZXIKPDwKL1NpemUgNC9Sb290IDEgMCBSCj4+CmVuZG9iagolJUVPRg=="
+            }
+          ]
+        },
+        {
+          "id": "exp162ui9kk",
+          "title": "اجاره جرثقیل",
+          "amount": "160000000",
+          "date": "1404/04/20",
+          "paymentMethod": "check",
+          "contactId": "c4thv3a",
+          "bankAccountId": "acced43c5b",
+          "note": "چک سررسید ۱۴۰۴/۰۶/۰۱",
+          "docs": [
+            {
+              "id": "doc163hzlm7",
+              "name": "چک جرثقیل.pdf",
+              "dataUrl": "data:application/pdf;base64,JVBERi0xLjQKMSAwIG9iago8PC9UeXBlL0NhdGFsb2cKL1BhZ2VzIDIgMCBSCj4+CmVuZG9iagoyIDAgb2IKPDwKL1R5cGUgL1BhZ2VzCi9LaWRzIFszIDAgUl0KL0NvdW50IDE+PgplbmRvYmoKMyAwIG9iago8PC9UeXBlL0FnZS9QYXJlbnQgMiAwIFIKL01lZGlhQm94IFswIDAgMyAzXQo+PgplbmRvYmoKeHJlZgowIDQKMDAwMDAwMDAwMDAwMDAwMDAwMDAwMDAwMDAwMDAwCjAwMDAwMDAwMTIgMDAwMDAgbiAKMDAwMDAwMDA2MCAwMDAwMCBuIAowMDAwMDAwMTMzIDAwMDAwIG4gCnRyYWlsZXIKPDwKL1NpemUgNC9Sb290IDEgMCBSCj4+CmVuZG9iagolJUVPRg=="
+            }
+          ]
+        },
+        {
+          "id": "exp16for787",
+          "title": "صورت‌وضعیت 1",
+          "amount": "680000000",
+          "date": "1404/04/15",
+          "paymentMethod": "credit",
+          "contactId": "c4thv3a",
+          "progressStatementId": "stmt16eg5g79",
+          "note": "صورت وضعیت — ۴۵٪ پیشرفت",
+          "docs": [
+            {
+              "id": "doc1705aud9",
+              "name": "صورت وضعیت 1.pdf",
+              "dataUrl": "data:application/pdf;base64,JVBERi0xLjQKMSAwIG9iago8PC9UeXBlL0NhdGFsb2cKL1BhZ2VzIDIgMCBSCj4+CmVuZG9iagoyIDAgb2IKPDwKL1R5cGUgL1BhZ2VzCi9LaWRzIFszIDAgUl0KL0NvdW50IDE+PgplbmRvYmoKMyAwIG9iago8PC9UeXBlL0FnZS9QYXJlbnQgMiAwIFIKL01lZGlhQm94IFswIDAgMyAzXQo+PgplbmRvYmoKeHJlZgowIDQKMDAwMDAwMDAwMDAwMDAwMDAwMDAwMDAwMDAwMDAwCjAwMDAwMDAwMTIgMDAwMDAgbiAKMDAwMDAwMDA2MCAwMDAwMCBuIAowMDAwMDAwMTMzIDAwMDAwIG4gCnRyYWlsZXIKPDwKL1NpemUgNC9Sb290IDEgMCBSCj4+CmVuZG9iagolJUVPRg=="
+            }
+          ]
+        }
+      ],
+      "contracts": [
+        {
+          "id": "con16c8lx6d",
+          "createdAt": "1404-01-10T08:00:00.000Z",
+          "activityName": "اجرای اسکلت بتنی",
+          "activityId": null,
+          "employerContactId": "c2y6dpb",
+          "contractorContactId": "c4thv3a",
+          "contractNumber": "YAS-F8-1404-01",
+          "contractDate": "1404/01/10",
+          "quantity": 5270.0,
+          "unitPrice": 8500000,
+          "totalAmount": 44795000000,
+          "unitLabel": "متر مربع",
+          "startDate": "1404/02/01",
+          "endDate": "1404/09/30",
+          "durationDays": 240,
+          "advancePercent": 15,
+          "retentionPercent": 10,
+          "warrantyDays": 365,
+          "penaltyPerDay": 5000000,
+          "activityNotes": "طبق نقشه‌های اجرایی و دستور کار",
+          "customClauses": "",
+          "customClausesOnly": false,
+          "amendments": [
+            {
+              "id": "amd16dut076",
+              "createdAt": "1404-05-01T10:00:00.000Z",
+              "amendmentNo": 1,
+              "amendmentDate": "1404/05/01",
+              "quantity": 120,
+              "unitPrice": 9200000,
+              "totalAmount": 1104000000,
+              "unitLabel": "متر مربع",
+              "notes": "متمم — اضافه‌کاری سقف طبقه شش"
+            }
+          ]
+        }
+      ],
+      "progressStatements": [
+        {
+          "id": "stmt16eg5g79",
+          "createdAt": "1404-04-15T09:00:00.000Z",
+          "statementNo": 1,
+          "date": "1404/04/15",
+          "contractLabel": "YAS-F8-1404-01 — اسکلت",
+          "contractorContactId": "c4thv3a",
+          "netAmount": 680000000,
+          "completionStatus": "۴۵٪ پیشرفت فیزیکی",
+          "defectsNotes": "بدون نقص"
+        }
+      ],
+      "auditLog": [
+        {
+          "id": "aud13f64jwt",
+          "at": "1403-11-01T10:00:00.000Z",
+          "action": "finance.add",
+          "details": {
+            "type": "capital_in",
+            "amount": 7200000000
+          }
+        }
+      ],
+      "documents": [
+        {
+          "id": "doc17fsufls",
+          "name": "پروانه ساختمانی.pdf",
+          "dataUrl": "data:application/pdf;base64,JVBERi0xLjQKMSAwIG9iago8PC9UeXBlL0NhdGFsb2cKL1BhZ2VzIDIgMCBSCj4+CmVuZG9iagoyIDAgb2IKPDwKL1R5cGUgL1BhZ2VzCi9LaWRzIFszIDAgUl0KL0NvdW50IDE+PgplbmRvYmoKMyAwIG9iago8PC9UeXBlL0FnZS9QYXJlbnQgMiAwIFIKL01lZGlhQm94IFswIDAgMyAzXQo+PgplbmRvYmoKeHJlZgowIDQKMDAwMDAwMDAwMDAwMDAwMDAwMDAwMDAwMDAwMDAwCjAwMDAwMDAwMTIgMDAwMDAgbiAKMDAwMDAwMDA2MCAwMDAwMCBuIAowMDAwMDAwMTMzIDAwMDAwIG4gCnRyYWlsZXIKPDwKL1NpemUgNC9Sb290IDEgMCBSCj4+CmVuZG9iagolJUVPRg=="
+        },
+        {
+          "id": "doc180ehuds",
+          "name": "بیمه کارگاه.pdf",
+          "dataUrl": "data:application/pdf;base64,JVBERi0xLjQKMSAwIG9iago8PC9UeXBlL0NhdGFsb2cKL1BhZ2VzIDIgMCBSCj4+CmVuZG9iagoyIDAgb2IKPDwKL1R5cGUgL1BhZ2VzCi9LaWRzIFszIDAgUl0KL0NvdW50IDE+PgplbmRvYmoKMyAwIG9iago8PC9UeXBlL0FnZS9QYXJlbnQgMiAwIFIKL01lZGlhQm94IFswIDAgMyAzXQo+PgplbmRvYmoKeHJlZgowIDQKMDAwMDAwMDAwMDAwMDAwMDAwMDAwMDAwMDAwMDAwCjAwMDAwMDAwMTIgMDAwMDAgbiAKMDAwMDAwMDA2MCAwMDAwMCBuIAowMDAwMDAwMTMzIDAwMDAwIG4gCnRyYWlsZXIKPDwKL1NpemUgNC9Sb290IDEgMCBSCj4+CmVuZG9iagolJUVPRg=="
+        }
+      ],
+      "address": "پردیس، فاز ۸، خیابان گلستان ۳، قطعه ۴۵",
+      "landArea": "1100",
+      "totalBuiltArea": "6200",
+      "phase": "نازک‌کاری (تأسیسات، کاشی‌کاری، گچ‌کاری)",
+      "lat": 35.7315,
+      "lng": 51.812,
+      "financialLockedThrough": "1403/12/29",
+      "gallery": [
+        {
+          "id": "gal1813qsqc",
+          "caption": "پیشرفت اسکلت",
+          "dataUrl": "data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAYAAAAfFcSJAAAADUlEQVR42mNk+M9QDwADhgGAWjR9awAAAABJRU5ErkJggg==",
+          "createdAt": "2026-07-24T13:23:15.345391+00:00"
+        },
+        {
+          "id": "gal182q30o3",
+          "caption": "کارگاه",
+          "dataUrl": "data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAYAAAAfFcSJAAAADUlEQVR42mNk+M9QDwADhgGAWjR9awAAAABJRU5ErkJggg==",
+          "createdAt": "2026-07-24T13:23:15.345391+00:00"
+        }
+      ],
+      "quickNotes": [
+        {
+          "id": "qn1830ubmc",
+          "text": "داده نمایشی — مجتمع یاس — پردیس فاز ۸ — برای تست پشتیبان‌گیری و حسابداری",
+          "createdAt": "2026-07-24T13:23:15.345391+00:00"
+        }
+      ],
+      "takeoff": {
+        "area": 6200,
+        "bathroomsPerUnit": 1,
+        "kitchensPerUnit": 1,
+        "structureType": "concrete",
+        "wallType": "brick",
+        "coefficients": {
+          "wallRatio": 0.6,
+          "concrete": 0.45,
+          "rebar": 45
+        },
+        "results": {
+          "concrete": 2790.0,
+          "rebar": 279000
+        },
+        "savedAt": "2026-07-24T13:23:15.345391+00:00"
+      }
+    },
+    {
+      "id": "proj209n8lfj",
+      "name": "ساختمان مهر — بومهن (حومه پردیس)",
+      "floors": [
+        {
+          "number": 1,
+          "count": 3
+        },
+        {
+          "number": 2,
+          "count": 3
+        },
+        {
+          "number": 3,
+          "count": 3
+        },
+        {
+          "number": 4,
+          "count": 3
+        },
+        {
+          "number": 5,
+          "count": 3
+        },
+        {
+          "number": 6,
+          "count": 3
+        }
+      ],
+      "units": [
+        {
+          "id": "u187nyxtx",
+          "floor": 1,
+          "unitNumber": "11",
+          "area": "98",
+          "status": "sold",
+          "direction": "east",
+          "buyerName": "امید تهرانی",
+          "buyerPhone": "09191006228",
+          "buyerContactId": "c2d8ut0c",
+          "postalCode": "144710001",
+          "pricePerMeter": "42100000",
+          "downPayment": "1237740000",
+          "depositAccountId": "acc18497c7b",
+          "installments": [
+            {
+              "id": "inst189iaaky",
+              "date": "1404/04/15",
+              "amount": "722015000",
+              "paid": true,
+              "accountId": "acc18497c7b",
+              "financeTxId": "ft1d8zlk3e"
+            },
+            {
+              "id": "inst18att3im",
+              "date": "1404/07/15",
+              "amount": "722015000",
+              "paid": false,
+              "accountId": "acc18497c7b",
+              "financeTxId": null
+            },
+            {
+              "id": "inst18bj70e3",
+              "date": "1404/10/15",
+              "amount": "722015000",
+              "paid": false,
+              "accountId": "acc18497c7b",
+              "financeTxId": null
+            },
+            {
+              "id": "inst18cp15ah",
+              "date": "1404/13/15",
+              "amount": "722015000",
+              "paid": false,
+              "accountId": "acc18497c7b",
+              "financeTxId": null
+            }
+          ],
+          "contractDocs": [
+            {
+              "id": "doc188mgtt0",
+              "name": "مبایعه‌نامه.pdf",
+              "dataUrl": "data:application/pdf;base64,JVBERi0xLjQKMSAwIG9iago8PC9UeXBlL0NhdGFsb2cKL1BhZ2VzIDIgMCBSCj4+CmVuZG9iagoyIDAgb2IKPDwKL1R5cGUgL1BhZ2VzCi9LaWRzIFszIDAgUl0KL0NvdW50IDE+PgplbmRvYmoKMyAwIG9iago8PC9UeXBlL0FnZS9QYXJlbnQgMiAwIFIKL01lZGlhQm94IFswIDAgMyAzXQo+PgplbmRvYmoKeHJlZgowIDQKMDAwMDAwMDAwMDAwMDAwMDAwMDAwMDAwMDAwMDAwCjAwMDAwMDAwMTIgMDAwMDAgbiAKMDAwMDAwMDA2MCAwMDAwMCBuIAowMDAwMDAwMTMzIDAwMDAwIG4gCnRyYWlsZXIKPDwKL1NpemUgNC9Sb290IDEgMCBSCj4+CmVuZG9iagolJUVPRg=="
+            }
+          ],
+          "checkDocs": [],
+          "notes": "",
+          "downPaymentReceived": true
+        },
+        {
+          "id": "u18ddbvzb",
+          "floor": 1,
+          "unitNumber": "12",
+          "area": "103",
+          "status": "sold",
+          "direction": "west",
+          "buyerName": "گلناز شاهین",
+          "buyerPhone": "09191006401",
+          "buyerContactId": "c2evs4f8",
+          "postalCode": "144710002",
+          "pricePerMeter": "42100000",
+          "downPayment": "1300890000",
+          "depositAccountId": "acc18497c7b",
+          "installments": [
+            {
+              "id": "inst18fcsk30",
+              "date": "1404/04/15",
+              "amount": "758852500",
+              "paid": false,
+              "accountId": "acc18497c7b",
+              "financeTxId": null
+            },
+            {
+              "id": "inst190lvylk",
+              "date": "1404/07/15",
+              "amount": "758852500",
+              "paid": false,
+              "accountId": "acc18497c7b",
+              "financeTxId": null
+            },
+            {
+              "id": "inst191fxhkc",
+              "date": "1404/10/15",
+              "amount": "758852500",
+              "paid": false,
+              "accountId": "acc18497c7b",
+              "financeTxId": null
+            },
+            {
+              "id": "inst192856wp",
+              "date": "1404/13/15",
+              "amount": "758852500",
+              "paid": false,
+              "accountId": "acc18497c7b",
+              "financeTxId": null
+            }
+          ],
+          "contractDocs": [
+            {
+              "id": "doc18e0oih5",
+              "name": "مبایعه‌نامه.pdf",
+              "dataUrl": "data:application/pdf;base64,JVBERi0xLjQKMSAwIG9iago8PC9UeXBlL0NhdGFsb2cKL1BhZ2VzIDIgMCBSCj4+CmVuZG9iagoyIDAgb2IKPDwKL1R5cGUgL1BhZ2VzCi9LaWRzIFszIDAgUl0KL0NvdW50IDE+PgplbmRvYmoKMyAwIG9iago8PC9UeXBlL0FnZS9QYXJlbnQgMiAwIFIKL01lZGlhQm94IFswIDAgMyAzXQo+PgplbmRvYmoKeHJlZgowIDQKMDAwMDAwMDAwMDAwMDAwMDAwMDAwMDAwMDAwMDAwCjAwMDAwMDAwMTIgMDAwMDAgbiAKMDAwMDAwMDA2MCAwMDAwMCBuIAowMDAwMDAwMTMzIDAwMDAwIG4gCnRyYWlsZXIKPDwKL1NpemUgNC9Sb290IDEgMCBSCj4+CmVuZG9iagolJUVPRg=="
+            }
+          ],
+          "checkDocs": [],
+          "notes": "",
+          "downPaymentReceived": true
+        },
+        {
+          "id": "u193r97y2",
+          "floor": 1,
+          "unitNumber": "13",
+          "area": "78",
+          "status": "sold",
+          "direction": "north",
+          "buyerName": "کیوان محمودی",
+          "buyerPhone": "09191006574",
+          "buyerContactId": "c2fcgvyi",
+          "postalCode": "144710003",
+          "pricePerMeter": "42100000",
+          "downPayment": "985140000",
+          "depositAccountId": "acc18497c7b",
+          "installments": [
+            {
+              "id": "inst195r4kz3",
+              "date": "1404/04/15",
+              "amount": "574665000",
+              "paid": true,
+              "accountId": "acc18497c7b",
+              "financeTxId": "ft1ded5glq"
+            },
+            {
+              "id": "inst1966u8ue",
+              "date": "1404/07/15",
+              "amount": "574665000",
+              "paid": false,
+              "accountId": "acc18497c7b",
+              "financeTxId": null
+            },
+            {
+              "id": "inst197ihx74",
+              "date": "1404/10/15",
+              "amount": "574665000",
+              "paid": false,
+              "accountId": "acc18497c7b",
+              "financeTxId": null
+            },
+            {
+              "id": "inst198d0gjy",
+              "date": "1404/13/15",
+              "amount": "574665000",
+              "paid": false,
+              "accountId": "acc18497c7b",
+              "financeTxId": null
+            }
+          ],
+          "contractDocs": [
+            {
+              "id": "doc194lofn1",
+              "name": "مبایعه‌نامه.pdf",
+              "dataUrl": "data:application/pdf;base64,JVBERi0xLjQKMSAwIG9iago8PC9UeXBlL0NhdGFsb2cKL1BhZ2VzIDIgMCBSCj4+CmVuZG9iagoyIDAgb2IKPDwKL1R5cGUgL1BhZ2VzCi9LaWRzIFszIDAgUl0KL0NvdW50IDE+PgplbmRvYmoKMyAwIG9iago8PC9UeXBlL0FnZS9QYXJlbnQgMiAwIFIKL01lZGlhQm94IFswIDAgMyAzXQo+PgplbmRvYmoKeHJlZgowIDQKMDAwMDAwMDAwMDAwMDAwMDAwMDAwMDAwMDAwMDAwCjAwMDAwMDAwMTIgMDAwMDAgbiAKMDAwMDAwMDA2MCAwMDAwMCBuIAowMDAwMDAwMTMzIDAwMDAwIG4gCnRyYWlsZXIKPDwKL1NpemUgNC9Sb290IDEgMCBSCj4+CmVuZG9iagolJUVPRg=="
+            }
+          ],
+          "checkDocs": [],
+          "notes": "",
+          "downPaymentReceived": true
+        },
+        {
+          "id": "u199v5g10",
+          "floor": 2,
+          "unitNumber": "21",
+          "area": "83",
+          "status": "sold",
+          "direction": "east",
+          "buyerName": "پریسا یزدانی",
+          "buyerPhone": "09191006747",
+          "buyerContactId": "c30e6ivw",
+          "postalCode": "144710004",
+          "pricePerMeter": "42100000",
+          "downPayment": "1048290000",
+          "depositAccountId": "acc18497c7b",
+          "installments": [
+            {
+              "id": "inst19ba78e9",
+              "date": "1404/04/15",
+              "amount": "611502500",
+              "paid": false,
+              "accountId": "acc18497c7b",
+              "financeTxId": null
+            },
+            {
+              "id": "inst19crivh6",
+              "date": "1404/07/15",
+              "amount": "611502500",
+              "paid": false,
+              "accountId": "acc18497c7b",
+              "financeTxId": null
+            },
+            {
+              "id": "inst19dt1ntm",
+              "date": "1404/10/15",
+              "amount": "611502500",
+              "paid": false,
+              "accountId": "acc18497c7b",
+              "financeTxId": null
+            },
+            {
+              "id": "inst19ejsrd9",
+              "date": "1404/13/15",
+              "amount": "611502500",
+              "paid": false,
+              "accountId": "acc18497c7b",
+              "financeTxId": null
+            }
+          ],
+          "contractDocs": [
+            {
+              "id": "doc19aur5l8",
+              "name": "مبایعه‌نامه.pdf",
+              "dataUrl": "data:application/pdf;base64,JVBERi0xLjQKMSAwIG9iago8PC9UeXBlL0NhdGFsb2cKL1BhZ2VzIDIgMCBSCj4+CmVuZG9iagoyIDAgb2IKPDwKL1R5cGUgL1BhZ2VzCi9LaWRzIFszIDAgUl0KL0NvdW50IDE+PgplbmRvYmoKMyAwIG9iago8PC9UeXBlL0FnZS9QYXJlbnQgMiAwIFIKL01lZGlhQm94IFswIDAgMyAzXQo+PgplbmRvYmoKeHJlZgowIDQKMDAwMDAwMDAwMDAwMDAwMDAwMDAwMDAwMDAwMDAwCjAwMDAwMDAwMTIgMDAwMDAgbiAKMDAwMDAwMDA2MCAwMDAwMCBuIAowMDAwMDAwMTMzIDAwMDAwIG4gCnRyYWlsZXIKPDwKL1NpemUgNC9Sb290IDEgMCBSCj4+CmVuZG9iagolJUVPRg=="
+            }
+          ],
+          "checkDocs": [],
+          "notes": "",
+          "downPaymentReceived": true
+        },
+        {
+          "id": "u19fq46no",
+          "floor": 2,
+          "unitNumber": "22",
+          "area": "88",
+          "status": "sold",
+          "direction": "west",
+          "buyerName": "سینا اکبرزاده",
+          "buyerPhone": "09191006920",
+          "buyerContactId": "c31pvs7h",
+          "postalCode": "144710005",
+          "pricePerMeter": "42100000",
+          "downPayment": "1111440000",
+          "depositAccountId": "acc18497c7b",
+          "installments": [
+            {
+              "id": "inst1a1upfln",
+              "date": "1404/04/15",
+              "amount": "648340000",
+              "paid": true,
+              "accountId": "acc18497c7b",
+              "financeTxId": "ft1e4wyx9t"
+            },
+            {
+              "id": "inst1a24rxyj",
+              "date": "1404/07/15",
+              "amount": "648340000",
+              "paid": false,
+              "accountId": "acc18497c7b",
+              "financeTxId": null
+            },
+            {
+              "id": "inst1a338xrg",
+              "date": "1404/10/15",
+              "amount": "648340000",
+              "paid": false,
+              "accountId": "acc18497c7b",
+              "financeTxId": null
+            },
+            {
+              "id": "inst1a42gzr7",
+              "date": "1404/13/15",
+              "amount": "648340000",
+              "paid": false,
+              "accountId": "acc18497c7b",
+              "financeTxId": null
+            }
+          ],
+          "contractDocs": [
+            {
+              "id": "doc1a0uhfj7",
+              "name": "مبایعه‌نامه.pdf",
+              "dataUrl": "data:application/pdf;base64,JVBERi0xLjQKMSAwIG9iago8PC9UeXBlL0NhdGFsb2cKL1BhZ2VzIDIgMCBSCj4+CmVuZG9iagoyIDAgb2IKPDwKL1R5cGUgL1BhZ2VzCi9LaWRzIFszIDAgUl0KL0NvdW50IDE+PgplbmRvYmoKMyAwIG9iago8PC9UeXBlL0FnZS9QYXJlbnQgMiAwIFIKL01lZGlhQm94IFswIDAgMyAzXQo+PgplbmRvYmoKeHJlZgowIDQKMDAwMDAwMDAwMDAwMDAwMDAwMDAwMDAwMDAwMDAwCjAwMDAwMDAwMTIgMDAwMDAgbiAKMDAwMDAwMDA2MCAwMDAwMCBuIAowMDAwMDAwMTMzIDAwMDAwIG4gCnRyYWlsZXIKPDwKL1NpemUgNC9Sb290IDEgMCBSCj4+CmVuZG9iagolJUVPRg=="
+            }
+          ],
+          "checkDocs": [],
+          "notes": "",
+          "downPaymentReceived": true
+        },
+        {
+          "id": "u1a5txcb4",
+          "floor": 2,
+          "unitNumber": "23",
+          "area": "93",
+          "status": "sold",
+          "direction": "north",
+          "buyerName": "مژگان حبیبی",
+          "buyerPhone": "09191007093",
+          "buyerContactId": "c32zioyk",
+          "postalCode": "144710006",
+          "pricePerMeter": "42100000",
+          "downPayment": "1174590000",
+          "depositAccountId": "acc18497c7b",
+          "installments": [
+            {
+              "id": "inst1a7izasn",
+              "date": "1404/04/15",
+              "amount": "685177500",
+              "paid": false,
+              "accountId": "acc18497c7b",
+              "financeTxId": null
+            },
+            {
+              "id": "inst1a8wywrr",
+              "date": "1404/07/15",
+              "amount": "685177500",
+              "paid": false,
+              "accountId": "acc18497c7b",
+              "financeTxId": null
+            },
+            {
+              "id": "inst1a9atatj",
+              "date": "1404/10/15",
+              "amount": "685177500",
+              "paid": false,
+              "accountId": "acc18497c7b",
+              "financeTxId": null
+            },
+            {
+              "id": "inst1aa9a3y3",
+              "date": "1404/13/15",
+              "amount": "685177500",
+              "paid": false,
+              "accountId": "acc18497c7b",
+              "financeTxId": null
+            }
+          ],
+          "contractDocs": [
+            {
+              "id": "doc1a68y1o4",
+              "name": "مبایعه‌نامه.pdf",
+              "dataUrl": "data:application/pdf;base64,JVBERi0xLjQKMSAwIG9iago8PC9UeXBlL0NhdGFsb2cKL1BhZ2VzIDIgMCBSCj4+CmVuZG9iagoyIDAgb2IKPDwKL1R5cGUgL1BhZ2VzCi9LaWRzIFszIDAgUl0KL0NvdW50IDE+PgplbmRvYmoKMyAwIG9iago8PC9UeXBlL0FnZS9QYXJlbnQgMiAwIFIKL01lZGlhQm94IFswIDAgMyAzXQo+PgplbmRvYmoKeHJlZgowIDQKMDAwMDAwMDAwMDAwMDAwMDAwMDAwMDAwMDAwMDAwCjAwMDAwMDAwMTIgMDAwMDAgbiAKMDAwMDAwMDA2MCAwMDAwMCBuIAowMDAwMDAwMTMzIDAwMDAwIG4gCnRyYWlsZXIKPDwKL1NpemUgNC9Sb290IDEgMCBSCj4+CmVuZG9iagolJUVPRg=="
+            }
+          ],
+          "checkDocs": [],
+          "notes": "",
+          "downPaymentReceived": true
+        },
+        {
+          "id": "u1ab6ddfg",
+          "floor": 3,
+          "unitNumber": "31",
+          "area": "98",
+          "status": "sold",
+          "direction": "east",
+          "buyerName": "فرزاد نعمتی",
+          "buyerPhone": "09191007266",
+          "buyerContactId": "c33l1cq9",
+          "postalCode": "144710007",
+          "pricePerMeter": "42100000",
+          "downPayment": "1237740000",
+          "depositAccountId": "acc18497c7b",
+          "installments": [
+            {
+              "id": "inst1adou9iy",
+              "date": "1404/04/15",
+              "amount": "722015000",
+              "paid": true,
+              "accountId": "acc18497c7b",
+              "financeTxId": "ft1ea1tee1"
+            },
+            {
+              "id": "inst1ae4x41d",
+              "date": "1404/07/15",
+              "amount": "722015000",
+              "paid": false,
+              "accountId": "acc18497c7b",
+              "financeTxId": null
+            },
+            {
+              "id": "inst1afntcag",
+              "date": "1404/10/15",
+              "amount": "722015000",
+              "paid": false,
+              "accountId": "acc18497c7b",
+              "financeTxId": null
+            },
+            {
+              "id": "inst1b0rp2u4",
+              "date": "1404/13/15",
+              "amount": "722015000",
+              "paid": false,
+              "accountId": "acc18497c7b",
+              "financeTxId": null
+            }
+          ],
+          "contractDocs": [
+            {
+              "id": "doc1acs3jon",
+              "name": "مبایعه‌نامه.pdf",
+              "dataUrl": "data:application/pdf;base64,JVBERi0xLjQKMSAwIG9iago8PC9UeXBlL0NhdGFsb2cKL1BhZ2VzIDIgMCBSCj4+CmVuZG9iagoyIDAgb2IKPDwKL1R5cGUgL1BhZ2VzCi9LaWRzIFszIDAgUl0KL0NvdW50IDE+PgplbmRvYmoKMyAwIG9iago8PC9UeXBlL0FnZS9QYXJlbnQgMiAwIFIKL01lZGlhQm94IFswIDAgMyAzXQo+PgplbmRvYmoKeHJlZgowIDQKMDAwMDAwMDAwMDAwMDAwMDAwMDAwMDAwMDAwMDAwCjAwMDAwMDAwMTIgMDAwMDAgbiAKMDAwMDAwMDA2MCAwMDAwMCBuIAowMDAwMDAwMTMzIDAwMDAwIG4gCnRyYWlsZXIKPDwKL1NpemUgNC9Sb290IDEgMCBSCj4+CmVuZG9iagolJUVPRg=="
+            }
+          ],
+          "checkDocs": [],
+          "notes": "",
+          "downPaymentReceived": true
+        },
+        {
+          "id": "u1b1dtbh5",
+          "floor": 3,
+          "unitNumber": "32",
+          "area": "103",
+          "status": "sold",
+          "direction": "west",
+          "buyerName": "آتنا رضوانی",
+          "buyerPhone": "09191007439",
+          "buyerContactId": "c349chj7",
+          "postalCode": "144710008",
+          "pricePerMeter": "42100000",
+          "downPayment": "1300890000",
+          "depositAccountId": "acc18497c7b",
+          "installments": [
+            {
+              "id": "inst1b36ub7l",
+              "date": "1404/04/15",
+              "amount": "758852500",
+              "paid": false,
+              "accountId": "acc18497c7b",
+              "financeTxId": null
+            },
+            {
+              "id": "inst1b48v1zo",
+              "date": "1404/07/15",
+              "amount": "758852500",
+              "paid": false,
+              "accountId": "acc18497c7b",
+              "financeTxId": null
+            },
+            {
+              "id": "inst1b5cfi4o",
+              "date": "1404/10/15",
+              "amount": "758852500",
+              "paid": false,
+              "accountId": "acc18497c7b",
+              "financeTxId": null
+            },
+            {
+              "id": "inst1b66l1f9",
+              "date": "1404/13/15",
+              "amount": "758852500",
+              "paid": false,
+              "accountId": "acc18497c7b",
+              "financeTxId": null
+            }
+          ],
+          "contractDocs": [
+            {
+              "id": "doc1b25rbc7",
+              "name": "مبایعه‌نامه.pdf",
+              "dataUrl": "data:application/pdf;base64,JVBERi0xLjQKMSAwIG9iago8PC9UeXBlL0NhdGFsb2cKL1BhZ2VzIDIgMCBSCj4+CmVuZG9iagoyIDAgb2IKPDwKL1R5cGUgL1BhZ2VzCi9LaWRzIFszIDAgUl0KL0NvdW50IDE+PgplbmRvYmoKMyAwIG9iago8PC9UeXBlL0FnZS9QYXJlbnQgMiAwIFIKL01lZGlhQm94IFswIDAgMyAzXQo+PgplbmRvYmoKeHJlZgowIDQKMDAwMDAwMDAwMDAwMDAwMDAwMDAwMDAwMDAwMDAwCjAwMDAwMDAwMTIgMDAwMDAgbiAKMDAwMDAwMDA2MCAwMDAwMCBuIAowMDAwMDAwMTMzIDAwMDAwIG4gCnRyYWlsZXIKPDwKL1NpemUgNC9Sb290IDEgMCBSCj4+CmVuZG9iagolJUVPRg=="
+            }
+          ],
+          "checkDocs": [],
+          "notes": "",
+          "downPaymentReceived": true
+        },
+        {
+          "id": "u1b70s9bp",
+          "floor": 3,
+          "unitNumber": "33",
+          "area": "78",
+          "status": "sold",
+          "direction": "north",
+          "buyerName": "مصطفی قربانی",
+          "buyerPhone": "09191007612",
+          "buyerContactId": "c3555nf4",
+          "postalCode": "144710009",
+          "pricePerMeter": "42100000",
+          "downPayment": "985140000",
+          "depositAccountId": "acc18497c7b",
+          "installments": [
+            {
+              "id": "inst1b91bj9r",
+              "date": "1404/04/15",
+              "amount": "574665000",
+              "paid": true,
+              "accountId": "acc18497c7b",
+              "financeTxId": "ft1f0fhhcm"
+            },
+            {
+              "id": "inst1bam7pyx",
+              "date": "1404/07/15",
+              "amount": "574665000",
+              "paid": false,
+              "accountId": "acc18497c7b",
+              "financeTxId": null
+            },
+            {
+              "id": "inst1bbdw2zc",
+              "date": "1404/10/15",
+              "amount": "574665000",
+              "paid": false,
+              "accountId": "acc18497c7b",
+              "financeTxId": null
+            },
+            {
+              "id": "inst1bcfzw0l",
+              "date": "1404/13/15",
+              "amount": "574665000",
+              "paid": false,
+              "accountId": "acc18497c7b",
+              "financeTxId": null
+            }
+          ],
+          "contractDocs": [
+            {
+              "id": "doc1b84m18o",
+              "name": "مبایعه‌نامه.pdf",
+              "dataUrl": "data:application/pdf;base64,JVBERi0xLjQKMSAwIG9iago8PC9UeXBlL0NhdGFsb2cKL1BhZ2VzIDIgMCBSCj4+CmVuZG9iagoyIDAgb2IKPDwKL1R5cGUgL1BhZ2VzCi9LaWRzIFszIDAgUl0KL0NvdW50IDE+PgplbmRvYmoKMyAwIG9iago8PC9UeXBlL0FnZS9QYXJlbnQgMiAwIFIKL01lZGlhQm94IFswIDAgMyAzXQo+PgplbmRvYmoKeHJlZgowIDQKMDAwMDAwMDAwMDAwMDAwMDAwMDAwMDAwMDAwMDAwCjAwMDAwMDAwMTIgMDAwMDAgbiAKMDAwMDAwMDA2MCAwMDAwMCBuIAowMDAwMDAwMTMzIDAwMDAwIG4gCnRyYWlsZXIKPDwKL1NpemUgNC9Sb290IDEgMCBSCj4+CmVuZG9iagolJUVPRg=="
+            }
+          ],
+          "checkDocs": [],
+          "notes": "",
+          "downPaymentReceived": true
+        },
+        {
+          "id": "u1bddalmj",
+          "floor": 4,
+          "unitNumber": "41",
+          "area": "83",
+          "status": "sold",
+          "direction": "east",
+          "buyerName": "نیلوفر سعیدی",
+          "buyerPhone": "09191007785",
+          "buyerContactId": "c36zw9xa",
+          "postalCode": "144710010",
+          "pricePerMeter": "42100000",
+          "downPayment": "1048290000",
+          "depositAccountId": "acc18497c7b",
+          "installments": [
+            {
+              "id": "inst1bfamdvl",
+              "date": "1404/04/15",
+              "amount": "611502500",
+              "paid": false,
+              "accountId": "acc18497c7b",
+              "financeTxId": null
+            },
+            {
+              "id": "inst1c0nknd6",
+              "date": "1404/07/15",
+              "amount": "611502500",
+              "paid": false,
+              "accountId": "acc18497c7b",
+              "financeTxId": null
+            },
+            {
+              "id": "inst1c169ugn",
+              "date": "1404/10/15",
+              "amount": "611502500",
+              "paid": false,
+              "accountId": "acc18497c7b",
+              "financeTxId": null
+            },
+            {
+              "id": "inst1c2ekrcp",
+              "date": "1404/13/15",
+              "amount": "611502500",
+              "paid": false,
+              "accountId": "acc18497c7b",
+              "financeTxId": null
+            }
+          ],
+          "contractDocs": [
+            {
+              "id": "doc1beegqto",
+              "name": "مبایعه‌نامه.pdf",
+              "dataUrl": "data:application/pdf;base64,JVBERi0xLjQKMSAwIG9iago8PC9UeXBlL0NhdGFsb2cKL1BhZ2VzIDIgMCBSCj4+CmVuZG9iagoyIDAgb2IKPDwKL1R5cGUgL1BhZ2VzCi9LaWRzIFszIDAgUl0KL0NvdW50IDE+PgplbmRvYmoKMyAwIG9iago8PC9UeXBlL0FnZS9QYXJlbnQgMiAwIFIKL01lZGlhQm94IFswIDAgMyAzXQo+PgplbmRvYmoKeHJlZgowIDQKMDAwMDAwMDAwMDAwMDAwMDAwMDAwMDAwMDAwMDAwCjAwMDAwMDAwMTIgMDAwMDAgbiAKMDAwMDAwMDA2MCAwMDAwMCBuIAowMDAwMDAwMTMzIDAwMDAwIG4gCnRyYWlsZXIKPDwKL1NpemUgNC9Sb290IDEgMCBSCj4+CmVuZG9iagolJUVPRg=="
+            }
+          ],
+          "checkDocs": [],
+          "notes": "",
+          "downPaymentReceived": true
+        },
+        {
+          "id": "u1c3prcji",
+          "floor": 4,
+          "unitNumber": "42",
+          "area": "88",
+          "status": "reserved",
+          "direction": "west",
+          "buyerName": "جواد ملکی",
+          "buyerPhone": "09191007958",
+          "buyerContactId": "c373kx7e",
+          "postalCode": "144710011",
+          "pricePerMeter": "42100000",
+          "downPayment": "1111440000",
+          "depositAccountId": "acc18497c7b",
+          "installments": [
+            {
+              "id": "inst1c4wvhdk",
+              "date": "1404/04/15",
+              "amount": "648340000",
+              "paid": false,
+              "accountId": "acc18497c7b",
+              "financeTxId": null
+            },
+            {
+              "id": "inst1c58lw2l",
+              "date": "1404/07/15",
+              "amount": "648340000",
+              "paid": false,
+              "accountId": "acc18497c7b",
+              "financeTxId": null
+            },
+            {
+              "id": "inst1c6m349e",
+              "date": "1404/10/15",
+              "amount": "648340000",
+              "paid": false,
+              "accountId": "acc18497c7b",
+              "financeTxId": null
+            },
+            {
+              "id": "inst1c7l8hl8",
+              "date": "1404/13/15",
+              "amount": "648340000",
+              "paid": false,
+              "accountId": "acc18497c7b",
+              "financeTxId": null
+            }
+          ],
+          "contractDocs": [],
+          "checkDocs": [],
+          "notes": "",
+          "downPaymentReceived": false
+        },
+        {
+          "id": "u1c88kzru",
+          "floor": 4,
+          "unitNumber": "43",
+          "area": "93",
+          "status": "reserved",
+          "direction": "north",
+          "buyerName": "ترانه وحیدی",
+          "buyerPhone": "09191008131",
+          "buyerContactId": "c38edtjv",
+          "postalCode": "144710012",
+          "pricePerMeter": "42100000",
+          "downPayment": "1174590000",
+          "depositAccountId": "acc18497c7b",
+          "installments": [
+            {
+              "id": "inst1c9in3oe",
+              "date": "1404/04/15",
+              "amount": "685177500",
+              "paid": false,
+              "accountId": "acc18497c7b",
+              "financeTxId": null
+            },
+            {
+              "id": "inst1cauvtyt",
+              "date": "1404/07/15",
+              "amount": "685177500",
+              "paid": false,
+              "accountId": "acc18497c7b",
+              "financeTxId": null
+            },
+            {
+              "id": "inst1cb8qzpk",
+              "date": "1404/10/15",
+              "amount": "685177500",
+              "paid": false,
+              "accountId": "acc18497c7b",
+              "financeTxId": null
+            },
+            {
+              "id": "inst1ccy32or",
+              "date": "1404/13/15",
+              "amount": "685177500",
+              "paid": false,
+              "accountId": "acc18497c7b",
+              "financeTxId": null
+            }
+          ],
+          "contractDocs": [],
+          "checkDocs": [],
+          "notes": "",
+          "downPaymentReceived": false
+        },
+        {
+          "id": "u1cdwixz2",
+          "floor": 5,
+          "unitNumber": "51",
+          "area": "98",
+          "status": "vacant",
+          "direction": "east",
+          "buyerName": "",
+          "buyerPhone": "",
+          "buyerContactId": null,
+          "postalCode": "",
+          "pricePerMeter": "",
+          "downPayment": "",
+          "depositAccountId": "",
+          "installments": [],
+          "contractDocs": [],
+          "checkDocs": [],
+          "notes": "",
+          "downPaymentReceived": false
+        },
+        {
+          "id": "u1cec9ros",
+          "floor": 5,
+          "unitNumber": "52",
+          "area": "103",
+          "status": "vacant",
+          "direction": "west",
+          "buyerName": "",
+          "buyerPhone": "",
+          "buyerContactId": null,
+          "postalCode": "",
+          "pricePerMeter": "",
+          "downPayment": "",
+          "depositAccountId": "",
+          "installments": [],
+          "contractDocs": [],
+          "checkDocs": [],
+          "notes": "",
+          "downPaymentReceived": false
+        },
+        {
+          "id": "u1cf7yt2m",
+          "floor": 5,
+          "unitNumber": "53",
+          "area": "78",
+          "status": "vacant",
+          "direction": "north",
+          "buyerName": "",
+          "buyerPhone": "",
+          "buyerContactId": null,
+          "postalCode": "",
+          "pricePerMeter": "",
+          "downPayment": "",
+          "depositAccountId": "",
+          "installments": [],
+          "contractDocs": [],
+          "checkDocs": [],
+          "notes": "",
+          "downPaymentReceived": false
+        },
+        {
+          "id": "u1d06twd1",
+          "floor": 6,
+          "unitNumber": "61",
+          "area": "83",
+          "status": "vacant",
+          "direction": "east",
+          "buyerName": "",
+          "buyerPhone": "",
+          "buyerContactId": null,
+          "postalCode": "",
+          "pricePerMeter": "",
+          "downPayment": "",
+          "depositAccountId": "",
+          "installments": [],
+          "contractDocs": [],
+          "checkDocs": [],
+          "notes": "",
+          "downPaymentReceived": false
+        },
+        {
+          "id": "u1d1xmxb9",
+          "floor": 6,
+          "unitNumber": "62",
+          "area": "88",
+          "status": "vacant",
+          "direction": "west",
+          "buyerName": "",
+          "buyerPhone": "",
+          "buyerContactId": null,
+          "postalCode": "",
+          "pricePerMeter": "",
+          "downPayment": "",
+          "depositAccountId": "",
+          "installments": [],
+          "contractDocs": [],
+          "checkDocs": [],
+          "notes": "",
+          "downPaymentReceived": false
+        },
+        {
+          "id": "u1d2yo18p",
+          "floor": 6,
+          "unitNumber": "63",
+          "area": "93",
+          "status": "vacant",
+          "direction": "north",
+          "buyerName": "",
+          "buyerPhone": "",
+          "buyerContactId": null,
+          "postalCode": "",
+          "pricePerMeter": "",
+          "downPayment": "",
+          "depositAccountId": "",
+          "installments": [],
+          "contractDocs": [],
+          "checkDocs": [],
+          "notes": "",
+          "downPaymentReceived": false
+        }
+      ],
+      "activities": [
+        {
+          "id": "act20adtvv2",
+          "name": "خاکبرداری و تسطیح زمین",
+          "order": 0
+        },
+        {
+          "id": "act20by4xks",
+          "name": "گودبرداری",
+          "order": 1
+        },
+        {
+          "id": "act20cs0kb6",
+          "name": "اجرای سازه نگهبان (راهبم)",
+          "order": 2
+        },
+        {
+          "id": "act20d8rerv",
+          "name": "فونداسیون و کلنی",
+          "order": 3
+        },
+        {
+          "id": "act20et997e",
+          "name": "اسکلت بتنی — همکف و طبقات",
+          "order": 4
+        },
+        {
+          "id": "act20f4uny1",
+          "name": "اجرای سقف‌ها و دال بتنی",
+          "order": 5
+        },
+        {
+          "id": "act21081acj",
+          "name": "دیوارچینی و تیغه‌چینی",
+          "order": 6
+        },
+        {
+          "id": "act211bc2sw",
+          "name": "عایق‌کاری رطوبتی",
+          "order": 7
+        },
+        {
+          "id": "act212sozct",
+          "name": "گچ و خاک",
+          "order": 8
+        },
+        {
+          "id": "act213wjlsh",
+          "name": "کاشی‌کاری و سرامیک",
+          "order": 9
+        },
+        {
+          "id": "act2143tow4",
+          "name": "تأسیسات مکانیکی",
+          "order": 10
+        },
+        {
+          "id": "act215ycz04",
+          "name": "تأسیسات برق",
+          "order": 11
+        }
+      ],
+      "investors": [
+        {
+          "id": "inv216cdpqv",
+          "contactId": "c1xaji0",
+          "sharePercent": 100
+        }
+      ],
+      "bankAccounts": [
+        {
+          "id": "acc18497c7b",
+          "name": "ملت — مهر بومهن",
+          "accountNumber": "3344556677883",
+          "accountType": "current",
+          "initialBalance": "800000000",
+          "ownerType": "project",
+          "investorContactId": null
+        },
+        {
+          "id": "acc185o119x",
+          "name": "تنخواه کارگاه",
+          "accountNumber": "7766554433223",
+          "accountType": "petty",
+          "initialBalance": "50000000",
+          "ownerType": "project",
+          "investorContactId": null
+        },
+        {
+          "id": "acc186p9n56",
+          "name": "حساب چک‌های پروژه",
+          "accountNumber": "7766554433224",
+          "accountType": "current",
+          "initialBalance": "100000000",
+          "ownerType": "project",
+          "investorContactId": null
+        }
+      ],
+      "financeTransactions": [
+        {
+          "id": "ft1d3ajssu",
+          "date": "1403/11/01",
+          "type": "capital_in",
+          "amount": 6000000000,
+          "fromAccountId": null,
+          "toAccountId": "acc18497c7b",
+          "investorContactId": "c1xaji0",
+          "note": "ورود سرمایه اولیه پروژه",
+          "docs": [
+            {
+              "id": "doc1d4uqo1v",
+              "name": "رسید واریز سرمایه.pdf",
+              "dataUrl": "data:application/pdf;base64,JVBERi0xLjQKMSAwIG9iago8PC9UeXBlL0NhdGFsb2cKL1BhZ2VzIDIgMCBSCj4+CmVuZG9iagoyIDAgb2IKPDwKL1R5cGUgL1BhZ2VzCi9LaWRzIFszIDAgUl0KL0NvdW50IDE+PgplbmRvYmoKMyAwIG9iago8PC9UeXBlL0FnZS9QYXJlbnQgMiAwIFIKL01lZGlhQm94IFswIDAgMyAzXQo+PgplbmRvYmoKeHJlZgowIDQKMDAwMDAwMDAwMDAwMDAwMDAwMDAwMDAwMDAwMDAwCjAwMDAwMDAwMTIgMDAwMDAgbiAKMDAwMDAwMDA2MCAwMDAwMCBuIAowMDAwMDAwMTMzIDAwMDAwIG4gCnRyYWlsZXIKPDwKL1NpemUgNC9Sb290IDEgMCBSCj4+CmVuZG9iagolJUVPRg=="
+            }
+          ]
+        },
+        {
+          "id": "ft1d68e7fl",
+          "date": "1404/02/10",
+          "type": "income",
+          "amount": 1237740000,
+          "fromAccountId": null,
+          "toAccountId": "acc18497c7b",
+          "unitId": "u187nyxtx",
+          "installmentId": null,
+          "note": "پیش‌پرداخت واحد 11",
+          "docs": [
+            {
+              "id": "doc1d7qhrrp",
+              "name": "رسید دریافت پیش‌پرداخت.png",
+              "dataUrl": "data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAYAAAAfFcSJAAAADUlEQVR42mNk+M9QDwADhgGAWjR9awAAAABJRU5ErkJggg=="
+            }
+          ]
+        },
+        {
+          "id": "ft1d8zlk3e",
+          "date": "1404/05/20",
+          "type": "income",
+          "amount": 722015000,
+          "fromAccountId": null,
+          "toAccountId": "acc18497c7b",
+          "unitId": "u187nyxtx",
+          "installmentId": "inst189iaaky",
+          "note": "قسط اول واحد 11",
+          "docs": [
+            {
+              "id": "doc1d94xyf9",
+              "name": "رسید قسط.png",
+              "dataUrl": "data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAYAAAAfFcSJAAAADUlEQVR42mNk+M9QDwADhgGAWjR9awAAAABJRU5ErkJggg=="
+            }
+          ]
+        },
+        {
+          "id": "ft1daigfu8",
+          "date": "1404/02/10",
+          "type": "income",
+          "amount": 1300890000,
+          "fromAccountId": null,
+          "toAccountId": "acc18497c7b",
+          "unitId": "u18ddbvzb",
+          "installmentId": null,
+          "note": "پیش‌پرداخت واحد 12",
+          "docs": [
+            {
+              "id": "doc1dbiogxp",
+              "name": "رسید دریافت پیش‌پرداخت.png",
+              "dataUrl": "data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAYAAAAfFcSJAAAADUlEQVR42mNk+M9QDwADhgGAWjR9awAAAABJRU5ErkJggg=="
+            }
+          ]
+        },
+        {
+          "id": "ft1dcbwhvn",
+          "date": "1404/02/10",
+          "type": "income",
+          "amount": 985140000,
+          "fromAccountId": null,
+          "toAccountId": "acc18497c7b",
+          "unitId": "u193r97y2",
+          "installmentId": null,
+          "note": "پیش‌پرداخت واحد 13",
+          "docs": [
+            {
+              "id": "doc1ddzh13c",
+              "name": "رسید دریافت پیش‌پرداخت.png",
+              "dataUrl": "data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAYAAAAfFcSJAAAADUlEQVR42mNk+M9QDwADhgGAWjR9awAAAABJRU5ErkJggg=="
+            }
+          ]
+        },
+        {
+          "id": "ft1ded5glq",
+          "date": "1404/05/20",
+          "type": "income",
+          "amount": 574665000,
+          "fromAccountId": null,
+          "toAccountId": "acc18497c7b",
+          "unitId": "u193r97y2",
+          "installmentId": "inst195r4kz3",
+          "note": "قسط اول واحد 13",
+          "docs": [
+            {
+              "id": "doc1dfj5sxv",
+              "name": "رسید قسط.png",
+              "dataUrl": "data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAYAAAAfFcSJAAAADUlEQVR42mNk+M9QDwADhgGAWjR9awAAAABJRU5ErkJggg=="
+            }
+          ]
+        },
+        {
+          "id": "ft1e0wvm4w",
+          "date": "1404/02/10",
+          "type": "income",
+          "amount": 1048290000,
+          "fromAccountId": null,
+          "toAccountId": "acc18497c7b",
+          "unitId": "u199v5g10",
+          "installmentId": null,
+          "note": "پیش‌پرداخت واحد 21",
+          "docs": [
+            {
+              "id": "doc1e13zkwd",
+              "name": "رسید دریافت پیش‌پرداخت.png",
+              "dataUrl": "data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAYAAAAfFcSJAAAADUlEQVR42mNk+M9QDwADhgGAWjR9awAAAABJRU5ErkJggg=="
+            }
+          ]
+        },
+        {
+          "id": "ft1e2eekgy",
+          "date": "1404/02/10",
+          "type": "income",
+          "amount": 1111440000,
+          "fromAccountId": null,
+          "toAccountId": "acc18497c7b",
+          "unitId": "u19fq46no",
+          "installmentId": null,
+          "note": "پیش‌پرداخت واحد 22",
+          "docs": [
+            {
+              "id": "doc1e3speng",
+              "name": "رسید دریافت پیش‌پرداخت.png",
+              "dataUrl": "data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAYAAAAfFcSJAAAADUlEQVR42mNk+M9QDwADhgGAWjR9awAAAABJRU5ErkJggg=="
+            }
+          ]
+        },
+        {
+          "id": "ft1e4wyx9t",
+          "date": "1404/05/20",
+          "type": "income",
+          "amount": 648340000,
+          "fromAccountId": null,
+          "toAccountId": "acc18497c7b",
+          "unitId": "u19fq46no",
+          "installmentId": "inst1a1upfln",
+          "note": "قسط اول واحد 22",
+          "docs": [
+            {
+              "id": "doc1e5rflqb",
+              "name": "رسید قسط.png",
+              "dataUrl": "data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAYAAAAfFcSJAAAADUlEQVR42mNk+M9QDwADhgGAWjR9awAAAABJRU5ErkJggg=="
+            }
+          ]
+        },
+        {
+          "id": "ft1e6mae38",
+          "date": "1404/02/10",
+          "type": "income",
+          "amount": 1174590000,
+          "fromAccountId": null,
+          "toAccountId": "acc18497c7b",
+          "unitId": "u1a5txcb4",
+          "installmentId": null,
+          "note": "پیش‌پرداخت واحد 23",
+          "docs": [
+            {
+              "id": "doc1e7sryo4",
+              "name": "رسید دریافت پیش‌پرداخت.png",
+              "dataUrl": "data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAYAAAAfFcSJAAAADUlEQVR42mNk+M9QDwADhgGAWjR9awAAAABJRU5ErkJggg=="
+            }
+          ]
+        },
+        {
+          "id": "ft1e8rcb1k",
+          "date": "1404/02/10",
+          "type": "income",
+          "amount": 1237740000,
+          "fromAccountId": null,
+          "toAccountId": "acc18497c7b",
+          "unitId": "u1ab6ddfg",
+          "installmentId": null,
+          "note": "پیش‌پرداخت واحد 31",
+          "docs": [
+            {
+              "id": "doc1e9jtgq0",
+              "name": "رسید دریافت پیش‌پرداخت.png",
+              "dataUrl": "data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAYAAAAfFcSJAAAADUlEQVR42mNk+M9QDwADhgGAWjR9awAAAABJRU5ErkJggg=="
+            }
+          ]
+        },
+        {
+          "id": "ft1ea1tee1",
+          "date": "1404/05/20",
+          "type": "income",
+          "amount": 722015000,
+          "fromAccountId": null,
+          "toAccountId": "acc18497c7b",
+          "unitId": "u1ab6ddfg",
+          "installmentId": "inst1adou9iy",
+          "note": "قسط اول واحد 31",
+          "docs": [
+            {
+              "id": "doc1eb3n3bz",
+              "name": "رسید قسط.png",
+              "dataUrl": "data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAYAAAAfFcSJAAAADUlEQVR42mNk+M9QDwADhgGAWjR9awAAAABJRU5ErkJggg=="
+            }
+          ]
+        },
+        {
+          "id": "ft1ect9d31",
+          "date": "1404/02/10",
+          "type": "income",
+          "amount": 1300890000,
+          "fromAccountId": null,
+          "toAccountId": "acc18497c7b",
+          "unitId": "u1b1dtbh5",
+          "installmentId": null,
+          "note": "پیش‌پرداخت واحد 32",
+          "docs": [
+            {
+              "id": "doc1edk9qm3",
+              "name": "رسید دریافت پیش‌پرداخت.png",
+              "dataUrl": "data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAYAAAAfFcSJAAAADUlEQVR42mNk+M9QDwADhgGAWjR9awAAAABJRU5ErkJggg=="
+            }
+          ]
+        },
+        {
+          "id": "ft1eep91i3",
+          "date": "1404/02/10",
+          "type": "income",
+          "amount": 985140000,
+          "fromAccountId": null,
+          "toAccountId": "acc18497c7b",
+          "unitId": "u1b70s9bp",
+          "installmentId": null,
+          "note": "پیش‌پرداخت واحد 33",
+          "docs": [
+            {
+              "id": "doc1efvmzwf",
+              "name": "رسید دریافت پیش‌پرداخت.png",
+              "dataUrl": "data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAYAAAAfFcSJAAAADUlEQVR42mNk+M9QDwADhgGAWjR9awAAAABJRU5ErkJggg=="
+            }
+          ]
+        },
+        {
+          "id": "ft1f0fhhcm",
+          "date": "1404/05/20",
+          "type": "income",
+          "amount": 574665000,
+          "fromAccountId": null,
+          "toAccountId": "acc18497c7b",
+          "unitId": "u1b70s9bp",
+          "installmentId": "inst1b91bj9r",
+          "note": "قسط اول واحد 33",
+          "docs": [
+            {
+              "id": "doc1f1ktlzk",
+              "name": "رسید قسط.png",
+              "dataUrl": "data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAYAAAAfFcSJAAAADUlEQVR42mNk+M9QDwADhgGAWjR9awAAAABJRU5ErkJggg=="
+            }
+          ]
+        },
+        {
+          "id": "ft1f2j49yd",
+          "date": "1404/02/10",
+          "type": "income",
+          "amount": 1048290000,
+          "fromAccountId": null,
+          "toAccountId": "acc18497c7b",
+          "unitId": "u1bddalmj",
+          "installmentId": null,
+          "note": "پیش‌پرداخت واحد 41",
+          "docs": [
+            {
+              "id": "doc1f382795",
+              "name": "رسید دریافت پیش‌پرداخت.png",
+              "dataUrl": "data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAYAAAAfFcSJAAAADUlEQVR42mNk+M9QDwADhgGAWjR9awAAAABJRU5ErkJggg=="
+            }
+          ]
+        },
+        {
+          "id": "ft1f6oqw5d",
+          "date": "1404/03/05",
+          "type": "expense",
+          "amount": 240000000,
+          "fromAccountId": "acc18497c7b",
+          "toAccountId": null,
+          "expenseId": "exp1f4e5iz3",
+          "note": "خرید سیمان پروژه",
+          "docs": [
+            {
+              "id": "doc1f7sk7n8",
+              "name": "فاکتور سیمان.pdf",
+              "dataUrl": "data:application/pdf;base64,JVBERi0xLjQKMSAwIG9iago8PC9UeXBlL0NhdGFsb2cKL1BhZ2VzIDIgMCBSCj4+CmVuZG9iagoyIDAgb2IKPDwKL1R5cGUgL1BhZ2VzCi9LaWRzIFszIDAgUl0KL0NvdW50IDE+PgplbmRvYmoKMyAwIG9iago8PC9UeXBlL0FnZS9QYXJlbnQgMiAwIFIKL01lZGlhQm94IFswIDAgMyAzXQo+PgplbmRvYmoKeHJlZgowIDQKMDAwMDAwMDAwMDAwMDAwMDAwMDAwMDAwMDAwMDAwCjAwMDAwMDAwMTIgMDAwMDAgbiAKMDAwMDAwMDA2MCAwMDAwMCBuIAowMDAwMDAwMTMzIDAwMDAwIG4gCnRyYWlsZXIKPDwKL1NpemUgNC9Sb290IDEgMCBSCj4+CmVuZG9iagolJUVPRg=="
+            }
+          ]
+        },
+        {
+          "id": "ft1fcybd2q",
+          "date": "1404/04/20",
+          "type": "check_clear",
+          "amount": 140000000,
+          "fromAccountId": "acc186p9n56",
+          "toAccountId": null,
+          "expenseId": "exp1fahphj3",
+          "note": "اجاره جرثقیل",
+          "docs": [
+            {
+              "id": "doc1fde4pa8",
+              "name": "چک جرثقیل.pdf",
+              "dataUrl": "data:application/pdf;base64,JVBERi0xLjQKMSAwIG9iago8PC9UeXBlL0NhdGFsb2cKL1BhZ2VzIDIgMCBSCj4+CmVuZG9iagoyIDAgb2IKPDwKL1R5cGUgL1BhZ2VzCi9LaWRzIFszIDAgUl0KL0NvdW50IDE+PgplbmRvYmoKMyAwIG9iago8PC9UeXBlL0FnZS9QYXJlbnQgMiAwIFIKL01lZGlhQm94IFswIDAgMyAzXQo+PgplbmRvYmoKeHJlZgowIDQKMDAwMDAwMDAwMDAwMDAwMDAwMDAwMDAwMDAwMDAwCjAwMDAwMDAwMTIgMDAwMDAgbiAKMDAwMDAwMDA2MCAwMDAwMCBuIAowMDAwMDAwMTMzIDAwMDAwIG4gCnRyYWlsZXIKPDwKL1NpemUgNC9Sb290IDEgMCBSCj4+CmVuZG9iagolJUVPRg=="
+            }
+          ]
+        },
+        {
+          "id": "ft1fehyexf",
+          "date": "1404/05/15",
+          "type": "contact_debt_pay",
+          "amount": 372000000,
+          "fromAccountId": "acc18497c7b",
+          "toAccountId": null,
+          "contactId": "c6mdd4v",
+          "note": "تسویه بخشی بدهی میلگرد",
+          "docs": [
+            {
+              "id": "doc1ff7jxjn",
+              "name": "رسید پرداخت بدهی.pdf",
+              "dataUrl": "data:application/pdf;base64,JVBERi0xLjQKMSAwIG9iago8PC9UeXBlL0NhdGFsb2cKL1BhZ2VzIDIgMCBSCj4+CmVuZG9iagoyIDAgb2IKPDwKL1R5cGUgL1BhZ2VzCi9LaWRzIFszIDAgUl0KL0NvdW50IDE+PgplbmRvYmoKMyAwIG9iago8PC9UeXBlL0FnZS9QYXJlbnQgMiAwIFIKL01lZGlhQm94IFswIDAgMyAzXQo+PgplbmRvYmoKeHJlZgowIDQKMDAwMDAwMDAwMDAwMDAwMDAwMDAwMDAwMDAwMDAwCjAwMDAwMDAwMTIgMDAwMDAgbiAKMDAwMDAwMDA2MCAwMDAwMCBuIAowMDAwMDAwMTMzIDAwMDAwIG4gCnRyYWlsZXIKPDwKL1NpemUgNC9Sb290IDEgMCBSCj4+CmVuZG9iagolJUVPRg=="
+            }
+          ],
+          "apAllocations": [
+            {
+              "expenseId": "exp1f8la100",
+              "amount": 372000000,
+              "expenseTitle": "میلگرد اسکلت — فاکتور نسیه"
+            }
+          ]
+        },
+        {
+          "id": "ft2006fokz",
+          "date": "1404/05/01",
+          "type": "contact_prepay",
+          "amount": 45000000,
+          "fromAccountId": "acc18497c7b",
+          "toAccountId": null,
+          "contactId": "c3hsahx",
+          "note": "پیش‌پرداخت پیمانکار نازک‌کاری",
+          "docs": [
+            {
+              "id": "doc201ixzar",
+              "name": "رسید پیش‌پرداخت.pdf",
+              "dataUrl": "data:application/pdf;base64,JVBERi0xLjQKMSAwIG9iago8PC9UeXBlL0NhdGFsb2cKL1BhZ2VzIDIgMCBSCj4+CmVuZG9iagoyIDAgb2IKPDwKL1R5cGUgL1BhZ2VzCi9LaWRzIFszIDAgUl0KL0NvdW50IDE+PgplbmRvYmoKMyAwIG9iago8PC9UeXBlL0FnZS9QYXJlbnQgMiAwIFIKL01lZGlhQm94IFswIDAgMyAzXQo+PgplbmRvYmoKeHJlZgowIDQKMDAwMDAwMDAwMDAwMDAwMDAwMDAwMDAwMDAwMDAwCjAwMDAwMDAwMTIgMDAwMDAgbiAKMDAwMDAwMDA2MCAwMDAwMCBuIAowMDAwMDAwMTMzIDAwMDAwIG4gCnRyYWlsZXIKPDwKL1NpemUgNC9Sb290IDEgMCBSCj4+CmVuZG9iagolJUVPRg=="
+            }
+          ]
+        },
+        {
+          "id": "ft202eiyaz",
+          "date": "1404/06/01",
+          "type": "transfer",
+          "amount": 120000000,
+          "fromAccountId": "acc18497c7b",
+          "toAccountId": "acc185o119x",
+          "note": "انتقال به تنخواه کارگاه",
+          "docs": [
+            {
+              "id": "doc20339pec",
+              "name": "حواله انتقال.png",
+              "dataUrl": "data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAYAAAAfFcSJAAAADUlEQVR42mNk+M9QDwADhgGAWjR9awAAAABJRU5ErkJggg=="
+            }
+          ]
+        }
+      ],
+      "expenses": [
+        {
+          "id": "exp1f4e5iz3",
+          "title": "خرید سیمان پروژه",
+          "amount": "240000000",
+          "date": "1404/03/05",
+          "paymentMethod": "cash",
+          "contactId": "c6mdd4v",
+          "bankAccountId": "acc18497c7b",
+          "materialId": "inv3f6hid2",
+          "materialQty": 800,
+          "note": "رسید انبار — شارژ موجودی",
+          "docs": [
+            {
+              "id": "doc1f51yruj",
+              "name": "فاکتور سیمان.pdf",
+              "dataUrl": "data:application/pdf;base64,JVBERi0xLjQKMSAwIG9iago8PC9UeXBlL0NhdGFsb2cKL1BhZ2VzIDIgMCBSCj4+CmVuZG9iagoyIDAgb2IKPDwKL1R5cGUgL1BhZ2VzCi9LaWRzIFszIDAgUl0KL0NvdW50IDE+PgplbmRvYmoKMyAwIG9iago8PC9UeXBlL0FnZS9QYXJlbnQgMiAwIFIKL01lZGlhQm94IFswIDAgMyAzXQo+PgplbmRvYmoKeHJlZgowIDQKMDAwMDAwMDAwMDAwMDAwMDAwMDAwMDAwMDAwMDAwCjAwMDAwMDAwMTIgMDAwMDAgbiAKMDAwMDAwMDA2MCAwMDAwMCBuIAowMDAwMDAwMTMzIDAwMDAwIG4gCnRyYWlsZXIKPDwKL1NpemUgNC9Sb290IDEgMCBSCj4+CmVuZG9iagolJUVPRg=="
+            }
+          ]
+        },
+        {
+          "id": "exp1f8la100",
+          "title": "میلگرد اسکلت — فاکتور نسیه",
+          "amount": "620000000",
+          "date": "1404/04/12",
+          "paymentMethod": "credit",
+          "contactId": "c6mdd4v",
+          "materialId": "inv420l725",
+          "materialQty": 12000,
+          "note": "فاکتور ۱۴۰۴/۰۴/۱۲",
+          "docs": [
+            {
+              "id": "doc1f9qxmct",
+              "name": "فاکتور میلگرد.pdf",
+              "dataUrl": "data:application/pdf;base64,JVBERi0xLjQKMSAwIG9iago8PC9UeXBlL0NhdGFsb2cKL1BhZ2VzIDIgMCBSCj4+CmVuZG9iagoyIDAgb2IKPDwKL1R5cGUgL1BhZ2VzCi9LaWRzIFszIDAgUl0KL0NvdW50IDE+PgplbmRvYmoKMyAwIG9iago8PC9UeXBlL0FnZS9QYXJlbnQgMiAwIFIKL01lZGlhQm94IFswIDAgMyAzXQo+PgplbmRvYmoKeHJlZgowIDQKMDAwMDAwMDAwMDAwMDAwMDAwMDAwMDAwMDAwMDAwCjAwMDAwMDAwMTIgMDAwMDAgbiAKMDAwMDAwMDA2MCAwMDAwMCBuIAowMDAwMDAwMTMzIDAwMDAwIG4gCnRyYWlsZXIKPDwKL1NpemUgNC9Sb290IDEgMCBSCj4+CmVuZG9iagolJUVPRg=="
+            }
+          ]
+        },
+        {
+          "id": "exp1fahphj3",
+          "title": "اجاره جرثقیل",
+          "amount": "140000000",
+          "date": "1404/04/20",
+          "paymentMethod": "check",
+          "contactId": "c3hsahx",
+          "bankAccountId": "acc186p9n56",
+          "note": "چک سررسید ۱۴۰۴/۰۶/۰۱",
+          "docs": [
+            {
+              "id": "doc1fbmuurm",
+              "name": "چک جرثقیل.pdf",
+              "dataUrl": "data:application/pdf;base64,JVBERi0xLjQKMSAwIG9iago8PC9UeXBlL0NhdGFsb2cKL1BhZ2VzIDIgMCBSCj4+CmVuZG9iagoyIDAgb2IKPDwKL1R5cGUgL1BhZ2VzCi9LaWRzIFszIDAgUl0KL0NvdW50IDE+PgplbmRvYmoKMyAwIG9iago8PC9UeXBlL0FnZS9QYXJlbnQgMiAwIFIKL01lZGlhQm94IFswIDAgMyAzXQo+PgplbmRvYmoKeHJlZgowIDQKMDAwMDAwMDAwMDAwMDAwMDAwMDAwMDAwMDAwMDAwCjAwMDAwMDAwMTIgMDAwMDAgbiAKMDAwMDAwMDA2MCAwMDAwMCBuIAowMDAwMDAwMTMzIDAwMDAwIG4gCnRyYWlsZXIKPDwKL1NpemUgNC9Sb290IDEgMCBSCj4+CmVuZG9iagolJUVPRg=="
+            }
+          ]
+        },
+        {
+          "id": "exp2070wfoy",
+          "title": "صورت‌وضعیت 1",
+          "amount": "680000000",
+          "date": "1404/04/15",
+          "paymentMethod": "credit",
+          "contactId": "c3hsahx",
+          "progressStatementId": "stmt206ftaxp",
+          "note": "صورت وضعیت — ۴۵٪ پیشرفت",
+          "docs": [
+            {
+              "id": "doc2084dd1v",
+              "name": "صورت وضعیت 1.pdf",
+              "dataUrl": "data:application/pdf;base64,JVBERi0xLjQKMSAwIG9iago8PC9UeXBlL0NhdGFsb2cKL1BhZ2VzIDIgMCBSCj4+CmVuZG9iagoyIDAgb2IKPDwKL1R5cGUgL1BhZ2VzCi9LaWRzIFszIDAgUl0KL0NvdW50IDE+PgplbmRvYmoKMyAwIG9iago8PC9UeXBlL0FnZS9QYXJlbnQgMiAwIFIKL01lZGlhQm94IFswIDAgMyAzXQo+PgplbmRvYmoKeHJlZgowIDQKMDAwMDAwMDAwMDAwMDAwMDAwMDAwMDAwMDAwMDAwCjAwMDAwMDAwMTIgMDAwMDAgbiAKMDAwMDAwMDA2MCAwMDAwMCBuIAowMDAwMDAwMTMzIDAwMDAwIG4gCnRyYWlsZXIKPDwKL1NpemUgNC9Sb290IDEgMCBSCj4+CmVuZG9iagolJUVPRg=="
+            }
+          ]
+        }
+      ],
+      "contracts": [
+        {
+          "id": "con204n0dl5",
+          "createdAt": "1404-01-10T08:00:00.000Z",
+          "activityName": "اجرای اسکلت بتنی",
+          "activityId": null,
+          "employerContactId": "c1xaji0",
+          "contractorContactId": "c3hsahx",
+          "contractNumber": "MEHR-BM-1404-01",
+          "contractDate": "1404/01/10",
+          "quantity": 4080.0,
+          "unitPrice": 8500000,
+          "totalAmount": 34680000000,
+          "unitLabel": "متر مربع",
+          "startDate": "1404/02/01",
+          "endDate": "1404/09/30",
+          "durationDays": 240,
+          "advancePercent": 15,
+          "retentionPercent": 10,
+          "warrantyDays": 365,
+          "penaltyPerDay": 5000000,
+          "activityNotes": "طبق نقشه‌های اجرایی و دستور کار",
+          "customClauses": "",
+          "customClausesOnly": false,
+          "amendments": [
+            {
+              "id": "amd205e11e9",
+              "createdAt": "1404-05-01T10:00:00.000Z",
+              "amendmentNo": 1,
+              "amendmentDate": "1404/05/01",
+              "quantity": 120,
+              "unitPrice": 9200000,
+              "totalAmount": 1104000000,
+              "unitLabel": "متر مربع",
+              "notes": "متمم — اضافه‌کاری سقف طبقه شش"
+            }
+          ]
+        }
+      ],
+      "progressStatements": [
+        {
+          "id": "stmt206ftaxp",
+          "createdAt": "1404-04-15T09:00:00.000Z",
+          "statementNo": 1,
+          "date": "1404/04/15",
+          "contractLabel": "MEHR-BM-1404-01 — اسکلت",
+          "contractorContactId": "c3hsahx",
+          "netAmount": 680000000,
+          "completionStatus": "۴۵٪ پیشرفت فیزیکی",
+          "defectsNotes": "بدون نقص"
+        }
+      ],
+      "auditLog": [
+        {
+          "id": "aud1d5smado",
+          "at": "1403-11-01T10:00:00.000Z",
+          "action": "finance.add",
+          "details": {
+            "type": "capital_in",
+            "amount": 6000000000
+          }
+        }
+      ],
+      "documents": [
+        {
+          "id": "doc217l00ez",
+          "name": "پروانه ساختمانی.pdf",
+          "dataUrl": "data:application/pdf;base64,JVBERi0xLjQKMSAwIG9iago8PC9UeXBlL0NhdGFsb2cKL1BhZ2VzIDIgMCBSCj4+CmVuZG9iagoyIDAgb2IKPDwKL1R5cGUgL1BhZ2VzCi9LaWRzIFszIDAgUl0KL0NvdW50IDE+PgplbmRvYmoKMyAwIG9iago8PC9UeXBlL0FnZS9QYXJlbnQgMiAwIFIKL01lZGlhQm94IFswIDAgMyAzXQo+PgplbmRvYmoKeHJlZgowIDQKMDAwMDAwMDAwMDAwMDAwMDAwMDAwMDAwMDAwMDAwCjAwMDAwMDAwMTIgMDAwMDAgbiAKMDAwMDAwMDA2MCAwMDAwMCBuIAowMDAwMDAwMTMzIDAwMDAwIG4gCnRyYWlsZXIKPDwKL1NpemUgNC9Sb290IDEgMCBSCj4+CmVuZG9iagolJUVPRg=="
+        },
+        {
+          "id": "doc218zf8s2",
+          "name": "بیمه کارگاه.pdf",
+          "dataUrl": "data:application/pdf;base64,JVBERi0xLjQKMSAwIG9iago8PC9UeXBlL0NhdGFsb2cKL1BhZ2VzIDIgMCBSCj4+CmVuZG9iagoyIDAgb2IKPDwKL1R5cGUgL1BhZ2VzCi9LaWRzIFszIDAgUl0KL0NvdW50IDE+PgplbmRvYmoKMyAwIG9iago8PC9UeXBlL0FnZS9QYXJlbnQgMiAwIFIKL01lZGlhQm94IFswIDAgMyAzXQo+PgplbmRvYmoKeHJlZgowIDQKMDAwMDAwMDAwMDAwMDAwMDAwMDAwMDAwMDAwMDAwCjAwMDAwMDAwMTIgMDAwMDAgbiAKMDAwMDAwMDA2MCAwMDAwMCBuIAowMDAwMDAwMTMzIDAwMDAwIG4gCnRyYWlsZXIKPDwKL1NpemUgNC9Sb290IDEgMCBSCj4+CmVuZG9iagolJUVPRg=="
+        }
+      ],
+      "address": "بومهن، شهرک گلستان، بلوار شهید مطهری، پلاک ۸",
+      "landArea": "780",
+      "totalBuiltArea": "4800",
+      "phase": "اجرای اسکلت (بتنی/فلزی)",
+      "lat": 35.7289,
+      "lng": 51.8612,
+      "financialLockedThrough": "1403/12/29",
+      "gallery": [
+        {
+          "id": "gal219zge2j",
+          "caption": "پیشرفت اسکلت",
+          "dataUrl": "data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAYAAAAfFcSJAAAADUlEQVR42mNk+M9QDwADhgGAWjR9awAAAABJRU5ErkJggg==",
+          "createdAt": "2026-07-24T13:23:15.345391+00:00"
+        },
+        {
+          "id": "gal21a51b3j",
+          "caption": "کارگاه",
+          "dataUrl": "data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAYAAAAfFcSJAAAADUlEQVR42mNk+M9QDwADhgGAWjR9awAAAABJRU5ErkJggg==",
+          "createdAt": "2026-07-24T13:23:15.345391+00:00"
+        }
+      ],
+      "quickNotes": [
+        {
+          "id": "qn21bczucq",
+          "text": "داده نمایشی — ساختمان مهر — بومهن (حومه پردیس) — برای تست پشتیبان‌گیری و حسابداری",
+          "createdAt": "2026-07-24T13:23:15.345391+00:00"
+        }
+      ],
+      "takeoff": {
+        "area": 4800,
+        "bathroomsPerUnit": 1,
+        "kitchensPerUnit": 1,
+        "structureType": "concrete",
+        "wallType": "brick",
+        "coefficients": {
+          "wallRatio": 0.6,
+          "concrete": 0.45,
+          "rebar": 45
+        },
+        "results": {
+          "concrete": 2160.0,
+          "rebar": 216000
+        },
+        "savedAt": "2026-07-24T13:23:15.345391+00:00"
+      }
+    }
+  ],
+  "contacts": [
+    {
+      "id": "c1xaji0",
+      "name": "شرکت سرمایه‌گذاری افق پردیس",
+      "phone": "02176230001",
+      "role": "investor",
+      "note": ""
+    },
+    {
+      "id": "c2y6dpb",
+      "name": "مهندس رضا شریفی",
+      "phone": "09121234567",
+      "role": "investor",
+      "note": ""
+    },
+    {
+      "id": "c3hsahx",
+      "name": "پیمانکار اسکلت — گروه سازه پارس",
+      "phone": "09131234001",
+      "role": "contractor",
+      "note": ""
+    },
+    {
+      "id": "c4thv3a",
+      "name": "پیمانکار نازک‌کاری — دکور سازه",
+      "phone": "09131234002",
+      "role": "contractor",
+      "note": ""
+    },
+    {
+      "id": "c53zmf8",
+      "name": "فروشگاه مصالح آریا پردیس",
+      "phone": "02176231000",
+      "role": "supplier",
+      "note": ""
+    },
+    {
+      "id": "c6mdd4v",
+      "name": "آهن‌آلات بومهن",
+      "phone": "02176232000",
+      "role": "supplier",
+      "note": ""
+    },
+    {
+      "id": "c730t9n",
+      "name": "دفتر فنی مهندسین مشاور راه",
+      "phone": "02176233000",
+      "role": "other",
+      "note": ""
+    },
+    {
+      "id": "c8t3w5u",
+      "name": "کارگاه برق و تأسیسات تابان",
+      "phone": "09151234003",
+      "role": "contractor",
+      "note": ""
+    },
+    {
+      "id": "c9zbikc",
+      "name": "علی رضایی",
+      "phone": "09191000000",
+      "role": "buyer",
+      "note": ""
+    },
+    {
+      "id": "caidkwn",
+      "name": "مریم احمدی",
+      "phone": "09191000173",
+      "role": "buyer",
+      "note": ""
+    },
+    {
+      "id": "cbnhj7x",
+      "name": "حسین کریمی",
+      "phone": "09191000346",
+      "role": "buyer",
+      "note": ""
+    },
+    {
+      "id": "ccvg0fn",
+      "name": "زهرا موسوی",
+      "phone": "09191000519",
+      "role": "buyer",
+      "note": ""
+    },
+    {
+      "id": "cd9xuy4",
+      "name": "رضا نوری",
+      "phone": "09191000692",
+      "role": "buyer",
+      "note": ""
+    },
+    {
+      "id": "ce1iblj",
+      "name": "فاطمه حسینی",
+      "phone": "09191000865",
+      "role": "buyer",
+      "note": ""
+    },
+    {
+      "id": "cfh75lx",
+      "name": "محمد جعفری",
+      "phone": "09191001038",
+      "role": "buyer",
+      "note": ""
+    },
+    {
+      "id": "c10o6qji",
+      "name": "سارا محمدی",
+      "phone": "09191001211",
+      "role": "buyer",
+      "note": ""
+    },
+    {
+      "id": "c11ujv6o",
+      "name": "امیر کاظمی",
+      "phone": "09191001384",
+      "role": "buyer",
+      "note": ""
+    },
+    {
+      "id": "c12h9sdb",
+      "name": "نرگس صادقی",
+      "phone": "09191001557",
+      "role": "buyer",
+      "note": ""
+    },
+    {
+      "id": "c13dw2pc",
+      "name": "پارسا مرادی",
+      "phone": "09191001730",
+      "role": "buyer",
+      "note": ""
+    },
+    {
+      "id": "c14n9t84",
+      "name": "لیلا اکبری",
+      "phone": "09191001903",
+      "role": "buyer",
+      "note": ""
+    },
+    {
+      "id": "c15azytj",
+      "name": "مهدی رحیمی",
+      "phone": "09191002076",
+      "role": "buyer",
+      "note": ""
+    },
+    {
+      "id": "c16xepq8",
+      "name": "نسرین فلاح",
+      "phone": "09191002249",
+      "role": "buyer",
+      "note": ""
+    },
+    {
+      "id": "c175jsg6",
+      "name": "کامران شریفی",
+      "phone": "09191002422",
+      "role": "buyer",
+      "note": ""
+    },
+    {
+      "id": "c185kxvf",
+      "name": "الهام باقری",
+      "phone": "09191002595",
+      "role": "buyer",
+      "note": ""
+    },
+    {
+      "id": "c191t2ta",
+      "name": "سعید نادری",
+      "phone": "09191002768",
+      "role": "buyer",
+      "note": ""
+    },
+    {
+      "id": "c1ala753",
+      "name": "مینا حیدری",
+      "phone": "09191002941",
+      "role": "buyer",
+      "note": ""
+    },
+    {
+      "id": "c1blc58d",
+      "name": "بهرام زارعی",
+      "phone": "09191003114",
+      "role": "buyer",
+      "note": ""
+    },
+    {
+      "id": "c1crc11e",
+      "name": "شیما عباسی",
+      "phone": "09191003287",
+      "role": "buyer",
+      "note": ""
+    },
+    {
+      "id": "c1drtj5p",
+      "name": "کوروش داوودی",
+      "phone": "09191003460",
+      "role": "buyer",
+      "note": ""
+    },
+    {
+      "id": "c1eht0hl",
+      "name": "نگین طاهری",
+      "phone": "09191003633",
+      "role": "buyer",
+      "note": ""
+    },
+    {
+      "id": "c1f9xpse",
+      "name": "فرهاد امینی",
+      "phone": "09191003806",
+      "role": "buyer",
+      "note": ""
+    },
+    {
+      "id": "c20imvih",
+      "name": "آرزو شفیعی",
+      "phone": "09191003979",
+      "role": "buyer",
+      "note": ""
+    },
+    {
+      "id": "c21cwi64",
+      "name": "دانیال موسوی",
+      "phone": "09191004152",
+      "role": "buyer",
+      "note": ""
+    },
+    {
+      "id": "c22ciyhe",
+      "name": "هانیه قاسمی",
+      "phone": "09191004325",
+      "role": "buyer",
+      "note": ""
+    },
+    {
+      "id": "c237ur23",
+      "name": "پیمان نیکزاد",
+      "phone": "09191004498",
+      "role": "buyer",
+      "note": ""
+    },
+    {
+      "id": "c24gdppq",
+      "name": "سودابه مرادی",
+      "phone": "09191004671",
+      "role": "buyer",
+      "note": ""
+    },
+    {
+      "id": "c250y9do",
+      "name": "یاسر حاتمی",
+      "phone": "09191004844",
+      "role": "buyer",
+      "note": ""
+    },
+    {
+      "id": "c26m5igq",
+      "name": "ندا کریمی",
+      "phone": "09191005017",
+      "role": "buyer",
+      "note": ""
+    },
+    {
+      "id": "c27pki7p",
+      "name": "مجید سلطانی",
+      "phone": "09191005190",
+      "role": "buyer",
+      "note": ""
+    },
+    {
+      "id": "c285tb94",
+      "name": "رویا بهرامی",
+      "phone": "09191005363",
+      "role": "buyer",
+      "note": ""
+    },
+    {
+      "id": "c29874fr",
+      "name": "حامد فتحی",
+      "phone": "09191005536",
+      "role": "buyer",
+      "note": ""
+    },
+    {
+      "id": "c2ahocn9",
+      "name": "الناز جلیلی",
+      "phone": "09191005709",
+      "role": "buyer",
+      "note": ""
+    },
+    {
+      "id": "c2bj2qp8",
+      "name": "بابک رستمی",
+      "phone": "09191005882",
+      "role": "buyer",
+      "note": ""
+    },
+    {
+      "id": "c2c9uzfk",
+      "name": "شیدا عزیزی",
+      "phone": "09191006055",
+      "role": "buyer",
+      "note": ""
+    },
+    {
+      "id": "c2d8ut0c",
+      "name": "امید تهرانی",
+      "phone": "09191006228",
+      "role": "buyer",
+      "note": ""
+    },
+    {
+      "id": "c2evs4f8",
+      "name": "گلناز شاهین",
+      "phone": "09191006401",
+      "role": "buyer",
+      "note": ""
+    },
+    {
+      "id": "c2fcgvyi",
+      "name": "کیوان محمودی",
+      "phone": "09191006574",
+      "role": "buyer",
+      "note": ""
+    },
+    {
+      "id": "c30e6ivw",
+      "name": "پریسا یزدانی",
+      "phone": "09191006747",
+      "role": "buyer",
+      "note": ""
+    },
+    {
+      "id": "c31pvs7h",
+      "name": "سینا اکبرزاده",
+      "phone": "09191006920",
+      "role": "buyer",
+      "note": ""
+    },
+    {
+      "id": "c32zioyk",
+      "name": "مژگان حبیبی",
+      "phone": "09191007093",
+      "role": "buyer",
+      "note": ""
+    },
+    {
+      "id": "c33l1cq9",
+      "name": "فرزاد نعمتی",
+      "phone": "09191007266",
+      "role": "buyer",
+      "note": ""
+    },
+    {
+      "id": "c349chj7",
+      "name": "آتنا رضوانی",
+      "phone": "09191007439",
+      "role": "buyer",
+      "note": ""
+    },
+    {
+      "id": "c3555nf4",
+      "name": "مصطفی قربانی",
+      "phone": "09191007612",
+      "role": "buyer",
+      "note": ""
+    },
+    {
+      "id": "c36zw9xa",
+      "name": "نیلوفر سعیدی",
+      "phone": "09191007785",
+      "role": "buyer",
+      "note": ""
+    },
+    {
+      "id": "c373kx7e",
+      "name": "جواد ملکی",
+      "phone": "09191007958",
+      "role": "buyer",
+      "note": ""
+    },
+    {
+      "id": "c38edtjv",
+      "name": "ترانه وحیدی",
+      "phone": "09191008131",
+      "role": "buyer",
+      "note": ""
+    },
+    {
+      "id": "c39zhwjr",
+      "name": "رامین پورحسینی",
+      "phone": "09191008304",
+      "role": "buyer",
+      "note": ""
+    },
+    {
+      "id": "c3a64dpj",
+      "name": "ساناز فیروزی",
+      "phone": "09191008477",
+      "role": "buyer",
+      "note": ""
+    },
+    {
+      "id": "c3ba1wj0",
+      "name": "مهتاب انصاری",
+      "phone": "09191008650",
+      "role": "buyer",
+      "note": ""
+    },
+    {
+      "id": "c3ctpac5",
+      "name": "وحید غلامی",
+      "phone": "09191008823",
+      "role": "buyer",
+      "note": ""
+    },
+    {
+      "id": "c3d6t4uf",
+      "name": "آرمان خسروی",
+      "phone": "09191008996",
+      "role": "buyer",
+      "note": ""
+    },
+    {
+      "id": "c3eel624",
+      "name": "سمیرا جوان",
+      "phone": "09191009169",
+      "role": "buyer",
+      "note": ""
+    }
+  ],
+  "reminders": [
+    {
+      "id": "rem21cmrunj",
+      "text": "سررسید چک جرثقیل — پروژه نگین",
+      "datetime": "2026-08-22T09:00:00.000Z",
+      "projectId": "projd84x1zh",
+      "notified": false
+    },
+    {
+      "id": "rem21ddu0is",
+      "text": "جلسه صورت‌وضعیت — یاس فاز ۸",
+      "datetime": "2026-10-01T10:30:00.000Z",
+      "projectId": "proj171k9tr7",
+      "notified": false
+    }
+  ],
+  "inventory": [
+    {
+      "id": "inv3f6hid2",
+      "name": "سیمان (کیسه ۵۰kg)",
+      "unit": "کیسه",
+      "category": "مصالح عمومی",
+      "takeoffKey": null,
+      "quantity": 2400,
+      "allocations": [
+        {
+          "id": "al405owf7",
+          "activity": "اسکلت برج A",
+          "quantity": 400,
+          "at": "2026-07-24T13:23:15.345391+00:00"
+        }
+      ],
+      "itemType": "",
+      "itemVariant": ""
+    },
+    {
+      "id": "inv415935a",
+      "name": "ماسه شسته",
+      "unit": "تن",
+      "category": "مصالح عمومی",
+      "takeoffKey": null,
+      "quantity": 180,
+      "allocations": [],
+      "itemType": "",
+      "itemVariant": ""
+    },
+    {
+      "id": "inv420l725",
+      "name": "میلگرد سایز ۱۴",
+      "unit": "کیلوگرم",
+      "category": "سازه",
+      "takeoffKey": "rebar",
+      "quantity": 85000,
+      "allocations": [],
+      "itemType": "میلگرد",
+      "itemVariant": "سایز ۱۴"
+    },
+    {
+      "id": "inv433j2d5",
+      "name": "سرامیک کف",
+      "unit": "متر مربع",
+      "category": "نازک‌کاری",
+      "takeoffKey": null,
+      "quantity": 4200,
+      "allocations": [],
+      "itemType": "",
+      "itemVariant": ""
+    },
+    {
+      "id": "inv444i3qk",
+      "name": "گچ سفید",
+      "unit": "تن",
+      "category": "نازک‌کاری",
+      "takeoffKey": null,
+      "quantity": 95,
+      "allocations": [],
+      "itemType": "",
+      "itemVariant": ""
+    },
+    {
+      "id": "inv452iagl",
+      "name": "لوله PVC آب",
+      "unit": "متر",
+      "category": "تأسیسات",
+      "takeoffKey": "waterPipe",
+      "quantity": 3200,
+      "allocations": [],
+      "itemType": "",
+      "itemVariant": ""
+    }
+  ],
+  "_meta": {
+    "description": "نمونه ۳ پروژه ۱۸ واحدی اطراف پردیس — برای بازیابی در حساب Plus",
+    "generatedBy": "scripts/generate-pardis-demo-backup.py"
+  }
+}
