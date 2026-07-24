@@ -1315,7 +1315,7 @@ function buildChatAnswer(rawQuery, projectList, contactList, contactBalanceFn, t
     }
     const lines = projectList.map((p) => {
       const avg = avgSalePricePerSqm(p);
-      return avg > 0 ? `${p.name}: ${fmt(Math.round(avg))} Toman/m²` : `${p.name}: —`;
+      return avg > 0 ? `${p.name}: ${fmt(Math.round(avg))} ${tFn("تومان")}/m²` : `${p.name}: —`;
     });
     return tFn("میانگین قیمت فروش:\n") + lines.join("\n");
   }
@@ -1475,8 +1475,7 @@ function isPurchaseExpense(e) {
 function expenseContactBalanceDelta(e) {
   if (!e?.contactId) return 0;
   const amount = Number(e.amount) || 0;
-  if (isPurchaseExpense(e)) return amount;
-  if (e.paymentMethod === "credit") return amount;
+  if (e.paymentMethod === "credit" || e.paymentMethod === "purchase") return amount;
   return 0;
 }
 
@@ -2231,6 +2230,21 @@ Object.assign(DICT, {
   "برای فاکتور خرید و نسیه اختیاری است.": "Optional for purchase invoices and credit.",
   "پیش‌پرداخت به مخاطب": "Prepayment to contact",
   "پرداخت بدهی به مخاطب": "Pay contact payable",
+  "تسویه بدهی": "Pay payable",
+  "ثبت پیش‌پرداخت": "Save prepayment",
+  "ثبت تسویه بدهی": "Save debt payment",
+  "برای نسیه یا فاکتور خرید، انتخاب مخاطب الزامی است.": "Contact is required for credit or purchase invoice.",
+  "حساب بانکی / چک الزامی است.": "Bank / check account is required.",
+  "حساب متصل به چک": "Check clearing account",
+  "واریز از حساب": "Bank transfer",
+  "مبلغ به بستانکاری مخاطب (بدهی ما) اضافه می‌شود. پیش‌پرداخت‌های قبلی از همین مانده کسر می‌شود.": "Amount increases contact payable (our debt). Prior prepayments reduce this balance.",
+  "برای نسیه و فاکتور خرید اختیاری است.": "Optional for credit and purchase invoice.",
+  "طلب ما": "They owe us",
+  "+ افزودن پیوست (تصویر / PDF)": "+ Add attachment (image / PDF)",
+  "پیوست": "attachment",
+  "خطا در بارگذاری فایل": "File upload failed",
+  "مخاطب را انتخاب کن.": "Select a contact.",
+  "مبلغ را وارد کن.": "Enter the amount.",
   "بخش صورت‌وضعیت و کارکرد": "Progress statement section",
   "قرارداد *": "Contract *",
   "انتخاب قرارداد ثبت‌شده...": "Select saved contract...",
@@ -6010,11 +6024,13 @@ function ProjectMapsScreen({ project, embedded, onBack, onOpenUploadSettings }) 
 }
 
 function DocBadge({ docs }) {
+  const { t } = useContext(LanguageContext);
   if (!docs?.length) return null;
-  return <span className="text-[10px] text-[#1D4ED8] font-medium">📎 {docs.length} پیوست</span>;
+  return <span className="text-[10px] text-[#1D4ED8] font-medium">📎 {docs.length} {t("پیوست")}</span>;
 }
 
 function CompactDocUploader({ docs, onChange, disabled, required, label, hint }) {
+  const { t } = useContext(LanguageContext);
   const fileRef = useRef(null);
   const [busy, setBusy] = useState(false);
   const [err, setErr] = useState("");
@@ -6032,7 +6048,7 @@ function CompactDocUploader({ docs, onChange, disabled, required, label, hint })
       }
       onChange(next);
     } catch (ex) {
-      setErr(ex.message || "خطا در بارگذاری فایل");
+      setErr(ex.message || t("خطا در بارگذاری فایل"));
     } finally {
       setBusy(false);
     }
@@ -6059,7 +6075,7 @@ function CompactDocUploader({ docs, onChange, disabled, required, label, hint })
       {!disabled && (
         <button type="button" onClick={() => fileRef.current?.click()} disabled={busy}
           className="w-full border border-dashed border-[#3B4BD4]/35 rounded-lg py-2 text-[11px] text-[#3B4BD4] font-semibold disabled:opacity-50">
-          {busy ? "در حال بارگذاری..." : "+ افزودن پیوست (تصویر / PDF)"}
+          {busy ? t("در حال بارگذاری...") : t("+ افزودن پیوست (تصویر / PDF)")}
         </button>
       )}
       {err && <div className="text-[10px] text-[#B91C1C] mt-1">{err}</div>}
@@ -6925,7 +6941,7 @@ function AppContent() {
     updateProject(projectId, (p) => {
       const exp = { id: uid(), ...expense };
       let financeTransactions = [...(p.financeTransactions || [])];
-      if (exp.bankAccountId && Number(exp.amount) > 0 && exp.paymentMethod !== "credit" && exp.paymentMethod !== "purchase") {
+      if (exp.bankAccountId && Number(exp.amount) > 0 && (exp.paymentMethod === "cash" || exp.paymentMethod === "check")) {
         financeTransactions.push({
           id: uid(),
           date: exp.date || new Date().toISOString().slice(0, 10),
@@ -6980,7 +6996,7 @@ function AppContent() {
     updateProject(projectId, (p) => {
       const exp = { ...old, ...expense, id: expenseId };
       let financeTransactions = (p.financeTransactions || []).filter((t) => t.expenseId !== expenseId);
-      if (exp.bankAccountId && Number(exp.amount) > 0 && exp.paymentMethod !== "credit" && exp.paymentMethod !== "purchase") {
+      if (exp.bankAccountId && Number(exp.amount) > 0 && (exp.paymentMethod === "cash" || exp.paymentMethod === "check")) {
         financeTransactions.push({
           id: uid(),
           date: exp.date || new Date().toISOString().slice(0, 10),
@@ -7573,7 +7589,7 @@ function AppContent() {
       return;
     }
     const rec = new SR();
-    rec.lang = "fa-IR";
+    rec.lang = lang === "en" ? "en-US" : "fa-IR";
     rec.interimResults = false;
     rec.maxAlternatives = 1;
     rec.onstart = () => setChatListening(true);
@@ -7875,14 +7891,14 @@ function AppContent() {
 
       {!showChat && (
         <button onClick={() => requirePlan("chat", () => setShowChat(true))}
-          className="fixed bottom-6 left-4 z-[57] w-14 h-14 rounded-full bg-white shadow-xl flex items-center justify-center border border-[#3B4BD4]/20">
+          className={`fixed bottom-6 z-[57] w-14 h-14 rounded-full bg-white shadow-xl flex items-center justify-center border border-[#3B4BD4]/20 ${lang === "en" ? "right-4" : "left-4"}`}>
           <ChatIcon size={44} />
         </button>
       )}
 
       {showChat && (
-        <div className="fixed inset-0 z-[90] flex items-end sm:items-center sm:justify-center bg-black/30" onClick={() => setShowChat(false)}>
-          <div className="bg-white w-full sm:max-w-sm sm:rounded-2xl rounded-t-2xl h-[75vh] sm:h-[560px] flex flex-col" onClick={(e) => e.stopPropagation()}>
+        <div className={`fixed inset-0 z-[90] flex items-end bg-black/30 ${lang === "en" ? "sm:justify-end sm:pr-3" : "sm:items-center sm:justify-center"}`} onClick={() => setShowChat(false)}>
+          <div className={`bg-white w-full sm:max-w-sm sm:rounded-2xl rounded-t-2xl h-[75vh] sm:h-[560px] flex flex-col ${lang === "en" ? "sm:mb-4" : ""}`} dir={lang === "en" ? "ltr" : "rtl"} onClick={(e) => e.stopPropagation()}>
             <div className="bg-[#3B4BD4] text-white px-4 py-3 flex items-center gap-2 sm:rounded-t-2xl rounded-t-2xl">
               <ChatIcon size={32} />
               <div className="flex-1">
@@ -8117,6 +8133,8 @@ function AppContent() {
             userPlan={userPlan}
             planExpiresAt={planExpiresAt}
             onRedeemed={refreshUserPlan}
+            company={company}
+            ensurePdfExport={ensurePdfExport}
           />
         )}
         {screen === "admin_members" && isSuperAdmin && (
@@ -8282,6 +8300,7 @@ function AppContent() {
           onAdd={(expense) => addExpense(activeProject.id, expense)}
           onUpdate={(expenseId, patch) => updateExpense(activeProject.id, expenseId, patch)}
           onRemove={(id) => removeExpense(activeProject.id, id)}
+          onContactPayment={(tx) => addFinanceTransaction(activeProject.id, tx)}
           contacts={contacts}
           onAddContact={addContact}
           contactBalance={(cid) => projectContactBalanceInProject(activeProject, cid)}
@@ -12001,20 +12020,58 @@ function AdminMembersScreen({ onBack, onError }) {
   );
 }
 
-function PlanCompareTable({ effectivePlanId }) {
-  const { t } = useContext(LanguageContext);
+function planCompareCellText(planId, row, lang) {
+  if (row.type !== "text" || !row.values) return null;
+  const v = row.values[planId];
+  if (lang === "en") {
+    const enMap = { "۱": "1", "۳": "3", "۱۰": "10", "۱۵": "15", "∞": "∞" };
+    return enMap[v] ?? v;
+  }
+  return v;
+}
+
+function PlanCompareTable({ effectivePlanId, company, ensurePdfExport }) {
+  const { lang, t } = useContext(LanguageContext);
+  const stickySide = lang === "fa" ? "right" : "left";
+  const textAlign = lang === "fa" ? "text-right" : "text-left";
   const plans = METRICO_PLAN_ORDER.map((id) => METRICO_PLANS[id]);
+  const planPrintRows = useMemo(() => PLAN_COMPARE_ROWS.map((row) => {
+    const out = { feature: t(row.label) };
+    METRICO_PLAN_ORDER.forEach((planId) => {
+      const cell = planCellIncluded(planId, row);
+      if (row.type === "text") out[`plan_${planId}`] = planCompareCellText(planId, row, lang) ?? "—";
+      else out[`plan_${planId}`] = cell ? t("شامل") : t("غیرفعال");
+    });
+    return out;
+  }), [t, lang]);
+  const planPrintCols = useMemo(() => [
+    { key: "feature", label: t("امکان") },
+    ...METRICO_PLAN_ORDER.map((id) => ({ key: `plan_${id}`, label: t(planLabel(id)) })),
+  ], [t]);
   return (
     <div className="rounded-2xl border border-black/8 bg-white overflow-hidden shadow-sm mb-4">
-      <div className="px-4 py-3 border-b border-black/5 bg-gradient-to-l from-[#F4F6F5] to-white">
-        <div className="text-sm font-bold text-[#14213D]">{t("مقایسه پلن‌ها")}</div>
-        <div className="text-[10px] text-[#6B7280] mt-0.5">{t("امکانات هر سطح اشتراک")}</div>
+      <div className="px-4 py-3 border-b border-black/5 bg-gradient-to-l from-[#F4F6F5] to-white flex items-start justify-between gap-2">
+        <div>
+          <div className="text-sm font-bold text-[#14213D]">{t("مقایسه پلن‌ها")}</div>
+          <div className="text-[10px] text-[#6B7280] mt-0.5">{t("امکانات هر سطح اشتراک")}</div>
+        </div>
+        {company && (
+          <PrintExportButton
+            company={company}
+            title={t("مقایسه پلن‌ها")}
+            subtitle={t("امکانات هر سطح اشتراک")}
+            columns={planPrintCols}
+            rows={planPrintRows}
+            ensurePdfExport={ensurePdfExport}
+            className="shrink-0"
+          />
+        )}
       </div>
       <div className="overflow-x-auto">
         <table className="w-full min-w-[580px] border-collapse text-[11px]">
           <thead>
             <tr>
-              <th className="sticky right-0 z-10 bg-[#FAFAFA] text-right py-3 px-3 font-semibold text-[#6B7280] border-b border-black/5 min-w-[128px]">{t("امکان")}</th>
+              <th className={`sticky ${stickySide}-0 z-10 bg-[#FAFAFA] ${textAlign} py-3 px-3 font-semibold text-[#6B7280] border-b border-black/5 min-w-[128px]`}>{t("امکان")}</th>
               {plans.map((p) => {
                 const theme = PLAN_THEME[p.id];
                 const isCurrent = p.id === effectivePlanId;
@@ -12036,15 +12093,16 @@ function PlanCompareTable({ effectivePlanId }) {
           <tbody>
             {PLAN_COMPARE_ROWS.map((row, idx) => (
               <tr key={row.label} className={idx % 2 === 0 ? "bg-white" : "bg-[#FAFAFA]/80"}>
-                <td className="sticky right-0 z-10 bg-inherit text-right py-2.5 px-3 font-medium text-[#374151] border-b border-black/[0.04]">{t(row.label)}</td>
+                <td className={`sticky ${stickySide}-0 z-10 bg-inherit ${textAlign} py-2.5 px-3 font-medium text-[#374151] border-b border-black/[0.04]`}>{t(row.label)}</td>
                 {METRICO_PLAN_ORDER.map((planId) => {
                   const cell = planCellIncluded(planId, row);
                   const isText = row.type === "text";
                   const isCurrent = planId === effectivePlanId;
+                  const displayText = isText ? planCompareCellText(planId, row, lang) : null;
                   return (
                     <td key={planId} className={`text-center py-2.5 px-2 border-b border-black/[0.04] ${isCurrent ? "bg-[#14213D]/[0.03]" : ""}`}>
                       {isText ? (
-                        <span className={`font-bold ${cell === "∞" ? "text-[#C9A227]" : "text-[#14213D]"}`}>{cell}</span>
+                        <span className={`font-bold ${displayText === "∞" ? "text-[#C9A227]" : "text-[#14213D]"}`}>{displayText}</span>
                       ) : cell ? (
                         <span className="inline-flex items-center justify-center w-6 h-6 rounded-full bg-emerald-50 mx-auto">
                           <LucideCheck size={13} className="text-emerald-600" />
@@ -12072,7 +12130,7 @@ function PlanCompareTable({ effectivePlanId }) {
   );
 }
 
-function PlanScreen({ onBack, userPlan, planExpiresAt, onRedeemed }) {
+function PlanScreen({ onBack, userPlan, planExpiresAt, onRedeemed, company, ensurePdfExport }) {
   const { lang, t } = useContext(LanguageContext);
   const screenDir = lang === "fa" ? "rtl" : "ltr";
   const effective = getEffectivePlan(userPlan, planExpiresAt);
@@ -12118,7 +12176,7 @@ function PlanScreen({ onBack, userPlan, planExpiresAt, onRedeemed }) {
         )}
       </div>
 
-      <PlanCompareTable effectivePlanId={effective} />
+      <PlanCompareTable effectivePlanId={effective} company={company} ensurePdfExport={ensurePdfExport} />
 
       <div className="bg-[#F4F6F5] rounded-2xl p-4 border border-black/5">
         <div className="text-sm font-bold text-[#14213D] mb-2">{t("کد ارتقا")}</div>
@@ -13487,7 +13545,7 @@ function ProjectPanel({ project, onOpenUnit, onOpenSettings, onOpenGallery, onOp
 }
 
 const CONTACT_ROLES = { investor: "سرمایه‌گذار", buyer: "خریدار", contractor: "پیمانکار", supplier: "تأمین‌کننده", other: "سایر" };
-const PAYMENT_METHODS = { cash: "نقدی", check: "چک", purchase: "فاکتور خرید", credit: "نسیه (پیمانکاری)" };
+const PAYMENT_METHODS = { cash: "واریز از حساب", check: "چک", purchase: "فاکتور خرید (نسیه)", credit: "نسیه (پیمانکاری)" };
 
 function ReportsScreen({ company, project, projects, contacts, initialView, onBack, onSelectProject, embedded, ensurePdfExport }) {
   const { lang, t } = useContext(LanguageContext);
@@ -14238,7 +14296,7 @@ function TransferModal({ project, projects, contacts, isReadOnly, onClose, onSel
   );
 }
 
-function ExpensesSheet({ project, company, onClose, onAdd, onUpdate, onRemove, contacts, onAddContact, contactBalance, inventory, isReadOnly, ensurePdfExport }) {
+function ExpensesSheet({ project, company, onClose, onAdd, onUpdate, onRemove, onContactPayment, contacts, onAddContact, contactBalance, inventory, isReadOnly, ensurePdfExport }) {
   const { lang, t } = useContext(LanguageContext);
   const sheetDir = lang === "fa" ? "rtl" : "ltr";
   const [tab, setTab] = useState(isReadOnly ? "history" : "new");
@@ -14256,6 +14314,14 @@ function ExpensesSheet({ project, company, onClose, onAdd, onUpdate, onRemove, c
   const [newContactName, setNewContactName] = useState("");
   const [showNewContact, setShowNewContact] = useState(false);
   const [formError, setFormError] = useState("");
+  const [payContactId, setPayContactId] = useState("");
+  const [payAccountId, setPayAccountId] = useState("");
+  const [payAmount, setPayAmount] = useState("");
+  const [payDate, setPayDate] = useState("");
+  const [payNote, setPayNote] = useState("");
+  const [payDocs, setPayDocs] = useState([]);
+  const [payMethod, setPayMethod] = useState("bank");
+  const [payFormError, setPayFormError] = useState("");
   const expenses = (project.expenses || []).slice().sort((a, b) => (b.date || "").localeCompare(a.date || ""));
   const total = expensesTotalOf(project);
   const selectedContact = contacts.find((c) => c.id === contactId);
@@ -14306,13 +14372,20 @@ function ExpensesSheet({ project, company, onClose, onAdd, onUpdate, onRemove, c
     if (isReadOnly) return;
     if (!title.trim() || !amount) return;
     if (!note.trim()) { setFormError(t("فیلد توضیحات الزامی است.")); return; }
-    const needsDocs = paymentMethod !== "credit" && paymentMethod !== "purchase";
+    if ((paymentMethod === "credit" || paymentMethod === "purchase") && !contactId) {
+      setFormError(t("برای نسیه یا فاکتور خرید، انتخاب مخاطب الزامی است."));
+      return;
+    }
+    if (paymentMethod === "cash" || paymentMethod === "check") {
+      if (!bankAccountId) { setFormError(t("حساب بانکی / چک الزامی است.")); return; }
+    }
+    const needsDocs = paymentMethod === "cash" || paymentMethod === "check";
     if (needsDocs && !(docs.length > 0)) { setFormError(t("مستندات پرداخت (فاکتور/رسید) الزامی است.")); return; }
     setFormError("");
     const payload = {
       title: title.trim(), note: note.trim(), amount: Number(amount), date, paymentMethod,
       contactId: contactId || null,
-      bankAccountId: paymentMethod !== "credit" && paymentMethod !== "purchase" && bankAccountId ? bankAccountId : null,
+      bankAccountId: (paymentMethod === "cash" || paymentMethod === "check") ? bankAccountId : null,
       materialId: materialId || null,
       materialQty: materialId && materialQty ? Number(materialQty) : 0,
       docs,
@@ -14321,6 +14394,84 @@ function ExpensesSheet({ project, company, onClose, onAdd, onUpdate, onRemove, c
     else onAdd(payload);
     resetExpenseForm();
     setTab("history");
+  }
+
+  function resetPayForm() {
+    setPayContactId(""); setPayAccountId(""); setPayAmount(""); setPayDate(""); setPayNote(""); setPayDocs([]);
+    setPayMethod("bank"); setPayFormError("");
+  }
+
+  function submitContactPay(payType) {
+    if (isReadOnly || !onContactPayment) return;
+    if (!payContactId) { setPayFormError(t("مخاطب را انتخاب کن.")); return; }
+    if (!payAccountId) { setPayFormError(t("حساب بانکی / چک الزامی است.")); return; }
+    if (!(Number(payAmount) > 0)) { setPayFormError(t("مبلغ را وارد کن.")); return; }
+    if (!payNote.trim()) { setPayFormError(t("فیلد توضیحات الزامی است.")); return; }
+    if (!(payDocs.length > 0)) { setPayFormError(t("مستندات پرداخت (فاکتور/رسید) الزامی است.")); return; }
+    setPayFormError("");
+    onContactPayment({
+      date: payDate || new Date().toISOString().slice(0, 10),
+      type: payType,
+      amount: Number(payAmount),
+      fromAccountId: payAccountId,
+      toAccountId: null,
+      contactId: payContactId,
+      paymentMethod: payMethod,
+      note: payNote.trim(),
+      docs: payDocs,
+    });
+    resetPayForm();
+    setTab("history");
+  }
+
+  const payContact = contacts.find((c) => c.id === payContactId);
+  const payBalance = payContact ? contactBalance(payContact.id) : 0;
+
+  function renderContactPayForm(payType) {
+    return (
+      <div className="bg-[#F4F6F5] rounded-xl p-3 flex flex-col gap-2 mb-4">
+        <ContactPicker
+          contacts={contacts}
+          value={payContactId}
+          onChange={setPayContactId}
+          placeholder={t("جستجوی مخاطب...")}
+          inputClassName="w-full bg-white border border-black/10 rounded-lg px-3 py-2.5 text-sm outline-none"
+        />
+        {payContact && (
+          <div className={`text-xs rounded-lg p-2 ${payBalance > 0 ? "bg-red-50 text-[#B91C1C]" : payBalance < 0 ? "bg-green-50 text-[#166534]" : "bg-white text-[#6B7280]"}`}>
+            {payBalance > 0 && `${t("بدهکار ما")}: ${fmt(payBalance)}`}
+            {payBalance < 0 && `${t("طلب ما")}: ${fmt(Math.abs(payBalance))}`}
+            {payBalance === 0 && t("حساب تسویه است")}
+          </div>
+        )}
+        <div className="flex gap-2">
+          <button type="button" onClick={() => setPayMethod("bank")} className="flex-1 rounded-lg py-2 text-xs font-semibold border"
+            style={{ background: payMethod === "bank" ? "#14213D" : "#fff", color: payMethod === "bank" ? "#fff" : "#4B5563" }}>
+            {t("واریز از حساب")}
+          </button>
+          <button type="button" onClick={() => setPayMethod("check")} className="flex-1 rounded-lg py-2 text-xs font-semibold border"
+            style={{ background: payMethod === "check" ? "#14213D" : "#fff", color: payMethod === "check" ? "#fff" : "#4B5563" }}>
+            {t("چک")}
+          </button>
+        </div>
+        <select value={payAccountId} onChange={(e) => setPayAccountId(e.target.value)} className="w-full bg-white border border-black/10 rounded-lg px-3 py-2.5 text-sm outline-none">
+          <option value="">{payMethod === "check" ? t("حساب متصل به چک") : t("حساب پرداخت")}</option>
+          {bankAccounts.map((a) => <option key={a.id} value={a.id}>{a.name}</option>)}
+        </select>
+        <div className="flex gap-2">
+          <input type="number" value={payAmount} onChange={(e) => setPayAmount(e.target.value)} placeholder={t("مبلغ (تومان)")}
+            className="flex-1 bg-white border border-black/10 rounded-lg px-3 py-2.5 text-sm outline-none" />
+          <JalaliDateInput value={payDate} onChange={setPayDate} inputClassName="flex-1 bg-white border border-black/10 rounded-lg px-3 py-2.5 text-sm outline-none" />
+        </div>
+        <textarea value={payNote} onChange={(e) => setPayNote(e.target.value)} placeholder={t("توضیحات پرداخت *")} rows={2}
+          className="w-full bg-white border border-black/10 rounded-lg px-3 py-2.5 text-sm outline-none resize-none" />
+        <CompactDocUploader docs={payDocs} onChange={setPayDocs} required label={t("مستندات پرداخت")} />
+        {payFormError && <div className="text-xs text-[#B91C1C]">{payFormError}</div>}
+        <button type="button" onClick={() => submitContactPay(payType)} className="bg-[#14213D] text-white rounded-lg py-2.5 text-sm font-semibold">
+          {payType === "contact_prepay" ? t("ثبت پیش‌پرداخت") : t("ثبت تسویه بدهی")}
+        </button>
+      </div>
+    );
   }
 
   function confirmNewContact() {
@@ -14340,20 +14491,35 @@ function ExpensesSheet({ project, company, onClose, onAdd, onUpdate, onRemove, c
         </div>
         <div className="text-xs text-[#6B7280] mb-3">{project.name}</div>
 
-        <div className="flex gap-2 mb-4">
+        <div className="flex flex-wrap gap-2 mb-4">
           {!isReadOnly && (
-            <button type="button" onClick={() => setTab("new")}
-              className="flex-1 rounded-xl py-2.5 text-xs font-semibold border"
-              style={{ background: tab === "new" ? "#14213D" : "#fff", color: tab === "new" ? "#fff" : "#4B5563", borderColor: tab === "new" ? "#14213D" : "#E5E7EB" }}>
-              {t("ثبت هزینه جدید")}
-            </button>
+            <>
+              <button type="button" onClick={() => { resetExpenseForm(); setTab("new"); }}
+                className="flex-1 min-w-[45%] rounded-xl py-2.5 text-[11px] font-semibold border"
+                style={{ background: tab === "new" ? "#14213D" : "#fff", color: tab === "new" ? "#fff" : "#4B5563", borderColor: tab === "new" ? "#14213D" : "#E5E7EB" }}>
+                {t("ثبت هزینه جدید")}
+              </button>
+              <button type="button" onClick={() => { resetPayForm(); setTab("prepay"); }}
+                className="flex-1 min-w-[45%] rounded-xl py-2.5 text-[11px] font-semibold border"
+                style={{ background: tab === "prepay" ? "#B45309" : "#fff", color: tab === "prepay" ? "#fff" : "#4B5563", borderColor: tab === "prepay" ? "#B45309" : "#E5E7EB" }}>
+                {t("پیش‌پرداخت")}
+              </button>
+              <button type="button" onClick={() => { resetPayForm(); setTab("settle"); }}
+                className="flex-1 min-w-[45%] rounded-xl py-2.5 text-[11px] font-semibold border"
+                style={{ background: tab === "settle" ? "#128C7E" : "#fff", color: tab === "settle" ? "#fff" : "#4B5563", borderColor: tab === "settle" ? "#128C7E" : "#E5E7EB" }}>
+                {t("تسویه بدهی")}
+              </button>
+            </>
           )}
           <button type="button" onClick={() => setTab("history")}
-            className="flex-1 rounded-xl py-2.5 text-xs font-semibold border"
+            className="flex-1 min-w-[45%] rounded-xl py-2.5 text-[11px] font-semibold border"
             style={{ background: tab === "history" ? "#14213D" : "#fff", color: tab === "history" ? "#fff" : "#4B5563", borderColor: tab === "history" ? "#14213D" : "#E5E7EB" }}>
             {t("هزینه‌های انجام شده")} ({expenses.length})
           </button>
         </div>
+
+        {tab === "prepay" && !isReadOnly && renderContactPayForm("contact_prepay")}
+        {tab === "settle" && !isReadOnly && renderContactPayForm("contact_debt_pay")}
 
         {tab === "new" && !isReadOnly && (
         <div className="bg-[#F4F6F5] rounded-xl p-3 flex flex-col gap-2 mb-4">
@@ -14383,16 +14549,16 @@ function ExpensesSheet({ project, company, onClose, onAdd, onUpdate, onRemove, c
             ))}
           </div>
 
-          {paymentMethod === "purchase" && contactId && (
+          {(paymentMethod === "credit" || paymentMethod === "purchase") && (
             <div className="text-[11px] text-[#92400E] bg-amber-50 border border-amber-100 rounded-lg px-2 py-2">
-              {t("فاکتور خرید فقط هزینه پروژه و بدهی را ثبت می‌کند. ابتدا از «حسابداری → انتقال/سرمایه» پیش‌پرداخت بزنید؛ مبلغ خرید از طلب مخاطب کسر می‌شود.")}
+              {t("مبلغ به بستانکاری مخاطب (بدهی ما) اضافه می‌شود. پیش‌پرداخت‌های قبلی از همین مانده کسر می‌شود.")}
             </div>
           )}
 
-          {paymentMethod !== "credit" && paymentMethod !== "purchase" && bankAccounts.length > 0 && (
+          {(paymentMethod === "cash" || paymentMethod === "check") && (
             <select value={bankAccountId} onChange={(e) => setBankAccountId(e.target.value)}
               className="w-full bg-white border border-black/10 rounded-lg px-3 py-2.5 text-sm outline-none">
-              <option value="">{t("حساب پرداخت / تسویه چک")}</option>
+              <option value="">{paymentMethod === "check" ? t("حساب متصل به چک") : t("حساب پرداخت")}</option>
               {bankAccounts.map((a) => <option key={a.id} value={a.id}>{a.name}</option>)}
             </select>
           )}
@@ -14451,9 +14617,9 @@ function ExpensesSheet({ project, company, onClose, onAdd, onUpdate, onRemove, c
           <CompactDocUploader
             docs={docs}
             onChange={setDocs}
-            required={paymentMethod !== "credit" && paymentMethod !== "purchase"}
+            required={paymentMethod === "cash" || paymentMethod === "check"}
             label={t("مستندات پرداخت")}
-            hint={paymentMethod === "credit" || paymentMethod === "purchase" ? t("برای فاکتور خرید و نسیه اختیاری است.") : t("فاکتور، رسید بانکی یا تصویر چک الزامی است.")}
+            hint={paymentMethod === "credit" || paymentMethod === "purchase" ? t("برای نسیه و فاکتور خرید اختیاری است.") : t("فاکتور، رسید بانکی یا تصویر چک الزامی است.")}
           />
 
           {formError && <div className="text-xs text-[#B91C1C]">{formError}</div>}
