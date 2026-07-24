@@ -1519,6 +1519,126 @@ function projectPayablesList(project, contacts) {
   return items.sort((a, b) => b.amount - a.amount);
 }
 
+function collectContactLedgerEntries(contactId, projects) {
+  const entries = [];
+  (projects || []).forEach((project) => {
+    (project.expenses || []).forEach((e) => {
+      if (e.contactId !== contactId) return;
+      const amount = Number(e.amount) || 0;
+      const isCredit = e.paymentMethod === "credit";
+      entries.push({
+        id: `exp-${project.id}-${e.id}`,
+        date: e.date || "",
+        projectId: project.id,
+        projectName: project.name,
+        refType: "expense",
+        refId: e.id,
+        title: e.title || "",
+        subType: isCredit ? "credit" : (e.paymentMethod || "cash"),
+        debit: isCredit ? 0 : amount,
+        credit: isCredit ? amount : 0,
+        detail: { kind: "expense", expense: e, project },
+      });
+    });
+    (project.financeTransactions || []).forEach((tx) => {
+      const amount = Number(tx.amount) || 0;
+      if (tx.investorContactId === contactId) {
+        const isIn = tx.type === "capital_in";
+        entries.push({
+          id: `ftx-${project.id}-${tx.id}`,
+          date: tx.date || "",
+          projectId: project.id,
+          projectName: project.name,
+          refType: "finance",
+          refId: tx.id,
+          title: tx.note || FINANCE_TX_LABELS[tx.type] || tx.type,
+          subType: tx.type,
+          debit: isIn ? 0 : amount,
+          credit: isIn ? amount : 0,
+          detail: { kind: "finance", tx, project },
+        });
+      }
+      if (tx.type === "income" && tx.unitId) {
+        const unit = (project.units || []).find((u) => u.id === tx.unitId);
+        if (unit?.buyerContactId === contactId) {
+          entries.push({
+            id: `inc-${project.id}-${tx.id}`,
+            date: tx.date || "",
+            projectId: project.id,
+            projectName: project.name,
+            refType: "income",
+            refId: tx.id,
+            title: tx.note || `${FINANCE_TX_LABELS.income} — ${t("واحد")} ${unit.unitNumber}`,
+            subType: "income",
+            debit: amount,
+            credit: 0,
+            detail: { kind: "income", tx, project, unit },
+          });
+        }
+      }
+    });
+  });
+  entries.sort((a, b) => (a.date || "").localeCompare(b.date || "") || String(a.id).localeCompare(String(b.id)));
+  let balance = 0;
+  return entries.map((row) => {
+    balance += row.credit - row.debit;
+    return { ...row, balance };
+  });
+}
+
+function downloadTableCsv(filename, columns, rows) {
+  const esc = (v) => {
+    const s = v == null ? "" : String(v);
+    return /[",\n]/.test(s) ? `"${s.replace(/"/g, '""')}"` : s;
+  };
+  const head = columns.map((c) => esc(c.label)).join(",");
+  const body = rows.map((row) => columns.map((c) => {
+    const val = typeof c.render === "function" ? c.render(row) : row[c.key];
+    return esc(val == null ? "" : val);
+  }).join(",")).join("\n");
+  const blob = new Blob(["\uFEFF" + head + "\n" + body], { type: "text/csv;charset=utf-8" });
+  const url = URL.createObjectURL(blob);
+  const a = document.createElement("a");
+  a.href = url;
+  a.download = filename;
+  document.body.appendChild(a);
+  a.click();
+  document.body.removeChild(a);
+  setTimeout(() => URL.revokeObjectURL(url), 3000);
+}
+
+function nextAmendmentNumber(contract) {
+  const n = (contract?.amendments || []).length + 1;
+  return `${contract.contractNumber} / ${t("متمم")} ${n}`;
+}
+
+function openContractAmendmentPrint(companyInfo, contract, amendment, contacts, projectName, lang) {
+  const cal = lang || "fa";
+  const employer = contacts.find((c) => c.id === contract.employerContactId);
+  const contractor = contacts.find((c) => c.id === contract.contractorContactId);
+  const docTitle = `${t("متمم قرارداد")} ${amendment.amendmentNo || ""}`;
+  const body = `
+<div class="doc-body-title">${escReportHtml(docTitle)}</div>
+<p><strong>${escReportHtml(t("قرارداد مبنا:"))}</strong> ${escReportHtml(contract.contractNumber)} — ${escReportHtml(contract.activityName)}</p>
+<p><strong>${escReportHtml(t("کارفرما:"))}</strong> ${escReportHtml(employer?.name)} &nbsp;|&nbsp; <strong>${escReportHtml(t("پیمانکار:"))}</strong> ${escReportHtml(contractor?.name)}</p>
+<table style="width:100%;border-collapse:collapse;margin:16px 0;">
+<tr><td style="border:1px solid #E5E7EB;padding:6px 8px;">${escReportHtml(t("مقدار کار"))}</td><td style="border:1px solid #E5E7EB;padding:6px 8px;">${escReportHtml(amendment.quantity)} ${escReportHtml(contract.unitLabel || "")}</td></tr>
+<tr><td style="border:1px solid #E5E7EB;padding:6px 8px;">${escReportHtml(t("دستمزد واحد (تومان)"))}</td><td style="border:1px solid #E5E7EB;padding:6px 8px;">${fmt(amendment.unitPrice)}</td></tr>
+<tr><td style="border:1px solid #E5E7EB;padding:6px 8px;">${escReportHtml(t("مبلغ کل:"))}</td><td style="border:1px solid #E5E7EB;padding:6px 8px;">${fmt(amendment.totalAmount)} ${escReportHtml(t("تومان"))}</td></tr>
+<tr><td style="border:1px solid #E5E7EB;padding:6px 8px;">${escReportHtml(t("تاریخ شروع"))} / ${escReportHtml(t("تاریخ پایان"))}</td><td style="border:1px solid #E5E7EB;padding:6px 8px;">${escReportHtml(formatAppDate(amendment.startDate, false, cal))} — ${escReportHtml(formatAppDate(amendment.endDate, false, cal))}</td></tr>
+</table>
+${amendment.notes ? `<p><strong>${escReportHtml(t("توضیحات متمم:"))}</strong> ${escReportHtml(amendment.notes)}</p>` : ""}
+${amendment.customClauses ? `<div>${escReportHtml(amendment.customClauses)}</div>` : ""}`;
+  const html = buildDocumentPrintHTML(companyInfo, docTitle, contract.activityName, amendment.amendmentNo, formatAppDate(amendment.amendmentDate || new Date(), false, cal), body, {
+    employer: employer?.name,
+    contractor: contractor?.name,
+  }, { projectName });
+  try {
+    const blob = new Blob([html], { type: "text/html" });
+    window.open(URL.createObjectURL(blob), "_blank");
+  } catch (e) { console.error(e); }
+}
+
 // Persian text -> English text. Used as: t("متن فارسی") -> returns English when language is "en".
 const DICT = {
   // Common actions
@@ -2031,6 +2151,36 @@ Object.assign(DICT, {
   "ثبت قرارداد": "Save contract",
   "چاپ": "Print",
   "قراردادهای ثبت‌شده": "Saved contracts",
+  "ویرایش قرارداد": "Edit contract",
+  "متمم قرارداد": "Contract amendment",
+  "ثبت متمم": "Save amendment",
+  "ذخیره تغییرات": "Save changes",
+  "انصراف": "Cancel",
+  "متمم": "Amendment",
+  "متمم‌های ثبت‌شده": "Saved amendments",
+  "قرارداد مبنا:": "Base contract:",
+  "توضیحات متمم:": "Amendment notes:",
+  "طرفین قرارداد در متمم قابل تغییر نیست.": "Parties cannot be changed in an amendment.",
+  "قرارداد به‌روزرسانی شد.": "Contract updated.",
+  "متمم ثبت شد.": "Amendment saved.",
+  "گردش مالی مخاطب": "Contact ledger",
+  "صورتحساب گردش مالی": "Financial statement",
+  "بدهکار": "Debit",
+  "بستانکار": "Credit",
+  "مانده": "Balance",
+  "نوع تراکنش": "Transaction type",
+  "جزئیات تراکنش": "Transaction details",
+  "حساب واریز / برداشت": "Account",
+  "بابت": "Purpose",
+  "مستندات": "Documents",
+  "اکسل": "Excel",
+  "دریافت فروش": "Sale receipt",
+  "بازگشت به لیست": "Back to list",
+  "جمع بدهکار": "Total debit",
+  "جمع بستانکار": "Total credit",
+  "مانده نهایی": "Final balance",
+  "گردش مالی (مخاطب)": "Contact ledger",
+  "تراکنشی برای این مخاطب ثبت نشده": "No transactions recorded for this contact",
   "بخش صورت‌وضعیت و کارکرد": "Progress statement section",
   "قرارداد *": "Contract *",
   "انتخاب قرارداد ثبت‌شده...": "Select saved contract...",
@@ -6764,7 +6914,35 @@ function AppContent() {
     if (!guardWrite()) return;
     updateProject(projectId, (p) => ({
       ...p,
-      contracts: [...(p.contracts || []), { id: uid(), createdAt: new Date().toISOString(), ...contract }],
+      contracts: [...(p.contracts || []), { id: uid(), createdAt: new Date().toISOString(), amendments: [], ...contract }],
+    }));
+  }
+
+  function updateContract(projectId, contractId, patch) {
+    if (!guardWrite()) return;
+    updateProject(projectId, (p) => ({
+      ...p,
+      contracts: (p.contracts || []).map((c) => (
+        c.id === contractId ? { ...c, ...patch, updatedAt: new Date().toISOString() } : c
+      )),
+    }));
+  }
+
+  function addContractAmendment(projectId, contractId, amendment) {
+    if (!guardWrite()) return;
+    updateProject(projectId, (p) => ({
+      ...p,
+      contracts: (p.contracts || []).map((c) => {
+        if (c.id !== contractId) return c;
+        const amendmentNo = nextAmendmentNumber(c);
+        const item = {
+          id: uid(),
+          createdAt: new Date().toISOString(),
+          amendmentNo,
+          ...amendment,
+        };
+        return { ...c, amendments: [...(c.amendments || []), item] };
+      }),
     }));
   }
 
@@ -7732,6 +7910,7 @@ function AppContent() {
             company={company}
             onBack={() => setScreen("dashboard")}
             contacts={contacts}
+            projects={projects}
             contactBalance={contactBalance}
             onAdd={addContact}
             onUpdate={updateContact}
@@ -7810,6 +7989,8 @@ function AppContent() {
             isReadOnly={isReadOnly}
             onBack={() => setScreen("dashboard")}
             onSaveContract={saveContract}
+            onUpdateContract={updateContract}
+            onAddContractAmendment={addContractAmendment}
             onSaveProgressStatement={saveProgressStatement}
             ensurePdfExport={ensurePdfExport}
           />
@@ -8105,12 +8286,14 @@ function AppContent() {
   );
 }
 
-function ContractsScreen({ company, projects, activeProjectId, contacts, isReadOnly, onBack, onSaveContract, onSaveProgressStatement, ensurePdfExport }) {
+function ContractsScreen({ company, projects, activeProjectId, contacts, isReadOnly, onBack, onSaveContract, onUpdateContract, onAddContractAmendment, onSaveProgressStatement, ensurePdfExport }) {
   const { lang, t } = useContext(LanguageContext);
   const screenDir = lang === "fa" ? "rtl" : "ltr";
   const [tab, setTab] = useState("contract");
   const userPickedProjectRef = useRef(false);
   const [projectId, setProjectId] = useState("");
+  const [contractFormMode, setContractFormMode] = useState("new");
+  const [editingContractId, setEditingContractId] = useState(null);
 
   useEffect(() => {
     if (userPickedProjectRef.current) return;
@@ -8227,13 +8410,38 @@ function ContractsScreen({ company, projects, activeProjectId, contacts, isReadO
   };
 
   function resetContractForm() {
+    setContractFormMode("new");
+    setEditingContractId(null);
     setActivityId(""); setEmployerId(""); setContractorId("");
     setQuantity(""); setUnitPrice(""); setStartDate(""); setEndDate(""); setDurationDays("");
     setAdvancePercent("20"); setRetentionPercent("10"); setWarrantyDays("30"); setPenaltyPerDay("");
     setCustomClauses(""); setContractNotes("");
   }
 
-  function buildContractPayload() {
+  const editingContract = editingContractId ? contracts.find((c) => c.id === editingContractId) : null;
+  const partiesLocked = contractFormMode === "amendment";
+
+  function loadContractIntoForm(c, mode) {
+    setContractFormMode(mode);
+    setEditingContractId(c.id);
+    setActivityId(c.activityId || "");
+    setEmployerId(c.employerContactId || "");
+    setContractorId(c.contractorContactId || "");
+    setQuantity(String(c.quantity ?? ""));
+    setUnitPrice(String(c.unitPrice ?? ""));
+    setStartDate(c.startDate || "");
+    setEndDate(c.endDate || "");
+    setDurationDays(c.durationDays != null ? String(c.durationDays) : "");
+    setAdvancePercent(c.advancePercent != null ? String(c.advancePercent) : "20");
+    setRetentionPercent(c.retentionPercent != null ? String(c.retentionPercent) : "10");
+    setWarrantyDays(c.warrantyDays != null ? String(c.warrantyDays) : "30");
+    setPenaltyPerDay(c.penaltyPerDay != null ? String(c.penaltyPerDay) : "");
+    setCustomClauses(c.customClauses || "");
+    setContractNotes(mode === "amendment" ? "" : (c.activityNotes || ""));
+    window.scrollTo({ top: 0, behavior: "smooth" });
+  }
+
+  function buildContractPayload(baseContract) {
     const qty = Number(quantity) || 0;
     const up = Number(unitPrice) || 0;
     return {
@@ -8241,12 +8449,12 @@ function ContractsScreen({ company, projects, activeProjectId, contacts, isReadO
       activityId,
       employerContactId: employerId,
       contractorContactId: contractorId,
-      contractNumber: nextContractNumber(project),
-      contractDate: formatAppDate(new Date(), false, lang),
+      contractNumber: baseContract?.contractNumber ?? nextContractNumber(project),
+      contractDate: baseContract?.contractDate ?? formatAppDate(new Date(), false, lang),
       quantity: qty,
       unitPrice: up,
       totalAmount: qty * up,
-      unitLabel: tmpl?.unit || "واحد",
+      unitLabel: baseContract?.unitLabel || tmpl?.unit || "واحد",
       startDate,
       endDate,
       durationDays,
@@ -8264,8 +8472,37 @@ function ContractsScreen({ company, projects, activeProjectId, contacts, isReadO
     if (!project || isReadOnly) return;
     if (!activityId || !employerId || !contractorId) { alert(t("فعالیت و طرفین قرارداد را انتخاب کن.")); return; }
     if (!quantity || !unitPrice) { alert(t("متراژ و دستمزد واحد را وارد کن.")); return; }
-    if (isCustomActivity && !customClauses.trim()) {
+    if (isCustomActivity && !customClauses.trim() && contractFormMode !== "amendment") {
       alert(t("این فعالیت سفارشی است. لطفاً متن قرارداد متناسب با آن را دستی وارد کن."));
+      return;
+    }
+    if (contractFormMode === "edit" && editingContractId) {
+      onUpdateContract(project.id, editingContractId, buildContractPayload(editingContract));
+      resetContractForm();
+      alert(t("قرارداد به‌روزرسانی شد."));
+      return;
+    }
+    if (contractFormMode === "amendment" && editingContractId && editingContract) {
+      const qty = Number(quantity) || 0;
+      const up = Number(unitPrice) || 0;
+      onAddContractAmendment(project.id, editingContractId, {
+        amendmentDate: new Date().toISOString().slice(0, 10),
+        quantity: qty,
+        unitPrice: up,
+        totalAmount: qty * up,
+        unitLabel: editingContract.unitLabel || tmpl?.unit || "واحد",
+        startDate,
+        endDate,
+        durationDays,
+        advancePercent,
+        retentionPercent,
+        warrantyDays,
+        penaltyPerDay: Number(penaltyPerDay) || 0,
+        notes: contractNotes,
+        customClauses,
+      });
+      resetContractForm();
+      alert(t("متمم ثبت شد."));
       return;
     }
     const payload = buildContractPayload();
@@ -8276,7 +8513,7 @@ function ContractsScreen({ company, projects, activeProjectId, contacts, isReadO
 
   function handlePrintContract(savedContract) {
     if (ensurePdfExport && !ensurePdfExport()) return;
-    openContractPrint(company, savedContract || buildContractPayload(), contacts, project.name, lang);
+    openContractPrint(company, savedContract || buildContractPayload(editingContract), contacts, project.name, lang);
   }
 
   function handleSaveStatement() {
@@ -8387,10 +8624,24 @@ function ContractsScreen({ company, projects, activeProjectId, contacts, isReadO
 
       {tab === "contract" && (
         <div className={`space-y-4 rounded-2xl border p-4 ${tabThemes.contract.panel}`}>
-          <div className={`text-xs font-bold px-2 py-1 rounded-lg inline-block ${tabThemes.contract.badge}`}>{t("بخش قرارداد پیمانکاری")}</div>
+          <div className="flex flex-wrap items-center gap-2">
+            <div className={`text-xs font-bold px-2 py-1 rounded-lg inline-block ${tabThemes.contract.badge}`}>{t("بخش قرارداد پیمانکاری")}</div>
+            {contractFormMode === "edit" && (
+              <span className="text-xs font-semibold text-[#1D4ED8] bg-white px-2 py-1 rounded-lg border border-[#93C5FD]">{t("ویرایش قرارداد")}: {editingContract?.contractNumber}</span>
+            )}
+            {contractFormMode === "amendment" && (
+              <span className="text-xs font-semibold text-[#B45309] bg-white px-2 py-1 rounded-lg border border-[#FCD34D]">{t("متمم قرارداد")}: {editingContract?.contractNumber}</span>
+            )}
+            {contractFormMode !== "new" && (
+              <button type="button" onClick={resetContractForm} className="text-xs font-semibold text-[#6B7280] underline">{t("انصراف")}</button>
+            )}
+          </div>
+          {partiesLocked && (
+            <div className="text-xs text-amber-900 bg-amber-50 border border-amber-200 rounded-xl px-3 py-2">{t("طرفین قرارداد در متمم قابل تغییر نیست.")}</div>
+          )}
           <div>
             <label className={labelCls}>{t("فعالیت *")}</label>
-            <select className={inputCls} value={activityId} onChange={(e) => setActivityId(e.target.value)}>
+            <select className={inputCls} value={activityId} onChange={(e) => setActivityId(e.target.value)} disabled={partiesLocked}>
               <option value="">{t("انتخاب فعالیت...")}</option>
               {activities.map((a) => <option key={a.id} value={a.id}>{t(a.name)}</option>)}
             </select>
@@ -8411,11 +8662,11 @@ function ContractsScreen({ company, projects, activeProjectId, contacts, isReadO
           <div className="grid grid-cols-2 gap-3">
             <div>
               <label className={labelCls}>{t("کارفرما *")}</label>
-              <ContactPicker contacts={contacts} value={employerId} onChange={setEmployerId} placeholder={t("جستجوی کارفرما...")} disabled={isReadOnly} />
+              <ContactPicker contacts={contacts} value={employerId} onChange={setEmployerId} placeholder={t("جستجوی کارفرما...")} disabled={isReadOnly || partiesLocked} />
             </div>
             <div>
               <label className={labelCls}>{t("پیمانکار *")}</label>
-              <ContactPicker contacts={contacts} value={contractorId} onChange={setContractorId} placeholder={t("جستجوی پیمانکار...")} disabled={isReadOnly} />
+              <ContactPicker contacts={contacts} value={contractorId} onChange={setContractorId} placeholder={t("جستجوی پیمانکار...")} disabled={isReadOnly || partiesLocked} />
             </div>
           </div>
 
@@ -8479,9 +8730,20 @@ function ContractsScreen({ company, projects, activeProjectId, contacts, isReadO
             </div>
           )}
 
+          {contractFormMode === "amendment" && (
+            <div>
+              <label className={labelCls}>{t("توضیحات متمم:")}</label>
+              <textarea className={`${inputCls} min-h-[72px]`} value={contractNotes} onChange={(e) => setContractNotes(e.target.value)} placeholder={t("یادداشت (اختیاری)")} />
+            </div>
+          )}
+
           <div className="flex gap-2 pt-2">
-            <button type="button" disabled={isReadOnly} onClick={handleSaveContract} className="flex-1 bg-[#14213D] text-white rounded-xl py-3 text-sm font-semibold disabled:opacity-40">{t("ثبت قرارداد")}</button>
-            <button type="button" onClick={() => handlePrintContract()} className="flex items-center gap-1.5 bg-[#F4F6F5] text-[#14213D] rounded-xl px-4 py-3 text-sm font-semibold"><Printer size={15} /> {t("چاپ")}</button>
+            <button type="button" disabled={isReadOnly} onClick={handleSaveContract} className="flex-1 bg-[#14213D] text-white rounded-xl py-3 text-sm font-semibold disabled:opacity-40">
+              {contractFormMode === "edit" ? t("ذخیره تغییرات") : contractFormMode === "amendment" ? t("ثبت متمم") : t("ثبت قرارداد")}
+            </button>
+            {contractFormMode !== "amendment" && (
+              <button type="button" onClick={() => handlePrintContract()} className="flex items-center gap-1.5 bg-[#F4F6F5] text-[#14213D] rounded-xl px-4 py-3 text-sm font-semibold"><Printer size={15} /> {t("چاپ")}</button>
+            )}
           </div>
 
           {contracts.length > 0 && (
@@ -8489,12 +8751,32 @@ function ContractsScreen({ company, projects, activeProjectId, contacts, isReadO
               <div className="text-sm font-bold mb-3">{t("قراردادهای ثبت‌شده")} ({contracts.length})</div>
               <div className="space-y-2">
                 {contracts.slice().reverse().map((c) => (
-                  <div key={c.id} className="flex items-center gap-2 bg-[#F4F6F5] rounded-xl px-3 py-2.5">
-                    <div className="flex-1 min-w-0">
-                      <div className="text-sm font-semibold truncate">{c.contractNumber} — {t(c.activityName)}</div>
-                      <div className="text-[10px] text-[#9CA3AF]">{fmt(c.totalAmount)} {t("تومان")}</div>
+                  <div key={c.id} className="bg-[#F4F6F5] rounded-xl px-3 py-2.5">
+                    <div className="flex items-center gap-2 flex-wrap">
+                      <div className="flex-1 min-w-0">
+                        <div className="text-sm font-semibold truncate">{c.contractNumber} — {t(c.activityName)}</div>
+                        <div className="text-[10px] text-[#9CA3AF]">{fmt(c.totalAmount)} {t("تومان")}</div>
+                      </div>
+                      {!isReadOnly && (
+                        <>
+                          <button type="button" onClick={() => loadContractIntoForm(c, "edit")} className="text-xs font-semibold text-[#1D4ED8] px-2 py-1 rounded-lg bg-white flex items-center gap-1"><Pencil size={12} /> {t("ویرایش قرارداد")}</button>
+                          <button type="button" onClick={() => loadContractIntoForm(c, "amendment")} className="text-xs font-semibold text-[#B45309] px-2 py-1 rounded-lg bg-white">{t("متمم")}</button>
+                        </>
+                      )}
+                      <button type="button" onClick={() => handlePrintContract(c)} className="text-xs font-semibold text-[#14213D] px-2 py-1 rounded-lg bg-white">{t("چاپ")}</button>
                     </div>
-                    <button type="button" onClick={() => handlePrintContract(c)} className="text-xs font-semibold text-[#14213D] px-2 py-1 rounded-lg bg-white">{t("چاپ")}</button>
+                    {(c.amendments || []).length > 0 && (
+                      <div className="mt-2 pt-2 border-t border-black/5 space-y-1.5">
+                        <div className="text-[10px] font-bold text-[#6B7280]">{t("متمم‌های ثبت‌شده")}</div>
+                        {(c.amendments || []).map((a) => (
+                          <div key={a.id} className="flex items-center gap-2 text-[11px] bg-white rounded-lg px-2 py-1.5">
+                            <span className="flex-1 font-semibold text-[#374151]">{a.amendmentNo || t("متمم")}</span>
+                            <span className="text-[#9CA3AF]">{fmt(a.totalAmount)} {t("تومان")}</span>
+                            <button type="button" onClick={() => { if (ensurePdfExport && !ensurePdfExport()) return; openContractAmendmentPrint(company, c, a, contacts, project.name, lang); }} className="text-[#14213D] font-semibold">{t("چاپ")}</button>
+                          </div>
+                        ))}
+                      </div>
+                    )}
                   </div>
                 ))}
               </div>
@@ -9489,7 +9771,228 @@ function GuideScreen({ onBack, onDemoLogin }) {
   );
 }
 
-function ContactsScreen({ company, onBack, contacts, contactBalance, onAdd, onUpdate, onRemove, embedded, ensurePdfExport }) {
+function ContactLedgerSheet({ contact, projects, contacts, company, onClose, ensurePdfExport }) {
+  const { lang, t } = useContext(LanguageContext);
+  const sheetDir = lang === "fa" ? "rtl" : "ltr";
+  const thAlign = lang === "fa" ? "text-right" : "text-left";
+  const numAlign = lang === "fa" ? "text-left" : "text-right";
+  const [selectedId, setSelectedId] = useState(null);
+
+  const entries = useMemo(() => collectContactLedgerEntries(contact.id, projects), [contact.id, projects]);
+
+  const totals = useMemo(() => {
+    let debit = 0;
+    let credit = 0;
+    entries.forEach((r) => {
+      debit += r.debit;
+      credit += r.credit;
+    });
+    const balance = entries.length ? entries[entries.length - 1].balance : 0;
+    return { debit, credit, balance };
+  }, [entries]);
+
+  function ledgerTypeLabel(row) {
+    if (row.refType === "expense") return t(PAYMENT_METHODS[row.subType] || PAYMENT_METHODS.cash);
+    if (row.refType === "finance") return t(FINANCE_TX_LABELS[row.subType] || row.subType);
+    if (row.refType === "income") return t("دریافت فروش");
+    return row.refType;
+  }
+
+  const printRows = useMemo(() => entries.map((r) => ({
+    date: formatAppDate(r.date, false, lang) || "—",
+    projectName: r.projectName,
+    title: r.title,
+    type: ledgerTypeLabel(r),
+    debit: r.debit ? fmt(r.debit) : "—",
+    credit: r.credit ? fmt(r.credit) : "—",
+    balance: fmt(r.balance),
+  })), [entries, lang, t]);
+
+  const printCols = [
+    { key: "date", label: t("تاریخ") },
+    { key: "projectName", label: t("پروژه") },
+    { key: "type", label: t("نوع تراکنش") },
+    { key: "title", label: t("عنوان") },
+    { key: "debit", label: t("بدهکار") },
+    { key: "credit", label: t("بستانکار") },
+    { key: "balance", label: t("مانده") },
+  ];
+
+  const csvCols = [
+    { key: "date", label: t("تاریخ"), render: (r) => formatAppDate(r.date, false, lang) || "" },
+    { key: "projectName", label: t("پروژه") },
+    { key: "type", label: t("نوع تراکنش"), render: (r) => ledgerTypeLabel(r) },
+    { key: "title", label: t("عنوان") },
+    { key: "debit", label: t("بدهکار"), render: (r) => (r.debit ? String(r.debit) : "") },
+    { key: "credit", label: t("بستانکار"), render: (r) => (r.credit ? String(r.credit) : "") },
+    { key: "balance", label: t("مانده"), render: (r) => String(r.balance) },
+  ];
+
+  const selected = entries.find((e) => e.id === selectedId) || null;
+
+  function renderDetail() {
+    if (!selected) return null;
+    const { detail, projectName, date, debit, credit, title } = selected;
+    const { project } = detail;
+    const rowCls = "flex justify-between gap-3 py-2 border-b border-black/5 text-sm";
+    const labelClsD = "text-[#6B7280] text-xs shrink-0";
+    const valCls = "font-semibold text-[#14213D] text-left";
+
+    if (detail.kind === "expense") {
+      const e = detail.expense;
+      return (
+        <div className="space-y-1">
+          <div className={rowCls}><span className={labelClsD}>{t("پروژه")}</span><span className={valCls}>{projectName}</span></div>
+          <div className={rowCls}><span className={labelClsD}>{t("تاریخ")}</span><span className={valCls}>{formatAppDate(date, false, lang) || "—"}</span></div>
+          <div className={rowCls}><span className={labelClsD}>{t("عنوان")}</span><span className={valCls}>{e.title || title}</span></div>
+          <div className={rowCls}><span className={labelClsD}>{t("مبلغ (تومان)")}</span><span className={valCls}>{fmt(Number(e.amount) || debit || credit)}</span></div>
+          <div className={rowCls}><span className={labelClsD}>{t("روش")}</span><span className={valCls}>{t(PAYMENT_METHODS[e.paymentMethod] || PAYMENT_METHODS.cash)}</span></div>
+          {e.bankAccountId && (
+            <div className={rowCls}><span className={labelClsD}>{t("حساب واریز / برداشت")}</span><span className={valCls}>{accountLabel(project, e.bankAccountId, contacts)}</span></div>
+          )}
+          <div className={rowCls}><span className={labelClsD}>{t("بابت")}</span><span className={valCls}>{e.note || "—"}</span></div>
+          {(e.docs || []).length > 0 && (
+            <div className="pt-2">
+              <div className="text-xs font-semibold text-[#6B7280] mb-2">{t("مستندات")}</div>
+              <div className="flex gap-2 flex-wrap">
+                {(e.docs || []).map((d) => {
+                  const isPdf = (d.dataUrl || "").startsWith("data:application/pdf");
+                  return (
+                    <button key={d.id} type="button" onClick={() => window.open(d.dataUrl, "_blank")} className="w-16 h-16 rounded-lg border border-black/10 overflow-hidden bg-[#F4F6F5] flex flex-col items-center justify-center">
+                      {isPdf ? <FileText size={20} className="text-[#B91C1C]" /> : <img src={d.dataUrl} alt="" className="w-full h-full object-cover" />}
+                    </button>
+                  );
+                })}
+              </div>
+            </div>
+          )}
+        </div>
+      );
+    }
+    if (detail.kind === "finance") {
+      const tx = detail.tx;
+      return (
+        <div className="space-y-1">
+          <div className={rowCls}><span className={labelClsD}>{t("پروژه")}</span><span className={valCls}>{projectName}</span></div>
+          <div className={rowCls}><span className={labelClsD}>{t("تاریخ")}</span><span className={valCls}>{formatAppDate(date, false, lang) || "—"}</span></div>
+          <div className={rowCls}><span className={labelClsD}>{t("نوع تراکنش")}</span><span className={valCls}>{t(FINANCE_TX_LABELS[tx.type] || tx.type)}</span></div>
+          <div className={rowCls}><span className={labelClsD}>{t("مبلغ (تومان)")}</span><span className={valCls}>{fmt(tx.amount)}</span></div>
+          <div className={rowCls}><span className={labelClsD}>{t("حساب واریز / برداشت")}</span><span className={valCls}>{tx.fromAccountId ? accountLabel(project, tx.fromAccountId, contacts) : "—"} → {tx.toAccountId ? accountLabel(project, tx.toAccountId, contacts) : "—"}</span></div>
+          <div className={rowCls}><span className={labelClsD}>{t("بابت")}</span><span className={valCls}>{tx.note || "—"}</span></div>
+          {(tx.docs || []).length > 0 && (
+            <div className="pt-2">
+              <div className="text-xs font-semibold text-[#6B7280] mb-2">{t("مستندات")}</div>
+              <div className="flex gap-2 flex-wrap">
+                {(tx.docs || []).map((d) => (
+                  <button key={d.id} type="button" onClick={() => window.open(d.dataUrl, "_blank")} className="w-16 h-16 rounded-lg border border-black/10 overflow-hidden bg-[#F4F6F5]">
+                    <FileText size={20} className="text-[#B91C1C] m-auto mt-5" />
+                  </button>
+                ))}
+              </div>
+            </div>
+          )}
+        </div>
+      );
+    }
+    if (detail.kind === "income") {
+      const { tx, unit } = detail;
+      return (
+        <div className="space-y-1">
+          <div className={rowCls}><span className={labelClsD}>{t("پروژه")}</span><span className={valCls}>{projectName}</span></div>
+          <div className={rowCls}><span className={labelClsD}>{t("تاریخ")}</span><span className={valCls}>{formatAppDate(date, false, lang) || "—"}</span></div>
+          <div className={rowCls}><span className={labelClsD}>{t("واحد")}</span><span className={valCls}>{unit?.unitNumber || "—"}</span></div>
+          <div className={rowCls}><span className={labelClsD}>{t("مبلغ (تومان)")}</span><span className={valCls}>{fmt(tx.amount)}</span></div>
+          <div className={rowCls}><span className={labelClsD}>{t("حساب واریز / برداشت")}</span><span className={valCls}>{tx.toAccountId ? accountLabel(project, tx.toAccountId, contacts) : "—"}</span></div>
+          <div className={rowCls}><span className={labelClsD}>{t("بابت")}</span><span className={valCls}>{tx.note || "—"}</span></div>
+        </div>
+      );
+    }
+    return null;
+  }
+
+  function exportPdf() {
+    if (ensurePdfExport && !ensurePdfExport()) return;
+    const subtitle = `${contact.name} — ${t("جمع بدهکار")}: ${fmt(totals.debit)} | ${t("جمع بستانکار")}: ${fmt(totals.credit)} | ${t("مانده نهایی")}: ${fmt(totals.balance)}`;
+    openTableReport(company, t("گردش مالی مخاطب"), subtitle, printCols, printRows, lang);
+  }
+
+  function exportExcel() {
+    const safeName = (contact.name || "contact").replace(/[^\w\u0600-\u06FF\-]+/g, "_");
+    downloadTableCsv(`${safeName}-ledger.csv`, csvCols, entries);
+  }
+
+  return (
+    <div className="fixed inset-0 bg-black/40 flex items-end z-[70]">
+      <div className="bg-white w-full rounded-t-2xl max-h-[92vh] flex flex-col" dir={sheetDir}>
+        <div className="p-5 border-b border-black/5 shrink-0">
+          <div className="flex items-center justify-between gap-2 mb-2">
+            <div className="font-bold text-lg">{t("گردش مالی مخاطب")}</div>
+            <button type="button" onClick={onClose}><X size={20} /></button>
+          </div>
+          <div className="text-sm font-semibold text-[#14213D]">{contact.name}</div>
+          <div className="flex flex-wrap gap-2 mt-3">
+            <button type="button" onClick={exportPdf} disabled={!entries.length} className="text-xs font-semibold flex items-center gap-1.5 bg-[#14213D] text-white rounded-lg px-3 py-2 disabled:opacity-40">
+              <Printer size={14} /> {t("چاپ / PDF")}
+            </button>
+            <button type="button" onClick={exportExcel} disabled={!entries.length} className="text-xs font-semibold flex items-center gap-1.5 bg-[#F4F6F5] text-[#14213D] rounded-lg px-3 py-2 disabled:opacity-40">
+              <FileText size={14} /> {t("اکسل")}
+            </button>
+          </div>
+          <div className="grid grid-cols-3 gap-2 mt-3 text-center text-[11px]">
+            <div className="bg-[#FEF2F2] rounded-xl py-2"><div className="text-[#9CA3AF]">{t("جمع بدهکار")}</div><div className="font-bold text-[#B91C1C]">{fmt(totals.debit)}</div></div>
+            <div className="bg-[#F0FDF4] rounded-xl py-2"><div className="text-[#9CA3AF]">{t("جمع بستانکار")}</div><div className="font-bold text-[#166534]">{fmt(totals.credit)}</div></div>
+            <div className="bg-[#EFF6FF] rounded-xl py-2"><div className="text-[#9CA3AF]">{t("مانده نهایی")}</div><div className="font-bold text-[#1D4ED8]">{fmt(totals.balance)}</div></div>
+          </div>
+        </div>
+
+        <div className="flex-1 overflow-y-auto p-5 pt-3">
+          {selected ? (
+            <div>
+              <button type="button" onClick={() => setSelectedId(null)} className="text-xs font-semibold text-[#14213D] mb-3 flex items-center gap-1">
+                <ChevronLeft size={14} className={lang === "en" ? "rotate-180" : ""} /> {t("بازگشت به لیست")}
+              </button>
+              <div className="text-sm font-bold mb-3">{t("جزئیات تراکنش")}</div>
+              {renderDetail()}
+            </div>
+          ) : entries.length === 0 ? (
+            <div className="text-center text-[#9CA3AF] text-sm py-12">{t("تراکنشی برای این مخاطب ثبت نشده")}</div>
+          ) : (
+            <div className="overflow-x-auto">
+              <table className="w-full text-xs min-w-[520px]">
+                <thead>
+                  <tr className="bg-[#F4F6F5] text-[#6B7280]">
+                    <th className={`${thAlign} px-2 py-2 font-medium`}>{t("تاریخ")}</th>
+                    <th className={`${thAlign} px-2 py-2 font-medium`}>{t("پروژه")}</th>
+                    <th className={`${thAlign} px-2 py-2 font-medium`}>{t("نوع تراکنش")}</th>
+                    <th className={`${thAlign} px-2 py-2 font-medium`}>{t("عنوان")}</th>
+                    <th className={`${numAlign} px-2 py-2 font-medium`}>{t("بدهکار")}</th>
+                    <th className={`${numAlign} px-2 py-2 font-medium`}>{t("بستانکار")}</th>
+                    <th className={`${numAlign} px-2 py-2 font-medium`}>{t("مانده")}</th>
+                  </tr>
+                </thead>
+                <tbody>
+                  {entries.map((r) => (
+                    <tr key={r.id} className="border-t border-black/5 hover:bg-[#F9FAFB] cursor-pointer" onClick={() => setSelectedId(r.id)}>
+                      <td className={`${thAlign} px-2 py-2 whitespace-nowrap`}>{formatAppDate(r.date, false, lang) || "—"}</td>
+                      <td className={`${thAlign} px-2 py-2`}>{r.projectName}</td>
+                      <td className={`${thAlign} px-2 py-2`}>{ledgerTypeLabel(r)}</td>
+                      <td className={`${thAlign} px-2 py-2 max-w-[120px] truncate`}>{r.title}</td>
+                      <td className={`${numAlign} px-2 py-2 text-[#B91C1C] font-medium`}>{r.debit ? fmt(r.debit) : "—"}</td>
+                      <td className={`${numAlign} px-2 py-2 text-[#166534] font-medium`}>{r.credit ? fmt(r.credit) : "—"}</td>
+                      <td className={`${numAlign} px-2 py-2 font-semibold`}>{fmt(r.balance)}</td>
+                    </tr>
+                  ))}
+                </tbody>
+              </table>
+            </div>
+          )}
+        </div>
+      </div>
+    </div>
+  );
+}
+
+function ContactsScreen({ company, onBack, contacts, projects, contactBalance, onAdd, onUpdate, onRemove, embedded, ensurePdfExport }) {
   const { lang, t } = useContext(LanguageContext);
   const screenDir = lang === "fa" ? "rtl" : "ltr";
   const thAlign = lang === "fa" ? "text-right" : "text-left";
@@ -9500,6 +10003,7 @@ function ContactsScreen({ company, onBack, contacts, contactBalance, onAdd, onUp
   const [note, setNote] = useState("");
   const [role, setRole] = useState("other");
   const [filterRole, setFilterRole] = useState("all");
+  const [ledgerContact, setLedgerContact] = useState(null);
 
   function openNew() {
     setEditId(null); setName(""); setPhone(""); setNote(""); setRole("other"); setShowForm(true);
@@ -9581,10 +10085,11 @@ function ContactsScreen({ company, onBack, contacts, contactBalance, onAdd, onUp
 
       {filtered.length > 0 && (
         <div className="bg-white rounded-2xl border border-black/5 overflow-hidden overflow-x-auto">
-          <table className="w-full text-xs min-w-[420px]">
+          <table className="w-full text-xs min-w-[480px]">
             <thead>
               <tr className="bg-[#F4F6F5] text-[#6B7280]">
                 <th className={`${thAlign} px-3 py-2.5 font-medium`}>{t("نام / نقش")}</th>
+                <th className="text-center px-2 py-2.5 font-medium">{t("گردش مالی (مخاطب)")}</th>
                 <th className="text-center px-2 py-2.5 font-medium">{t("تماس")}</th>
                 <th className={`${lang === "fa" ? "text-left" : "text-right"} px-3 py-2.5 font-medium`}>{t("مانده حساب")}</th>
                 {!embedded && <th className="px-2 py-2.5"></th>}
@@ -9609,6 +10114,16 @@ function ContactsScreen({ company, onBack, contacts, contactBalance, onAdd, onUp
                       )}
                     </td>
                     <td className="text-center px-2 py-2.5">
+                      <button
+                        type="button"
+                        onClick={() => setLedgerContact(c)}
+                        title={t("گردش مالی (مخاطب)")}
+                        className="inline-flex items-center justify-center w-9 h-9 rounded-full bg-[#FFFBEB] text-[#B45309] border border-[#FCD34D] hover:bg-[#FEF3C7]"
+                      >
+                        <Wallet size={15} />
+                      </button>
+                    </td>
+                    <td className="text-center px-2 py-2.5">
                       {c.phone ? (
                         <a href={`tel:${c.phone}`} className="inline-flex p-1.5 bg-green-50 text-[#166534] rounded-full"><PhoneCall size={13} /></a>
                       ) : <span className="text-[#D1D5DB]">—</span>}
@@ -9628,6 +10143,17 @@ function ContactsScreen({ company, onBack, contacts, contactBalance, onAdd, onUp
             </tbody>
           </table>
         </div>
+      )}
+
+      {ledgerContact && (
+        <ContactLedgerSheet
+          contact={ledgerContact}
+          projects={projects || []}
+          contacts={contacts}
+          company={company}
+          onClose={() => setLedgerContact(null)}
+          ensurePdfExport={ensurePdfExport}
+        />
       )}
 
       {showForm && !embedded && (
