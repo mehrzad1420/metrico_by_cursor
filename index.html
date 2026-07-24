@@ -1080,7 +1080,7 @@ function projectCardTheme(projectId) {
   return PROJECT_CARD_PALETTE[Math.abs(h) % PROJECT_CARD_PALETTE.length];
 }
 const APP_NAME = "Metrico";
-const APP_VERSION = "2.51.3";
+const APP_VERSION = "2.51.4";
 
 const METRICO_PLAN_ORDER = ["start", "plus", "pro", "ark"];
 const METRICO_PLANS = {
@@ -1862,6 +1862,8 @@ function projectReceivablesList(project, contacts) {
     const buyerContact = u.buyerContactId ? (contacts || []).find((c) => c.id === u.buyerContactId) : null;
     items.push({
       id: "unit-" + u.id,
+      unitId: u.id,
+      contactId: u.buyerContactId || null,
       name: u.buyerName || buyerContact?.name || `واحد ${u.unitNumber}`,
       subtitle: `واحد ${u.unitNumber} — طبقه ${u.floor}`,
       amount: rem,
@@ -1874,6 +1876,7 @@ function projectReceivablesList(project, contacts) {
     if (bal < 0) {
       items.push({
         id: c.id,
+        contactId: c.id,
         name: c.name,
         subtitle: CONTACT_ROLES[c.role || "other"] || "مخاطب",
         amount: Math.abs(bal),
@@ -1891,6 +1894,7 @@ function projectPayablesList(project, contacts) {
     if (bal > 0) {
       items.push({
         id: c.id,
+        contactId: c.id,
         name: c.name,
         subtitle: CONTACT_ROLES[c.role || "other"] || "مخاطب",
         amount: bal,
@@ -1984,6 +1988,55 @@ function collectContactLedgerEntries(contactId, projects, projectIdFilter) {
     balance += row.credit - row.debit;
     return { ...row, balance };
   });
+}
+
+function contactLedgerTypeLabel(row, t) {
+  if (row.refType === "expense") {
+    if (row.subType === "purchase") return t(PAYMENT_METHODS.purchase);
+    return t(PAYMENT_METHODS[row.subType] || PAYMENT_METHODS.cash);
+  }
+  if (row.refType === "finance") return t(FINANCE_TX_LABELS[row.subType] || row.subType);
+  if (row.refType === "income") return t("دریافت فروش");
+  return row.refType;
+}
+
+function resolveBalanceItemContactId(item) {
+  if (item.contactId) return item.contactId;
+  if (item.buyerContactId) return item.buyerContactId;
+  if (item.id && !String(item.id).startsWith("unit-")) return item.id;
+  return null;
+}
+
+function mergeBalanceModalItems(items, contacts) {
+  const byContact = new Map();
+  const unitOnly = [];
+  (items || []).forEach((item) => {
+    const cid = resolveBalanceItemContactId(item);
+    if (cid) {
+      const c = (contacts || []).find((x) => x.id === cid);
+      const prev = byContact.get(cid);
+      if (prev) {
+        byContact.set(cid, {
+          ...prev,
+          amount: prev.amount + item.amount,
+          subtitle: prev.subtitle && item.subtitle && prev.subtitle !== item.subtitle
+            ? `${prev.subtitle} · ${item.subtitle}`
+            : (prev.subtitle || item.subtitle),
+        });
+      } else {
+        byContact.set(cid, {
+          ...item,
+          id: cid,
+          contactId: cid,
+          name: c?.name || item.name,
+          phone: c?.phone || item.phone || "",
+        });
+      }
+    } else {
+      unitOnly.push(item);
+    }
+  });
+  return [...byContact.values(), ...unitOnly].sort((a, b) => b.amount - a.amount);
 }
 
 function downloadTableCsv(filename, columns, rows) {
@@ -2201,6 +2254,12 @@ const DICT = {
   "مطالبات — ": "Receivables — ", "بدهی‌ها — ": "Payables — ",
   "افراد و واحدهایی که به پروژه بدهکارند": "People and units who owe the project",
   "مخاطبینی که پروژه به آن‌ها بدهکار است": "Contacts the project owes",
+  "برای مشاهده گردش مالی، روی هر مخاطب بزنید.": "Tap a contact to view their ledger.",
+  "موردی ثبت نشده": "Nothing recorded yet",
+  "جمع کل": "Grand total",
+  "بازگشت به گردش": "Back to ledger",
+  "خریدار به مخاطب وصل نیست؛ مانده و اقساط واحد:": "Buyer is not linked to a contact; unit balance and installments:",
+  "نوع": "Type",
   "پروژه قبلی": "Previous project", "پروژه بعدی": "Next project",
   // Project panel
   "حسابداری": "Accounting", "نقشه‌ها": "Maps", "مدیریت": "Manage",
@@ -5085,45 +5144,226 @@ function ProjectUnitStats({ total, sold, reserved, vacant, compact, avgPricePerS
   );
 }
 
-function ProjectBalanceModal({ title, subtitle, items, onClose }) {
-  const total = items.reduce((s, i) => s + i.amount, 0);
+function ProjectBalanceModal({ title, subtitle, items, project, contacts, company, ensurePdfExport, onClose }) {
+  const { lang, t } = useContext(LanguageContext);
+  const sheetDir = lang === "fa" ? "rtl" : "ltr";
+  const thAlign = lang === "fa" ? "text-right" : "text-left";
+  const numAlign = lang === "fa" ? "text-left" : "text-right";
+  const [expandedKey, setExpandedKey] = useState(null);
+  const [detailEntryId, setDetailEntryId] = useState(null);
+
+  const displayItems = useMemo(
+    () => mergeBalanceModalItems(items, contacts),
+    [items, contacts]
+  );
+  const total = displayItems.reduce((s, i) => s + i.amount, 0);
+
+  const expandedItem = displayItems.find((i) => i.id === expandedKey) || null;
+  const expandedContactId = expandedItem ? resolveBalanceItemContactId(expandedItem) : null;
+  const ledgerEntries = useMemo(() => {
+    if (!project || !expandedContactId) return [];
+    return collectContactLedgerEntries(expandedContactId, [project], project.id);
+  }, [project, expandedContactId]);
+
+  const ledgerTotals = useMemo(() => {
+    let debit = 0;
+    let credit = 0;
+    ledgerEntries.forEach((r) => {
+      debit += r.debit;
+      credit += r.credit;
+    });
+    const balance = ledgerEntries.length ? ledgerEntries[ledgerEntries.length - 1].balance : 0;
+    return { debit, credit, balance };
+  }, [ledgerEntries]);
+
+  const expandedUnit = useMemo(() => {
+    if (!project || !expandedItem || expandedContactId) return null;
+    if (!String(expandedItem.id).startsWith("unit-")) return null;
+    const uid = String(expandedItem.id).slice(5);
+    return (project.units || []).find((u) => u.id === uid) || null;
+  }, [project, expandedItem, expandedContactId]);
+
+  useEffect(() => {
+    setDetailEntryId(null);
+  }, [expandedKey]);
+
+  function toggleExpand(item) {
+    setExpandedKey((prev) => (prev === item.id ? null : item.id));
+  }
+
+  function exportContactPdf(contactName) {
+    if (ensurePdfExport && !ensurePdfExport()) return;
+    if (!ledgerEntries.length) return;
+    const printRows = ledgerEntries.map((r) => ({
+      date: formatAppDate(r.date, false, lang) || "—",
+      type: contactLedgerTypeLabel(r, t),
+      title: r.title,
+      debit: r.debit ? fmt(r.debit) : "—",
+      credit: r.credit ? fmt(r.credit) : "—",
+      balance: fmt(r.balance),
+    }));
+    const printCols = [
+      { key: "date", label: t("تاریخ") },
+      { key: "type", label: t("نوع تراکنش") },
+      { key: "title", label: t("عنوان") },
+      { key: "debit", label: t("بدهکار") },
+      { key: "credit", label: t("بستانکار") },
+      { key: "balance", label: t("مانده") },
+    ];
+    const subtitleLine = `${project?.name || ""} — ${contactName} — ${t("جمع بدهکار")}: ${fmt(ledgerTotals.debit)} | ${t("جمع بستانکار")}: ${fmt(ledgerTotals.credit)} | ${t("مانده نهایی")}: ${fmt(ledgerTotals.balance)}`;
+    openTableReport(company, t("گردش مالی مخاطب"), subtitleLine, printCols, printRows, lang);
+  }
+
+  const detailEntry = ledgerEntries.find((e) => e.id === detailEntryId) || null;
+
   return (
     <div className="fixed inset-0 bg-black/40 flex items-end z-[70]" onClick={onClose}>
-      <div className="bg-white w-full rounded-t-2xl p-5 max-h-[75vh] overflow-y-auto" onClick={(e) => e.stopPropagation()}>
-        <div className="flex items-center justify-between mb-1">
-          <div className="font-bold text-lg">{title}</div>
-          <button onClick={onClose}><X size={20} /></button>
+      <div className="bg-white w-full rounded-t-2xl max-h-[88vh] flex flex-col" dir={sheetDir} onClick={(e) => e.stopPropagation()}>
+        <div className="p-5 border-b border-black/5 shrink-0">
+          <div className="flex items-center justify-between mb-1">
+            <div className="font-bold text-lg">{title}</div>
+            <button type="button" onClick={onClose}><X size={20} /></button>
+          </div>
+          {subtitle && <div className="text-xs text-[#6B7280] mb-1">{subtitle}</div>}
+          <div className="text-[10px] text-[#9CA3AF]">{t("برای مشاهده گردش مالی، روی هر مخاطب بزنید.")}</div>
         </div>
-        {subtitle && <div className="text-xs text-[#6B7280] mb-4">{subtitle}</div>}
-        {items.length === 0 ? (
-          <div className="text-center text-[#9CA3AF] text-sm py-10">موردی ثبت نشده</div>
-        ) : (
-          <>
-            <div className="flex flex-col gap-2 mb-4">
-              {items.map((item) => (
-                <div key={item.id} className="flex items-center justify-between bg-[#F4F6F5] rounded-xl px-3 py-3 gap-2">
-                  <div className="flex-1 min-w-0">
-                    <div className="font-semibold text-sm text-[#14213D] truncate">{item.name}</div>
-                    {item.subtitle && <div className="text-[10px] text-[#9CA3AF] mt-0.5">{item.subtitle}</div>}
-                  </div>
-                  <div className="text-left shrink-0">
-                    <div className="font-bold text-sm text-[#14213D]">{fmt(item.amount)}</div>
-                    <div className="text-[9px] text-[#6B7280]">تومان</div>
-                  </div>
-                  {item.phone && (
-                    <a href={`tel:${item.phone}`} className="p-2 bg-green-50 text-[#166534] rounded-full shrink-0" onClick={(e) => e.stopPropagation()}>
-                      <PhoneCall size={14} />
-                    </a>
-                  )}
-                </div>
-              ))}
-            </div>
-            <div className="flex justify-between items-center border-t border-black/10 pt-3 text-sm font-bold">
-              <span>جمع کل</span>
-              <span className="text-[#14213D]">{fmt(total)} تومان</span>
-            </div>
-          </>
-        )}
+
+        <div className="flex-1 overflow-y-auto p-5 pt-3">
+          {displayItems.length === 0 ? (
+            <div className="text-center text-[#9CA3AF] text-sm py-10">{t("موردی ثبت نشده")}</div>
+          ) : (
+            <>
+              <div className="flex flex-col gap-2 mb-4">
+                {displayItems.map((item) => {
+                  const isOpen = expandedKey === item.id;
+                  const cid = resolveBalanceItemContactId(item);
+                  return (
+                    <div key={item.id} className="rounded-xl border border-black/8 overflow-hidden">
+                      <button
+                        type="button"
+                        onClick={() => toggleExpand(item)}
+                        className={`w-full flex items-center justify-between px-3 py-3 gap-2 text-right ${isOpen ? "bg-[#EFF6FF]" : "bg-[#F4F6F5]"}`}
+                      >
+                        <div className="flex items-center gap-2 flex-1 min-w-0">
+                          <LucideChevronDown size={16} className={`shrink-0 text-[#9CA3AF] transition-transform ${isOpen ? "rotate-180" : ""}`} />
+                          <div className="flex-1 min-w-0">
+                            <div className="font-semibold text-sm text-[#14213D] truncate">{item.name}</div>
+                            {item.subtitle && <div className="text-[10px] text-[#9CA3AF] mt-0.5">{item.subtitle}</div>}
+                          </div>
+                        </div>
+                        <div className="text-left shrink-0">
+                          <div className="font-bold text-sm text-[#14213D]">{fmt(item.amount)}</div>
+                          <div className="text-[9px] text-[#6B7280]">{t("تومان")}</div>
+                        </div>
+                        {item.phone && (
+                          <a href={`tel:${item.phone}`} className="p-2 bg-green-50 text-[#166534] rounded-full shrink-0" onClick={(e) => e.stopPropagation()}>
+                            <PhoneCall size={14} />
+                          </a>
+                        )}
+                      </button>
+
+                      {isOpen && cid && project && (
+                        <div className="px-3 pb-3 pt-2 bg-white border-t border-black/5">
+                          <div className="flex flex-wrap gap-2 mb-2">
+                            <button
+                              type="button"
+                              onClick={() => exportContactPdf(item.name)}
+                              disabled={!ledgerEntries.length}
+                              className="text-[10px] font-semibold m-btn-primary px-2.5 py-1.5 disabled:opacity-40"
+                            >
+                              {t("چاپ / PDF")}
+                            </button>
+                          </div>
+                          <div className="grid grid-cols-3 gap-1.5 text-center text-[10px] mb-2">
+                            <div className="bg-[#FEF2F2] rounded-lg py-1.5"><div className="text-[#9CA3AF]">{t("جمع بدهکار")}</div><div className="font-bold text-[#B91C1C]">{fmt(ledgerTotals.debit)}</div></div>
+                            <div className="bg-[#F0FDF4] rounded-lg py-1.5"><div className="text-[#9CA3AF]">{t("جمع بستانکار")}</div><div className="font-bold text-[#166534]">{fmt(ledgerTotals.credit)}</div></div>
+                            <div className="bg-[#EFF6FF] rounded-lg py-1.5"><div className="text-[#9CA3AF]">{t("مانده نهایی")}</div><div className="font-bold text-[#1D4ED8]">{fmt(ledgerTotals.balance)}</div></div>
+                          </div>
+                          {detailEntry ? (
+                            <div>
+                              <button type="button" onClick={() => setDetailEntryId(null)} className="text-[10px] font-semibold text-[#14213D] mb-2 flex items-center gap-1">
+                                <ChevronLeft size={12} className={lang === "en" ? "rotate-180" : ""} /> {t("بازگشت به گردش")}
+                              </button>
+                              <div className="text-xs font-bold mb-1">{detailEntry.title}</div>
+                              <div className="text-[11px] text-[#6B7280]">{formatAppDate(detailEntry.date, false, lang)} · {contactLedgerTypeLabel(detailEntry, t)}</div>
+                              <div className="text-sm font-semibold text-[#14213D] mt-1">
+                                {detailEntry.debit ? `${t("بدهکار")}: ${fmt(detailEntry.debit)}` : `${t("بستانکار")}: ${fmt(detailEntry.credit)}`}
+                              </div>
+                            </div>
+                          ) : ledgerEntries.length === 0 ? (
+                            <div className="text-center text-[#9CA3AF] text-xs py-4">{t("تراکنشی برای این مخاطب ثبت نشده")}</div>
+                          ) : (
+                            <div className="overflow-x-auto m-data-table">
+                              <table className="w-full text-[10px] min-w-[480px]">
+                                <thead>
+                                  <tr className="bg-[#F4F6F5] text-[#6B7280]">
+                                    <th className={`${thAlign} px-2 py-1.5 font-medium`}>{t("تاریخ")}</th>
+                                    <th className={`${thAlign} px-2 py-1.5 font-medium`}>{t("نوع")}</th>
+                                    <th className={`${thAlign} px-2 py-1.5 font-medium`}>{t("عنوان")}</th>
+                                    <th className={`${numAlign} px-2 py-1.5 font-medium`}>{t("بدهکار")}</th>
+                                    <th className={`${numAlign} px-2 py-1.5 font-medium`}>{t("بستانکار")}</th>
+                                    <th className={`${numAlign} px-2 py-1.5 font-medium`}>{t("مانده")}</th>
+                                  </tr>
+                                </thead>
+                                <tbody>
+                                  {ledgerEntries.map((r) => (
+                                    <tr key={r.id} className="border-t border-black/5 hover:bg-[#F9FAFB] cursor-pointer" onClick={() => setDetailEntryId(r.id)}>
+                                      <td className={`${thAlign} px-2 py-1.5 whitespace-nowrap`}>{formatAppDate(r.date, false, lang) || "—"}</td>
+                                      <td className={`${thAlign} px-2 py-1.5`}>{contactLedgerTypeLabel(r, t)}</td>
+                                      <td className={`${thAlign} px-2 py-1.5 max-w-[100px] truncate`}>{r.title}</td>
+                                      <td className={`${numAlign} px-2 py-1.5 text-[#B91C1C]`}>{r.debit ? fmt(r.debit) : "—"}</td>
+                                      <td className={`${numAlign} px-2 py-1.5 text-[#166534]`}>{r.credit ? fmt(r.credit) : "—"}</td>
+                                      <td className={`${numAlign} px-2 py-1.5 font-semibold`}>{fmt(r.balance)}</td>
+                                    </tr>
+                                  ))}
+                                </tbody>
+                              </table>
+                            </div>
+                          )}
+                        </div>
+                      )}
+
+                      {isOpen && !cid && expandedUnit && (
+                        <div className="px-3 pb-3 pt-2 bg-white border-t border-black/5">
+                          <div className="text-[10px] text-[#6B7280] mb-2">{t("خریدار به مخاطب وصل نیست؛ مانده و اقساط واحد:")}</div>
+                          <div className="text-xs font-semibold text-[#14213D] mb-2">
+                            {t("مانده")}: {fmt(remainingOf(expandedUnit, project))} {t("تومان")}
+                          </div>
+                          {(expandedUnit.installments || []).length === 0 ? (
+                            <div className="text-xs text-[#9CA3AF]">{t("قسطی ثبت نشده")}</div>
+                          ) : (
+                            <table className="w-full text-[10px]">
+                              <thead>
+                                <tr className="text-[#6B7280]">
+                                  <th className={`${thAlign} py-1`}>{t("تاریخ")}</th>
+                                  <th className={`${numAlign} py-1`}>{t("مبلغ")}</th>
+                                  <th className="text-center py-1">{t("وضعیت")}</th>
+                                </tr>
+                              </thead>
+                              <tbody>
+                                {(expandedUnit.installments || []).map((inst, idx) => (
+                                  <tr key={idx} className="border-t border-black/5">
+                                    <td className={`${thAlign} py-1`}>{formatAppDate(inst.date, false, lang) || "—"}</td>
+                                    <td className={`${numAlign} py-1 font-medium`}>{fmt(inst.amount)}</td>
+                                    <td className="text-center py-1">{inst.paid ? t("پرداخت‌شده") : t("مانده")}</td>
+                                  </tr>
+                                ))}
+                              </tbody>
+                            </table>
+                          )}
+                        </div>
+                      )}
+                    </div>
+                  );
+                })}
+              </div>
+              <div className="flex justify-between items-center border-t border-black/10 pt-3 text-sm font-bold">
+                <span>{t("جمع کل")}</span>
+                <span className="text-[#14213D]">{fmt(total)} {t("تومان")}</span>
+              </div>
+            </>
+          )}
+        </div>
       </div>
     </div>
   );
@@ -8702,6 +8942,8 @@ function AppContent() {
           <DashboardScreen
             projects={projects}
             contacts={contacts}
+            company={company}
+            ensurePdfExport={ensurePdfExport}
             backHandlerRef={childBackHandler}
             onOpenProject={(id) => { setActiveTab(id); setScreen("app"); }}
             onOpenGallery={(id) => { setActiveTab(id); setProjectSheetView("gallery"); setShowProjectSettings(true); }}
@@ -10485,13 +10727,7 @@ function ContactLedgerSheet({ contact, projects, contacts, company, onClose, ens
   }, [entries]);
 
   function ledgerTypeLabel(row) {
-    if (row.refType === "expense") {
-      if (row.subType === "purchase") return t(PAYMENT_METHODS.purchase);
-      return t(PAYMENT_METHODS[row.subType] || PAYMENT_METHODS.cash);
-    }
-    if (row.refType === "finance") return t(FINANCE_TX_LABELS[row.subType] || row.subType);
-    if (row.refType === "income") return t("دریافت فروش");
-    return row.refType;
+    return contactLedgerTypeLabel(row, t);
   }
 
   const printRows = useMemo(() => entries.map((r) => ({
@@ -15490,7 +15726,12 @@ function DashboardProjectCard({ project, contacts, theme, onOpenProject, onOpenG
       <div className="flex gap-2 mt-3">
         <button
           type="button"
-          onClick={() => onShowBalanceModal({ title: t("مطالبات — ") + project.name, subtitle: t("افراد و واحدهایی که به پروژه بدهکارند"), items: receivables })}
+          onClick={() => onShowBalanceModal({
+            title: t("مطالبات — ") + project.name,
+            subtitle: t("افراد و واحدهایی که به پروژه بدهکارند"),
+            items: receivables,
+            project,
+          })}
           className="flex-1 bg-[#F0FDF4] border border-green-100 rounded-xl py-2.5 px-2 text-center"
         >
           <div className="text-[10px] text-[#166534] font-medium">{t("مطالبات")}</div>
@@ -15498,7 +15739,12 @@ function DashboardProjectCard({ project, contacts, theme, onOpenProject, onOpenG
         </button>
         <button
           type="button"
-          onClick={() => onShowBalanceModal({ title: t("بدهی‌ها — ") + project.name, subtitle: t("مخاطبینی که پروژه به آن‌ها بدهکار است"), items: payables })}
+          onClick={() => onShowBalanceModal({
+            title: t("بدهی‌ها — ") + project.name,
+            subtitle: t("مخاطبینی که پروژه به آن‌ها بدهکار است"),
+            items: payables,
+            project,
+          })}
           className="flex-1 bg-[#FEF2F2] border border-red-100 rounded-xl py-2.5 px-2 text-center"
         >
           <div className="text-[10px] text-[#B91C1C] font-medium">{t("بدهی‌ها")}</div>
@@ -15659,7 +15905,7 @@ function ProjectCarousel({ projects, contacts, onOpenProject, onOpenGallery, onO
   );
 }
 
-function DashboardScreen({ projects, contacts, backHandlerRef, onOpenProject, onOpenGallery, onOpenMessages, unreadByProject, totalUnreadMessages, onNewProject, onQuickExpense, onQuickTransfer }) {
+function DashboardScreen({ projects, contacts, company, ensurePdfExport, backHandlerRef, onOpenProject, onOpenGallery, onOpenMessages, unreadByProject, totalUnreadMessages, onNewProject, onQuickExpense, onQuickTransfer }) {
   const { t } = useContext(LanguageContext);
   const [balanceModal, setBalanceModal] = useState(null);
 
@@ -15739,6 +15985,10 @@ function DashboardScreen({ projects, contacts, backHandlerRef, onOpenProject, on
           title={balanceModal.title}
           subtitle={balanceModal.subtitle}
           items={balanceModal.items}
+          project={balanceModal.project}
+          contacts={contacts}
+          company={company}
+          ensurePdfExport={ensurePdfExport}
           onClose={() => setBalanceModal(null)}
         />
       )}
