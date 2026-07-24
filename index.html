@@ -440,6 +440,30 @@
     overflow: hidden;
     border: 1px solid var(--m-border);
     box-shadow: var(--m-shadow-card);
+    position: relative;
+    z-index: 0;
+    isolation: isolate;
+  }
+  .m-map-frame .leaflet-container,
+  .m-leaflet-host {
+    z-index: 0 !important;
+  }
+  .m-map-frame .leaflet-pane,
+  .m-map-frame .leaflet-top,
+  .m-map-frame .leaflet-bottom,
+  .m-map-frame .leaflet-control,
+  .m-map-frame .leaflet-map-pane,
+  .m-map-frame .leaflet-tile-pane,
+  .m-map-frame .leaflet-overlay-pane,
+  .m-map-frame .leaflet-shadow-pane,
+  .m-map-frame .leaflet-marker-pane,
+  .m-map-frame .leaflet-popup-pane {
+    z-index: auto !important;
+  }
+  html.metrico-menu-open .m-map-frame,
+  html.metrico-menu-open .m-leaflet-host {
+    visibility: hidden;
+    pointer-events: none;
   }
   .m-prose-panel {
     background: var(--m-surface);
@@ -559,6 +583,7 @@ const LucideInfo = (p) => (<LucideSvg {...p}><circle cx="12" cy="12" r="10" /><p
 const LucideLayers = (p) => (<LucideSvg {...p}><path d="m12.83 2.18a2 2 0 0 0-1.66 0L2.6 6.08a1 1 0 0 0 0 1.83l8.58 3.91a2 2 0 0 0 1.66 0l8.58-3.9a1 1 0 0 0 0-1.83Z" /><path d="m22 12.65-8.58 3.91a2 2 0 0 1-1.66 0L3.2 12.65a1 1 0 0 1 0-1.83l8.58-3.91a2 2 0 0 1 1.66 0l8.58 3.91a1 1 0 0 1 0 1.83Z" /><path d="m22 17.65-8.58 3.91a2 2 0 0 1-1.66 0L3.2 17.65a1 1 0 0 1 0-1.83l8.58-3.91a2 2 0 0 1 1.66 0l8.58 3.91a1 1 0 0 1 0 1.83Z" /></LucideSvg>);
 const LucideUsers = (p) => (<LucideSvg {...p}><path d="M16 21v-2a4 4 0 0 0-4-4H6a4 4 0 0 0-4 4v2" /><circle cx="9" cy="7" r="4" /><path d="M22 21v-2a4 4 0 0 0-3-3.87" /><path d="M16 3.13a4 4 0 0 1 0 7.75" /></LucideSvg>);
 const LucideBell = (p) => (<LucideSvg {...p}><path d="M6 8a6 6 0 0 1 12 0c0 7 3 9 3 9H3s3-2 3-9" /><path d="M10.3 21a1.94 1.94 0 0 0 3.4 0" /></LucideSvg>);
+const LucideMessageSquare = (p) => (<LucideSvg {...p}><path d="M21 15a2 2 0 0 1-2 2H7l-4 4V5a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2z" /></LucideSvg>);
 const LucideSearch = (p) => (<LucideSvg {...p}><circle cx="11" cy="11" r="8" /><path d="m21 21-4.3-4.3" /></LucideSvg>);
 const LucideSend = (p) => (<LucideSvg {...p}><path d="m22 2-7 20-4-9-9-4Z" /><path d="M22 2 11 13" /></LucideSvg>);
 const LucideLandmark = (p) => (<LucideSvg {...p}><line x1="3" x2="21" y1="22" y2="22" /><line x1="6" x2="6" y1="18" y2="11" /><line x1="10" x2="10" y1="18" y2="11" /><line x1="14" x2="14" y1="18" y2="11" /><line x1="18" x2="18" y1="18" y2="11" /><polygon points="12 2 20 7 4 7" /></LucideSvg>);
@@ -604,6 +629,7 @@ const Layers = (p) => <LucideLayers {...p} />;
 const Users = (p) => <LucideUsers {...p} />;
 const MapPinIcon = (p) => <LucideMapPin {...p} />;
 const Bell = (p) => <LucideBell {...p} />;
+const MessageSquare = (p) => <LucideMessageSquare {...p} />;
 const Search = (p) => <LucideSearch {...p} />;
 const PhoneCall = (p) => <LucidePhone {...p} />;
 const SendIcon = (p) => <LucideSend {...p} />;
@@ -1121,7 +1147,7 @@ function projectCardTheme(projectId) {
   return PROJECT_CARD_PALETTE[Math.abs(h) % PROJECT_CARD_PALETTE.length];
 }
 const APP_NAME = "Metrico";
-const APP_VERSION = "2.51.5";
+const APP_VERSION = "2.51.6";
 
 const METRICO_PLAN_ORDER = ["start", "plus", "pro", "ark"];
 const METRICO_PLANS = {
@@ -2172,6 +2198,16 @@ const DICT = {
   "نمای کلی پروژه‌ها": "Projects Overview", "پروژه‌ها": "Projects", "پروژه جدید": "New Project",
   "خروجی PDF همه پروژه‌ها": "PDF Export - All Projects", "پشتیبان‌گیری و بازیابی": "Backup & Restore",
   "درباره": "About", "سیاست حفظ حریم خصوصی": "Privacy Policy", "دفترچه مخاطبین": "Contacts",
+  "نظرات و پیشنهادات": "Feedback & suggestions",
+  "نظر یا پیشنهاد خود را بنویسید...": "Write your comment or suggestion...",
+  "ارسال نظر": "Send feedback",
+  "نظر شما ثبت شد. از مشارکت شما سپاسگزاریم.": "Your feedback was submitted. Thank you!",
+  "نظرات و پیشنهادات کاربران": "User feedback & suggestions",
+  " خوانده‌نشده": " unread",
+  "هنوز نظری ثبت نشده": "No feedback yet",
+  "علامت‌گذاری به‌عنوان خوانده‌شده": "Mark as read",
+  "نظرات کاربران": "User feedback",
+  "پیام شما برای تیم میتریکو (مدیر سیستم) ارسال می‌شود.": "Your message is sent to the Metrico team (system admin).",
   "یادداشت‌ها": "Notes", "یادآوری‌ها": "Reminders", "نقشه پروژه‌ها": "Projects Map",
   "گزارش PDF": "PDF reports", "چت هوشمند": "Smart chat",
   "خروج از برنامه": "Log out", "برای ورود مجدد باید رمز عبور را دوباره وارد کنی. مطمئنی؟": "You'll need to log in again. Are you sure?",
@@ -3748,6 +3784,9 @@ function ownerPortalErrorMessage(err) {
   if (/owner_portal_messages|submit_owner_portal_message/i.test(msg)) {
     return "جدول پیام‌های مالک در Supabase یافت نشد. فایل supabase/owner-portal-messages.sql را اجرا کنید.";
   }
+  if (/product_feedback|submit_product_feedback/i.test(msg)) {
+    return "جدول نظرات کاربران در Supabase یافت نشد. فایل supabase/product-feedback.sql را اجرا کنید.";
+  }
   return msg;
 }
 
@@ -3801,6 +3840,28 @@ async function fetchOwnerPortalPayload(token) {
 }
 
 const OWNER_PORTAL_MSG_MAX = 500;
+const PRODUCT_FEEDBACK_MAX = 2000;
+
+async function submitProductFeedback(message, companyName) {
+  const msg = String(message || "").trim();
+  if (msg.length < 5) return { message: "پیام خیلی کوتاه است (حداقل ۵ کاراکتر)." };
+  if (msg.length > PRODUCT_FEEDBACK_MAX) return { message: `حداکثر ${PRODUCT_FEEDBACK_MAX} کاراکتر مجاز است.` };
+  const { error } = await window.sb.rpc("submit_product_feedback", {
+    p_message: msg,
+    p_company_name: String(companyName || "").trim(),
+  });
+  return error || null;
+}
+
+async function fetchProductFeedbackAdmin() {
+  const { data, error } = await window.sb.rpc("admin_list_product_feedback", { p_limit: 100 });
+  return { data: data || [], error };
+}
+
+async function markProductFeedbackRead(feedbackId) {
+  const { error } = await window.sb.rpc("admin_mark_product_feedback_read", { p_id: feedbackId });
+  return error;
+}
 
 async function submitOwnerPortalMessage(token, text) {
   const msg = String(text || "").trim();
@@ -5498,7 +5559,7 @@ function LeafletMap({ markers, onMapClick, center, zoom, fitAll, height = 220 })
     // eslint-disable-next-line
   }, [center && center[0], center && center[1]]);
 
-  return <div ref={containerRef} style={{ height, width: "100%", borderRadius: 12 }} />;
+  return <div ref={containerRef} className="m-leaflet-host" style={{ height, width: "100%", borderRadius: 12 }} />;
 }
 
 async function resizeImage(file, maxW = 1000, quality = 0.7) {
@@ -7007,6 +7068,44 @@ function DueEventsModal({ events, projects, onClose, onOpenReminders, onOpenProj
   );
 }
 
+function ProductFeedbackInboxModal({ items, onClose, onMarkRead }) {
+  const { lang, t } = useContext(LanguageContext);
+  const modalDir = lang === "fa" ? "rtl" : "ltr";
+  const unread = (items || []).filter((f) => !f.read_at);
+  return (
+    <div className="fixed inset-0 m-modal-backdrop flex items-end z-[85]" onClick={onClose}>
+      <div className="m-modal-sheet rounded-top w-full max-h-[85vh] flex flex-col" dir={modalDir} onClick={(e) => e.stopPropagation()}>
+        <div className="m-modal-head px-5 pt-5 pb-3 flex items-center justify-between shrink-0 rounded-t-2xl">
+          <div>
+            <div className="font-bold text-lg flex items-center gap-2"><MessageSquare size={18} className="text-[#FDE68A]" /> {t("نظرات و پیشنهادات کاربران")}</div>
+            <div className="text-xs text-white/70 mt-0.5">{unread.length}{t(" خوانده‌نشده")}</div>
+          </div>
+          <button type="button" onClick={onClose} className="text-white/80"><X size={20} /></button>
+        </div>
+        <div className="flex-1 overflow-y-auto p-5 flex flex-col gap-2">
+          {!items?.length ? (
+            <div className="text-center text-[#9CA3AF] text-sm py-10">{t("هنوز نظری ثبت نشده")}</div>
+          ) : items.map((f) => (
+            <div key={f.id} className={`rounded-xl border px-3 py-2.5 ${f.read_at ? "border-black/5 bg-[#FAFAFA]" : "border-[#C9A227]/40 bg-amber-50/80"}`}>
+              <div className="flex items-start justify-between gap-2 text-[10px] text-[#6B7280]">
+                <span dir="ltr" className="font-semibold text-[#14213D] truncate">{f.author_email || "—"}</span>
+                <span>{formatAppDate(f.created_at, false, lang)}</span>
+              </div>
+              {f.company_name && <div className="text-[10px] text-[#9CA3AF] mt-0.5">{f.company_name}</div>}
+              <p className="text-sm text-[#374151] leading-6 mt-2 whitespace-pre-wrap">{f.message}</p>
+              {!f.read_at && (
+                <button type="button" onClick={() => onMarkRead(f.id)} className="mt-2 text-[10px] font-semibold m-btn-primary px-2.5 py-1">
+                  {t("علامت‌گذاری به‌عنوان خوانده‌شده")}
+                </button>
+              )}
+            </div>
+          ))}
+        </div>
+      </div>
+    </div>
+  );
+}
+
 function SplashScreen() {
   return (
     <div className="min-h-screen m-app-bg flex flex-col items-center justify-center gap-4">
@@ -7124,6 +7223,8 @@ function AppContent() {
   const [activationSuccessSource, setActivationSuccessSource] = useState("code");
   const [pendingActivateCode, setPendingActivateCode] = useState(() => parseActivationCodeFromUrl());
   const [showDueEvents, setShowDueEvents] = useState(false);
+  const [productFeedback, setProductFeedback] = useState([]);
+  const [showProductFeedbackInbox, setShowProductFeedbackInbox] = useState(false);
   const [chatLog, setChatLog] = useState([]);
   const [chatInput, setChatInput] = useState("");
   const [chatListening, setChatListening] = useState(false);
@@ -7136,7 +7237,7 @@ function AppContent() {
   const backStateRef = useRef({});
   backStateRef.current = {
     screen, showSearch, showChat, showMenu, showTransfer, showExpenses, reportPopup, showFab,
-    openUnitId, showProjectSettings, showNewProject, showCompanySettings, ownerMessagesProjectId, showDueEvents,
+    openUnitId, showProjectSettings, showNewProject, showCompanySettings, ownerMessagesProjectId, showDueEvents, showProductFeedbackInbox,
   };
   const isReadOnly = isDemoUser(user);
   const isSuperAdmin = userRole === "super_admin";
@@ -7195,6 +7296,7 @@ function AppContent() {
       else if (s.showCompanySettings) { setShowCompanySettings(false); handled = true; }
       else if (s.ownerMessagesProjectId) { setOwnerMessagesProjectId(null); handled = true; }
       else if (s.showDueEvents) { setShowDueEvents(false); handled = true; }
+      else if (s.showProductFeedbackInbox) { setShowProductFeedbackInbox(false); handled = true; }
       else if (s.screen === "project_maps") { setScreen("app"); handled = true; }
       else if (s.screen === "finance") { setScreen("app"); handled = true; }
       else if (s.screen === "reports") { setScreen("dashboard"); handled = true; }
@@ -7427,6 +7529,13 @@ function AppContent() {
     });
   }, [user?.id, isReadOnly, user]);
 
+  const refreshProductFeedback = useCallback(() => {
+    if (!user?.id || userRole !== "super_admin") return;
+    fetchProductFeedbackAdmin().then(({ data, error }) => {
+      if (!error) setProductFeedback(data);
+    });
+  }, [user?.id, userRole]);
+
   useEffect(() => {
     if (!user || !activated) return;
     refreshOwnerMessages();
@@ -7435,9 +7544,26 @@ function AppContent() {
   }, [user, activated, refreshOwnerMessages]);
 
   useEffect(() => {
+    if (!user || !activated || userRole !== "super_admin") return;
+    refreshProductFeedback();
+    const iv = window.setInterval(refreshProductFeedback, 90000);
+    return () => window.clearInterval(iv);
+  }, [user, activated, userRole, refreshProductFeedback]);
+
+  useEffect(() => {
     if (!user || !activated || screen !== "dashboard") return;
     refreshOwnerMessages();
   }, [user, activated, screen, refreshOwnerMessages]);
+
+  useEffect(() => {
+    if (!user || !activated || userRole !== "super_admin") return;
+    refreshProductFeedback();
+  }, [user, activated, screen, userRole, refreshProductFeedback]);
+
+  const unreadProductFeedbackCount = useMemo(
+    () => (productFeedback || []).filter((f) => !f.read_at).length,
+    [productFeedback]
+  );
 
   const unreadOwnerMessagesByProject = useMemo(() => {
     const map = {};
@@ -7472,6 +7598,25 @@ function AppContent() {
     )));
     refreshOwnerMessages();
   }, [refreshOwnerMessages]);
+
+  const handleMarkProductFeedbackRead = useCallback(async (feedbackId) => {
+    const err = await markProductFeedbackRead(feedbackId);
+    if (err) {
+      setError(ownerPortalErrorMessage(err) || t("خطایی رخ داد."));
+      return;
+    }
+    refreshProductFeedback();
+  }, [refreshProductFeedback, t]);
+
+  useEffect(() => {
+    try {
+      if (showMenu) document.documentElement.classList.add("metrico-menu-open");
+      else document.documentElement.classList.remove("metrico-menu-open");
+    } catch (e) {}
+    return () => {
+      try { document.documentElement.classList.remove("metrico-menu-open"); } catch (e2) {}
+    };
+  }, [showMenu]);
 
   useEffect(() => {
     const code = parseActivationCodeFromUrl();
@@ -8826,6 +8971,19 @@ function AppContent() {
                   </span>
                 </button>
               )}
+              {isSuperAdmin && unreadProductFeedbackCount > 0 && (
+                <button
+                  type="button"
+                  onClick={() => setShowProductFeedbackInbox(true)}
+                  className="relative p-2 text-[#FDE68A] shrink-0"
+                  title={t("نظرات کاربران")}
+                >
+                  <MessageSquare size={20} />
+                  <span className="absolute -top-0.5 -left-0.5 min-w-[18px] h-[18px] px-1 rounded-full bg-[#B91C1C] text-white text-[10px] font-bold flex items-center justify-center">
+                    {unreadProductFeedbackCount}
+                  </span>
+                </button>
+              )}
               <LanguageToggle lang={lang} setLang={setLang} variant="header" />
               <button onClick={() => setShowSearch(true)} className="relative p-2 text-white/90"><Search size={19} /></button>
             </>
@@ -8855,7 +9013,15 @@ function AppContent() {
       </header>
 
       <main className="flex-1 min-h-0 overflow-y-auto overflow-x-hidden pb-28 overscroll-y-contain">
-        {screen === "about" && <AboutScreen onBack={() => setScreen("dashboard")} />}
+        {screen === "about" && (
+          <AboutScreen
+            onBack={() => setScreen("dashboard")}
+            user={user}
+            company={company}
+            isReadOnly={isReadOnly}
+            onError={(msg) => setError(msg)}
+          />
+        )}
         {screen === "privacy" && <PrivacyScreen onBack={() => setScreen("dashboard")} />}
         {screen === "tax" && <TaxSystemsScreen onBack={() => setScreen("dashboard")} />}
         {screen === "guide" && (
@@ -9068,7 +9234,7 @@ function AppContent() {
         )}
       </main>
 
-      {showMenu && (
+      {showMenu && ReactDOM.createPortal(
         <SideMenu
           company={company}
           projects={projects}
@@ -9098,7 +9264,8 @@ function AppContent() {
           onOpenTax={() => requirePlan("tax", () => { setScreen("tax"); setShowMenu(false); })}
           onOpenContracts={() => requirePlan("contracts", () => { setScreen("contracts"); setShowMenu(false); })}
           onLogout={logout}
-        />
+        />,
+        document.body
       )}
 
       {reportPopup && (activeProject || projects[0]) && (
@@ -9186,6 +9353,14 @@ function AppContent() {
             setScreen("app");
             if (unitId) setOpenUnitId(unitId);
           }}
+        />
+      )}
+
+      {showProductFeedbackInbox && isSuperAdmin && (
+        <ProductFeedbackInboxModal
+          items={productFeedback}
+          onClose={() => setShowProductFeedbackInbox(false)}
+          onMarkRead={handleMarkProductFeedbackRead}
         />
       )}
 
@@ -9975,8 +10150,9 @@ function SideMenu({ company, projects, activeTab, currentScreen, isReadOnly, eff
   }
 
   return (
-    <div className="fixed inset-0 z-[75] flex" dir={menuDir}>
-      <div className="w-[82%] max-w-xs m-side-drawer h-full flex flex-col relative">
+    <div className={`fixed inset-0 z-[1000] flex ${menuDir === "rtl" ? "flex-row-reverse" : ""}`} dir={menuDir}>
+      <button type="button" className="flex-1 min-w-0 m-modal-backdrop border-0 cursor-default" aria-label={t("بستن")} onClick={onClose} />
+      <div className="w-[82%] max-w-xs m-side-drawer h-full flex flex-col relative shrink-0 shadow-2xl">
         <div className="m-side-drawer-head text-white px-5 pt-6 pb-4 flex items-center gap-3">
           {company?.logo ? (
             <img src={company.logo} alt="" className="w-10 h-10 rounded-xl object-cover border border-white/20" />
@@ -10224,9 +10400,12 @@ function BackupScreen({ onBack, onExport, onRestore, projectCount, canRestore, r
   );
 }
 
-function AboutScreen({ onBack }) {
+function AboutScreen({ onBack, user, company, isReadOnly, onError }) {
   const { lang, t } = useContext(LanguageContext);
   const screenDir = lang === "fa" ? "rtl" : "ltr";
+  const [feedbackText, setFeedbackText] = useState("");
+  const [feedbackSending, setFeedbackSending] = useState(false);
+  const [feedbackOk, setFeedbackOk] = useState(false);
   const teamRowClass = "flex items-start gap-3";
   const renderTeamMember = (sectionId, nameKey, roleKey, bioKey) => {
     const imageBlock = (
@@ -10286,6 +10465,55 @@ function AboutScreen({ onBack }) {
             )}
           </div>
         </div>
+
+        {user && !isReadOnly && (
+          <div className="m-card-muted p-4 mb-4">
+            <div className="font-bold text-[#14213D] text-sm mb-2 flex items-center gap-2">
+              <MessageSquare size={16} className="text-[#C9A227]" />
+              {t("نظرات و پیشنهادات")}
+            </div>
+            <p className="text-xs text-[#6B7280] leading-6 mb-3">
+              {t("پیام شما برای تیم میتریکو (مدیر سیستم) ارسال می‌شود.")}
+            </p>
+            {feedbackOk ? (
+              <div className="text-sm text-[#166534] bg-green-50 rounded-xl px-3 py-2.5">{t("نظر شما ثبت شد. از مشارکت شما سپاسگزاریم.")}</div>
+            ) : (
+              <>
+                <textarea
+                  value={feedbackText}
+                  onChange={(e) => setFeedbackText(e.target.value)}
+                  maxLength={PRODUCT_FEEDBACK_MAX}
+                  rows={4}
+                  placeholder={t("نظر یا پیشنهاد خود را بنویسید...")}
+                  className="w-full rounded-xl border border-black/10 bg-white px-3 py-2.5 text-sm outline-none focus:border-[#14213D]/30 resize-y min-h-[96px]"
+                />
+                <div className="flex items-center justify-between mt-2 gap-2">
+                  <span className="text-[10px] text-[#9CA3AF]">{feedbackText.length}/{PRODUCT_FEEDBACK_MAX}</span>
+                  <button
+                    type="button"
+                    disabled={feedbackSending || feedbackText.trim().length < 5}
+                    onClick={async () => {
+                      setFeedbackSending(true);
+                      const err = await submitProductFeedback(feedbackText, company?.name);
+                      setFeedbackSending(false);
+                      if (err) {
+                        const msg = typeof err === "object" && err.message ? ownerPortalErrorMessage(err) : String(err);
+                        if (onError) onError(msg || t("خطایی رخ داد."));
+                        return;
+                      }
+                      setFeedbackText("");
+                      setFeedbackOk(true);
+                    }}
+                    className="m-btn-primary px-4 py-2 text-sm font-semibold disabled:opacity-40"
+                  >
+                    {feedbackSending ? t("لطفاً صبر کن...") : t("ارسال نظر")}
+                  </button>
+                </div>
+              </>
+            )}
+          </div>
+        )}
+
         <div className="m-card-muted p-3 text-center mb-4">
           <div className="text-xs text-[#6B7280] mb-1">{t("برای دریافت کد فعال‌سازی حساب تماس بگیرید")}</div>
           <div dir="ltr" className="font-bold text-[#14213D]">۰۹۱۹۲۲۶۴۳۳۲</div>
