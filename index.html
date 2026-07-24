@@ -1338,25 +1338,26 @@ function buildChatAnswer(rawQuery, projectList, contactList, contactBalanceFn, t
   }
 
   if (queryHasAny(q, ["سود", "زیان", "سودده", "ضرر"])) {
-    const revenue = targets.reduce((s, p) => s + revenueOf(p), 0);
-    const expenses = targets.reduce((s, p) => s + expensesTotalOf(p), 0);
-    const profit = revenue - expenses;
+    const revenue = targets.reduce((s, p) => s + revenueRecognizedOf(p), 0);
+    const expenses = targets.reduce((s, p) => s + expensesPeriodOf(p), 0);
+    const profit = targets.reduce((s, p) => s + profitOf(p), 0);
     const label = profit >= 0 ? tFn("سود") : tFn("زیان");
     return proj
-      ? `${label} ${proj.name}: ${fmt(Math.abs(profit))}${tFn(" تومان")} (${tFn("درآمد")} ${fmt(revenue)} − ${tFn("هزینه")} ${fmt(expenses)}).`
+      ? `${label} ${proj.name}: ${fmt(Math.abs(profit))}${tFn(" تومان")} (${tFn("درآمد محقق‌شده")} ${fmt(revenue)} − ${tFn("هزینه دوره")} ${fmt(expenses)}).`
       : `${label}${tFn(" کل پروژه‌ها: ")}${fmt(Math.abs(profit))}${tFn(" تومان")}.`;
   }
   if (queryHasAny(q, ["هزینه", "هزینه ها", "خرج", "پرداخت شده"])) {
-    const n = targets.reduce((s, p) => s + expensesTotalOf(p), 0);
+    const n = targets.reduce((s, p) => s + expensesPeriodOf(p), 0);
     return proj
       ? `${tFn("مجموع هزینه‌های ")}${proj.name}: ${fmt(n)}${tFn(" تومان")}.`
       : `${tFn("مجموع هزینه‌های همه پروژه‌ها: ")}${fmt(n)}${tFn(" تومان")}.`;
   }
   if (queryHasAny(q, ["درآمد", "فروش کل", "درامد", "فروش"])) {
-    const n = targets.reduce((s, p) => s + revenueOf(p), 0);
+    const recognized = targets.reduce((s, p) => s + revenueRecognizedOf(p), 0);
+    const contract = targets.reduce((s, p) => s + revenueOf(p), 0);
     return proj
-      ? `${tFn("درآمد فروش ")}${proj.name}: ${fmt(n)}${tFn(" تومان")}.`
-      : `${tFn("درآمد کل همه پروژه‌ها: ")}${fmt(n)}${tFn(" تومان")}.`;
+      ? `${tFn("درآمد محقق‌شده ")}${proj.name}: ${fmt(recognized)}${tFn(" تومان")}. ${tFn("ارزش قرارداد فروش")}: ${fmt(contract)}${tFn(" تومان")}.`
+      : `${tFn("درآمد محقق‌شده همه پروژه‌ها: ")}${fmt(recognized)}${tFn(" تومان")}. ${tFn("ارزش قرارداد")}: ${fmt(contract)}${tFn(" تومان")}.`;
   }
 
   if (queryHasAny(q, ["زیربنا", "زیر بنا", "متراژ بنا"])) {
@@ -1398,11 +1399,13 @@ function buildChatAnswer(rawQuery, projectList, contactList, contactBalanceFn, t
   }
 
   if (proj && !queryHasAny(q, ["پروژه"])) {
-    const rev = revenueOf(proj);
-    const exp = expensesTotalOf(proj);
+    const rev = revenueRecognizedOf(proj);
+    const contract = revenueOf(proj);
+    const exp = expensesPeriodOf(proj);
+    const pl = profitOf(proj);
     const sold = proj.units.filter((u) => u.status === "sold").length;
-    const plLabel = exp <= rev ? tFn("سود") : tFn("زیان");
-    return `${tFn("خلاصه ")}${proj.name}: ${proj.units.length}${tFn(" واحد، ")}${sold}${tFn(" فروخته، درآمد ")}${fmt(rev)}${tFn("، هزینه ")}${fmt(exp)}${tFn("، ")}${plLabel} ${fmt(Math.abs(rev - exp))}${tFn(" تومان")}.`;
+    const plLabel = pl >= 0 ? tFn("سود") : tFn("زیان");
+    return `${tFn("خلاصه ")}${proj.name}: ${proj.units.length}${tFn(" واحد، ")}${sold}${tFn(" فروخته، درآمد محقق ")}${fmt(rev)}${tFn("، قرارداد ")}${fmt(contract)}${tFn("، هزینه ")}${fmt(exp)}${tFn("، ")}${plLabel} ${fmt(Math.abs(pl))}${tFn(" تومان")}.`;
   }
 
   return tFn("دقیق متوجه نشدم، ولی می‌توانی آزاد بپرسی. مثلاً: «سود سپهر»، «واحدهای خالی»، «میانگین قیمت»، یا اسم یک مخاطب + «چقدر بدهکاره».");
@@ -1499,12 +1502,14 @@ function projectReceivablesList(project, contacts) {
     if (u.status !== "sold" && u.status !== "reserved") return;
     const rem = remainingOf(u);
     if (rem <= 0) return;
+    const buyerContact = u.buyerContactId ? (contacts || []).find((c) => c.id === u.buyerContactId) : null;
     items.push({
       id: "unit-" + u.id,
-      name: u.buyerName || `واحد ${u.unitNumber}`,
+      name: u.buyerName || buyerContact?.name || `واحد ${u.unitNumber}`,
       subtitle: `واحد ${u.unitNumber} — طبقه ${u.floor}`,
       amount: rem,
-      phone: u.buyerPhone || "",
+      phone: u.buyerPhone || buyerContact?.phone || "",
+      buyerContactId: u.buyerContactId || null,
     });
   });
   (contacts || []).forEach((c) => {
@@ -1576,6 +1581,7 @@ function collectContactLedgerEntries(contactId, projects, projectIdFilter) {
           subType: tx.type,
           debit: amount,
           credit: 0,
+          apAllocations: tx.apAllocations || null,
           detail: { kind: "finance", tx, project },
         });
       }
@@ -1744,6 +1750,16 @@ const DICT = {
   "هنوز پروژه‌ای اضافه نشده.": "No projects yet.", "ساخت اولین پروژه": "Create first project",
   "فروخته": "sold", "رزرو": "reserved", "خالی": "vacant",
   "درآمد": "Revenue", "هزینه": "Expenses", "سود": "Profit", "زیان": "Loss",
+  "درآمد محقق‌شده": "Recognized revenue", "ارزش قرارداد فروش": "Contract sales value", "ارزش قرارداد": "Contract value",
+  "هزینه دوره": "Period expenses", "دفتر روزنامه": "General journal", "بدهکار": "Debit", "بستانکار": "Credit",
+  "تخصیص به فاکتور": "Allocated to invoices", "قفل دوره مالی": "Lock financial period",
+  "قفل تا تاریخ": "Lock through date", "ذخیره قفل": "Save lock", "حذف قفل": "Clear lock",
+  "تراکنش در دوره قفل‌شده مجاز نیست.": "Transactions in a locked period are not allowed.",
+  "رکوردی برای دفتر روزنامه نیست": "No general journal entries yet",
+  "شرح": "Description",
+  "دوره مالی قفل تا": "Financial period locked through",
+  "موجودی مصالح": "Materials inventory", "هزینه پروژه": "Project expense", "درآمد فروش": "Sales revenue", "سرمایه": "Capital",
+  "بستانکاری مخاطب": "Accounts payable", "بانک/صندوق": "Bank / cash",
   "تومان/م²": "Toman/m²", "فروخته‌شده": "Sold",
   // Company / settings
   "اطلاعات شرکت": "Company Info", "این اطلاعات بالای اپ نمایش داده می‌شود": "This info is shown at the top of the app",
@@ -3990,11 +4006,103 @@ function UnitOwnerPortalSection({ unit, project, company, user, isReadOnly, onCh
 function revenueOf(project) {
   return project.units.filter((u) => u.status === "sold").reduce((s, u) => s + totalPriceOf(u), 0);
 }
+function revenueRecognizedOf(project) {
+  return (project.financeTransactions || [])
+    .filter((t) => t.type === "income")
+    .reduce((s, t) => s + (Number(t.amount) || 0), 0);
+}
+function isInventoryCapitalizedExpense(e) {
+  return !!(e?.materialId && Number(e.materialQty) > 0);
+}
 function expensesTotalOf(project) {
   return (project.expenses || []).reduce((s, e) => s + (Number(e.amount) || 0), 0);
 }
+function expensesPeriodOf(project) {
+  return (project.expenses || [])
+    .filter((e) => !isInventoryCapitalizedExpense(e))
+    .reduce((s, e) => s + (Number(e.amount) || 0), 0);
+}
+function inventoryExpenseValueOf(project) {
+  return (project.expenses || [])
+    .filter(isInventoryCapitalizedExpense)
+    .reduce((s, e) => s + (Number(e.amount) || 0), 0);
+}
 function profitOf(project) {
-  return revenueOf(project) - expensesTotalOf(project);
+  return revenueRecognizedOf(project) - expensesPeriodOf(project);
+}
+function isProjectFinancialLocked(project, dateStr) {
+  const lock = project?.financialLockedThrough;
+  if (!lock || !dateStr) return false;
+  return String(dateStr).localeCompare(String(lock)) <= 0;
+}
+function appendProjectAudit(project, action, details) {
+  const entry = { id: uid(), at: new Date().toISOString(), action, details: details || {} };
+  return { ...project, auditLog: [...(project.auditLog || []), entry].slice(-400) };
+}
+function suggestApAllocations(project, contactId, payAmount) {
+  let left = Number(payAmount) || 0;
+  const allocations = [];
+  const open = (project.expenses || [])
+    .filter((e) => e.contactId === contactId && expenseContactBalanceDelta(e) > 0)
+    .sort((a, b) => (a.date || "").localeCompare(b.date || ""));
+  open.forEach((e) => {
+    if (left <= 0) return;
+    const due = Number(e.amount) || 0;
+    const amt = Math.min(left, due);
+    if (amt > 0) {
+      allocations.push({ expenseId: e.id, amount: amt, expenseTitle: e.title || "" });
+      left -= amt;
+    }
+  });
+  return { allocations, unallocated: left };
+}
+function buildProjectJournalEntries(project, contacts) {
+  const rows = [];
+  const financeLinkedExpenseIds = new Set(
+    (project.financeTransactions || []).filter((t) => t.expenseId).map((t) => t.expenseId)
+  );
+  const apLabel = (cid) => {
+    const c = (contacts || []).find((x) => x.id === cid);
+    return c ? `بستانکاری: ${c.name}` : "بستانکاری مخاطب";
+  };
+  const bankLabel = (aid) => {
+    const a = (project.bankAccounts || []).find((x) => x.id === aid);
+    return a ? `بانک: ${a.name}` : "بانک/صندوق";
+  };
+  const push = (row) => {
+    if (Number(row.amount) > 0) rows.push(row);
+  };
+  (project.expenses || []).forEach((e) => {
+    const amt = Number(e.amount) || 0;
+    const desc = e.title || e.note || "هزینه";
+    const expAcct = isInventoryCapitalizedExpense(e) ? "موجودی مصالح" : "هزینه پروژه";
+    if (e.paymentMethod === "cash" || e.paymentMethod === "check") {
+      if (financeLinkedExpenseIds.has(e.id)) return;
+    }
+    if (e.paymentMethod === "credit" || e.paymentMethod === "purchase") {
+      push({ id: `je-exp-${e.id}`, date: e.date || "", ref: e.id, description: desc, debit: expAcct, credit: apLabel(e.contactId), amount: amt, source: "expense" });
+    } else if (e.paymentMethod === "cash" || e.paymentMethod === "check") {
+      push({ id: `je-exp-${e.id}`, date: e.date || "", ref: e.id, description: desc, debit: expAcct, credit: e.bankAccountId ? bankLabel(e.bankAccountId) : "بانک/صندوق", amount: amt, source: "expense" });
+    }
+  });
+  (project.financeTransactions || []).forEach((tx) => {
+    const amt = Number(tx.amount) || 0;
+    const desc = tx.note || FINANCE_TX_LABELS[tx.type] || tx.type;
+    if (tx.type === "income") {
+      push({ id: `je-ft-${tx.id}`, date: tx.date || "", ref: tx.id, description: desc, debit: tx.toAccountId ? bankLabel(tx.toAccountId) : "بانک/صندوق", credit: "درآمد فروش", amount: amt, source: "finance" });
+    } else if (tx.type === "expense" || tx.type === "check_clear") {
+      push({ id: `je-ft-${tx.id}`, date: tx.date || "", ref: tx.id, description: desc, debit: "هزینه پروژه", credit: tx.fromAccountId ? bankLabel(tx.fromAccountId) : "بانک/صندوق", amount: amt, source: "finance" });
+    } else if (tx.type === "contact_debt_pay" || tx.type === "contact_prepay") {
+      push({ id: `je-ft-${tx.id}`, date: tx.date || "", ref: tx.id, description: desc, debit: apLabel(tx.contactId), credit: tx.fromAccountId ? bankLabel(tx.fromAccountId) : "بانک/صندوق", amount: amt, source: "finance" });
+    } else if (tx.type === "transfer") {
+      push({ id: `je-ft-${tx.id}`, date: tx.date || "", ref: tx.id, description: desc, debit: tx.toAccountId ? bankLabel(tx.toAccountId) : "بانک", credit: tx.fromAccountId ? bankLabel(tx.fromAccountId) : "بانک", amount: amt, source: "finance" });
+    } else if (tx.type === "capital_in") {
+      push({ id: `je-ft-${tx.id}`, date: tx.date || "", ref: tx.id, description: desc, debit: tx.toAccountId ? bankLabel(tx.toAccountId) : "بانک", credit: "سرمایه", amount: amt, source: "finance" });
+    } else if (tx.type === "capital_out") {
+      push({ id: `je-ft-${tx.id}`, date: tx.date || "", ref: tx.id, description: desc, debit: "سرمایه", credit: tx.fromAccountId ? bankLabel(tx.fromAccountId) : "بانک", amount: amt, source: "finance" });
+    }
+  });
+  return rows.sort((a, b) => (a.date || "").localeCompare(b.date || "") || String(a.id).localeCompare(String(b.id)));
 }
 function avgSalePricePerSqm(project) {
   const soldUnits = (project.units || []).filter((u) => u.status === "sold");
@@ -6938,6 +7046,12 @@ function AppContent() {
 
   function addExpense(projectId, expense) {
     if (!guardWrite()) return;
+    const project = projects.find((p) => p.id === projectId);
+    const dateStr = expense.date || new Date().toISOString().slice(0, 10);
+    if (project && isProjectFinancialLocked(project, dateStr)) {
+      setError(t("تراکنش در دوره قفل‌شده مجاز نیست."));
+      return;
+    }
     updateProject(projectId, (p) => {
       const exp = { id: uid(), ...expense };
       let financeTransactions = [...(p.financeTransactions || [])];
@@ -6954,7 +7068,11 @@ function AppContent() {
           docs: exp.docs || [],
         });
       }
-      return { ...p, expenses: [...(p.expenses || []), exp], financeTransactions };
+      return appendProjectAudit(
+        { ...p, expenses: [...(p.expenses || []), exp], financeTransactions },
+        "expense.add",
+        { expenseId: exp.id, amount: exp.amount, title: exp.title, paymentMethod: exp.paymentMethod, date: exp.date }
+      );
     });
     if (expense.materialId && Number(expense.materialQty) > 0) {
       const next = inventory.map((item) => {
@@ -6971,11 +7089,15 @@ function AppContent() {
     if (!guardWrite()) return;
     const project = projects.find((p) => p.id === projectId);
     const old = (project?.expenses || []).find((e) => e.id === expenseId);
-    updateProject(projectId, (p) => ({
+    if (old && isProjectFinancialLocked(project, old.date || "")) {
+      setError(t("تراکنش در دوره قفل‌شده مجاز نیست."));
+      return;
+    }
+    updateProject(projectId, (p) => appendProjectAudit({
       ...p,
       expenses: (p.expenses || []).filter((e) => e.id !== expenseId),
       financeTransactions: (p.financeTransactions || []).filter((t) => t.expenseId !== expenseId),
-    }));
+    }, "expense.remove", { expenseId, snapshot: old ? { title: old.title, amount: old.amount, date: old.date, paymentMethod: old.paymentMethod } : null }));
     if (old?.materialId && Number(old.materialQty) > 0) {
       const qty = Number(old.materialQty) || 0;
       const next = inventory.map((item) => (
@@ -6993,6 +7115,11 @@ function AppContent() {
     const project = projects.find((p) => p.id === projectId);
     const old = (project?.expenses || []).find((e) => e.id === expenseId);
     if (!old) return;
+    const newDate = expense.date || old.date || "";
+    if (isProjectFinancialLocked(project, old.date || "") || isProjectFinancialLocked(project, newDate)) {
+      setError(t("تراکنش در دوره قفل‌شده مجاز نیست."));
+      return;
+    }
     updateProject(projectId, (p) => {
       const exp = { ...old, ...expense, id: expenseId };
       let financeTransactions = (p.financeTransactions || []).filter((t) => t.expenseId !== expenseId);
@@ -7009,11 +7136,15 @@ function AppContent() {
           docs: exp.docs || [],
         });
       }
-      return {
+      return appendProjectAudit({
         ...p,
         expenses: (p.expenses || []).map((e) => (e.id === expenseId ? exp : e)),
         financeTransactions,
-      };
+      }, "expense.update", {
+        expenseId,
+        before: { title: old.title, amount: old.amount, date: old.date, paymentMethod: old.paymentMethod },
+        after: { title: exp.title, amount: exp.amount, date: exp.date, paymentMethod: exp.paymentMethod },
+      });
     });
     const oldMat = old.materialId;
     const oldQty = Number(old.materialQty) || 0;
@@ -7092,30 +7223,50 @@ function AppContent() {
           category: "صورت وضعیت",
         });
       }
-      return {
+      return appendProjectAudit({
         ...p,
         progressStatements: [...(p.progressStatements || []), stmt],
         expenses,
-      };
+      }, "progress_statement.add", { statementId: stmt.id, statementNo: statement.statementNo, netAmount: statement.netAmount });
     });
   }
 
   function addFinanceTransaction(projectId, tx) {
     if (!guardWrite()) return;
-    updateProject(projectId, (p) => ({
-      ...p,
-      financeTransactions: [...(p.financeTransactions || []), { id: uid(), ...tx }],
-    }));
+    const project = projects.find((p) => p.id === projectId);
+    const dateStr = tx.date || new Date().toISOString().slice(0, 10);
+    if (project && isProjectFinancialLocked(project, dateStr)) {
+      setError(t("تراکنش در دوره قفل‌شده مجاز نیست."));
+      return;
+    }
+    updateProject(projectId, (p) => {
+      const payload = { id: uid(), ...tx };
+      if (payload.type === "contact_debt_pay" && payload.contactId && !(payload.apAllocations && payload.apAllocations.length)) {
+        const { allocations } = suggestApAllocations(p, payload.contactId, payload.amount);
+        if (allocations.length) payload.apAllocations = allocations;
+      }
+      return appendProjectAudit(
+        { ...p, financeTransactions: [...(p.financeTransactions || []), payload] },
+        "finance.add",
+        { txId: payload.id, type: payload.type, amount: payload.amount, contactId: payload.contactId || null, apAllocations: payload.apAllocations || null }
+      );
+    });
   }
 
   function recordUnitIncome(projectId, unitId, { amount, accountId, installmentId, note, docs }) {
     if (!guardWrite() || !accountId || !(Number(amount) > 0)) return null;
+    const dateStr = new Date().toISOString().slice(0, 10);
+    const project = projects.find((p) => p.id === projectId);
+    if (project && isProjectFinancialLocked(project, dateStr)) {
+      setError(t("تراکنش در دوره قفل‌شده مجاز نیست."));
+      return null;
+    }
     const txId = uid();
-    updateProject(projectId, (p) => ({
+    updateProject(projectId, (p) => appendProjectAudit({
       ...p,
       financeTransactions: [...(p.financeTransactions || []), {
         id: txId,
-        date: new Date().toISOString().slice(0, 10),
+        date: dateStr,
         type: "income",
         amount: Number(amount),
         fromAccountId: null,
@@ -7137,7 +7288,7 @@ function AppContent() {
         }
         return { ...u, depositAccountId: accountId };
       }),
-    }));
+    }, "income.add", { txId, unitId, amount: Number(amount), installmentId: installmentId || null }));
     return txId;
   }
   function addProjectNote(projectId, text) {
@@ -7212,8 +7363,9 @@ function AppContent() {
     const grandRevenue = projectList.reduce((s, p) => s + p.units.filter((u) => u.status === "sold").reduce((s2, u) => s2 + totalPriceOf(u), 0), 0);
     const projectsHtml = projectList.map((project) => {
       const revenue = revenueOf(project);
-      const expenses = expensesTotalOf(project);
-      const profit = revenue - expenses;
+      const recognized = revenueRecognizedOf(project);
+      const expenses = expensesPeriodOf(project);
+      const profit = profitOf(project);
       const rows = project.units.slice().sort((a, b) => a.floor - b.floor || Number(a.unitNumber) - Number(b.unitNumber));
       const rowsHtml = rows.map((u) => `
         <tr>
@@ -7232,6 +7384,7 @@ function AppContent() {
             <tbody>${rowsHtml}</tbody>
           </table>
           <div style="font-size:12px;font-weight:700;margin-top:8px;">${esc(tFn("مجموع درآمد حاصل از فروش این پروژه:"))} ${fmt(revenue)}${esc(tFn(" تومان"))}</div>
+          <div style="font-size:12px;font-weight:700;margin-top:4px;">${esc(tFn("درآمد محقق‌شده:"))} ${fmt(recognized)}${esc(tFn(" تومان"))}</div>
           <div style="font-size:12px;font-weight:700;margin-top:4px;">${esc(tFn("مجموع هزینه‌های ثبت‌شده:"))} ${fmt(expenses)}${esc(tFn(" تومان"))}</div>
           <div style="font-size:12px;font-weight:800;margin-top:4px;color:${profit >= 0 ? "#166534" : "#B91C1C"};">${esc(tFn(profit >= 0 ? "سود" : "زیان"))}${esc(tFn(" پروژه تا این لحظه:"))} ${fmt(Math.abs(profit))}${esc(tFn(" تومان"))}</div>
           ${buildBuildingGraphicHTML(project, tFn)}
@@ -7275,8 +7428,9 @@ function AppContent() {
     const printBtnPos = isEn ? "right" : "left";
     const logoMargin = isEn ? "margin-left:auto;" : "margin-right:auto;";
     const revenue = revenueOf(project);
-    const expenses = expensesTotalOf(project);
-    const profit = revenue - expenses;
+    const recognized = revenueRecognizedOf(project);
+    const expenses = expensesPeriodOf(project);
+    const profit = profitOf(project);
     const soldUnits = project.units.filter((u) => u.status === "sold");
     const soldCount = soldUnits.length;
     const reservedCount = project.units.filter((u) => u.status === "reserved").length;
@@ -7315,13 +7469,15 @@ function AppContent() {
           <div style="font-size:13px;font-weight:700;margin-top:4px;">${soldCount}${esc(tFn(" فروخته‌شده · "))}${reservedCount}${esc(tFn(" رزرو · "))}${vacantCount}${esc(tFn(" خالی"))}</div></div>
         <div class="card"><div style="font-size:11px;color:#6B7280;">${esc(tFn("مجموع درآمد حاصل از فروش"))}</div>
           <div style="font-size:15px;font-weight:800;margin-top:4px;">${fmt(revenue)}${esc(tFn(" تومان"))}</div></div>
+        <div class="card"><div style="font-size:11px;color:#6B7280;">${esc(tFn("درآمد محقق‌شده"))}</div>
+          <div style="font-size:15px;font-weight:800;margin-top:4px;color:#166534;">${fmt(recognized)}${esc(tFn(" تومان"))}</div></div>
         <div class="card"><div style="font-size:11px;color:#6B7280;">${esc(tFn("متوسط قیمت فروش هر متر مربع"))}</div>
           <div style="font-size:15px;font-weight:800;margin-top:4px;">${fmt(Math.round(avgPricePerSqm))}${esc(tFn(" تومان"))}</div></div>
         <div class="card"><div style="font-size:11px;color:#6B7280;">${esc(tFn("مبلغ دریافتی از خریداران"))}</div>
           <div style="font-size:14px;font-weight:700;margin-top:4px;color:#166534;">${fmt(paidTotal)}${esc(tFn(" تومان"))}</div></div>
         <div class="card"><div style="font-size:11px;color:#6B7280;">${esc(tFn("مانده طلب از خریداران"))}</div>
           <div style="font-size:14px;font-weight:700;margin-top:4px;color:#B91C1C;">${fmt(remainingTotal)}${esc(tFn(" تومان"))}</div></div>
-        <div class="card"><div style="font-size:11px;color:#6B7280;">${esc(tFn("مجموع هزینه‌های پروژه"))}</div>
+        <div class="card"><div style="font-size:11px;color:#6B7280;">${esc(tFn("هزینه دوره"))}</div>
           <div style="font-size:14px;font-weight:700;margin-top:4px;color:#B91C1C;">${fmt(expenses)}${esc(tFn(" تومان"))}</div></div>
         <div class="card" style="background:${profit >= 0 ? "#DCFCE7" : "#FEE2E2"};">
           <div style="font-size:11px;color:#6B7280;">${esc(tFn(profit >= 0 ? "سود پروژه" : "زیان پروژه"))}${esc(tFn(" تا این لحظه"))}</div>
@@ -8191,6 +8347,7 @@ function AppContent() {
             isReadOnly={isReadOnly}
             onBack={() => setScreen("app")}
             onAddTransaction={(tx) => addFinanceTransaction(activeProject.id, tx)}
+            onUpdateProjectMeta={(meta) => updateProjectMeta(activeProject.id, meta)}
             ensurePdfExport={ensurePdfExport}
           />
         )}
@@ -13413,9 +13570,9 @@ function ProjectPanel({ project, onOpenUnit, onOpenSettings, onOpenGallery, onOp
       .sort((a, b) => b.floor - a.floor);
   }, [project]);
 
-  const revenue = revenueOf(project);
-  const expenses = expensesTotalOf(project);
-  const profit = revenue - expenses;
+  const contractRevenue = revenueOf(project);
+  const expenses = expensesPeriodOf(project);
+  const profit = profitOf(project);
   const soldCount = project.units.filter((u) => u.status === "sold").length;
   const notes = project.quickNotes || [];
 
@@ -13517,7 +13674,7 @@ function ProjectPanel({ project, onOpenUnit, onOpenSettings, onOpenGallery, onOp
       <div className="mt-4 bg-[#14213D] text-white rounded-2xl p-4 flex items-center justify-between">
         <div>
           <div className="text-[11px] text-white/60">{t("مجموع درآمد حاصل از فروش")} ({soldCount} {t("واحد")})</div>
-          <div className="text-lg font-extrabold mt-0.5">{fmt(revenue)}{t(" تومان")}</div>
+          <div className="text-lg font-extrabold mt-0.5">{fmt(contractRevenue)}{t(" تومان")}</div>
         </div>
         <LucideTrendingUp size={22} className="text-[#C9A227]" />
       </div>
@@ -13859,11 +14016,12 @@ function ReportsScreen({ company, project, projects, contacts, initialView, onBa
   );
 }
 
-function FinanceScreen({ company, onBack, project, contacts, isReadOnly, onAddTransaction, ensurePdfExport }) {
+function FinanceScreen({ company, onBack, project, contacts, isReadOnly, onAddTransaction, onUpdateProjectMeta, ensurePdfExport }) {
   const { lang, t } = useContext(LanguageContext);
   const screenDir = lang === "fa" ? "rtl" : "ltr";
   const thAlign = lang === "fa" ? "text-right" : "text-left";
   const [view, setView] = useState("accounts");
+  const [lockDate, setLockDate] = useState(project.financialLockedThrough || "");
   const [fromId, setFromId] = useState("");
   const [toId, setToId] = useState("");
   const [trAmount, setTrAmount] = useState("");
@@ -13891,6 +14049,17 @@ function FinanceScreen({ company, onBack, project, contacts, isReadOnly, onAddTr
   );
   const profitRows = useMemo(() => investorProfitSummary(project, contacts), [project, contacts]);
   const profit = profitOf(project);
+  const recognized = revenueRecognizedOf(project);
+  const periodExpenses = expensesPeriodOf(project);
+  const contractSales = revenueOf(project);
+  const journalRows = useMemo(
+    () => buildProjectJournalEntries(project, contacts),
+    [project, contacts]
+  );
+
+  useEffect(() => {
+    setLockDate(project.financialLockedThrough || "");
+  }, [project.id, project.financialLockedThrough]);
 
   function submitTransfer() {
     if (!fromId || !toId || fromId === toId || !(Number(trAmount) > 0) || !trNote.trim()) return;
@@ -13940,6 +14109,7 @@ function FinanceScreen({ company, onBack, project, contacts, isReadOnly, onAddTr
     { id: "accounts", label: t("تراز حساب‌ها") },
     { id: "investors", label: t("سرمایه‌گذاران") },
     { id: "ledger", label: t("دفتر تراکنش") },
+    { id: "journal", label: t("دفتر روزنامه") },
     { id: "transfer", label: t("انتقال / سرمایه") },
   ]), [t]);
 
@@ -13967,6 +14137,14 @@ function FinanceScreen({ company, onBack, project, contacts, isReadOnly, onAddTr
     note: tx.note || "—",
   })), [txs, project, contacts, t, lang]);
 
+  const journalPrintRows = useMemo(() => journalRows.map((r) => ({
+    date: formatAppDate(r.date, false, lang) || "—",
+    description: r.description,
+    debit: t(r.debit) === r.debit ? r.debit : t(r.debit),
+    credit: r.credit.startsWith("بستانکاری:") || r.credit.startsWith("بانک:") ? r.credit : t(r.credit),
+    amount: fmt(r.amount),
+  })), [journalRows, t, lang]);
+
   const financePrintConfig = useMemo(() => view === "accounts"
     ? { title: t("تراز حساب‌های پروژه"), columns: [
         { key: "name", label: t("حساب") },
@@ -13991,7 +14169,15 @@ function FinanceScreen({ company, onBack, project, contacts, isReadOnly, onAddTr
             { key: "to", label: t("به") },
             { key: "note", label: t("توضیح") },
           ], rows: ledgerPrintRows }
-        : null, [view, accountPrintRows, investorPrintRows, ledgerPrintRows, t]);
+        : view === "journal"
+          ? { title: t("دفتر روزنامه"), columns: [
+              { key: "date", label: t("تاریخ") },
+              { key: "description", label: t("شرح") },
+              { key: "debit", label: t("بدهکار") },
+              { key: "credit", label: t("بستانکار") },
+              { key: "amount", label: t("مبلغ") },
+            ], rows: journalPrintRows }
+        : null, [view, accountPrintRows, investorPrintRows, ledgerPrintRows, journalPrintRows, t]);
 
   return (
     <div className="px-4 pt-4 pb-10" dir={screenDir}>
@@ -14015,12 +14201,13 @@ function FinanceScreen({ company, onBack, project, contacts, isReadOnly, onAddTr
 
       <div className="bg-[#14213D] text-white rounded-2xl p-4 mb-4 grid grid-cols-3 gap-2 text-center">
         <div>
-          <div className="text-[10px] text-white/60">{t("درآمد")}</div>
-          <div className="text-xs font-bold mt-0.5">{fmt(revenueOf(project))}</div>
+          <div className="text-[10px] text-white/60">{t("درآمد محقق‌شده")}</div>
+          <div className="text-xs font-bold mt-0.5">{fmt(recognized)}</div>
+          <div className="text-[9px] text-white/45 mt-0.5">{t("ارزش قرارداد")}: {fmt(contractSales)}</div>
         </div>
         <div>
-          <div className="text-[10px] text-white/60">{t("هزینه")}</div>
-          <div className="text-xs font-bold mt-0.5 text-[#FCA5A5]">{fmt(expensesTotalOf(project))}</div>
+          <div className="text-[10px] text-white/60">{t("هزینه دوره")}</div>
+          <div className="text-xs font-bold mt-0.5 text-[#FCA5A5]">{fmt(periodExpenses)}</div>
         </div>
         <div>
           <div className="text-[10px] text-white/60">{profit >= 0 ? t("سود") : t("زیان")}</div>
@@ -14067,6 +14254,22 @@ function FinanceScreen({ company, onBack, project, contacts, isReadOnly, onAddTr
               </div>
             );
           })}
+          {!isReadOnly && onUpdateProjectMeta && (
+            <div className="bg-[#FFFBEB] border border-amber-200 rounded-2xl p-4 mt-2">
+              <div className="text-xs font-bold text-[#92400E] mb-2">{t("قفل دوره مالی")}</div>
+              <p className="text-[10px] text-[#6B7280] mb-2 leading-relaxed">{t("تراکنش در دوره قفل‌شده مجاز نیست.")}</p>
+              {project.financialLockedThrough && (
+                <div className="text-[10px] text-[#B45309] mb-2">{t("دوره مالی قفل تا")}: {formatAppDate(project.financialLockedThrough, false, lang)}</div>
+              )}
+              <JalaliDateInput value={lockDate} onChange={setLockDate} inputClassName="w-full bg-white border border-black/10 rounded-lg px-3 py-2 text-sm mb-2 outline-none" />
+              <div className="flex gap-2">
+                <button type="button" onClick={() => onUpdateProjectMeta({ financialLockedThrough: lockDate || null })}
+                  className="flex-1 bg-[#14213D] text-white rounded-lg py-2 text-xs font-semibold">{t("ذخیره قفل")}</button>
+                <button type="button" onClick={() => { setLockDate(""); onUpdateProjectMeta({ financialLockedThrough: null }); }}
+                  className="flex-1 border border-black/10 rounded-lg py-2 text-xs font-semibold">{t("حذف قفل")}</button>
+              </div>
+            </div>
+          )}
         </>
       )}
 
@@ -14123,8 +14326,37 @@ function FinanceScreen({ company, onBack, project, contacts, isReadOnly, onAddTr
               {tx.contactId && (
                 <div className="text-[10px] text-[#6B7280] mt-1">{t("مخاطب")}: {(contacts || []).find((c) => c.id === tx.contactId)?.name || "—"}</div>
               )}
+              {tx.apAllocations?.length > 0 && (
+                <div className="text-[10px] text-[#6B7280] mt-1 leading-relaxed">
+                  {t("تخصیص به فاکتور")}: {tx.apAllocations.map((a) => `${a.expenseTitle || a.expenseId}: ${fmt(a.amount)}`).join(" · ")}
+                </div>
+              )}
             </div>
           ))}
+        </>
+      )}
+
+      {view === "journal" && (
+        <>
+          {journalRows.length === 0 ? (
+            <div className="text-center text-sm text-[#9CA3AF] py-10">{t("رکوردی برای دفتر روزنامه نیست")}</div>
+          ) : journalRows.map((row) => {
+            const debitLabel = row.debit.startsWith("بستانکاری:") || row.debit.startsWith("بانک:") ? row.debit : t(row.debit);
+            const creditLabel = row.credit.startsWith("بستانکاری:") || row.credit.startsWith("بانک:") ? row.credit : t(row.credit);
+            return (
+              <div key={row.id} className={`bg-white border border-black/5 rounded-xl p-3 mb-2 text-xs ${thAlign}`}>
+                <div className="flex justify-between gap-2 mb-1">
+                  <span className="font-semibold text-[#14213D]">{row.description}</span>
+                  <span className="font-bold shrink-0">{fmt(row.amount)}</span>
+                </div>
+                <div className="text-[#9CA3AF]">{formatAppDate(row.date, false, lang) || "—"}</div>
+                <div className="grid grid-cols-2 gap-2 mt-2 text-[10px]">
+                  <div className="bg-red-50 rounded-lg p-2"><span className="text-[#9CA3AF]">{t("بدهکار")}: </span>{debitLabel}</div>
+                  <div className="bg-green-50 rounded-lg p-2"><span className="text-[#9CA3AF]">{t("بستانکار")}: </span>{creditLabel}</div>
+                </div>
+              </div>
+            );
+          })}
         </>
       )}
 
@@ -14770,9 +15002,9 @@ function DashboardProjectCard({ project, contacts, theme, onOpenProject, onOpenG
   const vacant = project.units.filter((u) => u.status === "vacant").length;
   const reserved = project.units.filter((u) => u.status === "reserved").length;
   const totalUnits = project.units.length;
-  const revenue = revenueOf(project);
-  const expenses = expensesTotalOf(project);
-  const profit = revenue - expenses;
+  const recognized = revenueRecognizedOf(project);
+  const expenses = expensesPeriodOf(project);
+  const profit = profitOf(project);
   const progress = projectProgressPercent(project);
   const receivables = projectReceivablesList(project, contacts);
   const payables = projectPayablesList(project, contacts);
@@ -14833,11 +15065,11 @@ function DashboardProjectCard({ project, contacts, theme, onOpenProject, onOpenG
 
       <div className="grid grid-cols-3 gap-2 mt-3 pt-3 border-t" style={{ borderColor: theme.border }}>
         <div className="rounded-xl px-2 py-2 text-center border border-black/[0.04]" style={{ background: theme.surface || "#FFFFFF" }}>
-          <div className="text-[9px] text-[#6B7280]">{t("درآمد")}</div>
-          <div className="text-[11px] font-bold mt-0.5 text-[#14213D]">{fmt(revenue)}</div>
+          <div className="text-[9px] text-[#6B7280]">{t("درآمد محقق‌شده")}</div>
+          <div className="text-[11px] font-bold mt-0.5 text-[#14213D]">{fmt(recognized)}</div>
         </div>
         <div className="rounded-xl px-2 py-2 text-center bg-[#FEF2F2] border border-red-100/80">
-          <div className="text-[9px] text-[#6B7280]">{t("هزینه")}</div>
+          <div className="text-[9px] text-[#6B7280]">{t("هزینه دوره")}</div>
           <div className="text-[11px] font-bold text-[#B91C1C] mt-0.5">{fmt(expenses)}</div>
         </div>
         <div className={`rounded-xl px-2 py-2 text-center border ${profit >= 0 ? "bg-[#F0FDF4] border-green-100/80" : "bg-[#FEF2F2] border-red-100/80"}`}>
@@ -15038,10 +15270,10 @@ function DashboardScreen({ projects, contacts, backHandlerRef, onOpenProject, on
       sold += p.units.filter((u) => u.status === "sold").length;
       vacant += p.units.filter((u) => u.status === "vacant").length;
       reserved += p.units.filter((u) => u.status === "reserved").length;
-      revenue += revenueOf(p);
-      expenses += expensesTotalOf(p);
+      revenue += revenueRecognizedOf(p);
+      expenses += expensesPeriodOf(p);
     });
-    return { units, sold, vacant, reserved, revenue, expenses, profit: revenue - expenses };
+    return { units, sold, vacant, reserved, revenue, expenses, profit: projects.reduce((s, p) => s + profitOf(p), 0) };
   }, [projects]);
 
   return (
@@ -15062,8 +15294,8 @@ function DashboardScreen({ projects, contacts, backHandlerRef, onOpenProject, on
         <div className="bg-[#14213D] rounded-2xl p-4 text-white flex items-center gap-4 mb-5">
           <PolarProfitChart revenue={totals.revenue} expenses={totals.expenses} profit={totals.profit} size={118} dark />
           <div className="flex-1">
-            <div className="flex justify-between text-xs mb-1"><span className="text-white/60">{t("درآمد کل")}</span><span className="font-semibold">{fmt(totals.revenue)}</span></div>
-            <div className="flex justify-between text-xs mb-1"><span className="text-white/60">{t("هزینه کل")}</span><span className="font-semibold text-[#FCA5A5]">{fmt(totals.expenses)}</span></div>
+            <div className="flex justify-between text-xs mb-1"><span className="text-white/60">{t("درآمد محقق‌شده")}</span><span className="font-semibold">{fmt(totals.revenue)}</span></div>
+            <div className="flex justify-between text-xs mb-1"><span className="text-white/60">{t("هزینه دوره")}</span><span className="font-semibold text-[#FCA5A5]">{fmt(totals.expenses)}</span></div>
             <div className="flex justify-between text-xs"><span className="text-white/60">{totals.profit >= 0 ? t("سود کل") : t("زیان کل")}</span><span className={`font-bold ${totals.profit >= 0 ? "text-[#86EFAC]" : "text-[#FCA5A5]"}`}>{fmt(Math.abs(totals.profit))}</span></div>
             <div className="flex gap-2 mt-2 text-[9px]">
               <span className="flex items-center gap-1"><span className="w-2 h-2 rounded-full bg-[#22C55E]" /> {t("درآمد")}</span>
