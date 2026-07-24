@@ -1147,7 +1147,7 @@ function projectCardTheme(projectId) {
   return PROJECT_CARD_PALETTE[Math.abs(h) % PROJECT_CARD_PALETTE.length];
 }
 const APP_NAME = "Metrico";
-const APP_VERSION = "2.51.7";
+const APP_VERSION = "2.51.8";
 
 const METRICO_PLAN_ORDER = ["start", "plus", "pro", "ark"];
 const METRICO_PLANS = {
@@ -1497,8 +1497,6 @@ function buildDocumentPrintHTML(companyInfo, docTitle, activityName, docNumber, 
         <div class="doc-company">${escReportHtml(companyInfo?.name || APP_NAME)}</div>
         ${companyLetterheadLinesHtml(companyInfo, escReportHtml)}
         ${projectName ? `<div class="doc-project">پروژه: ${escReportHtml(projectName)}</div>` : ""}
-        <div class="doc-main-title">${escReportHtml(pageTitle)}</div>
-        ${activityName ? `<div class="doc-activity">${escReportHtml(activityName)}</div>` : ""}
       </div>
     </div>
     <div class="doc-meta"><span>شماره: ${escReportHtml(docNumber)}</span><span>تاریخ: ${escReportHtml(docDate)}</span></div>
