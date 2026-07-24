@@ -172,6 +172,47 @@
     transition: transform var(--m-transition), box-shadow var(--m-transition);
   }
   .m-project-card:active { transform: scale(0.995); }
+  .m-kpi-cell {
+    background: var(--m-surface);
+    border: 1px solid var(--m-border);
+    border-radius: var(--m-radius-xl);
+    box-shadow: var(--m-shadow-sm);
+  }
+  .m-kpi-cell--profit {
+    border-color: rgba(201, 162, 39, 0.35);
+    box-shadow: 0 0 0 1px rgba(201, 162, 39, 0.12), var(--m-shadow-sm);
+  }
+  .m-balance-tile {
+    border-radius: var(--m-radius-xl);
+    transition: transform var(--m-transition), box-shadow var(--m-transition);
+  }
+  .m-balance-tile:active { transform: scale(0.98); }
+  .m-balance-tile--ar {
+    background: linear-gradient(145deg, #ecfdf5 0%, #ffffff 85%);
+    border: 1px solid rgba(22, 101, 52, 0.18);
+  }
+  .m-balance-tile--ap {
+    background: linear-gradient(145deg, #fef2f2 0%, #ffffff 85%);
+    border: 1px solid rgba(185, 28, 28, 0.15);
+  }
+  .m-finance-snapshot {
+    border-radius: var(--m-radius-2xl);
+    border: 1px solid var(--m-border);
+    box-shadow: var(--m-shadow-card);
+    overflow: hidden;
+  }
+  .m-panel-phase {
+    display: inline-flex;
+    align-items: center;
+    gap: 0.35rem;
+    font-size: 11px;
+    font-weight: 600;
+    color: var(--m-navy);
+    background: rgba(201, 162, 39, 0.12);
+    border: 1px solid rgba(201, 162, 39, 0.28);
+    border-radius: 9999px;
+    padding: 0.25rem 0.65rem;
+  }
 
   .m-modal-backdrop {
     background: rgba(10, 18, 36, 0.44);
@@ -1080,7 +1121,7 @@ function projectCardTheme(projectId) {
   return PROJECT_CARD_PALETTE[Math.abs(h) % PROJECT_CARD_PALETTE.length];
 }
 const APP_NAME = "Metrico";
-const APP_VERSION = "2.51.4";
+const APP_VERSION = "2.51.5";
 
 const METRICO_PLAN_ORDER = ["start", "plus", "pro", "ark"];
 const METRICO_PLANS = {
@@ -2254,6 +2295,7 @@ const DICT = {
   "مطالبات — ": "Receivables — ", "بدهی‌ها — ": "Payables — ",
   "افراد و واحدهایی که به پروژه بدهکارند": "People and units who owe the project",
   "مخاطبینی که پروژه به آن‌ها بدهکار است": "Contacts the project owes",
+  "گردش مالی ←": "Ledger →",
   "برای مشاهده گردش مالی، روی هر مخاطب بزنید.": "Tap a contact to view their ledger.",
   "موردی ثبت نشده": "Nothing recorded yet",
   "جمع کل": "Grand total",
@@ -5217,15 +5259,15 @@ function ProjectBalanceModal({ title, subtitle, items, project, contacts, compan
   const detailEntry = ledgerEntries.find((e) => e.id === detailEntryId) || null;
 
   return (
-    <div className="fixed inset-0 bg-black/40 flex items-end z-[70]" onClick={onClose}>
-      <div className="bg-white w-full rounded-t-2xl max-h-[88vh] flex flex-col" dir={sheetDir} onClick={(e) => e.stopPropagation()}>
-        <div className="p-5 border-b border-black/5 shrink-0">
+    <div className="fixed inset-0 m-modal-backdrop flex items-end z-[70]" onClick={onClose}>
+      <div className="m-modal-sheet rounded-top w-full max-h-[88vh] flex flex-col" dir={sheetDir} onClick={(e) => e.stopPropagation()}>
+        <div className="p-5 border-b border-black/5 shrink-0 m-modal-head rounded-t-2xl">
           <div className="flex items-center justify-between mb-1">
-            <div className="font-bold text-lg">{title}</div>
-            <button type="button" onClick={onClose}><X size={20} /></button>
+            <div className="font-bold text-lg text-white">{title}</div>
+            <button type="button" onClick={onClose} className="text-white/90"><X size={20} /></button>
           </div>
-          {subtitle && <div className="text-xs text-[#6B7280] mb-1">{subtitle}</div>}
-          <div className="text-[10px] text-[#9CA3AF]">{t("برای مشاهده گردش مالی، روی هر مخاطب بزنید.")}</div>
+          {subtitle && <div className="text-xs text-white/70 mb-1">{subtitle}</div>}
+          <div className="text-[10px] text-white/55">{t("برای مشاهده گردش مالی، روی هر مخاطب بزنید.")}</div>
         </div>
 
         <div className="flex-1 overflow-y-auto p-5 pt-3">
@@ -14210,7 +14252,8 @@ function ProjectPanel({ project, onOpenUnit, onOpenSettings, onOpenGallery, onOp
 
       <div className={`text-xl font-extrabold text-[#14213D] mb-1 ${panelAlign}`}>{project.name}</div>
       {project.phase && (
-        <div className="inline-block text-[11px] font-semibold text-[#14213D] bg-[#F4F6F5] border border-black/10 px-2.5 py-1 rounded-full mb-2">
+        <div className="m-panel-phase mb-2">
+          <LucideRuler size={12} className="text-[#B45309]" />
           {t("مرحله فعلی:")} {t(project.phase)}
         </div>
       )}
@@ -14262,6 +14305,34 @@ function ProjectPanel({ project, onOpenUnit, onOpenSettings, onOpenGallery, onOp
         variant="panel"
       />
 
+      <div className="m-finance-snapshot bg-white mt-3 mb-4">
+        <div className="m-card-hero p-4 flex items-center justify-between rounded-none">
+          <div>
+            <div className="text-[11px] text-white/60">{t("مجموع درآمد حاصل از فروش")} ({soldCount} {t("واحد")})</div>
+            <div className="text-lg font-extrabold mt-0.5">{fmt(contractRevenue)}{t(" تومان")}</div>
+          </div>
+          <LucideTrendingUp size={22} className="text-[#C9A227]" />
+        </div>
+        <button type="button" onClick={onOpenExpenses} className="w-full flex items-center justify-between border-t border-black/5 p-4 hover:bg-[#FAFAFA]">
+          <div className={panelAlign}>
+            <div className="text-[11px] text-[#6B7280]">{t("هزینه‌های پروژه")} ({(project.expenses || []).length}{t(" مورد)")}</div>
+            <div className="text-base font-bold mt-0.5 text-[#B91C1C]">{fmt(expenses)}{t(" تومان")}</div>
+          </div>
+          <span className="text-xs text-[#14213D] font-semibold flex items-center gap-1"><Receipt size={14} /> {t("مدیریت")} <ChevronLeft size={13} className={panelDir === "rtl" ? "rotate-180" : ""} /></span>
+        </button>
+        <div className={`p-4 flex items-center justify-between border-t border-black/5 ${profit >= 0 ? "bg-green-50/80" : "bg-red-50/80"}`}>
+          <div className={panelAlign}>
+            <div className="text-[11px] text-[#6B7280]">{profit >= 0 ? t("سود پروژه (تا این لحظه)") : t("زیان پروژه (تا این لحظه)")}</div>
+            <div className={`text-lg font-extrabold mt-0.5 ${profit >= 0 ? "text-[#166534]" : "text-[#B91C1C]"}`}>{fmt(Math.abs(profit))}{t(" تومان")}</div>
+          </div>
+          <DonutChart
+            data={[{ value: expenses, color: "#EF4444", label: t("هزینه") }, { value: Math.max(profit, 0), color: "#22C55E", label: t("سود") }]}
+            size={72} centerLabel={t("سود خالص")} centerValue={fmt(Math.abs(profit))} dark={false}
+          />
+        </div>
+      </div>
+
+      <div className="text-[10px] font-bold text-[#6B7280 uppercase tracking-wide mb-2 px-0.5">{t("وضعیت واحدها")}</div>
       <div className="m-building-card p-3 flex flex-col gap-1.5">
         {byFloor.map(({ floor, units }) => (
           <div key={floor} className="flex items-stretch gap-1.5">
@@ -14295,33 +14366,6 @@ function ProjectPanel({ project, onOpenUnit, onOpenSettings, onOpenGallery, onOp
         <span className="px-1.5 py-0.5 rounded-full" style={{ background: STATUS.sold.bg, color: STATUS.sold.text }}>{t("فروخته‌شده")}</span>
         <span className="px-1.5 py-0.5 rounded-full" style={{ background: STATUS.reserved.bg, color: STATUS.reserved.text }}>{t("رزرو")}</span>
         <span className="px-1.5 py-0.5 rounded-full" style={{ background: STATUS.vacant.bg, color: STATUS.vacant.text }}>{t("خالی")}</span>
-      </div>
-
-      <div className="mt-4 m-card-hero p-4 flex items-center justify-between">
-        <div>
-          <div className="text-[11px] text-white/60">{t("مجموع درآمد حاصل از فروش")} ({soldCount} {t("واحد")})</div>
-          <div className="text-lg font-extrabold mt-0.5">{fmt(contractRevenue)}{t(" تومان")}</div>
-        </div>
-        <LucideTrendingUp size={22} className="text-[#C9A227]" />
-      </div>
-
-      <button onClick={onOpenExpenses} className="w-full mt-3 flex items-center justify-between bg-white rounded-2xl border border-black/10 p-4">
-        <div className={panelAlign}>
-          <div className="text-[11px] text-[#6B7280]">{t("هزینه‌های پروژه")} ({(project.expenses || []).length}{t(" مورد)")}</div>
-          <div className="text-base font-bold mt-0.5 text-[#B91C1C]">{fmt(expenses)}{t(" تومان")}</div>
-        </div>
-        <span className="text-xs text-[#14213D] font-semibold flex items-center gap-1"><Receipt size={14} /> {t("مدیریت")} <ChevronLeft size={13} className={panelDir === "rtl" ? "rotate-180" : ""} /></span>
-      </button>
-
-      <div className={`mt-3 rounded-2xl p-4 flex items-center justify-between ${profit >= 0 ? "bg-green-50" : "bg-red-50"}`}>
-        <div className={panelAlign}>
-          <div className="text-[11px] text-[#6B7280]">{profit >= 0 ? t("سود پروژه (تا این لحظه)") : t("زیان پروژه (تا این لحظه)")}</div>
-          <div className={`text-lg font-extrabold mt-0.5 ${profit >= 0 ? "text-[#166534]" : "text-[#B91C1C]"}`}>{fmt(Math.abs(profit))}{t(" تومان")}</div>
-        </div>
-        <DonutChart
-          data={[{ value: expenses, color: "#EF4444", label: t("هزینه") }, { value: Math.max(profit, 0), color: "#22C55E", label: t("سود") }]}
-          size={72} centerLabel={t("سود خالص")} centerValue={fmt(Math.abs(profit))} dark={false}
-        />
       </div>
     </div>
   );
@@ -15709,17 +15753,17 @@ function DashboardProjectCard({ project, contacts, theme, onOpenProject, onOpenG
       <ProjectUnitStats total={totalUnits} sold={sold} reserved={reserved} vacant={vacant} compact avgPricePerSqm={avgPrice} />
 
       <div className="grid grid-cols-3 gap-2 mt-3 pt-3 border-t" style={{ borderColor: theme.border }}>
-        <div className="rounded-xl px-2 py-2 text-center border border-black/[0.04]" style={{ background: theme.surface || "#FFFFFF" }}>
+        <div className="m-kpi-cell rounded-xl px-2 py-2 text-center">
           <div className="text-[9px] text-[#6B7280]">{t("درآمد محقق‌شده")}</div>
           <div className="text-[11px] font-bold mt-0.5 text-[#14213D]">{fmt(recognized)}</div>
         </div>
-        <div className="rounded-xl px-2 py-2 text-center bg-[#FEF2F2] border border-red-100/80">
+        <div className="m-kpi-cell rounded-xl px-2 py-2 text-center bg-[#FEF2F2]/90 border-red-100/80">
           <div className="text-[9px] text-[#6B7280]">{t("هزینه دوره")}</div>
           <div className="text-[11px] font-bold text-[#B91C1C] mt-0.5">{fmt(expenses)}</div>
         </div>
-        <div className={`rounded-xl px-2 py-2 text-center border ${profit >= 0 ? "bg-[#F0FDF4] border-green-100/80" : "bg-[#FEF2F2] border-red-100/80"}`}>
+        <div className={`m-kpi-cell m-kpi-cell--profit rounded-xl px-2 py-2 text-center ${profit >= 0 ? "bg-[#FFFBEB]/50" : "bg-[#FEF2F2]/90"}`}>
           <div className="text-[9px] text-[#6B7280]">{profit >= 0 ? t("سود") : t("زیان")}</div>
-          <div className={`text-[11px] font-bold mt-0.5 ${profit >= 0 ? "text-[#166534]" : "text-[#B91C1C]"}`}>{fmt(Math.abs(profit))}</div>
+          <div className={`text-[12px] font-extrabold mt-0.5 ${profit >= 0 ? "text-[#166534]" : "text-[#B91C1C]"}`}>{fmt(Math.abs(profit))}</div>
         </div>
       </div>
 
@@ -15732,10 +15776,11 @@ function DashboardProjectCard({ project, contacts, theme, onOpenProject, onOpenG
             items: receivables,
             project,
           })}
-          className="flex-1 bg-[#F0FDF4] border border-green-100 rounded-xl py-2.5 px-2 text-center"
+          className="flex-1 m-balance-tile m-balance-tile--ar py-2.5 px-2 text-center"
         >
           <div className="text-[10px] text-[#166534] font-medium">{t("مطالبات")}</div>
           <div className="text-xs font-bold text-[#15803D] mt-0.5">{fmt(receivables.reduce((s, i) => s + i.amount, 0))}</div>
+          <div className="text-[8px] text-[#6B7280] mt-1">{t("گردش مالی ←")}</div>
         </button>
         <button
           type="button"
@@ -15745,10 +15790,11 @@ function DashboardProjectCard({ project, contacts, theme, onOpenProject, onOpenG
             items: payables,
             project,
           })}
-          className="flex-1 bg-[#FEF2F2] border border-red-100 rounded-xl py-2.5 px-2 text-center"
+          className="flex-1 m-balance-tile m-balance-tile--ap py-2.5 px-2 text-center"
         >
           <div className="text-[10px] text-[#B91C1C] font-medium">{t("بدهی‌ها")}</div>
           <div className="text-xs font-bold text-[#B91C1C] mt-0.5">{fmt(payables.reduce((s, i) => s + i.amount, 0))}</div>
+          <div className="text-[8px] text-[#6B7280] mt-1">{t("گردش مالی ←")}</div>
         </button>
       </div>
 
