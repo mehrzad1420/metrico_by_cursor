@@ -1500,7 +1500,7 @@ function projectReceivablesList(project, contacts) {
   const items = [];
   (project.units || []).forEach((u) => {
     if (u.status !== "sold" && u.status !== "reserved") return;
-    const rem = remainingOf(u);
+    const rem = remainingOf(u, project);
     if (rem <= 0) return;
     const buyerContact = u.buyerContactId ? (contacts || []).find((c) => c.id === u.buyerContactId) : null;
     items.push({
@@ -1760,6 +1760,9 @@ const DICT = {
   "دوره مالی قفل تا": "Financial period locked through",
   "موجودی مصالح": "Materials inventory", "هزینه پروژه": "Project expense", "درآمد فروش": "Sales revenue", "سرمایه": "Capital",
   "بستانکاری مخاطب": "Accounts payable", "بانک/صندوق": "Bank / cash",
+  "پیش‌پرداخت به مخاطب": "Prepayment to contact",
+  "رد پای حسابداری": "Accounting audit trail",
+  "رکوردی در رد پای نیست": "No audit entries yet",
   "تومان/م²": "Toman/m²", "فروخته‌شده": "Sold",
   // Company / settings
   "اطلاعات شرکت": "Company Info", "این اطلاعات بالای اپ نمایش داده می‌شود": "This info is shown at the top of the app",
@@ -3114,11 +3117,36 @@ function emptyUnit(floor, unitNumber) {
   };
 }
 function totalPriceOf(u) { return (Number(u.area) || 0) * (Number(u.pricePerMeter) || 0); }
-function paidOf(u) {
-  const inst = (u.installments || []).reduce((s, i) => s + (i.paid ? Number(i.amount) || 0 : 0), 0);
-  return inst + (Number(u.downPayment) || 0);
+function unitRecognizedIncomeOf(project, unitId) {
+  if (!project) return 0;
+  return (project.financeTransactions || [])
+    .filter((t) => t.type === "income" && t.unitId === unitId)
+    .reduce((s, t) => s + (Number(t.amount) || 0), 0);
 }
-function remainingOf(u) { return totalPriceOf(u) - paidOf(u); }
+function paidOf(u, project) {
+  if (project) return unitRecognizedIncomeOf(project, u.id);
+  const inst = (u.installments || []).reduce((s, i) => s + (i.paid && i.financeTxId ? Number(i.amount) || 0 : 0), 0);
+  const dp = u.downPaymentReceived ? (Number(u.downPayment) || 0) : 0;
+  return inst + dp;
+}
+function remainingOf(u, project) {
+  return Math.max(0, totalPriceOf(u) - paidOf(u, project));
+}
+function apAllocatedToExpense(project, expenseId) {
+  let sum = 0;
+  (project.financeTransactions || []).forEach((tx) => {
+    if (tx.type !== "contact_debt_pay" || !Array.isArray(tx.apAllocations)) return;
+    tx.apAllocations.forEach((a) => {
+      if (a.expenseId === expenseId) sum += Number(a.amount) || 0;
+    });
+  });
+  return sum;
+}
+function openApBalanceForExpense(project, e) {
+  const gross = expenseContactBalanceDelta(e);
+  if (!gross) return 0;
+  return Math.max(0, gross - apAllocatedToExpense(project, e.id));
+}
 
 function generateOwnerPortalToken() {
   return uid() + uid() + uid();
@@ -3148,8 +3176,8 @@ function buildOwnerPortalPayload(project, unit, company) {
     financial: {
       totalPrice: totalPriceOf(unit),
       downPayment: Number(unit?.downPayment) || 0,
-      paid: paidOf(unit),
-      remaining: remainingOf(unit),
+      paid: paidOf(unit, project),
+      remaining: remainingOf(unit, project),
     },
     installments: (unit?.installments || [])
       .map((i) => ({
@@ -4043,11 +4071,11 @@ function suggestApAllocations(project, contactId, payAmount) {
   let left = Number(payAmount) || 0;
   const allocations = [];
   const open = (project.expenses || [])
-    .filter((e) => e.contactId === contactId && expenseContactBalanceDelta(e) > 0)
+    .filter((e) => e.contactId === contactId && openApBalanceForExpense(project, e) > 0)
     .sort((a, b) => (a.date || "").localeCompare(b.date || ""));
   open.forEach((e) => {
     if (left <= 0) return;
-    const due = Number(e.amount) || 0;
+    const due = openApBalanceForExpense(project, e);
     const amt = Math.min(left, due);
     if (amt > 0) {
       allocations.push({ expenseId: e.id, amount: amt, expenseTitle: e.title || "" });
@@ -4091,8 +4119,15 @@ function buildProjectJournalEntries(project, contacts) {
     if (tx.type === "income") {
       push({ id: `je-ft-${tx.id}`, date: tx.date || "", ref: tx.id, description: desc, debit: tx.toAccountId ? bankLabel(tx.toAccountId) : "بانک/صندوق", credit: "درآمد فروش", amount: amt, source: "finance" });
     } else if (tx.type === "expense" || tx.type === "check_clear") {
-      push({ id: `je-ft-${tx.id}`, date: tx.date || "", ref: tx.id, description: desc, debit: "هزینه پروژه", credit: tx.fromAccountId ? bankLabel(tx.fromAccountId) : "بانک/صندوق", amount: amt, source: "finance" });
-    } else if (tx.type === "contact_debt_pay" || tx.type === "contact_prepay") {
+      let debitAcct = "هزینه پروژه";
+      if (tx.expenseId) {
+        const linkedExp = (project.expenses || []).find((e) => e.id === tx.expenseId);
+        if (linkedExp && isInventoryCapitalizedExpense(linkedExp)) debitAcct = "موجودی مصالح";
+      }
+      push({ id: `je-ft-${tx.id}`, date: tx.date || "", ref: tx.id, description: desc, debit: debitAcct, credit: tx.fromAccountId ? bankLabel(tx.fromAccountId) : "بانک/صندوق", amount: amt, source: "finance" });
+    } else if (tx.type === "contact_prepay") {
+      push({ id: `je-ft-${tx.id}`, date: tx.date || "", ref: tx.id, description: desc, debit: "پیش‌پرداخت به مخاطب", credit: tx.fromAccountId ? bankLabel(tx.fromAccountId) : "بانک/صندوق", amount: amt, source: "finance" });
+    } else if (tx.type === "contact_debt_pay") {
       push({ id: `je-ft-${tx.id}`, date: tx.date || "", ref: tx.id, description: desc, debit: apLabel(tx.contactId), credit: tx.fromAccountId ? bankLabel(tx.fromAccountId) : "بانک/صندوق", amount: amt, source: "finance" });
     } else if (tx.type === "transfer") {
       push({ id: `je-ft-${tx.id}`, date: tx.date || "", ref: tx.id, description: desc, debit: tx.toAccountId ? bankLabel(tx.toAccountId) : "بانک", credit: tx.fromAccountId ? bankLabel(tx.fromAccountId) : "بانک", amount: amt, source: "finance" });
@@ -7207,6 +7242,12 @@ function AppContent() {
 
   function saveProgressStatement(projectId, statement) {
     if (!guardWrite()) return;
+    const project = projects.find((p) => p.id === projectId);
+    const dateStr = statement.date || new Date().toISOString().slice(0, 10);
+    if (project && isProjectFinancialLocked(project, dateStr)) {
+      setError(t("تراکنش در دوره قفل‌شده مجاز نیست."));
+      return;
+    }
     updateProject(projectId, (p) => {
       const stmt = { id: uid(), createdAt: new Date().toISOString(), ...statement };
       const expenses = [...(p.expenses || [])];
@@ -7286,7 +7327,7 @@ function AppContent() {
             )),
           };
         }
-        return { ...u, depositAccountId: accountId };
+        return { ...u, depositAccountId: accountId, downPaymentReceived: true, downPaymentFinanceTxId: txId };
       }),
     }, "income.add", { txId, unitId, amount: Number(amount), installmentId: installmentId || null }));
     return txId;
@@ -7372,7 +7413,7 @@ function AppContent() {
           <td>${esc(u.floor)}</td><td>${esc(u.unitNumber)}</td><td>${esc(tFn(STATUS[u.status].label))}</td>
           <td>${esc(u.area || "-")}</td><td>${esc(u.direction && u.direction !== "none" ? tFn(DIRECTIONS[u.direction]) : "-")}</td>
           <td>${esc(u.buyerName || "-")}</td><td>${esc(u.buyerPhone || "-")}</td><td>${esc(u.postalCode || "-")}</td>
-          <td>${fmt(totalPriceOf(u))}</td><td>${fmt(paidOf(u))}</td><td>${fmt(remainingOf(u))}</td>
+          <td>${fmt(totalPriceOf(u))}</td><td>${fmt(paidOf(u, project))}</td><td>${fmt(remainingOf(u, project))}</td>
         </tr>`).join("");
       return `
         <div style="margin-bottom:26px;page-break-inside:avoid;">
@@ -7435,8 +7476,8 @@ function AppContent() {
     const soldCount = soldUnits.length;
     const reservedCount = project.units.filter((u) => u.status === "reserved").length;
     const vacantCount = project.units.filter((u) => u.status === "vacant").length;
-    const paidTotal = project.units.reduce((s, u) => s + paidOf(u), 0);
-    const remainingTotal = soldUnits.reduce((s, u) => s + remainingOf(u), 0);
+    const paidTotal = project.units.reduce((s, u) => s + paidOf(u, project), 0);
+    const remainingTotal = soldUnits.reduce((s, u) => s + remainingOf(u, project), 0);
     const soldArea = soldUnits.reduce((s, u) => s + (Number(u.area) || 0), 0);
     const avgPricePerSqm = soldArea > 0 ? revenue / soldArea : 0;
     const expenseRows = (project.expenses || []).slice().sort((a, b) => (b.date || "").localeCompare(a.date || "")).map((e) => `
@@ -7503,8 +7544,8 @@ function AppContent() {
     const printBtnPos = isEn ? "right" : "left";
     const logoMargin = isEn ? "margin-left:auto;" : "margin-right:auto;";
     const total = totalPriceOf(unit);
-    const paid = paidOf(unit);
-    const remaining = remainingOf(unit);
+    const paid = paidOf(unit, project);
+    const remaining = remainingOf(unit, project);
     const instRows = (unit.installments || []).slice().sort((a, b) => (a.date || "").localeCompare(b.date || "")).map((i) => `
       <tr><td>${esc(formatAppDate(i.date, false, lang) || "-")}</td><td>${fmt(i.amount)}</td><td>${i.paid ? esc(tFn("پرداخت‌شده")) : esc(tFn("پرداخت‌نشده"))}</td></tr>`).join("");
 
@@ -14056,6 +14097,10 @@ function FinanceScreen({ company, onBack, project, contacts, isReadOnly, onAddTr
     () => buildProjectJournalEntries(project, contacts),
     [project, contacts]
   );
+  const auditEntries = useMemo(
+    () => [...(project.auditLog || [])].sort((a, b) => (b.at || "").localeCompare(a.at || "")),
+    [project.auditLog]
+  );
 
   useEffect(() => {
     setLockDate(project.financialLockedThrough || "");
@@ -14092,6 +14137,7 @@ function FinanceScreen({ company, onBack, project, contacts, isReadOnly, onAddTr
 
   function submitContactPay() {
     if (!cpContact || !cpAccount || !(Number(cpAmount) > 0) || !cpNote.trim()) return;
+    if (!(cpDocs.length > 0)) return;
     onAddTransaction({
       date: new Date().toISOString().slice(0, 10),
       type: cpType,
@@ -14110,6 +14156,7 @@ function FinanceScreen({ company, onBack, project, contacts, isReadOnly, onAddTr
     { id: "investors", label: t("سرمایه‌گذاران") },
     { id: "ledger", label: t("دفتر تراکنش") },
     { id: "journal", label: t("دفتر روزنامه") },
+    { id: "audit", label: t("رد پای حسابداری") },
     { id: "transfer", label: t("انتقال / سرمایه") },
   ]), [t]);
 
@@ -14360,6 +14407,24 @@ function FinanceScreen({ company, onBack, project, contacts, isReadOnly, onAddTr
         </>
       )}
 
+      {view === "audit" && (
+        <>
+          {auditEntries.length === 0 ? (
+            <div className="text-center text-sm text-[#9CA3AF] py-10">{t("رکوردی در رد پای نیست")}</div>
+          ) : auditEntries.map((entry) => (
+            <div key={entry.id} className={`bg-white border border-black/5 rounded-xl p-3 mb-2 text-xs ${thAlign}`}>
+              <div className="flex justify-between gap-2 mb-1">
+                <span className="font-semibold text-[#14213D]">{entry.action}</span>
+                <span className="text-[#9CA3AF] shrink-0">{formatAppDate((entry.at || "").slice(0, 10), false, lang) || entry.at?.slice(0, 16) || "—"}</span>
+              </div>
+              {entry.details && (
+                <pre className="text-[10px] text-[#6B7280] whitespace-pre-wrap break-words mt-1 font-sans dir-ltr text-left">{JSON.stringify(entry.details, null, 2)}</pre>
+              )}
+            </div>
+          ))}
+        </>
+      )}
+
       {view === "transfer" && !isReadOnly && (
         <div className="flex flex-col gap-4">
           <div className="bg-[#F4F6F5] rounded-2xl p-4">
@@ -14442,9 +14507,9 @@ function FinanceScreen({ company, onBack, project, contacts, isReadOnly, onAddTr
               className="w-full bg-white border border-black/10 rounded-xl px-3 py-2.5 text-sm mb-2 outline-none" />
             <textarea value={cpNote} onChange={(e) => setCpNote(e.target.value)} placeholder={t("توضیحات عملیات *")} rows={2}
               className="w-full bg-white border border-black/10 rounded-xl px-3 py-2.5 text-sm mb-2 outline-none resize-none" />
-            <CompactDocUploader docs={cpDocs} onChange={setCpDocs} label={t("پیوست مدارک")} />
+            <CompactDocUploader docs={cpDocs} onChange={setCpDocs} required label={t("مستندات پرداخت")} />
             <p className="text-[10px] text-[#6B7280] mt-2 leading-relaxed">{t("پیش‌پرداخت: مخاطب به ما بدهکار می‌شود. پرداخت بدهی: تسویه بدهی ما به مخاطب از حساب بانکی.")}</p>
-            <button type="button" onClick={submitContactPay} disabled={!cpContact || !cpAccount || !cpAmount || !cpNote.trim()}
+            <button type="button" onClick={submitContactPay} disabled={!cpContact || !cpAccount || !cpAmount || !cpNote.trim() || !cpDocs.length}
               className="w-full bg-[#B45309] text-white rounded-xl py-2.5 text-sm font-semibold disabled:opacity-40 mt-2">{t("ثبت ")}{t(FINANCE_TX_LABELS[cpType])}</button>
           </div>
         </div>
@@ -14555,7 +14620,7 @@ function ExpensesSheet({ project, company, onClose, onAdd, onUpdate, onRemove, o
   const [payMethod, setPayMethod] = useState("bank");
   const [payFormError, setPayFormError] = useState("");
   const expenses = (project.expenses || []).slice().sort((a, b) => (b.date || "").localeCompare(a.date || ""));
-  const total = expensesTotalOf(project);
+  const total = expensesPeriodOf(project);
   const selectedContact = contacts.find((c) => c.id === contactId);
   const balance = selectedContact ? contactBalance(selectedContact.id) : 0;
   const selectedMaterial = inventory.find((i) => i.id === materialId);
@@ -14923,7 +14988,7 @@ function ExpensesSheet({ project, company, onClose, onAdd, onUpdate, onRemove, o
             )}
 
             <div className="bg-[#14213D] text-white rounded-xl p-3 flex items-center justify-between">
-              <span className="text-sm">{t("مجموع هزینه‌ها")}</span>
+              <span className="text-sm">{t("هزینه دوره")} ({t("مجموع هزینه‌ها")})</span>
               <span className="font-bold">{fmt(total)}{t(" تومان")}</span>
             </div>
           </>
@@ -15427,8 +15492,8 @@ function UnitModal({ unit, project, company, user, canUseOwnerPortal, onRequireO
   const unitDir = lang === "fa" ? "rtl" : "ltr";
   const s = STATUS[unit.status];
   const total = totalPriceOf(unit);
-  const paid = paidOf(unit);
-  const remaining = remainingOf(unit);
+  const paid = paidOf(unit, project);
+  const remaining = remainingOf(unit, project);
   const bankAccounts = normalizeBankAccounts(project);
   const [showNewBuyerContact, setShowNewBuyerContact] = useState(false);
   const [newBuyerName, setNewBuyerName] = useState("");
@@ -15459,19 +15524,16 @@ function UnitModal({ unit, project, company, user, canUseOwnerPortal, onRequireO
       updateInstallment(inst.id, "paid", false);
       return;
     }
-    if (inst.accountId && Number(inst.amount) > 0 && onRecordIncome && !inst.financeTxId) {
-      if (!incomeNote.trim()) return;
-      onRecordIncome({
-        amount: inst.amount,
-        accountId: inst.accountId,
-        installmentId: inst.id,
-        note: incomeNote.trim(),
-        docs: incomeDocs,
-      });
-      setIncomeDocs([]);
-    } else {
-      updateInstallment(inst.id, "paid", true);
-    }
+    if (!(inst.accountId && Number(inst.amount) > 0)) return;
+    if (!onRecordIncome || !incomeNote.trim()) return;
+    onRecordIncome({
+      amount: inst.amount,
+      accountId: inst.accountId,
+      installmentId: inst.id,
+      note: incomeNote.trim(),
+      docs: incomeDocs,
+    });
+    setIncomeDocs([]);
   }
 
   function recordDownPayment() {
@@ -15750,8 +15812,8 @@ function PrintView({ company, projects }) {
                     <td style={td}>{u.buyerPhone || "-"}</td>
                     <td style={td}>{u.postalCode || "-"}</td>
                     <td style={td}>{fmt(totalPriceOf(u))}</td>
-                    <td style={td}>{fmt(paidOf(u))}</td>
-                    <td style={td}>{fmt(remainingOf(u))}</td>
+                    <td style={td}>{fmt(paidOf(u, project))}</td>
+                    <td style={td}>{fmt(remainingOf(u, project))}</td>
                   </tr>
                 ))}
               </tbody>
