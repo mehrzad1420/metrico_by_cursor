@@ -1147,7 +1147,7 @@ function projectCardTheme(projectId) {
   return PROJECT_CARD_PALETTE[Math.abs(h) % PROJECT_CARD_PALETTE.length];
 }
 const APP_NAME = "Metrico";
-const APP_VERSION = "2.51.6";
+const APP_VERSION = "2.51.7";
 
 const METRICO_PLAN_ORDER = ["start", "plus", "pro", "ark"];
 const METRICO_PLANS = {
@@ -1495,6 +1495,7 @@ function buildDocumentPrintHTML(companyInfo, docTitle, activityName, docNumber, 
       </div>
       <div class="doc-header-right">
         <div class="doc-company">${escReportHtml(companyInfo?.name || APP_NAME)}</div>
+        ${companyLetterheadLinesHtml(companyInfo, escReportHtml)}
         ${projectName ? `<div class="doc-project">پروژه: ${escReportHtml(projectName)}</div>` : ""}
         <div class="doc-main-title">${escReportHtml(pageTitle)}</div>
         ${activityName ? `<div class="doc-activity">${escReportHtml(activityName)}</div>` : ""}
@@ -2254,7 +2255,11 @@ const DICT = {
   "تومان/م²": "Toman/m²", "فروخته‌شده": "Sold",
   // Company / settings
   "اطلاعات شرکت": "Company Info", "این اطلاعات بالای اپ نمایش داده می‌شود": "This info is shown at the top of the app",
-  "افزودن لوگو": "Add logo", "نام شرکت": "Company name", "تغییر رمز عبور": "Change password",
+  "افزودن لوگو": "Add logo", "نام شرکت": "Company name",
+  "آدرس": "Address", "شماره تلفن": "Phone number",
+  "مثلاً تهران، خیابان…": "e.g. Tehran, street address…",
+  "مثلاً ۰۲۱-۱۲۳۴۵۶۷۸": "e.g. +98 21 1234 5678",
+  "تغییر رمز عبور": "Change password",
   "رمز فعلی": "Current password", "رمز جدید": "New password", "تکرار رمز جدید": "Repeat new password",
   "ثبت رمز جدید": "Save new password", "وارد شده با:": "Logged in as:",
   // Project
@@ -3458,6 +3463,16 @@ function escReportHtml(v) {
   return (v == null ? "" : String(v)).replace(/&/g, "&amp;").replace(/</g, "&lt;").replace(/>/g, "&gt;");
 }
 
+function companyLetterheadLinesHtml(companyInfo, esc) {
+  const e = esc || escReportHtml;
+  const address = String(companyInfo?.address || "").trim();
+  const phone = String(companyInfo?.phone || "").trim();
+  let html = "";
+  if (address) html += `<div style="font-size:11px;color:#4B5563;margin-top:3px;line-height:1.5;">${e(address)}</div>`;
+  if (phone) html += `<div style="font-size:11px;color:#4B5563;margin-top:2px;" dir="ltr">${e(phone)}</div>`;
+  return html;
+}
+
 function buildTableReportHTML(companyInfo, title, subtitle, columns, rows, lang = "fa") {
   const isEn = lang === "en";
   const htmlLang = isEn ? "en" : "fa";
@@ -3488,7 +3503,8 @@ function buildTableReportHTML(companyInfo, title, subtitle, columns, rows, lang 
       ${companyInfo?.logo ? `<img src="${companyInfo.logo}" style="width:44px;height:44px;border-radius:10px;object-fit:cover;">` : ""}
       <img src="${METRICO_WATERMARK}" style="width:34px;height:34px;object-fit:contain;${isEn ? "margin-left:auto;" : "margin-right:auto;"}">
       <div><div style="font-weight:800;font-size:18px;">${escReportHtml(companyInfo?.name || APP_NAME)}</div>
-      <div style="font-size:11px;color:#6B7280;">${escReportHtml(title)}${subtitle ? " — " + escReportHtml(subtitle) : ""} — ${formatAppDate(new Date().toISOString().slice(0, 10), false, lang)}</div></div>
+      ${companyLetterheadLinesHtml(companyInfo, escReportHtml)}
+      <div style="font-size:11px;color:#6B7280;margin-top:6px;">${escReportHtml(title)}${subtitle ? " — " + escReportHtml(subtitle) : ""} — ${formatAppDate(new Date().toISOString().slice(0, 10), false, lang)}</div></div>
     </div>
     <table><thead><tr>${head}</tr></thead><tbody>${body}</tbody></table>
     </div>
@@ -8235,7 +8251,8 @@ function AppContent() {
         ${companyInfo?.logo ? `<img src="${companyInfo.logo}" style="width:44px;height:44px;border-radius:10px;object-fit:cover;">` : ""}
         <img src="${METRICO_WATERMARK}" style="width:34px;height:34px;object-fit:contain;${logoMargin}">
         <div><div style="font-weight:800;font-size:18px;">${esc(companyInfo?.name)}</div>
-        <div style="font-size:11px;color:#6B7280;">${esc(tFn("گزارش پروژه‌های ساختمانی"))} — ${formatAppDate(new Date().toISOString().slice(0, 10), false, lang)}</div></div>
+        ${companyLetterheadLinesHtml(companyInfo, esc)}
+        <div style="font-size:11px;color:#6B7280;margin-top:6px;">${esc(tFn("گزارش پروژه‌های ساختمانی"))} — ${formatAppDate(new Date().toISOString().slice(0, 10), false, lang)}</div></div>
       </div>
       ${projectList.length > 1 ? `<div style="font-size:13px;font-weight:700;margin-bottom:16px;">${esc(tFn("مجموع درآمد کل پروژه‌ها:"))} ${fmt(grandRevenue)}${esc(tFn(" تومان"))}</div>` : ""}
       ${projectsHtml}
@@ -8287,7 +8304,8 @@ function AppContent() {
         ${companyInfo?.logo ? `<img src="${companyInfo.logo}" style="width:44px;height:44px;border-radius:10px;object-fit:cover;">` : ""}
         <img src="${METRICO_WATERMARK}" style="width:34px;height:34px;object-fit:contain;${logoMargin}">
         <div><div style="font-weight:800;font-size:18px;">${esc(companyInfo?.name)}</div>
-        <div style="font-size:11px;color:#6B7280;">${esc(tFn("گزارش مالی پروژه:"))} ${esc(project.name)} — ${formatAppDate(new Date().toISOString().slice(0, 10), false, lang)}</div></div>
+        ${companyLetterheadLinesHtml(companyInfo, esc)}
+        <div style="font-size:11px;color:#6B7280;margin-top:6px;">${esc(tFn("گزارش مالی پروژه:"))} ${esc(project.name)} — ${formatAppDate(new Date().toISOString().slice(0, 10), false, lang)}</div></div>
       </div>
 
       <div style="display:grid;grid-template-columns:1fr 1fr;gap:10px;margin-bottom:16px;">
@@ -8353,7 +8371,8 @@ function AppContent() {
         ${companyInfo?.logo ? `<img src="${companyInfo.logo}" style="width:44px;height:44px;border-radius:10px;object-fit:cover;">` : ""}
         <img src="${METRICO_WATERMARK}" style="width:34px;height:34px;object-fit:contain;${logoMargin}">
         <div><div style="font-weight:800;font-size:18px;">${esc(companyInfo?.name)}</div>
-        <div style="font-size:11px;color:#6B7280;">${esc(tFn("گزارش واحد"))} — ${formatAppDate(new Date().toISOString().slice(0, 10), false, lang)}</div></div>
+        ${companyLetterheadLinesHtml(companyInfo, esc)}
+        <div style="font-size:11px;color:#6B7280;margin-top:6px;">${esc(tFn("گزارش واحد"))} — ${formatAppDate(new Date().toISOString().slice(0, 10), false, lang)}</div></div>
       </div>
 
       <div class="card">
@@ -10150,9 +10169,9 @@ function SideMenu({ company, projects, activeTab, currentScreen, isReadOnly, eff
   }
 
   return (
-    <div className={`fixed inset-0 z-[1000] flex ${menuDir === "rtl" ? "flex-row-reverse" : ""}`} dir={menuDir}>
-      <button type="button" className="flex-1 min-w-0 m-modal-backdrop border-0 cursor-default" aria-label={t("بستن")} onClick={onClose} />
-      <div className="w-[82%] max-w-xs m-side-drawer h-full flex flex-col relative shrink-0 shadow-2xl">
+    <div className="fixed inset-0 z-[1000]" dir={menuDir}>
+      <button type="button" className="absolute inset-0 m-modal-backdrop border-0 cursor-default" aria-label={t("بستن")} onClick={onClose} />
+      <div className={`absolute top-0 bottom-0 w-[min(82vw,20rem)] max-w-xs m-side-drawer flex flex-col shadow-2xl ${menuDir === "rtl" ? "right-0" : "left-0"}`}>
         <div className="m-side-drawer-head text-white px-5 pt-6 pb-4 flex items-center gap-3">
           {company?.logo ? (
             <img src={company.logo} alt="" className="w-10 h-10 rounded-xl object-cover border border-white/20" />
@@ -13576,6 +13595,8 @@ function CompanySetup({ initial, onSave, onClose, user, onError }) {
   const setupDir = lang === "fa" ? "rtl" : "ltr";
   const [name, setName] = useState(initial?.name || "");
   const [logo, setLogo] = useState(initial?.logo || null);
+  const [address, setAddress] = useState(initial?.address || "");
+  const [phone, setPhone] = useState(initial?.phone || "");
   const fileRef = useRef(null);
   const [showPwForm, setShowPwForm] = useState(false);
   const [curPw, setCurPw] = useState("");
@@ -13644,7 +13665,25 @@ function CompanySetup({ initial, onSave, onClose, user, onError }) {
         value={name}
         onChange={(e) => setName(e.target.value)}
         placeholder={t("مثلاً گروه ساختمانی سپهر")}
-        className="w-full mt-1 mb-5 m-input-field px-3 py-2.5 text-sm outline-none"
+        className="w-full mt-1 mb-4 m-input-field px-3 py-2.5 text-sm outline-none"
+      />
+
+      <label className="text-xs text-[#6B7280] font-medium">{t("آدرس")}</label>
+      <textarea
+        value={address}
+        onChange={(e) => setAddress(e.target.value)}
+        placeholder={t("مثلاً تهران، خیابان…")}
+        rows={2}
+        className="w-full mt-1 mb-4 m-input-field px-3 py-2.5 text-sm outline-none resize-y min-h-[52px]"
+      />
+
+      <label className="text-xs text-[#6B7280] font-medium">{t("شماره تلفن")}</label>
+      <input
+        value={phone}
+        onChange={(e) => setPhone(e.target.value)}
+        placeholder={t("مثلاً ۰۲۱-۱۲۳۴۵۶۷۸")}
+        dir="ltr"
+        className="w-full mt-1 mb-5 m-input-field px-3 py-2.5 text-sm outline-none text-left"
       />
 
       {onClose && user && (
@@ -13674,7 +13713,7 @@ function CompanySetup({ initial, onSave, onClose, user, onError }) {
         {onClose && <button onClick={onClose} className="flex-1 m-btn-secondary py-2.5 text-sm font-medium">{t("لغو")}</button>}
         <button
           disabled={!name.trim()}
-          onClick={() => onSave({ name: name.trim(), logo })}
+          onClick={() => onSave({ name: name.trim(), logo, address: address.trim(), phone: phone.trim() })}
           className="flex-1 m-btn-primary py-2.5 text-sm disabled:opacity-40"
         >{t("ذخیره")}</button>
       </div>
@@ -16648,7 +16687,9 @@ function PrintView({ company, projects }) {
         {company?.logo && <img src={company.logo} style={{ width: 44, height: 44, borderRadius: 10, objectFit: "cover" }} alt="" />}
         <div>
           <div style={{ fontWeight: 800, fontSize: 18 }}>{company?.name}</div>
-          <div style={{ fontSize: 11, color: "#6B7280" }}>گزارش پروژه‌های ساختمانی — {new Date().toLocaleDateString("en-GB")}</div>
+          {company?.address && <div style={{ fontSize: 11, color: "#4B5563", marginTop: 3 }}>{company.address}</div>}
+          {company?.phone && <div style={{ fontSize: 11, color: "#4B5563", marginTop: 2 }} dir="ltr">{company.phone}</div>}
+          <div style={{ fontSize: 11, color: "#6B7280", marginTop: 4 }}>گزارش پروژه‌های ساختمانی — {new Date().toLocaleDateString("en-GB")}</div>
         </div>
       </div>
       {projects.length > 1 && (
