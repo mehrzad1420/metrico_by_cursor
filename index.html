@@ -1147,7 +1147,7 @@ function projectCardTheme(projectId) {
   return PROJECT_CARD_PALETTE[Math.abs(h) % PROJECT_CARD_PALETTE.length];
 }
 const APP_NAME = "Metrico";
-const APP_VERSION = "2.51.8";
+const APP_VERSION = "2.51.9";
 
 const METRICO_PLAN_ORDER = ["start", "plus", "pro", "ark"];
 const METRICO_PLANS = {
@@ -2665,6 +2665,14 @@ Object.assign(DICT, {
   "اطلاعات شما به هیچ شخص یا شرکت ثالثی فروخته یا اجاره داده نمی‌شود. هر حساب کاربری کاملاً مستقل و جدا از سایر کاربران است. اشتراک‌گذاری اطلاعات فقط از طریق ابزارهایی مانند «خروجی PDF» یا «پشتیبان‌گیری» و با تصمیم خود شما انجام می‌شود.": "Your data is never sold or rented to third parties. Each account is fully isolated. Sharing happens only through tools like PDF export or backup, at your discretion.",
   "شما در هر زمان می‌توانید پروژه‌ها، مخاطبین یا حساب خود را حذف کنید. برای درخواست حذف کامل حساب کاربری، از طریق اطلاعات تماس موجود در صفحه «درباره» با ما در ارتباط باشید.": "You can delete projects, contacts, or your account at any time. For full account deletion, contact us via the About page.",
   "این سیاست ممکن است در نسخه‌های بعدی به‌روزرسانی شود. تغییرات مهم از طریق همین صفحه اطلاع‌رسانی خواهد شد.": "This policy may be updated in future versions. Important changes will be announced on this page.",
+  "زیرساخت و پردازشگر داده": "Infrastructure & data processor",
+  "میزبانی و پایگاه‌داده از طریق Supabase (PostgreSQL و احراز هویت) انجام می‌شود. منطقهٔ سرور و قرارداد پردازشگر (DPA) را در تنظیمات پروژهٔ Supabase خود بررسی کنید. دادهٔ پروژه‌ها با Row Level Security از سایر کاربران جدا می‌شود.": "Hosting and database run on Supabase (PostgreSQL and Auth). Check your Supabase project region and Data Processing Agreement (DPA). Project rows are isolated with Row Level Security.",
+  "دستیار گفتگو": "Conversation assistant",
+  "دستیار داخل برنامه سؤالات شما را روی داده‌های همان حساب (پروژه، مخاطب، سود و…) پاسخ می‌دهد؛ متن گفتگو به سرویس هوش مصنوعی خارجی ارسال نمی‌شود. ورودی صوتی در مرورگر شما پردازش می‌شود.": "The in-app assistant answers using your account data (projects, contacts, profit, etc.). Chat text is not sent to external AI services. Voice input is handled by your browser.",
+  "پورتال مالک": "Owner portal",
+  "با لینk اختصاصی، خریدار بدون ساخت حساب می‌تواند پیشرفت و پیام بفرستد. فقط دادهٔ همان واحد/پروژه در لینk قرار می‌گیرد؛ لینk را مثل رمز محرمانه نگه دارید.": "Via a private link, buyers can view progress and send messages without an app account. Only that unit/project data is exposed—treat the link like a secret.",
+  "حذف حساب و مهلت پاسخ": "Account deletion & response time",
+  "درخواست حذف کامل حساب و داده‌های وابسته را از صفحه «درباره» ثبت کنید. تلاش می‌کنیم ظرف ۳۰ روز کاری درخواست را انجام دهیم (پروژه‌ها، پورتال‌ها، فیدبک و metadata).": "Request full account deletion via the About page. We aim to complete it within 30 business days (projects, portals, feedback, and metadata).",
   "موقعیت مکانی پروژه‌ها": "Project locations",
   "دریافت خروجی KML همه پروژه‌ها": "Export all projects as KML",
   "هنوز پیامی از مالکین دریافت نشده": "No owner messages yet",
@@ -3658,6 +3666,14 @@ function openApBalanceForExpense(project, e) {
 }
 
 function generateOwnerPortalToken() {
+  if (typeof crypto !== "undefined" && typeof crypto.randomUUID === "function") {
+    return crypto.randomUUID().replace(/-/g, "") + crypto.randomUUID().replace(/-/g, "");
+  }
+  if (typeof crypto !== "undefined" && typeof crypto.getRandomValues === "function") {
+    const bytes = new Uint8Array(32);
+    crypto.getRandomValues(bytes);
+    return Array.from(bytes, (b) => b.toString(16).padStart(2, "0")).join("");
+  }
   return uid() + uid() + uid();
 }
 
@@ -3757,6 +3773,9 @@ function enqueueOfflineProjectUpdate(userId, id, name, data) {
 
 function projectSaveErrorMessage(err, tFn) {
   const msg = err?.message || String(err || "");
+  if (/demo account is read-only|read-only|42501|permission denied|policy/i.test(msg)) {
+    return tFn("حساب دمو فقط برای مشاهده است — امکان ذخیره تغییرات وجود ندارد.");
+  }
   if (/updated_at/i.test(msg) && /record.*new|field/i.test(msg)) {
     return tFn("ستون updated_at در جدول projects یافت نشد. در Supabase فایل supabase/projects-updated-at-fix.sql را اجرا کنید.");
   }
@@ -3774,6 +3793,9 @@ async function persistProjectUpdateRemote(userId, id, name, data) {
 function ownerPortalErrorMessage(err) {
   if (!err) return "";
   const msg = err.message || String(err);
+  if (/demo account is read-only/i.test(msg)) {
+    return "حساب دمو فقط برای مشاهده است.";
+  }
   if (/updated_at/i.test(msg) && /record.*new|field/i.test(msg)) {
     return "ستون updated_at در جدول projects یا owner_portals نیست. فایل‌های SQL مربوطه را در Supabase اجرا کنید.";
   }
@@ -10576,6 +10598,22 @@ function PrivacyScreen({ onBack }) {
         <div>
           <div className="font-bold text-[#14213D] mb-1">{t("تغییرات این سیاست")}</div>
           {t("این سیاست ممکن است در نسخه‌های بعدی به‌روزرسانی شود. تغییرات مهم از طریق همین صفحه اطلاع‌رسانی خواهد شد.")}
+        </div>
+        <div>
+          <div className="font-bold text-[#14213D] mb-1">{t("زیرساخت و پردازشگر داده")}</div>
+          {t("میزبانی و پایگاه‌داده از طریق Supabase (PostgreSQL و احراز هویت) انجام می‌شود. منطقهٔ سرور و قرارداد پردازشگر (DPA) را در تنظیمات پروژهٔ Supabase خود بررسی کنید. دادهٔ پروژه‌ها با Row Level Security از سایر کاربران جدا می‌شود.")}
+        </div>
+        <div>
+          <div className="font-bold text-[#14213D] mb-1">{t("دستیار گفتگو")}</div>
+          {t("دستیار داخل برنامه سؤالات شما را روی داده‌های همان حساب (پروژه، مخاطب، سود و…) پاسخ می‌دهد؛ متن گفتگو به سرویس هوش مصنوعی خارجی ارسال نمی‌شود. ورودی صوتی در مرورگر شما پردازش می‌شود.")}
+        </div>
+        <div>
+          <div className="font-bold text-[#14213D] mb-1">{t("پورتال مالک")}</div>
+          {t("با لینk اختصاصی، خریدار بدون ساخت حساب می‌تواند پیشرفت و پیام بفرستد. فقط دادهٔ همان واحد/پروژه در لینk قرار می‌گیرد؛ لینk را مثل رمز محرمانه نگه دارید.")}
+        </div>
+        <div>
+          <div className="font-bold text-[#14213D] mb-1">{t("حذف حساب و مهلت پاسخ")}</div>
+          {t("درخواست حذف کامل حساب و داده‌های وابسته را از صفحه «درباره» ثبت کنید. تلاش می‌کنیم ظرف ۳۰ روز کاری درخواست را انجام دهیم (پروژه‌ها، پورتال‌ها، فیدبک و metadata).")}
         </div>
       </div>
     </div>

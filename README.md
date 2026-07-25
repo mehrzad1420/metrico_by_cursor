@@ -6,7 +6,7 @@
 <h3 align="center">Smart Construction &amp; Real-Estate Project Management Platform</h3>
 
 <p align="center">
-  <img src="https://img.shields.io/badge/Version-2.50.7-blue?style=for-the-badge" alt="Version"/>
+  <img src="https://img.shields.io/badge/Version-2.51.9-blue?style=for-the-badge" alt="Version"/>
   <img src="https://img.shields.io/badge/PWA-Ready-orange?style=for-the-badge" alt="PWA"/>
   <img src="https://img.shields.io/badge/RTL-Persian-green?style=for-the-badge" alt="RTL"/>
   <img src="https://img.shields.io/badge/React-18-61DAFB?style=for-the-badge&amp;logo=react&amp;logoColor=white" alt="React"/>
@@ -96,8 +96,8 @@ Designed for teams who manage multiple projects, buyers, contractors, and financ
   </tr>
   <tr>
     <td width="50%" valign="top">
-      <h4>🤖 AI Chat Assistant</h4>
-      <p>Ask questions about projects, sales, costs, profit, and energy in natural language — with optional voice input.</p>
+      <h4>💬 Smart assistant (rule-based)</h4>
+      <p>Ask about projects, sales, costs, profit, and energy in natural language — answers are computed from your own account data (no external LLM). Optional browser voice input.</p>
     </td>
     <td width="50%" valign="top">
       <h4>🔍 Global Search</h4>
@@ -254,7 +254,9 @@ Metrico/
     ├── admin.sql
     ├── admin-members-tools.sql
     ├── owner-portals.sql
-    └── owner-portal-messages.sql
+    ├── owner-portal-messages.sql
+    ├── product-feedback.sql
+    └── demo-readonly.sql
 ```
 
 ---
@@ -267,7 +269,7 @@ Metrico/
 
 - Create a Supabase project
 - Run SQL scripts in order (see `supabase/README.md`):
-  `schema.sql` → `plans.sql` → `admin.sql` → `admin-members-tools.sql` → `owner-portals.sql` → `owner-portal-messages.sql`
+  `schema.sql` → `plans.sql` → `admin.sql` → `admin-members-tools.sql` → `owner-portals.sql` → `owner-portal-messages.sql` → `product-feedback.sql` → `demo-readonly.sql`
 - Set `SUPABASE_URL` and anon key in `index.html`
 - Create an activation code and promote your admin account (see `supabase/README.md`)
 
@@ -282,6 +284,8 @@ Metrico/
 ## Privacy &amp; Data
 
 - **Authentication** — Supabase Auth; each account is isolated via Row Level Security
+- **Demo account** — UI read-only; run `demo-readonly.sql` so the demo user cannot mutate projects/portals via the API
+- **Conversation assistant** — rule-based answers from your data; no third-party AI API
 - **Project data** — stored in Supabase `projects` table (JSON `data` column); synced across devices for the same account
 - **Contacts &amp; inventory** — stored in Supabase Auth user metadata
 - **Backup** — JSON export/import for manual backup and migration
@@ -293,7 +297,7 @@ Metrico/
 
 - [ ] Online payment for plan upgrades (Zarinpal)
 - [ ] BIM / 3D model viewer in browser
-- [ ] English / bilingual UI toggle
+- [x] English / bilingual UI toggle (in progress — core screens & guide)
 
 ---
 
@@ -305,4 +309,4 @@ For activation codes and commercial licensing, contact the author.
 
 ---
 
-<p align="center"><sub>Metrico v2.50.7 · Built for the construction industry in Iran</sub></p>
+<p align="center"><sub>Metrico v2.51.9 · Built for the construction industry in Iran</sub></p>

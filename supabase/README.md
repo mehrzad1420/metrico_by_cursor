@@ -10,6 +10,8 @@ Run these SQL scripts **in order** in Supabase Dashboard → SQL Editor.
 | 4 | `admin-members-tools.sql` | Activation/plan code generators from app admin panel |
 | 5 | `owner-portals.sql` | Owner portal links (`owner_portals`, `get_owner_portal`) |
 | 6 | `owner-portal-messages.sql` | Owner ↔ developer messaging |
+| 7 | `product-feedback.sql` | About-page feedback → super admin inbox |
+| 8 | `demo-readonly.sql` | Server-side read-only for `demo@metrico.app` (RLS + portal RPCs) |
 | — | `projects-updated-at-fix.sql` | **If saves fail** with `record "new" has no field "updated_at"` |
 
 ## After running scripts
@@ -40,3 +42,5 @@ Company name, contacts, reminders, and inventory are stored in Supabase Auth `us
 - Project data is isolated per user via RLS on `projects`.
 - `activation_codes` and admin RPCs use `security definer` — users cannot read codes directly.
 - Review `owner_portals` policies if you change public portal behavior.
+- Run `demo-readonly.sql` on production so the public demo account cannot mutate data via the Supabase API (UI already blocks writes).
+- Auth `user_metadata` (contacts, company, inventory) is still writable by the demo user until a Supabase Auth hook blocks it — use a dedicated demo project only.
