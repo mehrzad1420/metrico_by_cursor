@@ -1147,7 +1147,7 @@ function projectCardTheme(projectId) {
   return PROJECT_CARD_PALETTE[Math.abs(h) % PROJECT_CARD_PALETTE.length];
 }
 const APP_NAME = "Metrico";
-const APP_VERSION = "2.51.9";
+const APP_VERSION = "2.52.0";
 
 const METRICO_PLAN_ORDER = ["start", "plus", "pro", "ark"];
 const METRICO_PLANS = {
@@ -3775,6 +3775,9 @@ function projectSaveErrorMessage(err, tFn) {
   const msg = err?.message || String(err || "");
   if (/demo account is read-only|read-only|42501|permission denied|policy/i.test(msg)) {
     return tFn("حساب دمو فقط برای مشاهده است — امکان ذخیره تغییرات وجود ندارد.");
+  }
+  if (/project plan limit exceeded/i.test(msg)) {
+    return tFn("حد مجاز پروژه در پلن فعلی شما پر شده — برای افزودن پروژه، پلن را ارتقا دهید.");
   }
   if (/updated_at/i.test(msg) && /record.*new|field/i.test(msg)) {
     return tFn("ستون updated_at در جدول projects یافت نشد. در Supabase فایل supabase/projects-updated-at-fix.sql را اجرا کنید.");
@@ -7824,10 +7827,20 @@ function AppContent() {
     }
 
     const dataPayload = buildDemoFullProjectPayload(investorIds);
-    const { data, error: err } = await window.sb.from("projects")
-      .insert({ user_id: user.id, name: DEMO_PROJECT_NAME, data: dataPayload }).select().single();
-    if (err) { setError(t("ساخت پروژه دمو ناموفق بود: ") + err.message); return; }
-    const project = normalizeProjectRow(data);
+    const { data: seedId, error: err } = await window.sb.rpc("ensure_demo_project_seed", {
+      p_name: DEMO_PROJECT_NAME,
+      p_data: dataPayload,
+    });
+    if (err) {
+      setError(t("ساخت پروژه دمو ناموفق بود: ") + err.message);
+      return;
+    }
+    const { data: row, error: fetchErr } = await window.sb.from("projects").select("*").eq("id", seedId).maybeSingle();
+    if (fetchErr || !row) {
+      setError(t("بارگذاری پروژه دمو ناموفق بود."));
+      return;
+    }
+    const project = normalizeProjectRow(row);
     setProjects((prev) => [...prev, project]);
     setActiveTab(project.id);
   }

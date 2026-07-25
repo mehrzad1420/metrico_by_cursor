@@ -6,7 +6,7 @@
 <h3 align="center">Smart Construction &amp; Real-Estate Project Management Platform</h3>
 
 <p align="center">
-  <img src="https://img.shields.io/badge/Version-2.51.9-blue?style=for-the-badge" alt="Version"/>
+  <img src="https://img.shields.io/badge/Version-2.52.0-blue?style=for-the-badge" alt="Version"/>
   <img src="https://img.shields.io/badge/PWA-Ready-orange?style=for-the-badge" alt="PWA"/>
   <img src="https://img.shields.io/badge/RTL-Persian-green?style=for-the-badge" alt="RTL"/>
   <img src="https://img.shields.io/badge/React-18-61DAFB?style=for-the-badge&amp;logo=react&amp;logoColor=white" alt="React"/>
@@ -269,7 +269,7 @@ Metrico/
 
 - Create a Supabase project
 - Run SQL scripts in order (see `supabase/README.md`):
-  `schema.sql` → `plans.sql` → `admin.sql` → `admin-members-tools.sql` → `owner-portals.sql` → `owner-portal-messages.sql` → `product-feedback.sql` → `demo-readonly.sql`
+  `schema.sql` → `plans.sql` → `admin.sql` → `admin-members-tools.sql` → `owner-portals.sql` → `owner-portal-messages.sql` → `product-feedback.sql` → `demo-readonly.sql` → `plan-enforcement.sql`
 - Set `SUPABASE_URL` and anon key in `index.html`
 - Create an activation code and promote your admin account (see `supabase/README.md`)
 
@@ -286,6 +286,7 @@ Metrico/
 - **Authentication** — Supabase Auth; each account is isolated via Row Level Security
 - **Demo account** — UI read-only; run `demo-readonly.sql` so the demo user cannot mutate projects/portals via the API
 - **Conversation assistant** — rule-based answers from your data; no third-party AI API
+- **Compliance summary** — see `docs/COMPLIANCE-STATUS.md`
 - **Project data** — stored in Supabase `projects` table (JSON `data` column); synced across devices for the same account
 - **Contacts &amp; inventory** — stored in Supabase Auth user metadata
 - **Backup** — JSON export/import for manual backup and migration
@@ -309,4 +310,4 @@ For activation codes and commercial licensing, contact the author.
 
 ---
 
-<p align="center"><sub>Metrico v2.51.9 · Built for the construction industry in Iran</sub></p>
+<p align="center"><sub>Metrico v2.52.0 · Built for the construction industry in Iran</sub></p>
