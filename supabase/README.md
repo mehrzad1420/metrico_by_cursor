@@ -13,6 +13,7 @@ Run these SQL scripts **in order** in Supabase Dashboard → SQL Editor.
 | 7 | `product-feedback.sql` | About-page feedback → super admin inbox |
 | 8 | `demo-readonly.sql` | Server-side read-only for `demo@metrico.app` (RLS + portal RPCs) |
 | 9 | `plan-enforcement.sql` | Project count limits + `ensure_demo_project_seed` RPC |
+| 10 | `account-deletion.sql` | Self-service GDPR erasure → `delete_my_account()` |
 | — | `projects-updated-at-fix.sql` | **If saves fail** with `record "new" has no field "updated_at"` |
 
 ## After running scripts

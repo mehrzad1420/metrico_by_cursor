@@ -1147,7 +1147,7 @@ function projectCardTheme(projectId) {
   return PROJECT_CARD_PALETTE[Math.abs(h) % PROJECT_CARD_PALETTE.length];
 }
 const APP_NAME = "Metrico";
-const APP_VERSION = "2.52.0";
+const APP_VERSION = "2.52.1";
 
 const METRICO_PLAN_ORDER = ["start", "plus", "pro", "ark"];
 const METRICO_PLANS = {
@@ -2663,7 +2663,8 @@ Object.assign(DICT, {
   "اطلاعات حساب کاربری (ایمیل)، اطلاعات شرکت شما، پروژه‌ها و واحدهای ثبت‌شده، اطلاعات خریداران و مخاطبین، اسناد و تصاویری که بارگذاری می‌کنید، و یادداشت‌های شما.": "Account info (email), your company details, projects and units, buyer and contact info, uploaded documents and images, and your notes.",
   "تمام اطلاعات در پایگاه‌داده ابری Supabase به‌صورت رمزنگاری‌شده ذخیره می‌شود و صرفاً با حساب کاربری خود شما (ایمیل و رمز عبور) قابل دسترسی است.": "All data is stored encrypted in the Supabase cloud database and is accessible only through your account (email and password).",
   "اطلاعات شما به هیچ شخص یا شرکت ثالثی فروخته یا اجاره داده نمی‌شود. هر حساب کاربری کاملاً مستقل و جدا از سایر کاربران است. اشتراک‌گذاری اطلاعات فقط از طریق ابزارهایی مانند «خروجی PDF» یا «پشتیبان‌گیری» و با تصمیم خود شما انجام می‌شود.": "Your data is never sold or rented to third parties. Each account is fully isolated. Sharing happens only through tools like PDF export or backup, at your discretion.",
-  "شما در هر زمان می‌توانید پروژه‌ها، مخاطبین یا حساب خود را حذف کنید. برای درخواست حذف کامل حساب کاربری، از طریق اطلاعات تماس موجود در صفحه «درباره» با ما در ارتباط باشید.": "You can delete projects, contacts, or your account at any time. For full account deletion, contact us via the About page.",
+  "شما در هر زمان می‌توانید پروژه‌ها، مخاطبین یا حساب خود را حذف کنید. حذف کامل حساب از همین صفحه (دکمهٔ پایین) یا در صورت نیاز از طریق «درباره» ممکن است.": "You can delete projects, contacts, or your account anytime. Full account deletion is available on this page (button below) or via About if needed.",
+  "پس از تأیید، دادهٔ ابری (پروژه، پورتال، پیام، فیدبک و ورود) فوراً حذف می‌شود؛ برای درخواست‌های خاص ظرف ۳۰ روز کاری پاسخ می‌دهیم.": "After confirmation, cloud data (projects, portals, messages, feedback, login) is deleted immediately; special requests answered within 30 business days.",
   "این سیاست ممکن است در نسخه‌های بعدی به‌روزرسانی شود. تغییرات مهم از طریق همین صفحه اطلاع‌رسانی خواهد شد.": "This policy may be updated in future versions. Important changes will be announced on this page.",
   "زیرساخت و پردازشگر داده": "Infrastructure & data processor",
   "میزبانی و پایگاه‌داده از طریق Supabase (PostgreSQL و احراز هویت) انجام می‌شود. منطقهٔ سرور و قرارداد پردازشگر (DPA) را در تنظیمات پروژهٔ Supabase خود بررسی کنید. دادهٔ پروژه‌ها با Row Level Security از سایر کاربران جدا می‌شود.": "Hosting and database run on Supabase (PostgreSQL and Auth). Check your Supabase project region and Data Processing Agreement (DPA). Project rows are isolated with Row Level Security.",
@@ -2673,6 +2674,21 @@ Object.assign(DICT, {
   "با لینk اختصاصی، خریدار بدون ساخت حساب می‌تواند پیشرفت و پیام بفرستد. فقط دادهٔ همان واحد/پروژه در لینk قرار می‌گیرد؛ لینk را مثل رمز محرمانه نگه دارید.": "Via a private link, buyers can view progress and send messages without an app account. Only that unit/project data is exposed—treat the link like a secret.",
   "حذف حساب و مهلت پاسخ": "Account deletion & response time",
   "درخواست حذف کامل حساب و داده‌های وابسته را از صفحه «درباره» ثبت کنید. تلاش می‌کنیم ظرف ۳۰ روز کاری درخواست را انجام دهیم (پروژه‌ها، پورتال‌ها، فیدبک و metadata).": "Request full account deletion via the About page. We aim to complete it within 30 business days (projects, portals, feedback, and metadata).",
+  "اطلاعات شما به اشخاص ثالث فروخته یا اجاره داده نمی‌شود. برای ارائهٔ سرویس، داده در Supabase (میزبان) نگهداری می‌شود؛ هنگام استفاده از نقشه، مرورگر شما ممکن است آدرس IP را برای دریافت کاشی به OpenStreetMap بفرستد. اشتراک‌گذاری عمدی فقط با ابزارهایی مثل PDF یا پشتیبان‌گیری و با تصمیم شماست.": "Your data is not sold or rented. Supabase hosts your data; when you use the map, your browser may send your IP to OpenStreetMap for map tiles. Deliberate sharing is only via PDF export or backup at your choice.",
+  "نقش حقوقی نسبت به خریداران": "Legal role for buyer data",
+  "شما (پیمانکار/سازنده) معمولاً کنترل‌کنندهٔ دادهٔ خریداران و مالکان در پروژه‌های خود هستید؛ میتریکو برای میزبانی و پورتال مالk به‌عنوان پردازشگر عمل می‌کند. برای مشتریان اتحادیهٔ اروپا قرارداد پردازشگری (DPA) جداگانه پیشنهاد می‌شود.": "You (developer/contractor) are usually the controller for buyer/owner data in your projects; Metrico acts as processor for hosting and the owner portal. A separate DPA is offered for EU customers.",
+  "دسترسی و کپی داده (قابل حمل)": "Access & data portability",
+  "از منوی «پشتیبان‌گیری» می‌توانید خروجی JSON از پروژه‌ها، شرکت، مخاطبین و یادآوری‌ها بگیرید. برای سایر درخواست‌های دسترسی از صفحه «درباره» تماس بگیرید.": "Use Backup in the menu to export JSON of projects, company, contacts, and reminders. For other access requests, contact us via About.",
+  "ذخیرهٔ موقت در مرورگر": "Temporary browser storage",
+  "برای کار آفلاین و سرعت، نسخهٔ کش پروژه و صف همگام‌سازی در localStorage دستگاه شما ذخیره می‌شود (خارج از Supabase). با «خروج» یا «حذف حساب» این کش پاک می‌شود.": "For offline use and speed, a project cache and sync queue are stored in your device localStorage (outside Supabase). Logout or account deletion clears this cache.",
+  "حذف فوری حساب": "Delete account now",
+  "با تأیید، تمام داده‌های سرور (پروژه، پورتال، پیام‌ها، فیدبک و حساب ورود) حذف می‌شود. این کار برگشت‌پذیر نیست.": "When confirmed, all server data (projects, portals, messages, feedback, login) is deleted. This cannot be undone.",
+  "حذف حساب من": "Delete my account",
+  "آیا مطمئن هستید؟ تمام داده‌های ابری حذف می‌شود.": "Are you sure? All cloud data will be deleted.",
+  "حذف شد. در حال خروج…": "Deleted. Signing out…",
+  "حساب دمو قابل حذف از برنامه نیست.": "The demo account cannot be deleted from the app.",
+  "در حال حذف…": "Deleting…",
+  "خطا در حذف حساب:": "Account deletion failed:",
   "موقعیت مکانی پروژه‌ها": "Project locations",
   "دریافت خروجی KML همه پروژه‌ها": "Export all projects as KML",
   "هنوز پیامی از مالکین دریافت نشده": "No owner messages yet",
@@ -3762,6 +3778,19 @@ function writeOfflineQueue(userId, queue) {
   try {
     localStorage.setItem(offlineQueueKey(userId), JSON.stringify(queue));
   } catch (e) { /* ignore */ }
+}
+
+function clearLocalMetricoData(userId) {
+  if (!userId) return;
+  try {
+    localStorage.removeItem(localProjectsCacheKey(userId));
+    localStorage.removeItem(offlineQueueKey(userId));
+  } catch (e) { /* ignore */ }
+}
+
+async function deleteMyAccountRpc() {
+  const { error } = await window.sb.rpc("delete_my_account");
+  return error || null;
 }
 
 function enqueueOfflineProjectUpdate(userId, id, name, data) {
@@ -7357,6 +7386,7 @@ function AppContent() {
       clearTimeout(timer);
       timer = setTimeout(() => {
         setError(t("به‌دلیل ۱۰ دقیقه عدم فعالیت، از حساب خارج شدید."));
+        if (user?.id) clearLocalMetricoData(user.id);
         window.sb.auth.signOut().catch(() => {});
         setShowMenu(false);
         setShowFab(false);
@@ -8679,6 +8709,7 @@ function AppContent() {
   }, [reminders]);
 
   function logout() {
+    if (user?.id) clearLocalMetricoData(user.id);
     window.sb.auth.signOut().catch(() => {});
     setShowMenu(false);
   }
@@ -9074,7 +9105,15 @@ function AppContent() {
             onError={(msg) => setError(msg)}
           />
         )}
-        {screen === "privacy" && <PrivacyScreen onBack={() => setScreen("dashboard")} />}
+        {screen === "privacy" && (
+          <PrivacyScreen
+            onBack={() => setScreen("dashboard")}
+            user={user}
+            isReadOnly={isReadOnly}
+            onLogout={logout}
+            onError={(msg) => setError(msg)}
+          />
+        )}
         {screen === "tax" && <TaxSystemsScreen onBack={() => setScreen("dashboard")} />}
         {screen === "guide" && (
           <GuideScreen
@@ -10497,6 +10536,10 @@ function AboutScreen({ onBack, user, company, isReadOnly, onError }) {
         <p className="mb-3">
           {t("اطلاعات هر حساب کاربری به‌صورت خصوصی و امن در فضای ابری ذخیره می‌شود و فقط از طریق ورود با همان ایمیل و رمز عبور قابل مشاهده است. هر همکار با ساخت حساب جدید، فضای کاری کاملاً جدا و مستقل از دیگران خواهد داشت. برای اشتراک‌گذاری اطلاعات با دیگران می‌توان از گزینه «خروجی PDF» یا «پشتیبان‌گیری» استفاده کرد.")}
         </p>
+        <div className="bg-[#EFF6FF] border border-[#BFDBFE] rounded-xl p-3 text-xs text-[#1E3A8A] leading-6 mb-3">
+          <div className="font-bold mb-1">{t("نقش حقوقی نسبت به خریداران")}</div>
+          {t("شما (پیمانکار/سازنده) معمولاً کنترل‌کنندهٔ دادهٔ خریداران و مالکان در پروژه‌های خود هستید؛ میتریکو برای میزبانی و پورتال مالk به‌عنوان پردازشگر عمل می‌کند. برای مشتریان اتحادیهٔ اروپا قرارداد پردازشگری (DPA) جداگانه پیشنهاد می‌شود.")}
+        </div>
         <div className="m-card-muted p-4 mb-4">
           <div className="font-bold text-[#14213D] text-sm mb-2">{t("تیم بنیان‌گذار")}</div>
           <p className="text-sm leading-7 mb-3">{t("میتریکو یک محصول استارتاپی است که توسط تیم ما طراحی، توسعه و به‌صورت مستمر بهبود می‌یابد.")}</p>
@@ -10581,9 +10624,29 @@ function AboutScreen({ onBack, user, company, isReadOnly, onError }) {
   );
 }
 
-function PrivacyScreen({ onBack }) {
+function PrivacyScreen({ onBack, user, isReadOnly, onLogout, onError }) {
   const { lang, t } = useContext(LanguageContext);
   const screenDir = lang === "fa" ? "rtl" : "ltr";
+  const [deleting, setDeleting] = useState(false);
+
+  async function handleDeleteAccount() {
+    if (isReadOnly || deleting) return;
+    if (!window.confirm(t("آیا مطمئن هستید؟ تمام داده‌های ابری حذف می‌شود."))) return;
+    setDeleting(true);
+    const err = await deleteMyAccountRpc();
+    if (err) {
+      setDeleting(false);
+      const msg = err.message || String(err);
+      if (onError) onError(`${t("خطا در حذف حساب:")} ${msg}`);
+      else window.alert(`${t("خطا در حذف حساب:")} ${msg}`);
+      return;
+    }
+    if (user?.id) clearLocalMetricoData(user.id);
+    if (onError) onError(t("حذف شد. در حال خروج…"));
+    if (onLogout) onLogout();
+    else window.sb.auth.signOut().catch(() => {});
+  }
+
   return (
     <div className="px-5 pt-5 pb-10" dir={screenDir}>
       <div className="flex items-center gap-3 mb-6">
@@ -10602,11 +10665,23 @@ function PrivacyScreen({ onBack }) {
         </div>
         <div>
           <div className="font-bold text-[#14213D] mb-1">{t("اشتراک‌گذاری با دیگران")}</div>
-          {t("اطلاعات شما به هیچ شخص یا شرکت ثالثی فروخته یا اجاره داده نمی‌شود. هر حساب کاربری کاملاً مستقل و جدا از سایر کاربران است. اشتراک‌گذاری اطلاعات فقط از طریق ابزارهایی مانند «خروجی PDF» یا «پشتیبان‌گیری» و با تصمیم خود شما انجام می‌شود.")}
+          {t("اطلاعات شما به اشخاص ثالث فروخته یا اجاره داده نمی‌شود. برای ارائهٔ سرویس، داده در Supabase (میزبان) نگهداری می‌شود؛ هنگام استفاده از نقشه، مرورگر شما ممکن است آدرس IP را برای دریافت کاشی به OpenStreetMap بفرستد. اشتراک‌گذاری عمدی فقط با ابزارهایی مثل PDF یا پشتیبان‌گیری و با تصمیم شماست.")}
+        </div>
+        <div>
+          <div className="font-bold text-[#14213D] mb-1">{t("نقش حقوقی نسبت به خریداران")}</div>
+          {t("شما (پیمانکار/سازنده) معمولاً کنترل‌کنندهٔ دادهٔ خریداران و مالکان در پروژه‌های خود هستید؛ میتریکو برای میزبانی و پورتال مالk به‌عنوان پردازشگر عمل می‌کند. برای مشتریان اتحادیهٔ اروپا قرارداد پردازشگری (DPA) جداگانه پیشنهاد می‌شود.")}
+        </div>
+        <div>
+          <div className="font-bold text-[#14213D] mb-1">{t("دسترسی و کپی داده (قابل حمل)")}</div>
+          {t("از منوی «پشتیبان‌گیری» می‌توانید خروجی JSON از پروژه‌ها، شرکت، مخاطبین و یادآوری‌ها بگیرید. برای سایر درخواست‌های دسترسی از صفحه «درباره» تماس بگیرید.")}
+        </div>
+        <div>
+          <div className="font-bold text-[#14213D] mb-1">{t("ذخیرهٔ موقت در مرورگر")}</div>
+          {t("برای کار آفلاین و سرعت، نسخهٔ کش پروژه و صف همگام‌سازی در localStorage دستگاه شما ذخیره می‌شود (خارج از Supabase). با «خروج» یا «حذف حساب» این کش پاک می‌شود.")}
         </div>
         <div>
           <div className="font-bold text-[#14213D] mb-1">{t("حذف اطلاعات")}</div>
-          {t("شما در هر زمان می‌توانید پروژه‌ها، مخاطبین یا حساب خود را حذف کنید. برای درخواست حذف کامل حساب کاربری، از طریق اطلاعات تماس موجود در صفحه «درباره» با ما در ارتباط باشید.")}
+          {t("شما در هر زمان می‌توانید پروژه‌ها، مخاطبین یا حساب خود را حذف کنید. حذف کامل حساب از همین صفحه (دکمهٔ پایین) یا در صورت نیاز از طریق «درباره» ممکن است.")}
         </div>
         <div>
           <div className="font-bold text-[#14213D] mb-1">{t("تغییرات این سیاست")}</div>
@@ -10626,7 +10701,23 @@ function PrivacyScreen({ onBack }) {
         </div>
         <div>
           <div className="font-bold text-[#14213D] mb-1">{t("حذف حساب و مهلت پاسخ")}</div>
-          {t("درخواست حذف کامل حساب و داده‌های وابسته را از صفحه «درباره» ثبت کنید. تلاش می‌کنیم ظرف ۳۰ روز کاری درخواست را انجام دهیم (پروژه‌ها، پورتال‌ها، فیدبک و metadata).")}
+          {t("پس از تأیید، دادهٔ ابری (پروژه، پورتال، پیام، فیدبک و ورود) فوراً حذف می‌شود؛ برای درخواست‌های خاص ظرف ۳۰ روز کاری پاسخ می‌دهیم.")}
+        </div>
+        <div className="border-t border-black/10 pt-4 mt-2">
+          <div className="font-bold text-[#14213D] mb-1">{t("حذف فوری حساب")}</div>
+          <p className="text-xs text-[#6B7280] mb-3">{t("با تأیید، تمام داده‌های سرور (پروژه، پورتال، پیام‌ها، فیدبک و حساب ورود) حذف می‌شود. این کار برگشت‌پذیر نیست.")}</p>
+          {isReadOnly ? (
+            <p className="text-xs text-[#B45309]">{t("حساب دمو قابل حذف از برنامه نیست.")}</p>
+          ) : (
+            <button
+              type="button"
+              disabled={deleting}
+              onClick={handleDeleteAccount}
+              className="w-full bg-[#B91C1C] text-white rounded-xl py-3 text-sm font-medium disabled:opacity-50"
+            >
+              {deleting ? t("در حال حذف…") : t("حذف حساب من")}
+            </button>
+          )}
         </div>
       </div>
     </div>
