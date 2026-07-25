@@ -41,7 +41,8 @@ Customers (developers/contractors) are typically **controllers** for buyer PII e
 ## DSAR (access / portability)
 
 - **Export:** in-app **Backup** → JSON (projects, company, contacts, reminders, inventory).
-- **Full erasure:** Company Info → email OTP → `delete_my_account()` (requires `account-deletion.sql` on Supabase).
+- **Erasure:** Company Info → email OTP → Edge Function `secure-delete-account` (preferred) or RPC path after `account-deletion-server.sql`.
+- **Export:** Backup v4 merges local state + `export_my_data` RPC when available.
 - **Other requests:** About page contact; target response within 30 business days.
 
 ## Retention notes

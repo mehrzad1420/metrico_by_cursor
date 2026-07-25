@@ -15,6 +15,10 @@ Run these SQL scripts **in order** in Supabase Dashboard → SQL Editor.
 | 9 | `plan-enforcement.sql` | Project count limits + `ensure_demo_project_seed` RPC |
 | 10 | `account-deletion.sql` | Self-service GDPR erasure → `delete_my_account()` |
 | 11 | `profiles-hardening.sql` | Block client updates to plan/role/activated on `profiles` |
+| 12 | `account-deletion-server.sql` | Deletion gate: OTP mark + JWT freshness (fallback path) |
+| 13 | `admin-audit-log.sql` | Super-admin audit log + patched admin RPCs |
+| 14 | `export-user-data.sql` | DSAR JSON export RPC `export_my_data` |
+| 15 | `data-retention.sql` | Purge old portal messages / read feedback (admin) |
 | — | `projects-updated-at-fix.sql` | **If saves fail** with `record "new" has no field "updated_at"` |
 
 ## After running scripts

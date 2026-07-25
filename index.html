@@ -1146,7 +1146,7 @@ function projectCardTheme(projectId) {
   return PROJECT_CARD_PALETTE[Math.abs(h) % PROJECT_CARD_PALETTE.length];
 }
 const APP_NAME = "Metrico";
-const APP_VERSION = "2.52.3";
+const APP_VERSION = "2.53.0";
 
 const METRICO_PLAN_ORDER = ["start", "plus", "pro", "ark"];
 const METRICO_PLANS = {
@@ -2703,6 +2703,7 @@ Object.assign(DICT, {
   "رمز در کد اپ ذخیره نمی‌شود؛ فقط در پنل Supabase برای حساب دمو تنظیم کنید.": "The password is not stored in app code; set it in Supabase Auth for the demo user only.",
   "در حال حذف…": "Deleting…",
   "خطا در حذف حساب:": "Account deletion failed:",
+  "نسخه انگلیسی سیاست حریم خصوصی (وب)": "English privacy policy (web)",
   "موقعیت مکانی پروژه‌ها": "Project locations",
   "دریافت خروجی KML همه پروژه‌ها": "Export all projects as KML",
   "هنوز پیامی از مالکین دریافت نشده": "No owner messages yet",
@@ -3822,6 +3823,26 @@ async function verifyAccountDeletionOtp(email, token) {
     type: "email",
   });
   return error || null;
+}
+
+async function deleteAccountWithEmailOtp(email, otpCode) {
+  const code = String(otpCode || "").trim();
+  const { data: fnData, error: fnErr } = await window.sb.functions.invoke("secure-delete-account", {
+    body: { otp: code },
+  });
+  if (!fnErr && fnData?.ok === true) return null;
+  if (!fnErr && fnData?.error) return { message: String(fnData.error) };
+
+  const edgeUnavailable = fnErr && /FunctionsRelayError|Failed to send|404|not found|Function not found/i.test(fnErr.message || "");
+  if (fnErr && !edgeUnavailable) return fnErr;
+
+  const otpErr = await verifyAccountDeletionOtp(email, code);
+  if (otpErr) return otpErr;
+
+  const { error: markErr } = await window.sb.rpc("mark_account_deletion_verified");
+  if (markErr) return markErr;
+
+  return deleteMyAccountRpc();
 }
 
 function enqueueOfflineProjectUpdate(userId, id, name, data) {
@@ -7867,7 +7888,7 @@ function AppContent() {
 
     if (!company) {
       const demoCompany = { name: "گروه ساختمانی سپهر (دمو)", logo: null };
-      const { data: udata } = await window.sb.auth.updateUser({ data: { company: demoCompany } });
+      const { data: udata } = await authUpdateUserData({ company: demoCompany }, { allowDemoSeed: true });
       if (udata?.user) { setUser(udata.user); setCompany(demoCompany); }
     }
 
@@ -7875,7 +7896,7 @@ function AppContent() {
     if (!Array.isArray(metaInv) || !metaInv.length) {
       const seeded = buildDemoInventorySeed();
       setInventory(seeded);
-      const { data: udata } = await window.sb.auth.updateUser({ data: { inventory: seeded } });
+      const { data: udata } = await authUpdateUserData({ inventory: seeded }, { allowDemoSeed: true });
       if (udata?.user) setUser(udata.user);
     }
 
@@ -8015,7 +8036,7 @@ function AppContent() {
         return { ...item, quantity: (Number(item.quantity) || 0) + Number(expense.materialQty) };
       });
       setInventory(next);
-      window.sb.auth.updateUser({ data: { inventory: next } }).then(({ data: udata }) => {
+      authUpdateUserData({ inventory: next }).then(({ data: udata }) => {
         if (udata?.user) setUser(udata.user);
       });
     }
@@ -8039,7 +8060,7 @@ function AppContent() {
         item.id === old.materialId ? { ...item, quantity: Math.max(0, (Number(item.quantity) || 0) - qty) } : item
       ));
       setInventory(next);
-      window.sb.auth.updateUser({ data: { inventory: next } }).then(({ data: udata }) => {
+      authUpdateUserData({ inventory: next }).then(({ data: udata }) => {
         if (udata?.user) setUser(udata.user);
       });
     }
@@ -8098,7 +8119,7 @@ function AppContent() {
         ));
       }
       setInventory(next);
-      window.sb.auth.updateUser({ data: { inventory: next } }).then(({ data: udata }) => {
+      authUpdateUserData({ inventory: next }).then(({ data: udata }) => {
         if (udata?.user) setUser(udata.user);
       });
     }
@@ -8573,7 +8594,7 @@ function AppContent() {
     if (!guardWrite()) return;
     setCompany(c);
     setShowCompanySettings(false);
-    const { data, error: err } = await window.sb.auth.updateUser({ data: { company: c } });
+    const { data, error: err } = await authUpdateUserData({ company: c });
     if (err) setError(t("ذخیره اطلاعات شرکت ناموفق بود: ") + err.message);
     else if (data?.user) setUser(data.user);
   }
@@ -8581,7 +8602,7 @@ function AppContent() {
   async function saveContacts(list) {
     if (!guardWrite()) return;
     setContacts(list);
-    const { data, error: err } = await window.sb.auth.updateUser({ data: { contacts: list } });
+    const { data, error: err } = await authUpdateUserData({ contacts: list });
     if (err) setError(t("ذخیره مخاطبین ناموفق بود: ") + err.message);
     else if (data?.user) setUser(data.user);
   }
@@ -8606,7 +8627,7 @@ function AppContent() {
   async function saveInventory(list) {
     if (!guardWrite()) return;
     setInventory(list);
-    const { data, error: err } = await window.sb.auth.updateUser({ data: { inventory: list } });
+    const { data, error: err } = await authUpdateUserData({ inventory: list });
     if (err) setError(t("ذخیره موجودی انبار ناموفق بود: ") + err.message);
     else if (data?.user) setUser(data.user);
   }
@@ -8712,7 +8733,7 @@ function AppContent() {
   async function saveReminders(list) {
     if (!guardWrite()) return;
     setReminders(list);
-    const { data, error: err } = await window.sb.auth.updateUser({ data: { reminders: list } });
+    const { data, error: err } = await authUpdateUserData({ reminders: list });
     if (err) setError(t("ذخیره یادآوری‌ها ناموفق بود: ") + err.message);
     else if (data?.user) setUser(data.user);
   }
@@ -8750,16 +8771,23 @@ function AppContent() {
     setShowMenu(false);
   }
 
-  function exportBackup() {
+  async function exportBackup() {
     try {
+      let serverExport = null;
+      try {
+        const { data: srv, error: srvErr } = await window.sb.rpc("export_my_data");
+        if (!srvErr && srv) serverExport = srv;
+      } catch (e) { /* RPC optional until SQL applied */ }
+
       const payload = {
-        version: 3,
+        version: 4,
         exportedAt: new Date().toISOString(),
         company,
         projects,
         contacts,
         reminders,
         inventory,
+        serverExport,
       };
       const blob = new Blob([JSON.stringify(payload, null, 2)], { type: "application/json" });
       const url = URL.createObjectURL(blob);
@@ -8805,13 +8833,11 @@ function AppContent() {
         }
 
         if (data.company) {
-          const { data: udata, error: uerr } = await window.sb.auth.updateUser({
-            data: {
-              company: data.company,
-              ...(Array.isArray(data.contacts) ? { contacts: data.contacts } : {}),
-              ...(Array.isArray(data.reminders) ? { reminders: data.reminders } : {}),
-              ...(Array.isArray(data.inventory) ? { inventory: data.inventory } : {}),
-            },
+          const { data: udata, error: uerr } = await authUpdateUserData({
+            company: data.company,
+            ...(Array.isArray(data.contacts) ? { contacts: data.contacts } : {}),
+            ...(Array.isArray(data.reminders) ? { reminders: data.reminders } : {}),
+            ...(Array.isArray(data.inventory) ? { inventory: data.inventory } : {}),
           });
           if (!uerr && udata?.user) {
             setUser(udata.user);
@@ -8827,7 +8853,7 @@ function AppContent() {
             if (Array.isArray(data.contacts)) metaPatch.contacts = data.contacts;
             if (Array.isArray(data.reminders)) metaPatch.reminders = data.reminders;
             if (Array.isArray(data.inventory)) metaPatch.inventory = data.inventory;
-            const { data: udata, error: uerr } = await window.sb.auth.updateUser({ data: metaPatch });
+            const { data: udata, error: uerr } = await authUpdateUserData(metaPatch);
             if (!uerr && udata?.user) {
               setUser(udata.user);
               if (Array.isArray(data.contacts)) setContacts(data.contacts);
@@ -10716,6 +10742,9 @@ function PrivacyScreen({ onBack }) {
           <div className="font-bold text-[#14213D] mb-1">{t("حذف حساب و مهلت پاسخ")}</div>
           {t("پس از تأیید با کد ایمیل در «اطلاعات شرکت»، دادهٔ ابری (پروژه، پورتال، پیام، فیدبک و ورود) فوراً حذف می‌شود؛ برای درخواست‌های خاص ظرف ۳۰ روز کاری پاسخ می‌دهیم.")}
         </div>
+        <p className="text-xs text-[#6B7280] pt-2 border-t border-black/10">
+          <a href="privacy-en.html" className="text-[#128C7E] font-medium">{t("نسخه انگلیسی سیاست حریم خصوصی (وب)")}</a>
+        </p>
       </div>
     </div>
   );
@@ -11823,6 +11852,15 @@ function computeTakeoff(inputs) {
 
 function isDemoUser(u) {
   return (u?.email || "").toLowerCase() === DEMO_EMAIL.toLowerCase();
+}
+
+async function authUpdateUserData(dataPatch, options = {}) {
+  const { data: sess } = await window.sb.auth.getUser();
+  const u = sess?.user;
+  if (u && isDemoUser(u) && !options.allowDemoSeed) {
+    return { data: { user: null }, error: { message: "demo metadata read-only" } };
+  }
+  return window.sb.auth.updateUser({ data: dataPatch });
 }
 
 const INVENTORY_EXTRA = [
@@ -13776,13 +13814,7 @@ function CompanySetup({ initial, onSave, onClose, user, onError, isReadOnly, onL
     if (!window.confirm(t("آیا مطمئن هستید؟ پس از وارد کردن کد، تمام داده‌های ابری حذف می‌شود."))) return;
     setDeleteBusy(true);
     setDeleteMsg("");
-    const otpErr = await verifyAccountDeletionOtp(user.email, code);
-    if (otpErr) {
-      setDeleteBusy(false);
-      setDeleteMsg(t("کد تأیید اشتباه یا منقضی است."));
-      return;
-    }
-    const err = await deleteMyAccountRpc();
+    const err = await deleteAccountWithEmailOtp(user.email, code);
     if (err) {
       setDeleteBusy(false);
       setDeleteMsg(t("خطا در حذف حساب:") + " " + (err.message || String(err)));

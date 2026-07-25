@@ -50,9 +50,9 @@ Last updated: 2026-07-25 · App version: see `index.html` `APP_VERSION`
 
 - In-app privacy policy (FA/EN strings).
 
-- **Portability:** Backup screen → JSON export.
+- **Portability:** Backup screen → JSON export v4 (local state + optional `export_my_data` RPC when `export-user-data.sql` is applied).
 
-- **Erasure:** Company Info → **Delete account** → email OTP, then RPC `delete_my_account` (requires `account-deletion.sql` on Supabase); local cache cleared on logout/delete.
+- **Erasure:** Company Info → email OTP → Edge Function `secure-delete-account` (preferred) or OTP + `mark_account_deletion_verified` + `delete_my_account` (requires `account-deletion.sql` + `account-deletion-server.sql`); local cache cleared on logout/delete.
 
 - Manual contact via About page for requests not covered by in-app tools; target 30 business days.
 
