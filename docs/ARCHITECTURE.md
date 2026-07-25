@@ -58,5 +58,6 @@ Decision record: `docs/ADR-001-static-spa-supabase.md`
 ## Related docs
 
 - `supabase/README.md` — SQL run order
+- `docs/OPERATIONS-RUNBOOK.md`
 - `docs/SECURITY-STATUS.md`
 - `docs/COMPLIANCE-STATUS.md`

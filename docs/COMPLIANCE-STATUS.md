@@ -53,6 +53,7 @@ Full order: `supabase/README.md`. Security summary: `docs/SECURITY-STATUS.md`.
 
 - SQL migrations tracked under `supabase/` with run order in `supabase/README.md`.
 - CI smoke workflow: `.github/workflows/smoke.yml` checks `APP_VERSION` on push.
+- Ops runbook: `docs/OPERATIONS-RUNBOOK.md`
 
 ## Known gaps (honest)
 

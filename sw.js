@@ -1,13 +1,12 @@
-const CACHE_NAME = "metrico-cache-v2.54.0";
+const CACHE_NAME = "metrico-cache-v2.54.1";
 const ASSETS = [
-  "./", "./index.html", "./manifest.json", "./icons/icon-192.png", "./icons/icon-512.png",
+  "./", "./index.html", "./privacy-en.html", "./manifest.json", "./icons/icon-192.png", "./icons/icon-512.png",
   "./lib/react.production.min.js", "./lib/react-dom.production.min.js",
   "./lib/babel.min.js", "./lib/tailwind.js", "./lib/supabase.js",
   "./lib/leaflet.js", "./lib/leaflet.css", "./lib/apexcharts.min.js",
   "./lib/cad/bootstrap.mjs", "./lib/cad/libredwg-web.js",
   "./lib/wasm/libredwg-web.js", "./lib/wasm/libredwg-web.wasm",
   "./fonts/Vazirmatn.woff2", "./logo.png",
-  "./guide/start.png"
 ];
 
 self.addEventListener("install", (event) => {
