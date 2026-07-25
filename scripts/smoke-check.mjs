@@ -1,32 +1,58 @@
 #!/usr/bin/env node
 /**
- * Minimal smoke check: APP_VERSION in index.html matches expected pattern.
- * Usage: node scripts/smoke-check.mjs [url-or-file-path]
+ * Smoke check: APP_VERSION in index.html (file or URL).
+ * With EXPECT_VERSION env or argv[3]: fail if deployed version differs (Pages lag retry).
+ *
+ * Usage:
+ *   node scripts/smoke-check.mjs index.html
+ *   node scripts/smoke-check.mjs https://.../index.html [expectedVersion]
  */
-const target = process.argv[2] || "index.html";
-const fs = require("fs");
+import fs from "node:fs";
 
-async function loadHtml() {
-  if (/^https?:\/\//i.test(target)) {
-    const res = await fetch(target, { redirect: "follow" });
-    if (!res.ok) throw new Error(`HTTP ${res.status} for ${target}`);
+const target = process.argv[2] || "index.html";
+const expectVersion = process.env.EXPECT_VERSION || process.argv[3] || "";
+
+async function loadHtml(src) {
+  if (/^https?:\/\//i.test(src)) {
+    const res = await fetch(src, { redirect: "follow", cache: "no-store" });
+    if (!res.ok) throw new Error(`HTTP ${res.status} for ${src}`);
     return res.text();
   }
-  return fs.readFileSync(target, "utf8");
+  return fs.readFileSync(src, "utf8");
+}
+
+function parseVersion(html, label) {
+  const m = html.match(/const APP_VERSION = "([^"]+)"/);
+  if (!m) throw new Error(`APP_VERSION not found in ${label}`);
+  const ver = m[1];
+  if (!/^\d+\.\d+\.\d+$/.test(ver)) throw new Error(`invalid version format in ${label}: ${ver}`);
+  return ver;
+}
+
+async function sleep(ms) {
+  return new Promise((r) => setTimeout(r, ms));
 }
 
 (async () => {
-  const html = await loadHtml();
-  const m = html.match(/const APP_VERSION = "([^"]+)"/);
-  if (!m) {
-    console.error("FAIL: APP_VERSION not found in", target);
-    process.exit(1);
+  const isUrl = /^https?:\/\//i.test(target);
+
+  if (isUrl && expectVersion) {
+    const maxAttempts = 12;
+    for (let attempt = 1; attempt <= maxAttempts; attempt++) {
+      const html = await loadHtml(target);
+      const ver = parseVersion(html, target);
+      if (ver === expectVersion) {
+        console.log("OK: deployed APP_VERSION =", ver, "matches expected");
+        return;
+      }
+      console.log(`Attempt ${attempt}/${maxAttempts}: deployed ${ver}, expected ${expectVersion}`);
+      if (attempt < maxAttempts) await sleep(15000);
+    }
+    throw new Error(`deployed version never matched ${expectVersion}`);
   }
-  const ver = m[1];
-  if (!/^\d+\.\d+\.\d+$/.test(ver)) {
-    console.error("FAIL: invalid version format:", ver);
-    process.exit(1);
-  }
+
+  const html = await loadHtml(target);
+  const ver = parseVersion(html, target);
   console.log("OK: APP_VERSION =", ver, "from", target);
 })().catch((e) => {
   console.error("FAIL:", e.message);

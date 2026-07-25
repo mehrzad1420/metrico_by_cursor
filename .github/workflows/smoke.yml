@@ -10,10 +10,21 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v4
-      - name: Verify deployed HTML version (if Pages URL set)
+
+      - uses: actions/setup-node@v4
+        with:
+          node-version: "22"
+
+      - name: Read expected version from repo
+        id: ver
+        run: |
+          node scripts/smoke-check.mjs index.html | tee /tmp/smoke-local.txt
+          V=$(grep -oE '[0-9]+\.[0-9]+\.[0-9]+' /tmp/smoke-local.txt | head -1)
+          echo "value=$V" >> "$GITHUB_OUTPUT"
+          echo "Expected APP_VERSION: $V"
+
+      - name: Verify GitHub Pages matches repo (retry for deploy lag)
         env:
           PAGES_URL: https://mehrzad1420.github.io/metrico_by_cursor/index.html
-        run: |
-          node scripts/smoke-check.mjs "$PAGES_URL"
-      - name: Verify local index version
-        run: node scripts/smoke-check.mjs index.html
+          EXPECT_VERSION: ${{ steps.ver.outputs.value }}
+        run: node scripts/smoke-check.mjs "$PAGES_URL"
