@@ -37,6 +37,7 @@ These controls exist in the repo; they are **active in production only after** t
 | Control | Repo | Operator action |
 |---------|------|-----------------|
 | Stricter deletion gate | `account-deletion-server.sql` | Run in SQL Editor (after `account-deletion.sql`) |
+| Plan features (owner portal) | `plan-features-enforcement.sql` | Run after `plan-enforcement.sql` + `demo-readonly.sql` |
 | Server-side delete OTP | `supabase/functions/secure-delete-account` | Deploy Edge Function |
 | DSAR server export | `export-user-data.sql` | Run in SQL Editor |
 | Super-admin audit | `admin-audit-log.sql` | Run in SQL Editor |
@@ -55,7 +56,7 @@ Full order: `supabase/README.md`. Security summary: `docs/SECURITY-STATUS.md`.
 
 ## Known gaps (honest)
 
-- Plan limits enforced on **project INSERT** (server); other plan features remain client-gated.
+- Plan limits: **project INSERT** and **owner portal upsert** enforced on server when `plan-enforcement.sql` + `plan-features-enforcement.sql` are applied; other features remain client-gated until extended.
 - Auth `user_metadata` (contacts, company) not blocked for demo at Auth layer (client guard only).
 - No Playwright E2E yet — smoke check only.
 - Retention purge (`purge_stale_metrico_data`) is manual or scheduled — not automatic for active accounts.

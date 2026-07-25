@@ -1146,7 +1146,7 @@ function projectCardTheme(projectId) {
   return PROJECT_CARD_PALETTE[Math.abs(h) % PROJECT_CARD_PALETTE.length];
 }
 const APP_NAME = "Metrico";
-const APP_VERSION = "2.53.0";
+const APP_VERSION = "2.54.0";
 
 const METRICO_PLAN_ORDER = ["start", "plus", "pro", "ark"];
 const METRICO_PLANS = {
@@ -3879,6 +3879,9 @@ function ownerPortalErrorMessage(err) {
   const msg = err.message || String(err);
   if (/demo account is read-only/i.test(msg)) {
     return "حساب دمو فقط برای مشاهده است.";
+  }
+  if (/plan feature not available/i.test(msg)) {
+    return "این امکان در پلن بالاتر فعال می‌شود — از منو «پلن اشتراک» را ببینید.";
   }
   if (/updated_at/i.test(msg) && /record.*new|field/i.test(msg)) {
     return "ستون updated_at در جدول projects یا owner_portals نیست. فایل‌های SQL مربوطه را در Supabase اجرا کنید.";
@@ -7378,14 +7381,22 @@ function AppContent() {
   }
 
   function requirePlan(featureKey, onAllowed) {
-    if (hasPlanFeature(effectivePlan, featureKey, planExpiresAt)) {
-      onAllowed();
-      return true;
+    if (!hasPlanFeature(effectivePlan, featureKey, planExpiresAt)) {
+      setError(`${t("این امکان در پلن")} ${planRequiredLabel(featureKey)} ${t("است. از منو → «پلن اشتراک» ارتقا دهید.")}`);
+      setShowMenu(false);
+      setScreen("plan");
+      return false;
     }
-    setError(`${t("این امکان در پلن")} ${planRequiredLabel(featureKey)} ${t("است. از منو → «پلن اشتراک» ارتقا دهید.")}`);
-    setShowMenu(false);
-    setScreen("plan");
-    return false;
+    window.sb.rpc("check_plan_feature", { p_feature: featureKey }).then(({ error }) => {
+      if (error && /plan feature not available/i.test(error.message || "")) {
+        setError(`${t("این امکان در پلن")} ${planRequiredLabel(featureKey)} ${t("است. از منو → «پلن اشتراک» ارتقا دهید.")}`);
+        setShowMenu(false);
+        setScreen("plan");
+        return;
+      }
+      onAllowed();
+    }).catch(() => { onAllowed(); });
+    return true;
   }
 
   function ensurePdfExport() {

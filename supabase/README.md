@@ -13,12 +13,13 @@ Run these SQL scripts **in order** in Supabase Dashboard → SQL Editor.
 | 7 | `product-feedback.sql` | About-page feedback → super admin inbox |
 | 8 | `demo-readonly.sql` | Server-side read-only for `demo@metrico.app` (RLS + portal RPCs) |
 | 9 | `plan-enforcement.sql` | Project count limits + `ensure_demo_project_seed` RPC |
-| 10 | `account-deletion.sql` | Self-service GDPR erasure → `delete_my_account()` |
-| 11 | `profiles-hardening.sql` | Block client updates to plan/role/activated on `profiles` |
-| 12 | `account-deletion-server.sql` | Deletion gate: OTP mark + JWT freshness (fallback path) |
-| 13 | `admin-audit-log.sql` | Super-admin audit log + patched admin RPCs |
-| 14 | `export-user-data.sql` | DSAR JSON export RPC `export_my_data` |
-| 15 | `data-retention.sql` | Purge old portal messages / read feedback (admin) |
+| 10 | `plan-features-enforcement.sql` | Plan feature RPC + owner portal upsert gate (run after 9 + demo-readonly) |
+| 11 | `account-deletion.sql` | Self-service GDPR erasure → `delete_my_account()` |
+| 12 | `profiles-hardening.sql` | Block client updates to plan/role/activated on `profiles` |
+| 13 | `account-deletion-server.sql` | Deletion gate: OTP mark + JWT freshness (fallback path) |
+| 14 | `admin-audit-log.sql` | Super-admin audit log + patched admin RPCs |
+| 15 | `export-user-data.sql` | DSAR JSON export RPC `export_my_data` |
+| 16 | `data-retention.sql` | Purge old portal messages / read feedback (admin) |
 | — | `projects-updated-at-fix.sql` | **If saves fail** with `record "new" has no field "updated_at"` |
 
 ## After running scripts
