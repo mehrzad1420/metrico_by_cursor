@@ -287,6 +287,7 @@ Metrico/
 - **Demo account** — UI read-only; run `demo-readonly.sql` so the demo user cannot mutate projects/portals via the API
 - **Conversation assistant** — rule-based answers from your data; no third-party AI API
 - **Compliance summary** — see `docs/COMPLIANCE-STATUS.md`
+- **Due diligence one-pager** — see `docs/DUE-DILIGENCE-ONE-PAGER.md`
 - **Project data** — stored in Supabase `projects` table (JSON `data` column); synced across devices for the same account
 - **Contacts &amp; inventory** — stored in Supabase Auth user metadata
 - **Backup** — JSON export/import for manual backup and migration
