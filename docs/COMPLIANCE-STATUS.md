@@ -52,7 +52,7 @@ Last updated: 2026-07-25 · App version: see `index.html` `APP_VERSION`
 
 - **Portability:** Backup screen → JSON export.
 
-- **Erasure:** Privacy screen → self-service **Delete account** via RPC `delete_my_account` (requires `account-deletion.sql` on Supabase); local cache cleared on logout/delete.
+- **Erasure:** Company Info → **Delete account** → email OTP, then RPC `delete_my_account` (requires `account-deletion.sql` on Supabase); local cache cleared on logout/delete.
 
 - Manual contact via About page for requests not covered by in-app tools; target 30 business days.
 

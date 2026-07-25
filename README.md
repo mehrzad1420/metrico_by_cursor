@@ -6,7 +6,7 @@
 <h3 align="center">Smart Construction &amp; Real-Estate Project Management Platform</h3>
 
 <p align="center">
-  <img src="https://img.shields.io/badge/Version-2.52.1-blue?style=for-the-badge" alt="Version"/>
+  <img src="https://img.shields.io/badge/Version-2.52.2-blue?style=for-the-badge" alt="Version"/>
   <img src="https://img.shields.io/badge/PWA-Ready-orange?style=for-the-badge" alt="PWA"/>
   <img src="https://img.shields.io/badge/RTL-Persian-green?style=for-the-badge" alt="RTL"/>
   <img src="https://img.shields.io/badge/React-18-61DAFB?style=for-the-badge&amp;logo=react&amp;logoColor=white" alt="React"/>

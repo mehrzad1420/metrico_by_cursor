@@ -20,7 +20,7 @@ Customers (developers/contractors) are typically **controllers** for buyer PII e
 
 | # | Activity | Data categories | Storage | Legal basis (typical) | Retention | Erasure |
 |---|----------|-----------------|---------|----------------------|-----------|---------|
-| 1 | Account & auth | Email, password hash | Supabase Auth | Contract | Life of account | `delete_my_account()` RPC + client clears local cache |
+| 1 | Account & auth | Email, password hash | Supabase Auth | Contract | Life of account | Company Info → email OTP → `delete_my_account()` + clear local cache |
 | 2 | Subscription profile | Plan, activation, role | `profiles` | Contract | Life of account | CASCADE on auth user delete |
 | 3 | Project ERP | Units, buyers, phones, finance, docs (JSON) | `projects.data` | Contract / legitimate interest | Life of account | CASCADE |
 | 4 | CRM-lite | Company, contacts, inventory, reminders | Auth `user_metadata` | Contract | Life of account | Removed with auth user; client backup may retain copy until cleared |
