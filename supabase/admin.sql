@@ -88,6 +88,8 @@ grant execute on function public.admin_list_members() to authenticated;
 grant execute on function public.admin_set_member_plan(uuid, text, int) to authenticated;
 
 -- ═══ Promote founder to super admin (edit email if needed) ═══
+select set_config('metrico.profile_admin_update', '1', true);
+
 update public.profiles
 set role = 'super_admin'
 where user_id = (

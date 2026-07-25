@@ -52,6 +52,7 @@ AS $$
 DECLARE
   v_portal public.owner_portals%ROWTYPE;
   v_msg TEXT;
+  v_recent INT;
 BEGIN
   v_msg := trim(coalesce(p_message, ''));
   IF length(v_msg) < 2 THEN
@@ -64,6 +65,15 @@ BEGIN
   SELECT * INTO v_portal FROM public.owner_portals WHERE token = portal_token LIMIT 1;
   IF NOT FOUND THEN
     RAISE EXCEPTION 'invalid portal token';
+  END IF;
+
+  SELECT count(*)::int INTO v_recent
+  FROM public.owner_portal_messages
+  WHERE portal_token = submit_owner_portal_message.portal_token
+    AND created_at > now() - interval '1 minute';
+
+  IF v_recent >= 8 THEN
+    RAISE EXCEPTION 'rate limit exceeded';
   END IF;
 
   INSERT INTO public.owner_portal_messages (

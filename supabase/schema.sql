@@ -109,6 +109,8 @@ begin
   set used_by = v_uid, used_at = now()
   where id = v_row.id;
 
+  perform set_config('metrico.profile_admin_update', '1', true);
+
   update public.profiles
   set activated = true
   where user_id = v_uid;
@@ -130,7 +132,7 @@ alter table public.profiles enable row level security;
 alter table public.projects enable row level security;
 alter table public.activation_codes enable row level security;
 
-grant select, update on table public.profiles to authenticated;
+grant select on table public.profiles to authenticated;
 grant select, insert, update, delete on table public.projects to authenticated;
 
 drop policy if exists profiles_select_own on public.profiles;
@@ -139,10 +141,6 @@ create policy profiles_select_own on public.profiles
   using (auth.uid() = user_id);
 
 drop policy if exists profiles_update_own on public.profiles;
-create policy profiles_update_own on public.profiles
-  for update to authenticated
-  using (auth.uid() = user_id)
-  with check (auth.uid() = user_id);
 
 drop policy if exists projects_owner_all on public.projects;
 create policy projects_owner_all on public.projects

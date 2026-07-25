@@ -77,6 +77,8 @@ begin
     v_expires := greatest(coalesce(v_current_expires, now()), now()) + (v_months || ' months')::interval;
   end if;
 
+  perform set_config('metrico.profile_admin_update', '1', true);
+
   update public.profiles
   set plan = v_plan,
       plan_expires_at = v_expires,

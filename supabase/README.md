@@ -14,6 +14,7 @@ Run these SQL scripts **in order** in Supabase Dashboard → SQL Editor.
 | 8 | `demo-readonly.sql` | Server-side read-only for `demo@metrico.app` (RLS + portal RPCs) |
 | 9 | `plan-enforcement.sql` | Project count limits + `ensure_demo_project_seed` RPC |
 | 10 | `account-deletion.sql` | Self-service GDPR erasure → `delete_my_account()` |
+| 11 | `profiles-hardening.sql` | Block client updates to plan/role/activated on `profiles` |
 | — | `projects-updated-at-fix.sql` | **If saves fail** with `record "new" has no field "updated_at"` |
 
 ## After running scripts
@@ -44,6 +45,8 @@ Company name, contacts, reminders, and inventory are stored in Supabase Auth `us
 - Project data is isolated per user via RLS on `projects`.
 - `activation_codes` and admin RPCs use `security definer` — users cannot read codes directly.
 - Review `owner_portals` policies if you change public portal behavior.
+- Run `profiles-hardening.sql` so clients cannot UPDATE `profiles` (plan/role/activation bypass).
 - Run `account-deletion.sql` so users can erase their account after email OTP in **Company Info**.
 - In Supabase Dashboard → **Authentication** → **Providers** → Email: enable **Email OTP** (or magic link + OTP template) so deletion codes can be sent to the registered email.
+- **Demo password:** set only in Supabase Auth; users type it in Guide → demo (not in git).
 - Auth `user_metadata` (contacts, company, inventory) is still writable by the demo user until a Supabase Auth hook blocks it — use a dedicated demo project only.

@@ -1,0 +1,14 @@
+# .gitignore — local noise & secrets
+
+backups/
+backup/
+.cursor/
+
+# Optional local config (never commit secrets)
+config.local.js
+.env
+.env.*
+
+# OS / editor
+Thumbs.db
+.DS_Store

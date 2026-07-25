@@ -635,7 +635,6 @@ const PhoneCall = (p) => <LucidePhone {...p} />;
 const SendIcon = (p) => <LucideSend {...p} />;
 
 const DEMO_EMAIL = "demo@metrico.app";
-const DEMO_PASSWORD = "MetricoDemo1403";
 const DEMO_PROJECT_NAME = "برج سپهر — پروژه نمایشی";
 
 const GUIDE_SECTIONS = [
@@ -1147,7 +1146,7 @@ function projectCardTheme(projectId) {
   return PROJECT_CARD_PALETTE[Math.abs(h) % PROJECT_CARD_PALETTE.length];
 }
 const APP_NAME = "Metrico";
-const APP_VERSION = "2.52.2";
+const APP_VERSION = "2.52.3";
 
 const METRICO_PLAN_ORDER = ["start", "plus", "pro", "ark"];
 const METRICO_PLANS = {
@@ -2698,6 +2697,10 @@ Object.assign(DICT, {
   "آیا مطمئن هستید؟ تمام داده‌های ابری حذف می‌شود.": "Are you sure? All cloud data will be deleted.",
   "حذف شد. در حال خروج…": "Deleted. Signing out…",
   "حساب دمو قابل حذف از برنامه نیست.": "The demo account cannot be deleted from the app.",
+  "رمز دمو را در بخش راهنما وارد کنید.": "Enter the demo password in the Guide section.",
+  "رمز دمو (در Supabase Auth تنظیم می‌شود)": "Demo password (set in Supabase Auth)",
+  "رمز دمو را وارد کنید": "Enter demo password",
+  "رمز در کد اپ ذخیره نمی‌شود؛ فقط در پنل Supabase برای حساب دمو تنظیم کنید.": "The password is not stored in app code; set it in Supabase Auth for the demo user only.",
   "در حال حذف…": "Deleting…",
   "خطا در حذف حساب:": "Account deletion failed:",
   "موقعیت مکانی پروژه‌ها": "Project locations",
@@ -7842,10 +7845,15 @@ function AppContent() {
     setShowNewProject(false);
   }
 
-  async function loginAsDemo() {
+  async function loginAsDemo(demoPassword) {
     setError("");
     setShowMenu(false);
-    const { error: err } = await window.sb.auth.signInWithPassword({ email: DEMO_EMAIL, password: DEMO_PASSWORD });
+    const pw = String(demoPassword || "").trim();
+    if (pw.length < 6) {
+      setError(t("رمز دمو را در بخش راهنما وارد کنید."));
+      return;
+    }
+    const { error: err } = await window.sb.auth.signInWithPassword({ email: DEMO_EMAIL, password: pw });
     if (err) {
       setError(t("ورود به حساب دمو ناموفق بود: ") + err.message);
       return;
@@ -10986,6 +10994,7 @@ function GuideScreen({ onBack, onDemoLogin }) {
   const screenDir = lang === "fa" ? "rtl" : "ltr";
   const [tab, setTab] = useState("start");
   const [demoLoading, setDemoLoading] = useState(false);
+  const [demoPassword, setDemoPassword] = useState("");
   const [copyMsg, setCopyMsg] = useState("");
   const section = GUIDE_SECTIONS.find((s) => s.id === tab) || GUIDE_SECTIONS[0];
   const TabIcon = section.icon;
@@ -11005,7 +11014,7 @@ function GuideScreen({ onBack, onDemoLogin }) {
 
   async function handleDemoLogin() {
     setDemoLoading(true);
-    try { await onDemoLogin(); } finally { setDemoLoading(false); }
+    try { await onDemoLogin(demoPassword); } finally { setDemoLoading(false); }
   }
 
   return (
@@ -11087,20 +11096,24 @@ function GuideScreen({ onBack, onDemoLogin }) {
                 <span className="text-[#6B7280]">{t("ایمیل")}</span>
                 <div className="flex items-center gap-2">
                   <span dir="ltr" className="font-semibold text-[#14213D]">{DEMO_EMAIL}</span>
-                  <button onClick={() => copyText(DEMO_EMAIL)} className="text-[10px] text-[#128C7E] font-semibold">{t("کپی")}</button>
+                  <button type="button" onClick={() => copyText(DEMO_EMAIL)} className="text-[10px] text-[#128C7E] font-semibold">{t("کپی")}</button>
                 </div>
               </div>
-              <div className="flex items-center justify-between gap-2">
-                <span className="text-[#6B7280]">{t("رمز عبور")}</span>
-                <div className="flex items-center gap-2">
-                  <span dir="ltr" className="font-semibold text-[#14213D]">{DEMO_PASSWORD}</span>
-                  <button onClick={() => copyText(DEMO_PASSWORD)} className="text-[10px] text-[#128C7E] font-semibold">{t("کپی")}</button>
-                </div>
-              </div>
+              <label className="text-[#6B7280] block mb-1">{t("رمز دمو (در Supabase Auth تنظیم می‌شود)")}</label>
+              <input
+                type="password"
+                value={demoPassword}
+                onChange={(e) => setDemoPassword(e.target.value)}
+                placeholder={t("رمز دمو را وارد کنید")}
+                dir="ltr"
+                autoComplete="off"
+                className="w-full m-input-field px-3 py-2.5 text-sm outline-none text-left mb-1"
+              />
+              <p className="text-[10px] text-[#9CA3AF] leading-5">{t("رمز در کد اپ ذخیره نمی‌شود؛ فقط در پنل Supabase برای حساب دمو تنظیم کنید.")}</p>
               {copyMsg && <div className="text-[10px] text-[#166534] mt-2 text-center">{copyMsg}</div>}
             </div>
 
-            <button onClick={handleDemoLogin} disabled={demoLoading}
+            <button onClick={handleDemoLogin} disabled={demoLoading || demoPassword.trim().length < 6}
               className="w-full flex items-center justify-center gap-2 bg-[#128C7E] text-white rounded-xl py-3.5 text-sm font-bold shadow-md disabled:opacity-60">
               {demoLoading ? t("در حال ورود...") : (<><LucideRocket size={18} /> {t("ورود به دمو")}</>)}
             </button>
