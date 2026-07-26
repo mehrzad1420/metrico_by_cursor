@@ -1,0 +1,208 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Metrico — Sample D · Aurora</title>
+  <link rel="icon" href="../logo.png" />
+  <style>
+    :root {
+      --text: #1e293b;
+      --muted: #64748b;
+    }
+    * { box-sizing: border-box; margin: 0; padding: 0; }
+    body {
+      font-family: system-ui, -apple-system, sans-serif;
+      color: var(--text);
+      min-height: 100vh;
+      background: #f8fafc;
+    }
+    .aurora {
+      position: absolute;
+      inset: 0;
+      overflow: hidden;
+      z-index: 0;
+    }
+    .aurora::before,
+    .aurora::after {
+      content: "";
+      position: absolute;
+      width: 70%;
+      height: 60%;
+      border-radius: 50%;
+      filter: blur(80px);
+      opacity: 0.5;
+    }
+    .aurora::before {
+      background: #99f6e4;
+      top: -10%;
+      right: -10%;
+    }
+    .aurora::after {
+      background: #bae6fd;
+      bottom: 20%;
+      left: -15%;
+    }
+    .page { position: relative; z-index: 1; }
+    nav {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      max-width: 1000px;
+      margin: 0 auto;
+      padding: 1.25rem 1.5rem;
+    }
+    .glass {
+      background: rgba(255,255,255,0.65);
+      backdrop-filter: blur(12px);
+      -webkit-backdrop-filter: blur(12px);
+      border: 1px solid rgba(255,255,255,0.8);
+      border-radius: 999px;
+      padding: 0.5rem 0.5rem 0.5rem 1rem;
+      display: flex;
+      align-items: center;
+      gap: 1rem;
+      width: 100%;
+      max-width: 1000px;
+      margin: 0 auto;
+    }
+    .brand { display: flex; align-items: center; gap: 0.5rem; font-weight: 700; font-size: 0.9rem; }
+    .brand img { width: 32px; border-radius: 10px; }
+    .nav-fill { flex: 1; }
+    .nav-links { display: flex; gap: 1.25rem; font-size: 0.85rem; }
+    .nav-links a { color: var(--muted); text-decoration: none; }
+    .nav-btn {
+      background: #0f172a;
+      color: #fff;
+      padding: 0.5rem 1rem;
+      border-radius: 999px;
+      font-size: 0.8rem;
+      font-weight: 600;
+      text-decoration: none;
+    }
+    .hero {
+      max-width: 1000px;
+      margin: 0 auto;
+      padding: 3rem 1.5rem 4rem;
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 2rem;
+      align-items: center;
+    }
+    @media (max-width: 800px) {
+      .hero { grid-template-columns: 1fr; text-align: center; }
+      .phone-wrap { order: -1; }
+    }
+    h1 {
+      font-size: clamp(2rem, 4.5vw, 2.75rem);
+      letter-spacing: -0.03em;
+      line-height: 1.15;
+      margin-bottom: 1rem;
+      font-weight: 700;
+    }
+    .hero p { color: var(--muted); margin-bottom: 1.5rem; font-size: 1rem; }
+    .btns { display: flex; gap: 0.65rem; flex-wrap: wrap; }
+    @media (max-width: 800px) { .btns { justify-content: center; } }
+    .btns a {
+      padding: 0.75rem 1.25rem;
+      border-radius: 12px;
+      font-size: 0.875rem;
+      font-weight: 600;
+      text-decoration: none;
+    }
+    .solid { background: #0f172a; color: #fff; }
+    .ghost { background: rgba(255,255,255,0.7); border: 1px solid #e2e8f0; color: var(--text); }
+    .phone-wrap { display: flex; justify-content: center; }
+    .phone {
+      width: 240px;
+      aspect-ratio: 9/19;
+      background: rgba(255,255,255,0.75);
+      backdrop-filter: blur(8px);
+      border-radius: 32px;
+      border: 1px solid rgba(255,255,255,0.9);
+      box-shadow: 0 25px 50px rgba(15,23,42,0.12);
+      padding: 12px;
+    }
+    .screen {
+      background: #fff;
+      border-radius: 24px;
+      height: 100%;
+      padding: 16px;
+    }
+    .screen .bar { height: 6px; width: 40%; background: #14b8a6; border-radius: 3px; margin-bottom: 12px; }
+    .screen .blocks { display: grid; gap: 8px; }
+    .screen .blocks div { height: 52px; background: #f1f5f9; border-radius: 10px; }
+    .cards {
+      max-width: 1000px;
+      margin: 0 auto;
+      padding: 0 1.5rem 4rem;
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 1rem;
+    }
+    @media (max-width: 700px) { .cards { grid-template-columns: 1fr; } }
+    .card {
+      background: rgba(255,255,255,0.7);
+      backdrop-filter: blur(8px);
+      border: 1px solid rgba(255,255,255,0.9);
+      border-radius: 16px;
+      padding: 1.25rem;
+    }
+    .card h3 { font-size: 0.95rem; margin-bottom: 0.35rem; }
+    .card p { font-size: 0.82rem; color: var(--muted); }
+    footer {
+      text-align: center;
+      padding: 2rem;
+      font-size: 0.78rem;
+      color: var(--muted);
+    }
+    footer a { color: #0d9488; }
+    .sample-label {
+      text-align: center;
+      font-size: 0.7rem;
+      color: var(--muted);
+      padding-bottom: 1rem;
+    }
+  </style>
+</head>
+<body>
+  <div class="aurora" aria-hidden="true"></div>
+  <div class="page">
+    <div style="padding: 1rem 1.5rem 0">
+      <nav class="glass">
+        <div class="brand"><img src="../logo.png" alt="" /> Metrico</div>
+        <div class="nav-fill"></div>
+        <div class="nav-links">
+          <a href="../privacy.html">Privacy</a>
+        </div>
+        <a class="nav-btn" href="https://mehrzad1420.github.io/metrico_by_cursor/index.html">Open app</a>
+      </nav>
+    </div>
+    <section class="hero">
+      <div>
+        <h1>Your projects. One pocket-sized HQ.</h1>
+        <p>Manage units, sales, cash flow, and owner updates from the field — offline-ready PWA for construction teams.</p>
+        <div class="btns">
+          <a class="solid" href="https://mehrzad1420.github.io/metrico_by_cursor/index.html">Try Metrico</a>
+          <a class="ghost" href="mailto:hello@metrico.app">Contact</a>
+        </div>
+      </div>
+      <div class="phone-wrap">
+        <div class="phone">
+          <div class="screen">
+            <div class="bar"></div>
+            <div class="blocks"><div></div><div></div><div></div></div>
+          </div>
+        </div>
+      </div>
+    </section>
+    <section class="cards">
+      <article class="card"><h3>Units &amp; sales</h3><p>Grids, buyers, installments.</p></article>
+      <article class="card"><h3>Finances</h3><p>Expenses, reports, investors.</p></article>
+      <article class="card"><h3>Owner links</h3><p>Secure progress sharing.</p></article>
+    </section>
+    <footer><a href="../privacy.html">Privacy</a> · © Metrico</footer>
+    <p class="sample-label">Sample 4 — Aurora glass</p>
+  </div>
+</body>
+</html>

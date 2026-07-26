@@ -1,0 +1,141 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Metrico — Sample B · Editorial</title>
+  <link rel="icon" href="../logo.png" />
+  <style>
+    :root {
+      --bg: #ffffff;
+      --text: #0f0f0f;
+      --muted: #525252;
+      --line: #ebebeb;
+      --accent: #115e59;
+    }
+    * { box-sizing: border-box; margin: 0; padding: 0; }
+    body {
+      font-family: "Segoe UI", system-ui, sans-serif;
+      background: var(--bg);
+      color: var(--text);
+      line-height: 1.55;
+    }
+    nav {
+      max-width: 920px;
+      margin: 0 auto;
+      padding: 2rem 1.5rem 0;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      font-size: 0.875rem;
+    }
+    nav a { color: var(--muted); text-decoration: none; }
+    nav a:hover { color: var(--text); }
+    .brand { font-weight: 600; color: var(--text); display: flex; align-items: center; gap: 0.5rem; }
+    .brand img { width: 28px; border-radius: 6px; }
+    main {
+      max-width: 920px;
+      margin: 0 auto;
+      padding: 5rem 1.5rem 4rem;
+    }
+    h1 {
+      font-size: clamp(2.75rem, 7vw, 4.25rem);
+      font-weight: 500;
+      letter-spacing: -0.04em;
+      line-height: 1.05;
+      margin-bottom: 2rem;
+      max-width: 14ch;
+    }
+    .sub {
+      font-size: 1.2rem;
+      color: var(--muted);
+      max-width: 32rem;
+      margin-bottom: 2.5rem;
+      font-weight: 400;
+    }
+    .cta-row { display: flex; gap: 1rem; flex-wrap: wrap; margin-bottom: 5rem; }
+    .cta-row a {
+      font-size: 0.9rem;
+      font-weight: 500;
+      text-decoration: none;
+      padding-bottom: 2px;
+      border-bottom: 1px solid var(--text);
+      color: var(--text);
+    }
+    .cta-row a.secondary { border-color: var(--line); color: var(--muted); }
+    hr { border: none; border-top: 1px solid var(--line); margin: 0 1.5rem; max-width: 920px; margin-left: auto; margin-right: auto; }
+    .cols {
+      max-width: 920px;
+      margin: 0 auto;
+      padding: 4rem 1.5rem;
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 4rem;
+    }
+    @media (max-width: 700px) { .cols { grid-template-columns: 1fr; gap: 2rem; } }
+    .cols h2 {
+      font-size: 0.75rem;
+      text-transform: uppercase;
+      letter-spacing: 0.12em;
+      color: var(--muted);
+      margin-bottom: 1rem;
+    }
+    .cols p { font-size: 1.05rem; color: var(--text); }
+    .cols ul { list-style: none; margin-top: 1.5rem; }
+    .cols li {
+      padding: 1rem 0;
+      border-bottom: 1px solid var(--line);
+      font-size: 0.95rem;
+    }
+    .cols li span { color: var(--muted); display: block; font-size: 0.85rem; margin-top: 0.25rem; }
+    footer {
+      max-width: 920px;
+      margin: 0 auto;
+      padding: 2rem 1.5rem 4rem;
+      font-size: 0.8rem;
+      color: var(--muted);
+    }
+    .sample-label {
+      position: fixed;
+      bottom: 12px;
+      right: 12px;
+      font-size: 0.7rem;
+      color: var(--muted);
+    }
+  </style>
+</head>
+<body>
+  <nav>
+    <div class="brand"><img src="../logo.png" alt="" /> Metrico</div>
+    <div style="display:flex;gap:1.5rem">
+      <a href="https://mehrzad1420.github.io/metrico_by_cursor/index.html">App</a>
+      <a href="../privacy.html">Privacy</a>
+    </div>
+  </nav>
+  <main>
+    <h1>Build smarter.<br />Sell with clarity.</h1>
+    <p class="sub">Project management for construction and real estate — units, installments, finances, and owner communication in one calm interface.</p>
+    <div class="cta-row">
+      <a href="https://mehrzad1420.github.io/metrico_by_cursor/index.html">Open application →</a>
+      <a class="secondary" href="mailto:hello@metrico.app">Talk to us</a>
+    </div>
+  </main>
+  <hr />
+  <div class="cols">
+    <div>
+      <h2>Why teams switch</h2>
+      <p>Spreadsheets break when every unit has its own buyer, payment plan, and story. Metrico keeps the site and the office aligned.</p>
+    </div>
+    <div>
+      <ul>
+        <li>Unit grid &amp; sales <span>Down payments and installment timelines</span></li>
+        <li>Project finances <span>Expenses, accounts, investor splits</span></li>
+        <li>Owner portal <span>Share progress without exposing your books</span></li>
+        <li>Offline PWA <span>Works where Wi‑Fi does not</span></li>
+      </ul>
+    </div>
+  </div>
+  <footer>© Metrico · Sample B · Editorial minimal</footer>
+  <span class="sample-label">Sample 2</span>
+</body>
+</html>

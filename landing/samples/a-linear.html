@@ -1,0 +1,189 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Metrico — Sample A · Linear</title>
+  <link rel="icon" href="../logo.png" />
+  <style>
+    :root {
+      --bg: #0a0a0b;
+      --surface: #141416;
+      --border: rgba(255,255,255,0.08);
+      --text: #fafafa;
+      --muted: #a1a1aa;
+      --accent: #2dd4bf;
+    }
+    * { box-sizing: border-box; margin: 0; padding: 0; }
+    body {
+      font-family: ui-sans-serif, system-ui, -apple-system, sans-serif;
+      background: var(--bg);
+      color: var(--text);
+      line-height: 1.6;
+      -webkit-font-smoothing: antialiased;
+    }
+    .glow {
+      position: fixed;
+      top: -20%;
+      left: 50%;
+      transform: translateX(-50%);
+      width: 800px;
+      height: 400px;
+      background: radial-gradient(ellipse, rgba(45,212,191,0.15), transparent 70%);
+      pointer-events: none;
+    }
+    nav {
+      max-width: 1040px;
+      margin: 0 auto;
+      padding: 1.25rem 1.5rem;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+    }
+    .brand { display: flex; align-items: center; gap: 0.6rem; font-weight: 600; font-size: 0.95rem; }
+    .brand img { width: 32px; height: 32px; border-radius: 8px; }
+    .nav-links { display: flex; gap: 1.5rem; font-size: 0.875rem; color: var(--muted); }
+    .nav-links a { color: inherit; text-decoration: none; }
+    .nav-links a:hover { color: var(--text); }
+    .btn {
+      display: inline-flex;
+      align-items: center;
+      padding: 0.55rem 1rem;
+      border-radius: 8px;
+      font-size: 0.875rem;
+      font-weight: 500;
+      text-decoration: none;
+      border: 1px solid var(--border);
+      color: var(--text);
+      background: var(--surface);
+    }
+    .btn-accent {
+      background: var(--accent);
+      color: #042f2e;
+      border-color: transparent;
+    }
+    main { max-width: 1040px; margin: 0 auto; padding: 4rem 1.5rem 5rem; text-align: center; }
+    .badge {
+      display: inline-flex;
+      padding: 0.25rem 0.75rem;
+      border-radius: 999px;
+      border: 1px solid var(--border);
+      font-size: 0.75rem;
+      color: var(--muted);
+      margin-bottom: 1.5rem;
+    }
+    h1 {
+      font-size: clamp(2.25rem, 5vw, 3.5rem);
+      font-weight: 600;
+      letter-spacing: -0.03em;
+      line-height: 1.1;
+      max-width: 18ch;
+      margin: 0 auto 1.25rem;
+    }
+    .lead {
+      color: var(--muted);
+      font-size: 1.05rem;
+      max-width: 36rem;
+      margin: 0 auto 2rem;
+    }
+    .hero-cta { display: flex; gap: 0.75rem; justify-content: center; flex-wrap: wrap; margin-bottom: 4rem; }
+    .panel {
+      border: 1px solid var(--border);
+      border-radius: 12px;
+      background: var(--surface);
+      padding: 1px;
+      overflow: hidden;
+      box-shadow: 0 0 0 1px rgba(0,0,0,0.4), 0 24px 80px rgba(0,0,0,0.5);
+    }
+    .panel-bar {
+      display: flex;
+      gap: 6px;
+      padding: 10px 14px;
+      border-bottom: 1px solid var(--border);
+    }
+    .panel-bar span { width: 10px; height: 10px; border-radius: 50%; background: #3f3f46; }
+    .panel-body {
+      padding: 2rem;
+      min-height: 220px;
+      background: linear-gradient(180deg, #18181b 0%, #0a0a0b 100%);
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 1rem;
+    }
+    .mini {
+      border: 1px solid var(--border);
+      border-radius: 8px;
+      padding: 1rem;
+      text-align: left;
+      font-size: 0.8rem;
+    }
+    .mini strong { display: block; margin-bottom: 0.35rem; color: var(--accent); font-size: 0.7rem; text-transform: uppercase; letter-spacing: 0.06em; }
+    .mini p { color: var(--muted); font-size: 0.78rem; }
+    section.features {
+      max-width: 1040px;
+      margin: 0 auto;
+      padding: 0 1.5rem 5rem;
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 1rem;
+    }
+    @media (max-width: 768px) { section.features { grid-template-columns: 1fr; } }
+    footer {
+      border-top: 1px solid var(--border);
+      padding: 2rem 1.5rem;
+      text-align: center;
+      font-size: 0.8rem;
+      color: var(--muted);
+    }
+    footer a { color: var(--accent); }
+    .sample-label {
+      position: fixed;
+      bottom: 12px;
+      left: 12px;
+      font-size: 0.7rem;
+      color: var(--muted);
+      background: var(--surface);
+      border: 1px solid var(--border);
+      padding: 0.35rem 0.6rem;
+      border-radius: 6px;
+    }
+  </style>
+</head>
+<body>
+  <div class="glow" aria-hidden="true"></div>
+  <nav>
+    <div class="brand"><img src="../logo.png" alt="" /> Metrico</div>
+    <div class="nav-links">
+      <a href="#features">Features</a>
+      <a href="../privacy.html">Privacy</a>
+    </div>
+    <a class="btn btn-accent" href="https://mehrzad1420.github.io/metrico_by_cursor/index.html">Open app</a>
+  </nav>
+  <main>
+    <div class="badge">Construction · Offline PWA</div>
+    <h1>One workspace for every job site</h1>
+    <p class="lead">Units, installment sales, project finances, and owner updates — built for developers and contractors who work on the ground.</p>
+    <div class="hero-cta">
+      <a class="btn btn-accent" href="https://mehrzad1420.github.io/metrico_by_cursor/index.html">Start free</a>
+      <a class="btn" href="mailto:hello@metrico.app">Contact</a>
+    </div>
+    <div class="panel">
+      <div class="panel-bar"><span></span><span></span><span></span></div>
+      <div class="panel-body">
+        <div class="mini"><strong>Units</strong><p>Floor grids, buyers, schedules</p></div>
+        <div class="mini"><strong>Finance</strong><p>Expenses, investors, PDF reports</p></div>
+        <div class="mini"><strong>Owners</strong><p>Secure progress links</p></div>
+      </div>
+    </div>
+  </main>
+  <section class="features" id="features">
+    <div class="mini"><strong>Sales</strong><p>Visual inventory per tower and phase.</p></div>
+    <div class="mini"><strong>Cash flow</strong><p>Receivables without spreadsheet chaos.</p></div>
+    <div class="mini"><strong>Mobile</strong><p>Works offline on site.</p></div>
+  </section>
+  <footer>
+    <a href="../privacy.html">Privacy</a> · © Metrico · Sample A
+  </footer>
+  <span class="sample-label">Sample 1 — Dark product</span>
+</body>
+</html>

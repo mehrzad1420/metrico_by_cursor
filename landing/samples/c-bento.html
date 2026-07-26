@@ -1,0 +1,140 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Metrico — Sample C · Bento</title>
+  <link rel="icon" href="../logo.png" />
+  <style>
+    :root {
+      --bg: #f4f4f5;
+      --card: #ffffff;
+      --text: #18181b;
+      --muted: #71717a;
+      --accent: #059669;
+    }
+    * { box-sizing: border-box; margin: 0; padding: 0; }
+    body {
+      font-family: system-ui, -apple-system, sans-serif;
+      background: var(--bg);
+      color: var(--text);
+      line-height: 1.5;
+      padding: 1.25rem;
+    }
+    .shell { max-width: 980px; margin: 0 auto; }
+    header {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      padding: 0.5rem 0.25rem 1.5rem;
+    }
+    .brand { display: flex; align-items: center; gap: 0.5rem; font-weight: 700; }
+    .brand img { width: 36px; border-radius: 10px; }
+    .pill {
+      background: var(--card);
+      padding: 0.4rem 0.85rem;
+      border-radius: 999px;
+      font-size: 0.8rem;
+      font-weight: 600;
+      text-decoration: none;
+      color: var(--text);
+      box-shadow: 0 1px 2px rgba(0,0,0,0.04);
+    }
+    .bento {
+      display: grid;
+      grid-template-columns: repeat(4, 1fr);
+      grid-auto-rows: minmax(120px, auto);
+      gap: 12px;
+    }
+    @media (max-width: 768px) {
+      .bento { grid-template-columns: 1fr 1fr; }
+      .span-2, .span-4 { grid-column: span 2; }
+    }
+    .cell {
+      background: var(--card);
+      border-radius: 20px;
+      padding: 1.35rem 1.5rem;
+      box-shadow: 0 1px 3px rgba(0,0,0,0.04);
+    }
+    .span-2 { grid-column: span 2; }
+    .span-4 { grid-column: span 4; }
+    .hero-cell h1 {
+      font-size: clamp(1.75rem, 4vw, 2.35rem);
+      letter-spacing: -0.03em;
+      margin-bottom: 0.75rem;
+      font-weight: 700;
+    }
+    .hero-cell p { color: var(--muted); font-size: 0.95rem; max-width: 28rem; margin-bottom: 1.25rem; }
+    .hero-cell a {
+      display: inline-block;
+      background: var(--text);
+      color: #fff;
+      padding: 0.65rem 1.15rem;
+      border-radius: 12px;
+      font-size: 0.85rem;
+      font-weight: 600;
+      text-decoration: none;
+    }
+    .stat { font-size: 2rem; font-weight: 700; letter-spacing: -0.03em; color: var(--accent); }
+    .stat-label { font-size: 0.8rem; color: var(--muted); margin-top: 0.25rem; }
+    .cell h3 { font-size: 0.95rem; margin-bottom: 0.35rem; }
+    .cell p { font-size: 0.82rem; color: var(--muted); }
+    .accent-cell {
+      background: linear-gradient(135deg, #064e3b, #059669);
+      color: #ecfdf5;
+    }
+    .accent-cell p { color: rgba(255,255,255,0.85); }
+    .accent-cell a { color: #fff; font-weight: 600; font-size: 0.85rem; }
+    footer {
+      text-align: center;
+      padding: 2rem 0 1rem;
+      font-size: 0.75rem;
+      color: var(--muted);
+    }
+    footer a { color: var(--accent); }
+    .sample-label { text-align: center; font-size: 0.7rem; color: var(--muted); padding-bottom: 1rem; }
+  </style>
+</head>
+<body>
+  <div class="shell">
+    <header>
+      <div class="brand"><img src="../logo.png" alt="" /> Metrico</div>
+      <a class="pill" href="https://mehrzad1420.github.io/metrico_by_cursor/index.html">Launch app</a>
+    </header>
+    <div class="bento">
+      <div class="cell span-2 hero-cell">
+        <h1>Construction ops, simplified.</h1>
+        <p>Units, installments, finances, and owner updates — one mobile-first workspace with offline sync.</p>
+        <a href="https://mehrzad1420.github.io/metrico_by_cursor/index.html">Get started</a>
+      </div>
+      <div class="cell">
+        <div class="stat">PWA</div>
+        <div class="stat-label">Install on site</div>
+      </div>
+      <div class="cell">
+        <div class="stat">FA+EN</div>
+        <div class="stat-label">Persian-first</div>
+      </div>
+      <div class="cell span-2">
+        <h3>Units &amp; sales</h3>
+        <p>Visual grids, buyers, down payments, and payment schedules per project phase.</p>
+      </div>
+      <div class="cell span-2">
+        <h3>Project finances</h3>
+        <p>Track expenses, accounts, investors, and export PDF reports — no scattered files.</p>
+      </div>
+      <div class="cell span-2 accent-cell">
+        <h3>Owner portal</h3>
+        <p>Share construction progress with buyers through secure links.</p>
+        <p style="margin-top:0.75rem"><a href="mailto:hello@metrico.app">Contact for demo →</a></p>
+      </div>
+      <div class="cell span-2">
+        <h3>Plans</h3>
+        <p>Starter free · Plus · Pro · Ark (takeoff &amp; energy tools)</p>
+      </div>
+    </div>
+    <footer><a href="../privacy.html">Privacy</a> · © Metrico</footer>
+    <p class="sample-label">Sample 3 — Bento grid</p>
+  </div>
+</body>
+</html>
