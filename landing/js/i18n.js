@@ -1,0 +1,367 @@
+(function () {
+  const APP_URL = "https://mehrzad1420.github.io/metrico_by_cursor/index.html";
+  const STORAGE_KEY = "metrico-landing-lang";
+
+  const STR = {
+    en: {
+      "meta.title.home": "Metrico — Construction Project Management",
+      "meta.title.about": "About — Metrico",
+      "meta.title.guide": "Guide — Metrico",
+      "meta.title.contact": "Contact — Metrico",
+      "meta.title.privacy": "Privacy — Metrico",
+      "nav.home": "Home",
+      "nav.platform": "Platform",
+      "nav.about": "About",
+      "nav.guide": "Guide",
+      "nav.contact": "Contact",
+      "nav.privacy": "Privacy",
+      "nav.openApp": "Open app",
+      "lang.switch": "فارسی",
+      "hero.eyebrow": "Construction OS",
+      "hero.title": "Run every project from one calm command center",
+      "hero.lead":
+        "Units, installment sales, finances, contacts, and owner updates — Persian-first PWA with offline sync for developers and contractors.",
+      "hero.chip1": "Offline PWA",
+      "hero.chip2": "FA / EN",
+      "hero.chip3": "Owner portal",
+      "hero.chip4": "PDF reports",
+      "hero.cta1": "Start free",
+      "hero.cta2": "Book a walkthrough",
+      "hero.stat1a": "4 tiers",
+      "hero.stat1b": "Starter → Ark",
+      "hero.stat2a": "Site-ready",
+      "hero.stat2b": "Mobile-first",
+      "hero.stat3a": "Secure links",
+      "hero.stat3b": "Buyer updates",
+      "hero.badge": "Live site · Offline sync",
+      "hero.imgAlt": "Construction management on tablet",
+      "feat.title": "What Metrico covers on one platform",
+      "feat.sub":
+        "Segmented like a construction software map — sales, finance, field, and reporting tied together.",
+      "feat.d1h": "By deployment",
+      "feat.d1l1": "Offline PWA — works on site",
+      "feat.d1l2": "Browser install — no store required",
+      "feat.d1l3": "Local-first — sync when online",
+      "feat.d2h": "By application",
+      "feat.d2l1": "Unit & sales — grids, buyers",
+      "feat.d2l2": "Field finance — expenses, cash",
+      "feat.d2l3": "Owner comms — secure links",
+      "feat.d3h": "By workflow",
+      "feat.d3l1": "Pre-sale — reservations, plans",
+      "feat.d3l2": "Active build — costs, progress",
+      "feat.d3l3": "Handover — installments, portal",
+      "feat.d4h": "Core modules",
+      "feat.d4l1": "Unit grid",
+      "feat.d4l2": "Ledger & investors",
+      "feat.d4l3": "PDF exports",
+      "cap.title": "Built for real construction teams",
+      "cap.sub": "Seven strengths that matter when spreadsheets stop scaling.",
+      "cap.c1t": "Multi-project scale",
+      "cap.c1p": "Starter to Ark — grow portfolio without switching tools.",
+      "cap.c2t": "Team collaboration",
+      "cap.c2p": "Contacts, roles, and shared project context.",
+      "cap.c3t": "Mobile & offline",
+      "cap.c3p": "PWA on site when signal is weak.",
+      "cap.c4t": "Cost & installments",
+      "cap.c4p": "Receivables, down payments, schedules.",
+      "cap.c5t": "Owner portal",
+      "cap.c5p": "Share progress without exposing books.",
+      "cap.c6t": "Persian-first UX",
+      "cap.c6p": "FA / EN — built for local teams.",
+      "cap.c7t": "Flexible plans",
+      "cap.c7p": "Inventory, takeoff, and energy in higher tiers.",
+      "plans.title": "Plans that scale with your portfolio",
+      "plan.starter": "Starter",
+      "plan.starterD": "Free · core",
+      "plan.plus": "Plus",
+      "plan.plusD": "More projects",
+      "plan.pro": "Pro",
+      "plan.proD": "Inventory tools",
+      "plan.ark": "Ark",
+      "plan.arkD": "Takeoff & energy",
+      "cta.title": "See Metrico on your next project",
+      "cta.sub": "Open the live app or reach out for onboarding.",
+      "cta.btn": "Launch application",
+      "footer.rights": "© Metrico",
+      "about.h1": "About Metrico",
+      "about.lead":
+        "Metrico is an integrated construction project management PWA for developers, contractors, investors, and sales teams who juggle multiple projects, units, buyers, and ledgers.",
+      "about.p1":
+        "Instead of scattered notebooks, spreadsheets, and chat threads, Metrico keeps units, finances, contacts, and owner updates in one place — with automatic calculations and clear visuals, including floor-plan style unit grids.",
+      "about.p2":
+        "The app runs in the browser on phone, tablet, and desktop. Install it to the home screen like a native app — no app store required. Work offline on site; sync when you are back online.",
+      "about.p3":
+        "Metrico is Persian-first (RTL) with full English UI. Plans from Starter through Ark add projects, inventory, takeoff, and energy tools as you grow.",
+      "about.cta": "Open the live app",
+      "guide.h1": "Getting started",
+      "guide.lead": "A short path from sign-up to your first project — see in-app Guide for the full walkthrough.",
+      "guide.s1t": "1. Create your account",
+      "guide.s1p":
+        "Register with email and password. Activation uses a code from your administrator — this keeps the service secure. Try Demo mode in the app Guide to explore a pre-built sample project read-only.",
+      "guide.s2t": "2. Set up your company",
+      "guide.s2p":
+        "Open settings (gear icon) and add your company name and logo. They appear in the app header and printed PDF reports.",
+      "guide.s3t": "3. Create a project",
+      "guide.s3p":
+        "Add a new project with floors and units. Use the colored unit map: sold, reserved, and available states at a glance. Tap a unit for buyer, contract, and installment details.",
+      "guide.s4t": "4. Track money & owners",
+      "guide.s4p":
+        "Record expenses and income, manage investor shares, and share owner portal links so buyers see progress without full financial access.",
+      "guide.s5t": "5. Backup & privacy",
+      "guide.s5p":
+        "Export JSON/PDF backups from the app. Read our Privacy page for data hosting (Supabase) and your rights.",
+      "guide.cta": "Launch Metrico",
+      "contact.h1": "Contact & support",
+      "contact.lead": "We respond to product and onboarding questions — typically within a few business days.",
+      "contact.emailLabel": "Email",
+      "contact.emailVal": "hello@metrico.app",
+      "contact.appLabel": "Live application",
+      "contact.appHint": "Sign in, demo mode, and in-app Guide live here.",
+      "contact.privacyLabel": "Privacy & data requests",
+      "contact.privacyHint": "Account deletion and export are available inside the app; see Privacy for details.",
+      "privacy.h1": "Privacy policy",
+      "privacy.updated": "Last updated: 2026-07-25",
+      "privacy.intro":
+        "Metrico is construction project management software. This page summarizes what we process and your choices.",
+      "privacy.s1t": "Data we store",
+      "privacy.s1p":
+        "Account email, company profile, projects (units, buyers, finances, documents), contacts, reminders, inventory, owner portal links, product feedback, and browser cache for offline use.",
+      "privacy.s2t": "Hosting",
+      "privacy.s2p":
+        "Data is stored in Supabase (PostgreSQL + Auth) with row-level security per account. Choose your Supabase region and sign Supabase’s DPA for EU transfers.",
+      "privacy.s3t": "Sharing",
+      "privacy.s3p":
+        "We do not sell your data. Supabase hosts it. Map tiles may send your IP to OpenStreetMap when you use the map. You control exports (PDF/JSON backup).",
+      "privacy.s4t": "B2B buyers",
+      "privacy.s4p":
+        "You (the developer/contractor) are usually the controller for buyer data; Metrico acts as processor for hosting and the owner portal.",
+      "privacy.s5t": "Your rights",
+      "privacy.s5l1": "Access / portability: backup in the app and server export when enabled.",
+      "privacy.s5l2": "Erasure: Company Info → delete account → email verification.",
+      "privacy.s5l3": "Contact us for other requests (target 30 business days).",
+      "privacy.s6t": "Assistant",
+      "privacy.s6p":
+        "The in-app assistant is rule-based on your data; chat text is not sent to external LLM APIs.",
+      "privacy.back": "← Back to home",
+      "privacy.moreT": "More detail",
+      "privacy.moreP": "Repository documentation on GitHub:",
+      "privacy.more1": "Record of processing (RoPA)",
+      "privacy.more2": "Compliance summary",
+      "privacy.more3": "Security summary",
+    },
+    fa: {
+      "meta.title.home": "میتریکو — مدیریت پروژه ساختمانی",
+      "meta.title.about": "درباره — میتریکو",
+      "meta.title.guide": "راهنما — میتریکو",
+      "meta.title.contact": "تماس — میتریکو",
+      "meta.title.privacy": "حریم خصوصی — میتریکو",
+      "nav.home": "خانه",
+      "nav.platform": "بستر",
+      "nav.about": "درباره",
+      "nav.guide": "راهنما",
+      "nav.contact": "تماس",
+      "nav.privacy": "حریم خصوصی",
+      "nav.openApp": "ورود به اپ",
+      "lang.switch": "English",
+      "hero.eyebrow": "سیستم‌عامل ساخت‌وساز",
+      "hero.title": "همهٔ پروژه‌ها را از یک مرکز فرمان آرام مدیریت کنید",
+      "hero.lead":
+        "واحدها، فروش اقساطی، مالی، مخاطبین و به‌روزرسانی مالک — PWA فارسی‌محور با همگام‌سازی آفلاین برای سازندگان و پیمانکاران.",
+      "hero.chip1": "PWA آفلاین",
+      "hero.chip2": "FA / EN",
+      "hero.chip3": "پورتال مالک",
+      "hero.chip4": "گزارش PDF",
+      "hero.cta1": "شروع رایگان",
+      "hero.cta2": "درخواست دمو",
+      "hero.stat1a": "۴ پلن",
+      "hero.stat1b": "Starter تا Ark",
+      "hero.stat2a": "آمادهٔ کارگاه",
+      "hero.stat2b": "موبایل‌اول",
+      "hero.stat3a": "لینک امن",
+      "hero.stat3b": "به‌روزرسانی خریدار",
+      "hero.badge": "کارگاه زنده · همگام‌سازی آفلاین",
+      "hero.imgAlt": "مدیریت ساخت‌وساز روی تبلت",
+      "feat.title": "میتریکو در یک بستر چه می‌پوشاند",
+      "feat.sub":
+        "مثل نقشهٔ نرم‌افزار ساختمانی — فروش، مالی، کارگاه و گزارش در یک جریان.",
+      "feat.d1h": "بر اساس استقرار",
+      "feat.d1l1": "PWA آفلاین — روی کارگاه",
+      "feat.d1l2": "نصب از مرورگر — بدون استور",
+      "feat.d1l3": "محلی‌اول — همگام‌سازی آنلاین",
+      "feat.d2h": "بر اساس کاربرد",
+      "feat.d2l1": "واحد و فروش — جدول، خریدار",
+      "feat.d2l2": "مالی کارگاه — هزینه، نقد",
+      "feat.d2l3": "ارتباط مالک — لینک امن",
+      "feat.d3h": "بر اساس گردش کار",
+      "feat.d3l1": "پیش‌فروش — رزرو، پلان",
+      "feat.d3l2": "در حال ساخت — هزینه، پیشرفت",
+      "feat.d3l3": "تحویل — اقساط، پورتال",
+      "feat.d4h": "ماژول‌های اصلی",
+      "feat.d4l1": "جدول واحدها",
+      "feat.d4l2": "دفتر و سرمایه‌گذار",
+      "feat.d4l3": "خروجی PDF",
+      "cap.title": "برای تیم‌های واقعی ساخت‌وساز",
+      "cap.sub": "هفت قوت وقتی که اکسل دیگر کافی نیست.",
+      "cap.c1t": "چند پروژه",
+      "cap.c1p": "از Starter تا Ark — بدون عوض کردن ابزار رشد کنید.",
+      "cap.c2t": "همکاری تیم",
+      "cap.c2p": "مخاطبین، نقش‌ها و زمینهٔ مشترک پروژه.",
+      "cap.c3t": "موبایل و آفلاین",
+      "cap.c3p": "PWA روی کارگاه وقتی آنتن ضعیف است.",
+      "cap.c4t": "هزینه و اقساط",
+      "cap.c4p": "دریافتنی، پیش‌پرداخت، زمان‌بندی.",
+      "cap.c5t": "پورتال مالک",
+      "cap.c5p": "پیشرفت را بدون افشای دفاتر مالی نشان دهید.",
+      "cap.c6t": "تجربهٔ فارسی‌محور",
+      "cap.c6p": "FA / EN — برای تیم‌های بومی.",
+      "cap.c7t": "پلن‌های انعطاف‌پذیر",
+      "cap.c7p": "انبار، متره و انرژی در پلن‌های بالاتر.",
+      "plans.title": "پلن‌هایی که با سبد پروژهٔ شما رشد می‌کنند",
+      "plan.starter": "Starter",
+      "plan.starterD": "رایگان · هسته",
+      "plan.plus": "Plus",
+      "plan.plusD": "پروژهٔ بیشتر",
+      "plan.pro": "Pro",
+      "plan.proD": "ابزار انبار",
+      "plan.ark": "Ark",
+      "plan.arkD": "متره و انرژی",
+      "cta.title": "میتریکو را روی پروژهٔ بعدی ببینید",
+      "cta.sub": "اپ زنده را باز کنید یا برای راه‌اندازی تماس بگیرید.",
+      "cta.btn": "اجرای اپلیکیشن",
+      "footer.rights": "© میتریکو",
+      "about.h1": "دربارهٔ میتریکو",
+      "about.lead":
+        "میتریکو یک PWA یکپارچهٔ مدیریت پروژه ساختمانی برای سازندگان، پیمانکاران، سرمایه‌گذاران و تیم فروش است — کسانی که چند پروژه، واحد، خریدار و دفتر مالی را هم‌زمان دنبال می‌کنند.",
+      "about.p1":
+        "به‌جای دفترچه، اکسل و پیام‌های پراکنده، واحدها، مالی، مخاطبین و به‌روزرسانی مالک در یک جا جمع می‌شود — با محاسبات خودکار و نمایش گرافیکی، از جمله نقشهٔ رنگی واحدها روی طبقات.",
+      "about.p2":
+        "برنامه در مرورگر روی موبایل، تبلت و رایانه اجرا می‌شود و مثل اپ روی صفحهٔ اصلی نصب می‌شود — بدون استور. روی کارگاه آفلاین کار کنید؛ وقتی آنلاین شدید همگام کنید.",
+      "about.p3":
+        "میتریکو فارسی‌محور (RTL) با رابط کامل انگلیسی است. پلن‌ها از Starter تا Ark با رشد شما پروژه، انبار، متره و انرژی را اضافه می‌کنند.",
+      "about.cta": "باز کردن اپ زنده",
+      "guide.h1": "شروع کار",
+      "guide.lead":
+        "مسیر کوتاه از ثبت‌نام تا اولین پروژه — راهنمای کامل داخل اپ در بخش Guide است.",
+      "guide.s1t": "۱. ساخت حساب",
+      "guide.s1p":
+        "با ایمیل و رمز ثبت‌نام کنید. فعال‌سازی با کد مدیر انجام می‌شود. حالت Demo در راهنمای اپ یک پروژهٔ نمونهٔ فقط‑مشاهده برای آشنایی دارد.",
+      "guide.s2t": "۲. تنظیم شرکت",
+      "guide.s2p":
+        "از آیکون چرخ‌دنده نام و لوگوی شرکت را ثبت کنید. در سربرگ اپ و گزارش‌های چاپی PDF دیده می‌شود.",
+      "guide.s3t": "۳. ساخت پروژه",
+      "guide.s3p":
+        "پروژه با طبقات و واحد بسازید. نقشهٔ رنگی واحدها وضعیت فروخته، رزرو و خالی را نشان می‌دهد. روی واحد بزنید برای خریدار، قرارداد و اقساط.",
+      "guide.s4t": "۴. مالی و مالک",
+      "guide.s4p":
+        "هزینه و درآمد ثبت کنید، سهم سرمایه‌گذاران را مدیریت کنید و لینک پورتال مالک بدهید تا خریدار پیشرفت را بدون دسترسی کامل مالی ببیند.",
+      "guide.s5t": "۵. پشتیبان و حریم خصوصی",
+      "guide.s5p":
+        "از داخل اپ پشتیبان JSON/PDF بگیرید. صفحهٔ حریم خصوصی را برای میزبانی داده (Supabase) و حقوق شما بخوانید.",
+      "guide.cta": "اجرای میتریکو",
+      "contact.h1": "تماس و پشتیبانی",
+      "contact.lead": "به سوال‌های محصول و راه‌اندازی پاسخ می‌دهیم — معمولاً ظرف چند روز کاری.",
+      "contact.emailLabel": "ایمیل",
+      "contact.emailVal": "hello@metrico.app",
+      "contact.appLabel": "اپلیکیشن زنده",
+      "contact.appHint": "ورود، حالت دمو و راهنمای داخل اپ اینجاست.",
+      "contact.privacyLabel": "حریم خصوصی و درخواست داده",
+      "contact.privacyHint": "حذف حساب و خروجی داده داخل اپ است؛ جزئیات در صفحهٔ حریم خصوصی.",
+      "privacy.h1": "سیاست حریم خصوصی",
+      "privacy.updated": "آخرین به‌روزرسانی: ۱۴۰۵/۰۵/۰۳",
+      "privacy.intro":
+        "میتریکو نرم‌افزار مدیریت پروژه ساختمانی است. این صفحه خلاصهٔ داده‌هایی که پردازش می‌کنیم و انتخاب‌های شماست.",
+      "privacy.s1t": "داده‌هایی که نگه می‌داریم",
+      "privacy.s1p":
+        "ایمیل حساب، پروفایل شرکت، پروژه‌ها (واحد، خریدار، مالی، اسناد)، مخاطبین، یادآور، انبار، لینک پورتال مالک، بازخورد محصول و کش مرورگر برای استفادهٔ آفلاین.",
+      "privacy.s2t": "میزبانی",
+      "privacy.s2p":
+        "داده در Supabase (PostgreSQL + Auth) با امنیت سطح ردیف برای هر حساب ذخیره می‌شود. منطقهٔ Supabase و DPA را برای انتقال EU انتخاب کنید.",
+      "privacy.s3t": "اشتراک‌گذاری",
+      "privacy.s3p":
+        "دادهٔ شما فروخته نمی‌شود. Supabase میزبان است. کاشی نقشه ممکن است IP شما را به OpenStreetMap بفرستد. خروجی PDF/JSON در کنترل شماست.",
+      "privacy.s4t": "خریداران (B2B)",
+      "privacy.s4p":
+        "معمولاً شما (سازنده/پیمانکار) کنترل‌کنندهٔ دادهٔ خریدار هستید؛ میتریکو برای میزبانی و پورتال مالک پردازشگر است.",
+      "privacy.s5t": "حقوق شما",
+      "privacy.s5l1": "دسترسی / قابل‌حمل بودن: پشتیبان در اپ و خروجی سرور در صورت فعال بودن.",
+      "privacy.s5l2": "حذف: اطلاعات شرکت → حذف حساب → تأیید ایمیل.",
+      "privacy.s5l3": "برای سایر درخواست‌ها تماس بگیرید (هدف ۳۰ روز کاری).",
+      "privacy.s6t": "دستیار",
+      "privacy.s6p":
+        "دستیار داخل اپ بر پایهٔ قوانین روی دادهٔ شماست؛ متن گفتگو به API مدل زبانی خارجی فرستاده نمی‌شود.",
+      "privacy.back": "→ بازگشت به خانه",
+      "privacy.moreT": "جزئیات بیشتر",
+      "privacy.moreP": "مستندات مخزن در گیت‌هاب:",
+      "privacy.more1": "سابقهٔ پردازش (RoPA)",
+      "privacy.more2": "خلاصهٔ انطباق",
+      "privacy.more3": "خلاصهٔ امنیت",
+    },
+  };
+
+  function getLang() {
+    const saved = localStorage.getItem(STORAGE_KEY);
+    if (saved === "en" || saved === "fa") return saved;
+    const nav = (navigator.language || "en").toLowerCase();
+    return nav.startsWith("fa") ? "fa" : "en";
+  }
+
+  function setLang(lang) {
+    localStorage.setItem(STORAGE_KEY, lang);
+    applyLang(lang);
+  }
+
+  function t(lang, key) {
+    return (STR[lang] && STR[lang][key]) || STR.en[key] || key;
+  }
+
+  function applyLang(lang) {
+    lang = lang || getLang();
+    const root = document.documentElement;
+    root.lang = lang === "fa" ? "fa" : "en";
+    root.dir = lang === "fa" ? "rtl" : "ltr";
+
+    const page = document.body.getAttribute("data-page") || "home";
+    const titleKey = "meta.title." + page;
+    document.title = t(lang, titleKey);
+
+    document.querySelectorAll("[data-i18n]").forEach(function (el) {
+      el.textContent = t(lang, el.getAttribute("data-i18n"));
+    });
+    document.querySelectorAll("[data-i18n-alt]").forEach(function (el) {
+      el.setAttribute("alt", t(lang, el.getAttribute("data-i18n-alt")));
+    });
+    document.querySelectorAll("[data-i18n-mail]").forEach(function (el) {
+      const v = t(lang, el.getAttribute("data-i18n-mail"));
+      el.setAttribute("href", "mailto:" + v);
+      if (el.hasAttribute("data-i18n-show-mail")) el.textContent = v;
+    });
+
+    document.querySelectorAll("[data-app-href]").forEach(function (el) {
+      el.setAttribute("href", APP_URL);
+    });
+
+    const switcher = document.getElementById("lang-switch");
+    if (switcher) {
+      switcher.textContent = t(lang, "lang.switch");
+      switcher.setAttribute(
+        "aria-label",
+        lang === "fa" ? "Switch to English" : "تغییر به فارسی"
+      );
+    }
+  }
+
+  function toggleLang() {
+    setLang(getLang() === "fa" ? "en" : "fa");
+  }
+
+  document.addEventListener("DOMContentLoaded", function () {
+    applyLang(getLang());
+    const sw = document.getElementById("lang-switch");
+    if (sw) sw.addEventListener("click", function (e) {
+      e.preventDefault();
+      toggleLang();
+    });
+  });
+
+  window.MetricoLanding = { getLang: getLang, setLang: setLang, t: t, APP_URL: APP_URL };
+})();
