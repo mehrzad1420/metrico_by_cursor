@@ -3,7 +3,7 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1" />
-  <title>Metrico — Emerald V04 — Jade & Gold</title>
+  <title>Metrico — Construction Project Management</title>
   <link rel="icon" href="../logo.png" />
   <style>
     :root {
@@ -174,13 +174,6 @@
       mask-image: radial-gradient(ellipse 72% 68% at 62% 46%, #000 28%, transparent 74%);
     }
     body.theme-dark .hero-photo img { opacity: 0.88; filter: saturate(1.05) brightness(1.05); }
-    .canvas-3d {
-      position: absolute; z-index: 4; right: 6%; bottom: 6%;
-      width: 160px; height: 140px;
-      border-radius: 20px;
-      pointer-events: none;
-    }
-    .canvas-3d canvas { width: 100% !important; height: 100% !important; display: block; }
     .float-badge {
       position: absolute; z-index: 4; bottom: 12%; left: 0;
       background: var(--glass);
@@ -193,18 +186,6 @@
       animation: floaty 5s ease-in-out infinite;
     }
     @keyframes floaty { 0%,100% { transform: translateY(0); } 50% { transform: translateY(-8px); } }
-    .orbit-dot {
-      position: absolute; z-index: 2; top: 8%; right: 5%;
-      width: 72px; height: 72px;
-      border-radius: 50%;
-      background: conic-gradient(from 120deg, var(--accent), var(--accent2), var(--accent));
-      opacity: 0.85;
-      filter: blur(0.3px);
-      animation: spin 12s linear infinite;
-      mask: radial-gradient(circle, transparent 42%, #000 43%);
-      -webkit-mask: radial-gradient(circle, transparent 42%, #000 43%);
-    }
-    @keyframes spin { to { transform: rotate(360deg); } }
     .section-title { text-align: center; padding: 2rem 0 1.25rem; }
     .section-title h2 { font-size: 1.4rem; letter-spacing: -0.02em; }
     .section-title p { color: var(--muted); font-size: 0.9rem; margin-top: 0.35rem; max-width: 36rem; margin-left: auto; margin-right: auto; }
@@ -380,8 +361,6 @@
         <div class="hero-photo" aria-hidden="true">
           <img src="../assets/hero-tablet.png" alt="Construction management on tablet" loading="eager" width="900" height="600" />
         </div>
-        <div class="orbit-dot" aria-hidden="true"></div>
-        <div class="canvas-3d" id="canvas3d" data-scene="crane" aria-hidden="true"></div>
         <div class="float-badge">Live site · Offline sync</div>
       </div>
     </div>
@@ -457,103 +436,6 @@
       <a class="btn btn-p" href="https://mehrzad1420.github.io/metrico_by_cursor/index.html">Launch application</a>
     </div>
     <footer><a href="../privacy.html">Privacy</a> · © Metrico</footer>
-    <p class="tag">Emerald V04 — Jade & Gold</p>
   </div>
-  <script type="importmap">
-  { "imports": { "three": "https://unpkg.com/three@0.160.0/build/three.module.js" } }
-  </script>
-  <script type="module">
-    import * as THREE from "three";
-    const mount = document.getElementById("canvas3d");
-    const sceneType = mount.dataset.scene;
-    const accent = getComputedStyle(document.documentElement).getPropertyValue("--accent").trim() || "#059669";
-    const accent2 = getComputedStyle(document.documentElement).getPropertyValue("--accent2").trim() || "#10b981";
-
-    const w = mount.clientWidth || 320;
-    const h = mount.clientHeight || 280;
-    const renderer = new THREE.WebGLRenderer({ antialias: true, alpha: true });
-    renderer.setSize(w, h);
-    renderer.setPixelRatio(Math.min(window.devicePixelRatio, 2));
-    mount.appendChild(renderer.domElement);
-
-    const scene = new THREE.Scene();
-    const camera = new THREE.PerspectiveCamera(42, w / h, 0.1, 100);
-    camera.position.set(0, 1.2, 4.2);
-
-    const amb = new THREE.AmbientLight(0xffffff, 0.85);
-    const dir = new THREE.DirectionalLight(0xffffff, 1.1);
-    dir.position.set(3, 5, 4);
-    scene.add(amb, dir);
-
-    const matA = new THREE.MeshStandardMaterial({ color: new THREE.Color(accent), metalness: 0.35, roughness: 0.45 });
-    const matB = new THREE.MeshStandardMaterial({ color: new THREE.Color(accent2), metalness: 0.25, roughness: 0.5 });
-    const matC = new THREE.MeshStandardMaterial({ color: 0xf8fafc, metalness: 0.1, roughness: 0.6 });
-
-    const root = new THREE.Group();
-    scene.add(root);
-
-    if (sceneType === "crane") {
-      const base = new THREE.Mesh(new THREE.BoxGeometry(1.4, 0.25, 1), matA);
-      base.position.y = -0.5;
-      root.add(base);
-      const mast = new THREE.Mesh(new THREE.BoxGeometry(0.15, 2.2, 0.15), matB);
-      mast.position.y = 0.6;
-      root.add(mast);
-      const jib = new THREE.Mesh(new THREE.BoxGeometry(2.4, 0.12, 0.12), matA);
-      jib.position.set(0.9, 1.5, 0);
-      root.add(jib);
-      const cab = new THREE.Mesh(new THREE.BoxGeometry(0.35, 0.3, 0.35), matC);
-      cab.position.set(0, 1.35, 0.2);
-      root.add(cab);
-      const hook = new THREE.Mesh(new THREE.ConeGeometry(0.08, 0.25, 8), matB);
-      hook.position.set(1.8, 0.9, 0);
-      hook.rotation.x = Math.PI;
-      root.add(hook);
-    } else if (sceneType === "tower") {
-      for (let i = 0; i < 6; i++) {
-        const s = 1 - i * 0.12;
-        const floor = new THREE.Mesh(new THREE.BoxGeometry(s, 0.35, s), i % 2 ? matA : matB);
-        floor.position.y = i * 0.38 - 0.8;
-        root.add(floor);
-      }
-      const roof = new THREE.Mesh(new THREE.ConeGeometry(0.35, 0.5, 4), matC);
-      roof.position.y = 1.55;
-      root.add(roof);
-    } else {
-      const helix = new THREE.Group();
-      for (let i = 0; i < 10; i++) {
-        const slab = new THREE.Mesh(new THREE.BoxGeometry(0.9, 0.08, 0.45), i % 2 ? matA : matB);
-        const a = i * 0.55;
-        slab.position.set(Math.cos(a) * 0.5, i * 0.14 - 0.6, Math.sin(a) * 0.5);
-        slab.rotation.y = -a;
-        helix.add(slab);
-      }
-      root.add(helix);
-    }
-
-    root.position.y = -0.15;
-
-    const reduce = window.matchMedia("(prefers-reduced-motion: reduce)").matches;
-    let t0 = performance.now();
-    function tick(now) {
-      requestAnimationFrame(tick);
-      const t = (now - t0) * 0.001;
-      if (!reduce) {
-        root.rotation.y = t * 0.55;
-        root.position.y = -0.15 + Math.sin(t * 1.2) * 0.06;
-      }
-      renderer.render(scene, camera);
-    }
-    requestAnimationFrame(tick);
-
-    const ro = new ResizeObserver(() => {
-      const nw = mount.clientWidth;
-      const nh = mount.clientHeight;
-      camera.aspect = nw / nh;
-      camera.updateProjectionMatrix();
-      renderer.setSize(nw, nh);
-    });
-    ro.observe(mount);
-  </script>
 </body>
 </html>
