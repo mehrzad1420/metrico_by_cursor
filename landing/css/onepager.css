@@ -7,11 +7,14 @@
 }
 * { box-sizing: border-box; margin: 0; padding: 0; }
 body {
-  font-family: "Segoe UI", system-ui, -apple-system, sans-serif;
+  font-family: "Segoe UI", Tahoma, system-ui, -apple-system, sans-serif;
   color: var(--ink);
   background: #e8eef5;
   line-height: 1.45;
 }
+html[dir="rtl"] ul { padding-left: 0; padding-right: 1.05rem; }
+html[dir="rtl"] .meta { text-align: left; }
+html[dir="rtl"] .toolbar { direction: rtl; }
 .toolbar {
   max-width: 210mm;
   margin: 0.75rem auto;
