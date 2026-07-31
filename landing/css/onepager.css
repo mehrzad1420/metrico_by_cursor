@@ -44,7 +44,7 @@ body {
   background: #fff;
   border: 1px solid var(--line);
   border-radius: 12px;
-  padding: 14mm 14mm 12mm;
+  padding: 11mm 12mm 10mm;
   box-shadow: 0 10px 30px rgba(15, 39, 68, 0.08);
 }
 .head {
@@ -85,8 +85,8 @@ h2 {
 }
 section { margin-bottom: 0.75rem; }
 ul { padding-left: 1.05rem; }
-li { font-size: 0.8rem; color: var(--ink); margin: 0.18rem 0; }
-.inline li { margin: 0.28rem 0; }
+li { font-size: 0.76rem; color: var(--ink); margin: 0.14rem 0; }
+.inline li { margin: 0.2rem 0; }
 .grid2 {
   display: grid;
   grid-template-columns: 1fr 1fr;
