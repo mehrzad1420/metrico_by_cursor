@@ -1,0 +1,484 @@
+<!DOCTYPE html>
+<html lang="fa" dir="rtl">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Metrico Teaser — نهارِ پرتلفن</title>
+  <link rel="icon" href="../logo.png" />
+  <style>
+    @font-face {
+      font-family: "Vazirmatn";
+      src: url("../../fonts/Vazirmatn[wght].woff2") format("woff2");
+      font-weight: 100 900;
+      font-display: swap;
+    }
+    :root {
+      --bg: #070d18;
+      --text: #f8f9fd;
+      --muted: #94a3b8;
+      --accent: #8e6afe;
+      --accent2: #5d78ff;
+      --stress: #ff6b6b;
+      --calm: #6ee7b7;
+      --ease: cubic-bezier(0.22, 1, 0.36, 1);
+      --w: 960px;
+      --h: 540px;
+    }
+    * { box-sizing: border-box; margin: 0; padding: 0; }
+    html, body { height: 100%; background: #000; overflow: hidden; }
+    body {
+      font-family: "Vazirmatn", "Segoe UI", system-ui, sans-serif;
+      color: var(--text);
+      display: flex; align-items: center; justify-content: center;
+    }
+    html[lang="en"] { direction: ltr; }
+    html[lang="en"] body { font-family: "Segoe UI", system-ui, sans-serif; }
+
+    .frame {
+      position: relative;
+      width: min(100vw, calc(100vh * 16 / 9));
+      height: min(100vh, calc(100vw * 9 / 16));
+      background: var(--bg);
+      overflow: hidden;
+      box-shadow: 0 0 80px rgba(142, 106, 254, 0.15);
+    }
+    .glow {
+      position: absolute; inset: 0; pointer-events: none;
+      background:
+        radial-gradient(ellipse 55% 45% at 75% 15%, rgba(142,106,254,0.22), transparent 50%),
+        radial-gradient(ellipse 45% 40% at 10% 85%, rgba(93,120,255,0.18), transparent 45%);
+    }
+    .vignette {
+      position: absolute; inset: 0; pointer-events: none;
+      box-shadow: inset 0 0 120px rgba(0,0,0,0.55);
+    }
+    .layer {
+      position: absolute; inset: 0;
+      display: flex; flex-direction: column;
+      align-items: center; justify-content: center;
+      padding: 2rem 2.5rem;
+      opacity: 0;
+      transition: opacity 0.9s var(--ease);
+      text-align: center;
+    }
+    .layer.on { opacity: 1; }
+
+    .label {
+      font-size: 0.65rem; letter-spacing: 0.14em; text-transform: uppercase;
+      color: var(--accent); font-weight: 800; margin-bottom: 0.6rem;
+    }
+    .title {
+      font-size: clamp(1.35rem, 3.2vw, 2rem);
+      font-weight: 800; line-height: 1.2; max-width: 14ch;
+    }
+    .caption {
+      margin-top: 0.85rem;
+      font-size: clamp(0.85rem, 1.8vw, 1.05rem);
+      color: var(--muted);
+      max-width: 28rem;
+      line-height: 1.55;
+    }
+    .line {
+      margin-top: 1rem;
+      padding: 0.85rem 1.2rem;
+      border-radius: 14px;
+      font-size: clamp(0.8rem, 1.6vw, 0.95rem);
+      line-height: 1.5;
+      max-width: 32rem;
+      animation: pop 0.6s var(--ease) both;
+    }
+    @keyframes pop {
+      from { opacity: 0; transform: translateY(8px); }
+      to { opacity: 1; transform: none; }
+    }
+    .line.bad {
+      background: rgba(255,107,107,0.12);
+      border: 1px solid rgba(255,107,107,0.35);
+      color: #fecaca;
+    }
+    .line.good {
+      background: rgba(110,231,183,0.1);
+      border: 1px solid rgba(110,231,183,0.35);
+      color: #d1fae5;
+    }
+
+    /* Expo visual */
+    .expo-hall {
+      position: absolute; inset: 0;
+      background: linear-gradient(180deg, #0f172a 0%, #070d18 70%);
+    }
+    .booths {
+      position: absolute; bottom: 18%; left: 8%; right: 8%;
+      display: flex; justify-content: space-between; gap: 0.5rem;
+      opacity: 0.5;
+    }
+    .booth {
+      flex: 1; height: 72px; max-width: 100px;
+      border-radius: 8px 8px 0 0;
+      background: linear-gradient(180deg, #334155, #1e293b);
+      border: 1px solid rgba(255,255,255,0.08);
+    }
+    .booth.hot { box-shadow: 0 0 24px rgba(142,106,254,0.4); border-color: var(--accent); }
+    .helmets {
+      display: flex; gap: 1.5rem; margin-top: 1.5rem; font-size: 2.5rem;
+      filter: drop-shadow(0 8px 16px rgba(0,0,0,0.4));
+    }
+
+    /* Restaurant split */
+    .split {
+      position: absolute; inset: 0;
+      display: grid; grid-template-columns: 1fr 1fr;
+    }
+    .half {
+      position: relative;
+      display: flex; flex-direction: column;
+      align-items: center; justify-content: center;
+      padding: 1.5rem;
+    }
+    .half.left { background: linear-gradient(135deg, rgba(255,107,107,0.08), transparent); }
+    .half.right { background: linear-gradient(225deg, rgba(110,231,183,0.08), transparent); }
+    .half .role { font-size: 0.7rem; color: var(--muted); margin-bottom: 0.5rem; }
+    .papers {
+      width: 80px; height: 56px; margin: 0.75rem 0;
+      background: repeating-linear-gradient(
+        0deg, #fef3c7, #fef3c7 4px, #fde68a 4px, #fde68a 8px
+      );
+      transform: rotate(-6deg);
+      box-shadow: 4px 8px 20px rgba(0,0,0,0.35);
+      animation: shake 0.4s ease-in-out infinite;
+    }
+    @keyframes shake {
+      0%,100% { transform: rotate(-6deg) translateX(0); }
+      50% { transform: rotate(-4deg) translateX(2px); }
+    }
+    .phone-ring {
+      width: 48px; height: 48px; border-radius: 50%;
+      border: 2px solid var(--stress);
+      animation: ring 1s ease-in-out infinite;
+    }
+    @keyframes ring {
+      0%,100% { transform: scale(1); opacity: 1; }
+      50% { transform: scale(1.08); opacity: 0.7; }
+    }
+
+    /* Tablet mock */
+    .tablet-wrap {
+      margin-top: 0.75rem;
+      perspective: 800px;
+    }
+    .tablet {
+      width: min(220px, 42vw);
+      border-radius: 16px;
+      padding: 8px;
+      background: linear-gradient(145deg, #1e293b, #0f172a);
+      box-shadow: 0 20px 50px rgba(0,0,0,0.5), 0 0 40px rgba(142,106,254,0.2);
+      transform: rotateY(-8deg);
+    }
+    .tablet-screen {
+      border-radius: 10px;
+      background: #f8f9fd;
+      padding: 10px;
+      color: #102a56;
+      font-size: 0.55rem;
+      text-align: start;
+    }
+    html[lang="en"] .tablet-screen { text-align: left; }
+    .unit-grid {
+      display: grid; grid-template-columns: repeat(4, 1fr); gap: 3px;
+      margin-top: 6px;
+    }
+    .u { aspect-ratio: 1; border-radius: 3px; }
+    .u.s { background: #6ee7b7; }
+    .u.r { background: #fde047; }
+    .u.e { background: #cbd5e1; }
+    .stat-row {
+      display: flex; justify-content: space-between;
+      margin-top: 8px; font-weight: 700; font-size: 0.5rem;
+    }
+
+    /* Montage */
+    .cards {
+      display: flex; gap: 0.65rem; flex-wrap: wrap; justify-content: center;
+      margin-top: 1rem; max-width: 90%;
+    }
+    .card {
+      padding: 0.5rem 0.85rem;
+      border-radius: 12px;
+      background: rgba(255,255,255,0.06);
+      border: 1px solid rgba(255,255,255,0.1);
+      font-size: 0.75rem;
+      animation: pop 0.5s var(--ease) both;
+    }
+
+    /* End */
+    .end-logo {
+      display: flex; align-items: center; gap: 1rem;
+      margin-bottom: 0.75rem;
+    }
+    .end-logo img { width: 64px; height: 64px; border-radius: 16px; }
+    .end-logo h1 { font-size: 2rem; font-weight: 800; }
+    .cta {
+      margin-top: 1rem;
+      padding: 0.65rem 1.35rem;
+      border-radius: 999px;
+      background: linear-gradient(135deg, var(--accent), var(--accent2));
+      color: #fff; font-weight: 700; font-size: 0.85rem;
+      text-decoration: none;
+    }
+    .url { margin-top: 0.5rem; font-size: 0.65rem; color: var(--muted); }
+
+    .progress {
+      position: absolute; bottom: 0; left: 0; right: 0; height: 3px;
+      background: rgba(255,255,255,0.06);
+    }
+    .progress i {
+      display: block; height: 100%; width: 0;
+      background: linear-gradient(90deg, var(--accent), var(--accent2));
+    }
+    .hint {
+      position: absolute; top: 0.5rem; left: 50%; transform: translateX(-50%);
+      font-size: 0.6rem; color: rgba(255,255,255,0.35);
+      pointer-events: none;
+    }
+  </style>
+</head>
+<body>
+  <div class="frame" id="frame">
+    <div class="glow"></div>
+    <div class="vignette"></div>
+    <div class="hint" id="hint"></div>
+
+    <!-- 1 Expo -->
+    <div class="layer" id="L-expo">
+      <div class="expo-hall"></div>
+      <div class="booths" aria-hidden="true">
+        <div class="booth"></div><div class="booth hot"></div><div class="booth"></div><div class="booth hot"></div><div class="booth"></div>
+      </div>
+      <div style="position:relative;z-index:1">
+        <div class="label" data-t="s1.label"></div>
+        <div class="title" data-t="s1.title"></div>
+        <div class="caption" data-t="s1.cap"></div>
+        <div class="helmets" aria-hidden="true">⛑️ 🤝 ⛑️</div>
+        <div class="line good" style="margin-top:1rem" data-t="s1.line"></div>
+      </div>
+    </div>
+
+    <!-- 2 Title -->
+    <div class="layer" id="L-title">
+      <div class="label" data-t="s2.label"></div>
+      <div class="title" data-t="s2.title"></div>
+    </div>
+
+    <!-- 3 Him stressed -->
+    <div class="layer" id="L-him">
+      <div class="label" data-t="s3.label"></div>
+      <div class="phone-ring" aria-hidden="true"></div>
+      <div class="papers" aria-hidden="true"></div>
+      <div class="line bad" data-t="s3.l1"></div>
+      <div class="line bad" data-t="s3.l2" style="animation-delay:0.15s"></div>
+    </div>
+
+    <!-- 4 Her calm -->
+    <div class="layer" id="L-her">
+      <div class="label" data-t="s4.label"></div>
+      <div class="tablet-wrap">
+        <div class="tablet">
+          <div class="tablet-screen">
+            <div data-t="ui.project"></div>
+            <div class="unit-grid" aria-hidden="true">
+              <div class="u s"></div><div class="u s"></div><div class="u r"></div><div class="u e"></div>
+              <div class="u s"></div><div class="u s"></div><div class="u s"></div><div class="u r"></div>
+              <div class="u e"></div><div class="u s"></div><div class="u s"></div><div class="u s"></div>
+            </div>
+            <div class="stat-row"><span data-t="ui.sold"></span><span>37</span></div>
+            <div class="stat-row"><span data-t="ui.res"></span><span>12</span></div>
+            <div class="stat-row"><span data-t="ui.open"></span><span>5</span></div>
+          </div>
+        </div>
+      </div>
+      <div class="line good" data-t="s4.l1"></div>
+      <div class="line good" data-t="s4.l2" style="animation-delay:0.12s"></div>
+    </div>
+
+    <!-- 5 Split -->
+    <div class="layer" id="L-split" style="padding:0">
+      <div class="split">
+        <div class="half left">
+          <div class="role" data-t="s5.roleL"></div>
+          <div class="papers"></div>
+          <div class="line bad" data-t="s5.lL"></div>
+        </div>
+        <div class="half right">
+          <div class="role" data-t="s5.roleR"></div>
+          <div class="line good" data-t="s5.lR"></div>
+        </div>
+      </div>
+    </div>
+
+    <!-- 6 Question -->
+    <div class="layer" id="L-ask">
+      <div class="caption" data-t="s6.q"></div>
+      <div class="title" style="margin-top:0.5rem" data-t="s6.a"></div>
+      <div class="caption" data-t="s6.sub"></div>
+    </div>
+
+    <!-- 7 Montage -->
+    <div class="layer" id="L-montage">
+      <div class="label" data-t="s7.label"></div>
+      <div class="title" data-t="s7.title"></div>
+      <div class="cards">
+        <span class="card" data-t="s7.c1"></span>
+        <span class="card" data-t="s7.c2"></span>
+        <span class="card" data-t="s7.c3"></span>
+        <span class="card" data-t="s7.c4"></span>
+      </div>
+    </div>
+
+    <!-- 8 End -->
+    <div class="layer" id="L-end">
+      <div class="end-logo">
+        <img src="../logo.png" alt="" />
+        <h1>Metrico</h1>
+      </div>
+      <div class="caption" data-t="s8.tag"></div>
+      <a class="cta" id="cta" href="#" data-t="s8.cta"></a>
+      <div class="url" id="url"></div>
+    </div>
+
+    <div class="progress"><i id="prog"></i></div>
+  </div>
+
+  <script>
+    const APP = "https://mehrzad1420.github.io/metrico_by_cursor/index.html";
+    const params = new URLSearchParams(location.search);
+    const lang = params.get("lang") === "en" ? "en" : "fa";
+    document.documentElement.lang = lang;
+    document.documentElement.dir = lang === "fa" ? "rtl" : "ltr";
+
+    const T = {
+      fa: {
+        "s1.label": "نمایشگاه ساخت · غرفه ۱۴ و ۲۲",
+        "s1.title": "دو سرپرست پروژه",
+        "s1.cap": "مهندس عمران. قرار ناهار — بدون کارگاه.",
+        "s1.line": "«اگر کارفرما زنگ زد… جوابم آماده است.»",
+        "s2.label": "جمعه",
+        "s2.title": "رستوران · ناهار",
+        "s3.label": "تماس کارفرما",
+        "s3.l1": "«چند واحد مونده؟ یک لحظه… فکر کنم ۹ یا ۱۱… دقیق نیست.»",
+        "s3.l2": "«مانده بدهی؟ فردا حتماً از حسابدار می‌پرسم.»",
+        "s4.label": "همان میز · چند ثانیه بعد",
+        "s4.l1": "«۳۷ فروخته، ۱۲ رزرو، ۵ خالی — طبقه ۷ دو واحد.»",
+        "s4.l2": "«مانده ۵۰۴: ۲.۳ میلیارد — PDF الان.»",
+        "s5.roleL": "پرونده · اکسل · حدس",
+        "s5.roleR": "میتریکو · یک نگاه",
+        "s5.lL": "«الان نمی‌دونم…»",
+        "s5.lR": "«همین الان می‌فرستم.»",
+        "s6.q": "«این آمارها کجا جمع می‌کنی؟»",
+        "s6.a": "همینجا.",
+        "s6.sub": "میتریکو — مرکز فرمان پروژه، نه فایل دیگر.",
+        "s7.label": "یک بستر",
+        "s7.title": "واحد · مالی · مالک · آفلاین",
+        "s7.c1": "جدول واحد",
+        "s7.c2": "اقساط",
+        "s7.c3": "پورتال مالک",
+        "s7.c4": "FA / EN",
+        "s8.tag": "مدیریت پروژه ساختمانی · PWA",
+        "s8.cta": "رایگان شروع کنید",
+        "ui.project": "پروژه · برج باغ",
+        "ui.sold": "فروخته",
+        "ui.res": "رزرو",
+        "ui.open": "خالی",
+        hint: "تیزر میتریکو · F11 تمام‌صفحه · Win+G ضبط",
+      },
+      en: {
+        "s1.label": "Construction expo · Booths 14 & 22",
+        "s1.title": "Two site leads",
+        "s1.cap": "Civil engineers. Lunch date — no jobsite.",
+        "s1.line": "\"If the client rings… I'm ready.\"",
+        "s2.label": "Friday",
+        "s2.title": "Restaurant · Lunch",
+        "s3.label": "Client call",
+        "s3.l1": "\"Units left? One sec… maybe nine or eleven… not sure.\"",
+        "s3.l2": "\"Outstanding balance? I'll ask accounting tomorrow.\"",
+        "s4.label": "Same table · seconds later",
+        "s4.l1": "\"37 sold, 12 reserved, 5 open — two on floor 7.\"",
+        "s4.l2": "\"Unit 504: 2.3B balance — PDF now.\"",
+        "s5.roleL": "Folder · spreadsheet · guess",
+        "s5.roleR": "Metrico · one glance",
+        "s5.lL": "\"I don't know right now…\"",
+        "s5.lR": "\"Sending it now.\"",
+        "s6.q": "\"Where do you keep all this?\"",
+        "s6.a": "Right here.",
+        "s6.sub": "Metrico — one command center, not another file.",
+        "s7.label": "One platform",
+        "s7.title": "Units · finance · owners · offline",
+        "s7.c1": "Unit grid",
+        "s7.c2": "Installments",
+        "s7.c3": "Owner portal",
+        "s7.c4": "FA / EN",
+        "s8.tag": "Construction PM · PWA",
+        "s8.cta": "Start free",
+        "ui.project": "Project · Bagh Tower",
+        "ui.sold": "Sold",
+        "ui.res": "Reserved",
+        "ui.open": "Open",
+        hint: "Metrico teaser · F11 · Win+G to record",
+      },
+    };
+
+    const copy = T[lang];
+    document.querySelectorAll("[data-t]").forEach((el) => {
+      const k = el.getAttribute("data-t");
+      if (copy[k]) el.textContent = copy[k];
+    });
+    document.getElementById("hint").textContent = copy.hint;
+    document.getElementById("cta").href = APP;
+    document.getElementById("url").textContent = APP.replace("https://", "");
+
+    const TIMELINE = [
+      { id: "L-expo", ms: 8500 },
+      { id: "L-title", ms: 3500 },
+      { id: "L-him", ms: 9000 },
+      { id: "L-her", ms: 9000 },
+      { id: "L-split", ms: 7000 },
+      { id: "L-ask", ms: 7500 },
+      { id: "L-montage", ms: 8000 },
+      { id: "L-end", ms: 9500 },
+    ];
+    const TOTAL = TIMELINE.reduce((a, s) => a + s.ms, 0);
+
+    const layers = TIMELINE.map((s) => document.getElementById(s.id));
+    const prog = document.getElementById("prog");
+    let t0 = performance.now();
+
+    function show(i) {
+      layers.forEach((el, j) => el.classList.toggle("on", j === i));
+    }
+
+    function loop(now) {
+      const elapsed = now - t0;
+      prog.style.width = Math.min(100, (elapsed / TOTAL) * 100) + "%";
+      let acc = 0;
+      let idx = TIMELINE.length - 1;
+      for (let i = 0; i < TIMELINE.length; i++) {
+        acc += TIMELINE[i].ms;
+        if (elapsed < acc) { idx = i; break; }
+      }
+      show(idx);
+      if (elapsed < TOTAL) requestAnimationFrame(loop);
+      else show(TIMELINE.length - 1);
+    }
+
+    show(0);
+    requestAnimationFrame(loop);
+
+    document.addEventListener("keydown", (e) => {
+      if (e.code === "Space") {
+        e.preventDefault();
+        t0 = performance.now();
+        requestAnimationFrame(loop);
+      }
+    });
+  </script>
+</body>
+</html>

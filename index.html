@@ -1150,11 +1150,30 @@ const APP_VERSION = "2.54.1";
 
 const METRICO_PLAN_ORDER = ["start", "plus", "pro", "ark"];
 const METRICO_PLANS = {
-  start: { id: "start", name: "میتریکو آغاز", tagline: "شروع رایگان — یک پروژه، مدیریت پایه", rank: 0, maxProjects: 1, maxContacts: 15, maxReminders: 10 },
-  plus: { id: "plus", name: "میتریکو پلاس", tagline: "فروش و هزینه حرفه‌ای + گزارش و چت", rank: 1, maxProjects: 3, maxContacts: 9999, maxReminders: 9999 },
-  pro: { id: "pro", name: "میتریکو پرو", tagline: "حسابداری کامل + انبار مصالح + مالیات", rank: 2, maxProjects: 10, maxContacts: 9999, maxReminders: 9999 },
-  ark: { id: "ark", name: "میتریکو ارک", tagline: "نامحدود + انرژی + متره + سازمانی", rank: 3, maxProjects: 999, maxContacts: 9999, maxReminders: 9999 },
+  start: { id: "start", name: "میتریکو آغاز", tagline: "شروع رایگان — یک پروژه، مدیریت پایه", rank: 0, maxProjects: 1, maxContacts: 15, maxReminders: 10, priceYearToman: 0, priceYearEur: 0 },
+  plus: { id: "plus", name: "میتریکو پلاس", tagline: "فروش و هزینه حرفه‌ای + گزارش و چت", rank: 1, maxProjects: 3, maxContacts: 9999, maxReminders: 9999, priceYearToman: 4000000, priceYearEur: 50 },
+  pro: { id: "pro", name: "میتریکو پرو", tagline: "حسابداری کامل + انبار مصالح + مالیات", rank: 2, maxProjects: 10, maxContacts: 9999, maxReminders: 9999, priceYearToman: 10000000, priceYearEur: 100 },
+  ark: { id: "ark", name: "میتریکو ارک", tagline: "نامحدود + انرژی + متره + سازمانی", rank: 3, maxProjects: 999, maxContacts: 9999, maxReminders: 9999, priceYearToman: 16000000, priceYearEur: 150 },
 };
+const METRICO_LOCAL_DISCOUNTS = {
+  METRICO10: { percent: 10, kinds: ["purchase", "renewal"] },
+  METRICO20: { percent: 20, kinds: ["purchase", "renewal"] },
+  RENEW15: { percent: 15, kinds: ["renewal"] },
+};
+function formatPlanPrice(planId, lang) {
+  const p = METRICO_PLANS[normalizePlanId(planId)];
+  if (!p || !p.priceYearToman) return lang === "fa" ? "رایگان" : "Free";
+  if (lang === "fa") {
+    try { return `${Number(p.priceYearToman).toLocaleString("fa-IR")} تومان / سال`; }
+    catch { return `${p.priceYearToman} تومان / سال`; }
+  }
+  return `€${p.priceYearEur} / year`;
+}
+function payablePlanToman(planId, discountPercent) {
+  const base = METRICO_PLANS[normalizePlanId(planId)].priceYearToman || 0;
+  const pct = Math.min(90, Math.max(0, Number(discountPercent) || 0));
+  return Math.max(0, Math.round(base * (100 - pct) / 100));
+}
 const FEATURE_MIN_PLAN = {
   backup_restore: "plus", pdf_export: "plus", finance_transfer: "plus", fab_accounts: "plus",
   chat: "plus", map: "plus", owner_portal: "plus", project_maps: "plus", accounting: "pro", fab_flow: "pro", fab_checks: "pro",
@@ -2521,6 +2540,25 @@ const DICT = {
   "اعتبار تا ": "Valid until ",
   "کد ارتقا": "Upgrade code",
   "پس از پرداخت (یا دریافت کد آزمایشی از مدیر)، کد را اینجا وارد کنید. در آینده پرداخت آنلاین مستقیم از همین صفحه فعال می‌شود.": "After payment (or receiving a trial code from admin), enter it here. Online payment from this page is coming soon.",
+  "پس از پرداخت (یا دریافت کد آزمایشی از مدیر)، کد را اینجا وارد کنید.": "After payment (or a trial code from admin), enter the code here.",
+  "تخفیف اعمال شد.": "Discount applied.",
+  "کد تخفیف نامعتبر یا منقضی است.": "Invalid or expired discount code.",
+  "درگاه پرداخت اروپایی در حال توسعه است.": "European payment gateway is under development.",
+  "برای صورتحساب اروپا با پشتیبانی تماس بگیرید.": "Contact support for EU billing.",
+  "پرداخت آنلاین": "Online payment",
+  "سالانه": "Annual",
+  "قیمت فهرست": "List price",
+  "کد تخفیف": "Discount code",
+  "اعمال": "Apply",
+  "مبلغ قابل پرداخت": "Amount due",
+  "ادامهٔ پرداخت": "Continue to payment",
+  "بستن": "Close",
+  "خرید": "Buy",
+  "تمدید": "Renew",
+  "رایگان": "Free",
+  "سفارش ثبت شد. درگاه هنوز پیکربندی نشده — با پشتیبانی تماس بگیرید یا کد ارتقا دریافت کنید.": "Order saved. Payment provider is not configured yet — contact support or get an upgrade code.",
+  "شروع پرداخت ممکن نشد.": "Could not start payment.",
+  "شروع پرداخت ممکن نشد. تابع پرداخت را دیپلوی کنید یا با پشتیبانی تماس بگیرید.": "Could not start payment. Deploy the payment function or contact support.",
   "مثلاً PLUS-PILOT-01": "e.g. PLUS-PILOT-01",
   "پلن با موفقیت ارتقا یافت!": "Plan upgraded successfully!",
   "کد نامعتبر است یا قبلاً استفاده شده.": "Invalid code or already used.",
@@ -13404,6 +13442,13 @@ function PlanScreen({ onBack, userPlan, planExpiresAt, onRedeemed, company, ensu
   const [code, setCode] = useState("");
   const [busy, setBusy] = useState(false);
   const [msg, setMsg] = useState(null);
+  const [checkoutPlan, setCheckoutPlan] = useState(null);
+  const [checkoutKind, setCheckoutKind] = useState("purchase");
+  const [discountInput, setDiscountInput] = useState("");
+  const [discountPercent, setDiscountPercent] = useState(0);
+  const [discountMsg, setDiscountMsg] = useState(null);
+  const [payMsg, setPayMsg] = useState(null);
+  const [payBusy, setPayBusy] = useState(false);
 
   async function redeem() {
     if (!code.trim()) return;
@@ -13422,6 +13467,76 @@ function PlanScreen({ onBack, userPlan, planExpiresAt, onRedeemed, company, ensu
     }
     setBusy(false);
   }
+
+  function openCheckout(planId, kind) {
+    setCheckoutPlan(planId);
+    setCheckoutKind(kind);
+    setDiscountInput("");
+    setDiscountPercent(0);
+    setDiscountMsg(null);
+    setPayMsg(null);
+  }
+
+  async function applyDiscount() {
+    const raw = discountInput.trim().toUpperCase();
+    if (!raw) return;
+    try {
+      if (window.sb?.rpc) {
+        const { data } = await window.sb.rpc("validate_discount_code", { code_input: raw, kind_input: checkoutKind });
+        if (data?.ok) {
+          setDiscountPercent(Number(data.percent) || 0);
+          setDiscountMsg({ type: "ok", text: t("تخفیف اعمال شد.") + ` (−${data.percent}%)` });
+          return;
+        }
+      }
+    } catch (_) { /* fall through to local */ }
+    const local = METRICO_LOCAL_DISCOUNTS[raw];
+    if (local && local.kinds.includes(checkoutKind)) {
+      setDiscountPercent(local.percent);
+      setDiscountMsg({ type: "ok", text: t("تخفیف اعمال شد.") + ` (−${local.percent}%)` });
+    } else {
+      setDiscountPercent(0);
+      setDiscountMsg({ type: "err", text: t("کد تخفیف نامعتبر یا منقضی است.") });
+    }
+  }
+
+  async function startCheckoutPay() {
+    setPayMsg(null);
+    if (lang !== "fa") {
+      setPayMsg({ type: "err", text: t("درگاه پرداخت اروپایی در حال توسعه است.") });
+      return;
+    }
+    if (!checkoutPlan) return;
+    setPayBusy(true);
+    try {
+      const amountToman = payablePlanToman(checkoutPlan, discountPercent);
+      const { data, error: err } = await window.sb.functions.invoke("create-payment", {
+        body: {
+          plan: checkoutPlan,
+          months: 12,
+          kind: checkoutKind,
+          discount_code: discountInput.trim() || null,
+          amount_toman: amountToman,
+          currency: "IRR",
+        },
+      });
+      if (err) throw err;
+      if (data?.payment_url) {
+        window.location.href = data.payment_url;
+        return;
+      }
+      if (data?.status === "needs_config" || data?.status === "pending_manual") {
+        setPayMsg({ type: "ok", text: t("سفارش ثبت شد. درگاه هنوز پیکربندی نشده — با پشتیبانی تماس بگیرید یا کد ارتقا دریافت کنید.") });
+      } else {
+        setPayMsg({ type: "err", text: t("شروع پرداخت ممکن نشد.") + (data?.message ? ` (${data.message})` : "") });
+      }
+    } catch (e) {
+      setPayMsg({ type: "err", text: t("شروع پرداخت ممکن نشد. تابع پرداخت را دیپلوی کنید یا با پشتیبانی تماس بگیرید.") });
+    }
+    setPayBusy(false);
+  }
+
+  const paidPlans = ["plus", "pro", "ark"];
 
   return (
     <div className="px-5 pt-5 pb-10" dir={screenDir}>
@@ -13443,12 +13558,88 @@ function PlanScreen({ onBack, userPlan, planExpiresAt, onRedeemed, company, ensu
         )}
       </div>
 
+      <div className="grid grid-cols-1 gap-3 mb-4">
+        {["start", ...paidPlans].map((pid) => {
+          const p = METRICO_PLANS[pid];
+          const isCurrent = effective === pid;
+          return (
+            <div key={pid} className={`m-card-muted p-4 ${isCurrent ? "ring-2 ring-[#C9A227]" : ""}`}>
+              <div className="flex items-start justify-between gap-3">
+                <div>
+                  <div className="text-sm font-extrabold text-[#14213D]">{t(p.name)}</div>
+                  <div className="text-[11px] text-[#6B7280] mt-0.5">{t(p.tagline)}</div>
+                  <div className="text-sm font-bold text-[#14213D] mt-2">{formatPlanPrice(pid, lang)}</div>
+                </div>
+                {pid === "start" ? (
+                  <span className="text-[11px] font-bold text-emerald-700 bg-emerald-50 px-2 py-1 rounded-lg">{t("رایگان")}</span>
+                ) : (
+                  <div className="flex flex-col gap-1.5 shrink-0">
+                    <button type="button" className="m-btn-primary text-[11px] px-3 py-1.5" onClick={() => openCheckout(pid, "purchase")}>
+                      {t("خرید")}
+                    </button>
+                    <button type="button" className="text-[11px] px-3 py-1.5 rounded-lg border border-[#E5E7EB] text-[#14213D]" onClick={() => openCheckout(pid, "renewal")}>
+                      {t("تمدید")}
+                    </button>
+                  </div>
+                )}
+              </div>
+            </div>
+          );
+        })}
+      </div>
+
+      {lang !== "fa" && (
+        <div className="mb-4 text-[11px] leading-5 rounded-xl bg-amber-50 text-amber-900 px-3 py-2.5">
+          {t("درگاه پرداخت اروپایی در حال توسعه است.")} {t("برای صورتحساب اروپا با پشتیبانی تماس بگیرید.")}
+        </div>
+      )}
+
+      {checkoutPlan && (
+        <div className="m-card-muted p-4 mb-4">
+          <div className="text-sm font-bold text-[#14213D] mb-1">{t("پرداخت آنلاین")}</div>
+          <div className="text-[11px] text-[#6B7280] mb-3">
+            {t(planLabel(checkoutPlan))} · {checkoutKind === "renewal" ? t("تمدید") : t("خرید")} · {t("سالانه")}
+          </div>
+          <div className="flex justify-between text-xs mb-2">
+            <span>{t("قیمت فهرست")}</span>
+            <strong>{formatPlanPrice(checkoutPlan, lang)}</strong>
+          </div>
+          <label className="text-[11px] text-[#6B7280] block mb-1">{t("کد تخفیف")}</label>
+          <div className="flex gap-2 mb-2">
+            <input value={discountInput} onChange={(e) => setDiscountInput(e.target.value)} className="flex-1 m-input-field px-3 py-2 text-sm" dir="ltr" placeholder="METRICO10" />
+            <button type="button" onClick={applyDiscount} className="px-3 py-2 text-xs font-bold rounded-lg border border-[#E5E7EB]">{t("اعمال")}</button>
+          </div>
+          {discountMsg && (
+            <div className={`text-[11px] mb-2 ${discountMsg.type === "ok" ? "text-emerald-700" : "text-red-600"}`}>{discountMsg.text}</div>
+          )}
+          <div className="flex justify-between text-sm font-bold mb-3">
+            <span>{t("مبلغ قابل پرداخت")}</span>
+            <span>
+              {lang === "fa"
+                ? `${payablePlanToman(checkoutPlan, discountPercent).toLocaleString("fa-IR")} تومان`
+                : formatPlanPrice(checkoutPlan, "en")}
+            </span>
+          </div>
+          <div className="flex gap-2">
+            <button type="button" disabled={payBusy} onClick={startCheckoutPay} className="m-btn-primary flex-1 py-2.5 text-sm disabled:opacity-40">
+              {payBusy ? "..." : t("ادامهٔ پرداخت")}
+            </button>
+            <button type="button" onClick={() => setCheckoutPlan(null)} className="px-3 py-2 text-xs rounded-lg border border-[#E5E7EB]">{t("بستن")}</button>
+          </div>
+          {payMsg && (
+            <div className={`mt-3 text-xs rounded-lg px-3 py-2 ${payMsg.type === "ok" ? "bg-emerald-50 text-emerald-800" : "bg-red-50 text-red-700"}`}>
+              {payMsg.text}
+            </div>
+          )}
+        </div>
+      )}
+
       <PlanCompareTable effectivePlanId={effective} company={company} ensurePdfExport={ensurePdfExport} />
 
       <div className="m-card-muted p-4 mb-4">
         <div className="text-sm font-bold text-[#14213D] mb-2">{t("کد ارتقا")}</div>
         <p className="text-[11px] text-[#6B7280] leading-5 mb-3">
-          {t("پس از پرداخت (یا دریافت کد آزمایشی از مدیر)، کد را اینجا وارد کنید. در آینده پرداخت آنلاین مستقیم از همین صفحه فعال می‌شود.")}
+          {t("پس از پرداخت (یا دریافت کد آزمایشی از مدیر)، کد را اینجا وارد کنید.")}
         </p>
         <div className="flex gap-2">
           <input

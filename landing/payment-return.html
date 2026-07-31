@@ -1,0 +1,42 @@
+<!DOCTYPE html>
+<html lang="fa">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Metrico — Payment return</title>
+  <link rel="icon" href="logo.png" />
+  <link rel="stylesheet" href="css/site.css" />
+</head>
+<body data-page="home">
+  <div class="page">
+    <div class="shell doc-main" style="padding-top:3rem;padding-bottom:3rem;max-width:640px">
+      <h1 data-i18n="payReturn.title">نتیجهٔ پرداخت</h1>
+      <p id="pay-return-msg" data-i18n="payReturn.body">در حال بررسی وضعیت پرداخت…</p>
+      <p style="margin-top:1rem">
+        <a class="btn btn-p" data-app-href data-i18n="payReturn.app">باز کردن اپ</a>
+        <a class="btn btn-s" href="index.html#plans" data-i18n="payReturn.plans" style="margin-inline-start:0.5rem">بازگشت به پلن‌ها</a>
+      </p>
+    </div>
+  </div>
+  <script src="js/i18n.js"></script>
+  <script>
+    (function () {
+      var params = new URLSearchParams(location.search);
+      var status = (params.get("Status") || params.get("status") || "").toLowerCase();
+      var msg = document.getElementById("pay-return-msg");
+      var fa = (localStorage.getItem("metrico-landing-lang") || "").startsWith("fa") ||
+        (navigator.language || "").toLowerCase().startsWith("fa");
+      if (!msg) return;
+      if (status === "ok" || status === "success") {
+        msg.textContent = fa
+          ? "پرداخت با موفقیت ثبت شد. وارد اپ شوید و در صورت نیاز کد ارتقا را از ایمیل/پشتیبانی دریافت کنید."
+          : "Payment recorded. Open the app; if needed, redeem your upgrade code from support.";
+      } else if (status) {
+        msg.textContent = fa
+          ? "پرداخت تکمیل نشد یا لغو شد. می‌توانید دوباره از بخش پلن‌ها تلاش کنید."
+          : "Payment was cancelled or failed. You can try again from the plans section.";
+      }
+    })();
+  </script>
+</body>
+</html>

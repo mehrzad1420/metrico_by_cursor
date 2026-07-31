@@ -276,21 +276,74 @@
     .c7 .cap-ring { background: linear-gradient(145deg, #5d78ff, #8e6afe); }
     .cap-wide { grid-column: span 1; }
     .plans {
-      display: grid; grid-template-columns: repeat(4, 1fr); gap: 10px; padding-bottom: 2.5rem;
+      display: grid; grid-template-columns: repeat(4, 1fr); gap: 10px; padding-bottom: 0.75rem;
     }
     @media (max-width: 768px) { .plans { grid-template-columns: 1fr 1fr; } }
     .plan {
       background: var(--glass);
       border: 1px solid var(--border);
       border-radius: 18px;
-      padding: 1.15rem 1rem;
+      padding: 1.15rem 1rem 1.25rem;
       text-align: center;
       backdrop-filter: blur(10px);
       transition: transform 0.35s var(--ease), box-shadow 0.35s, border-color 0.35s;
+      display: flex; flex-direction: column; gap: 0.3rem; min-height: 12rem;
     }
     .plan:hover { transform: translateY(-4px); box-shadow: 0 12px 28px var(--glow); }
-    .plan strong { display: block; font-size: 0.85rem; margin-bottom: 0.25rem; }
-    .plan span { font-size: 0.72rem; color: var(--muted); }
+    .plan strong { display: block; font-size: 0.9rem; margin-bottom: 0.1rem; }
+    .plan-price {
+      font-size: 1.05rem; font-weight: 800; color: var(--text); letter-spacing: -0.02em; line-height: 1.25;
+    }
+    .plan span { font-size: 0.72rem; color: var(--muted); flex: 1; }
+    .plan-buy {
+      margin-top: 0.65rem; display: inline-flex; align-items: center; justify-content: center;
+      width: 100%; border: none; cursor: pointer; text-decoration: none; text-align: center;
+      padding: 0.55rem 0.75rem; border-radius: 999px; font-size: 0.78rem; font-weight: 700;
+      color: var(--btn-text); background: var(--btn-grad); font-family: inherit;
+    }
+    .plan:not(.featured) .plan-buy {
+      background: transparent; color: var(--text); border: 1px solid var(--border);
+    }
+    .plans-note {
+      padding: 0 0 2.25rem; color: var(--muted); font-size: 0.82rem; line-height: 1.55;
+    }
+    .plans-note p + p { margin-top: 0.35rem; }
+    .checkout-modal {
+      position: fixed; inset: 0; z-index: 80; background: rgba(16, 42, 86, 0.45);
+      display: grid; place-items: center; padding: 1rem;
+    }
+    .checkout-modal[hidden] { display: none !important; }
+    .checkout-panel {
+      width: min(420px, 100%); background: #fff; border-radius: 18px; padding: 1.35rem 1.25rem 1.4rem;
+      box-shadow: 0 24px 60px rgba(16, 42, 86, 0.22); position: relative; text-align: start;
+    }
+    .checkout-close {
+      position: absolute; top: 0.55rem; inset-inline-end: 0.7rem; border: 0; background: transparent;
+      font-size: 1.4rem; line-height: 1; color: var(--muted); cursor: pointer;
+    }
+    .checkout-panel h3 { font-size: 1.05rem; margin-bottom: 0.35rem; }
+    .checkout-plan { color: var(--muted); font-size: 0.85rem; margin-bottom: 0.9rem; }
+    .checkout-row {
+      display: flex; justify-content: space-between; gap: 1rem; font-size: 0.88rem; margin-bottom: 0.55rem;
+    }
+    .checkout-row.total {
+      margin-top: 0.75rem; padding-top: 0.75rem; border-top: 1px solid var(--border); font-size: 1rem;
+    }
+    .checkout-label { display: block; font-size: 0.78rem; color: var(--muted); margin: 0.75rem 0 0.35rem; }
+    .checkout-discount-row { display: flex; gap: 0.45rem; }
+    .checkout-discount-row input {
+      flex: 1; border: 1px solid var(--border); border-radius: 10px; padding: 0.55rem 0.7rem; font-size: 0.85rem;
+    }
+    .checkout-discount-row button {
+      border: 1px solid var(--border); background: var(--chip); border-radius: 10px; padding: 0.55rem 0.75rem;
+      font-size: 0.78rem; font-weight: 700; cursor: pointer; color: var(--text); font-family: inherit;
+    }
+    .checkout-discount-msg { font-size: 0.78rem; margin-top: 0.4rem; }
+    .checkout-discount-msg.ok { color: #067647; }
+    .checkout-discount-msg.err { color: #b42318; }
+    .checkout-hint { font-size: 0.78rem; color: var(--muted); margin: 0.85rem 0 0.9rem; line-height: 1.5; }
+    .checkout-pay { width: 100%; justify-content: center; }
+    .checkout-status { margin-top: 0.75rem; font-size: 0.8rem; line-height: 1.45; }
     .plan.featured {
       border-color: var(--accent);
       box-shadow: 0 0 0 1px var(--accent), 0 8px 24px var(--glow);

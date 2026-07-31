@@ -1,0 +1,217 @@
+<!DOCTYPE html>
+<html lang="fa" dir="rtl">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Metrico Teaser Animatic</title>
+  <link rel="icon" href="../logo.png" />
+  <style>
+    @font-face {
+      font-family: "Vazirmatn";
+      src: url("../../fonts/Vazirmatn[wght].woff2") format("woff2");
+      font-weight: 100 900;
+      font-display: swap;
+    }
+    :root {
+      --bg: #0a1628;
+      --text: #f8f9fd;
+      --muted: #a8b3cf;
+      --accent: #8e6afe;
+      --accent2: #5d78ff;
+      --bad: #ff6b6b;
+      --good: #6ee7b7;
+      --ease: cubic-bezier(0.22, 1, 0.36, 1);
+    }
+    * { box-sizing: border-box; margin: 0; padding: 0; }
+    html, body { height: 100%; overflow: hidden; }
+    body {
+      font-family: "Vazirmatn", "Segoe UI", system-ui, sans-serif;
+      background: var(--bg);
+      color: var(--text);
+    }
+    html[lang="en"] { direction: ltr; }
+    html[lang="en"] body { font-family: "Segoe UI", system-ui, sans-serif; }
+    .stage {
+      position: relative; height: 100%; width: 100%;
+      display: flex; align-items: center; justify-content: center;
+      padding: 2rem;
+    }
+    .glow {
+      position: fixed; inset: 0; pointer-events: none;
+      background:
+        radial-gradient(ellipse 60% 50% at 70% 20%, rgba(142,106,254,0.25), transparent 55%),
+        radial-gradient(ellipse 50% 40% at 20% 80%, rgba(93,120,255,0.2), transparent 50%);
+    }
+    .scene {
+      position: absolute; inset: 0;
+      display: flex; flex-direction: column;
+      align-items: center; justify-content: center;
+      text-align: center;
+      padding: 2.5rem 1.5rem;
+      opacity: 0;
+      transform: translateY(12px) scale(0.98);
+      transition: opacity 0.8s var(--ease), transform 0.8s var(--ease);
+      pointer-events: none;
+    }
+    .scene.active { opacity: 1; transform: none; pointer-events: auto; }
+    .tag {
+      font-size: 0.72rem; letter-spacing: 0.12em; text-transform: uppercase;
+      color: var(--accent); margin-bottom: 0.75rem; font-weight: 700;
+    }
+    .act { font-size: clamp(1.5rem, 4vw, 2.4rem); font-weight: 800; line-height: 1.25; max-width: 18ch; }
+    .sub {
+      margin-top: 1rem; font-size: clamp(0.95rem, 2.2vw, 1.15rem);
+      color: var(--muted); max-width: 36rem; line-height: 1.65;
+    }
+    .dialog {
+      margin-top: 1.25rem; padding: 1rem 1.25rem;
+      border-radius: 16px;
+      background: rgba(255,255,255,0.06);
+      border: 1px solid rgba(255,255,255,0.1);
+      max-width: 32rem; font-size: 0.95rem; line-height: 1.6;
+    }
+    .dialog.stress { border-color: rgba(255,107,107,0.35); color: #ffc9c9; }
+    .dialog.calm { border-color: rgba(110,231,183,0.35); color: #d1fae5; }
+    .split {
+      display: grid; grid-template-columns: 1fr 1fr; gap: 1rem;
+      width: min(720px, 100%); margin-top: 1rem;
+    }
+    @media (max-width: 640px) { .split { grid-template-columns: 1fr; } }
+    .logo-row {
+      display: flex; align-items: center; gap: 0.75rem; margin-bottom: 1rem;
+    }
+    .logo-row img { width: 56px; height: 56px; border-radius: 14px; }
+    .cta {
+      margin-top: 1.25rem;
+      display: inline-block;
+      padding: 0.75rem 1.5rem;
+      border-radius: 999px;
+      background: linear-gradient(135deg, var(--accent), var(--accent2));
+      color: #fff; font-weight: 700; text-decoration: none; font-size: 0.9rem;
+    }
+    .bar {
+      position: fixed; bottom: 0; left: 0; right: 0; height: 4px;
+      background: rgba(255,255,255,0.08);
+    }
+    .bar > i {
+      display: block; height: 100%; width: 0;
+      background: linear-gradient(90deg, var(--accent), var(--accent2));
+      transition: width 0.2s linear;
+    }
+    .controls {
+      position: fixed; top: 1rem; left: 1rem; right: 1rem;
+      display: flex; justify-content: space-between; align-items: center;
+      z-index: 10; font-size: 0.75rem; color: var(--muted);
+    }
+    html[dir="rtl"] .controls { flex-direction: row-reverse; }
+    .controls button {
+      border: 1px solid rgba(255,255,255,0.15);
+      background: rgba(0,0,0,0.35);
+      color: var(--text);
+      padding: 0.35rem 0.75rem;
+      border-radius: 999px;
+      cursor: pointer;
+      font: inherit;
+    }
+    .progress-text { opacity: 0.85; }
+  </style>
+</head>
+<body>
+  <div class="glow" aria-hidden="true"></div>
+  <div class="controls">
+    <span class="progress-text" id="progress">1 / 10</span>
+    <button type="button" id="lang-btn">English</button>
+  </div>
+  <div class="stage" id="stage"></div>
+  <div class="bar" aria-hidden="true"><i id="bar"></i></div>
+
+  <script>
+    const APP = "https://mehrzad1420.github.io/metrico_by_cursor/index.html";
+    const SCENES = {
+      fa: [
+        { tag: "شات ۱ · نمایشگاه", act: "آشنایی در نمایشگاه ساخت", sub: "دو سرپرست پروژه — غرفه، هلمت، قرار ناهار.", dialog: "«جمعه ناهار؟ یک جای آرام — بدون کارگاه.»" },
+        { tag: "شات ۲ · رستوران", act: "نهار — زنگ اول", sub: "کارفرما می‌خواهد آمار واحد.", dialog: "«فکر کنم ۹ یا ۱۱ تا… دقیق نیست.»", cls: "stress" },
+        { tag: "شات ۳ · همان لحظه", act: "پاسخ در چند ثانیه", sub: "خونسرد، لبخند، بدون ورق زدن پرونده.", dialog: "«۳۷ فروخته، ۱۲ رزرو، ۵ خالی — طبقه ۷ دو واحد مانده.»", cls: "calm" },
+        { tag: "شات ۴ · تقابل", act: "حدس · پراکنده · دیروز", sub: "", split: ["اکسل · دفترچه · «فردا حتماً»", "تبلت · یک پروژه · PDF الان"] },
+        { tag: "شات ۵ · پرسش", act: "«این آمارها کجا جمع می‌کنی؟»", sub: "«همینجا.»", dialog: "میتریکو — یک مرکز فرمان، نه فایل دیگر." },
+        { tag: "شات ۶ · montage", act: "واحد · مالی · مالک · آفلاین", sub: "همان لحظه که تلفن می‌زند — جواب آماده است." },
+        { tag: "شات ۷ · reveal", act: "میتریکو", sub: "مدیریت پروژه ساختمانی · FA / EN · PWA", logo: true, cta: "رایگان شروع کنید" },
+      ],
+      en: [
+        { tag: "Shot 1 · Expo", act: "Meet at the construction fair", sub: "Two site leads — booth, hard hat, lunch plan.", dialog: "\"Lunch Friday? Somewhere quiet — no jobsite.\"" },
+        { tag: "Shot 2 · Restaurant", act: "Lunch — first ring", sub: "The client wants unit stats.", dialog: "\"Maybe nine or eleven… I'm not sure.\"", cls: "stress" },
+        { tag: "Shot 3 · Same moment", act: "Answer in seconds", sub: "Calm smile — no paper folder.", dialog: "\"37 sold, 12 reserved, 5 open — two left on floor 7.\"", cls: "calm" },
+        { tag: "Shot 4 · Contrast", act: "Guess · scattered · tomorrow", sub: "", split: ["Spreadsheets · notes · \"tomorrow\"", "Tablet · one project · PDF now"] },
+        { tag: "Shot 5 · Question", act: "\"Where do you keep all this?\"", sub: "\"Right here.\"", dialog: "Metrico — one command center, not another file." },
+        { tag: "Shot 6 · montage", act: "Units · finance · owners · offline", sub: "When the phone rings, the answer is already there." },
+        { tag: "Shot 7 · reveal", act: "Metrico", sub: "Construction PM · FA / EN · PWA", logo: true, cta: "Start free" },
+      ],
+    };
+
+    const DURATIONS = [7000, 8000, 8000, 7000, 8000, 7000, 9000];
+    const TOTAL = DURATIONS.reduce((a, b) => a + b, 0);
+
+    let lang = "fa";
+    let index = 0;
+    let timer = null;
+    let started = null;
+
+    const stage = document.getElementById("stage");
+    const bar = document.getElementById("bar");
+    const progress = document.getElementById("progress");
+    const langBtn = document.getElementById("lang-btn");
+
+    function renderScenes() {
+      stage.innerHTML = "";
+      SCENES[lang].forEach((s, i) => {
+        const el = document.createElement("div");
+        el.className = "scene" + (i === index ? " active" : "");
+        el.dataset.i = i;
+        let html = `<div class="tag">${s.tag}</div><div class="act">${s.act}</div>`;
+        if (s.sub) html += `<div class="sub">${s.sub}</div>`;
+        if (s.dialog) html += `<div class="dialog ${s.cls || ""}">${s.dialog}</div>`;
+        if (s.split) {
+          html += `<div class="split"><div class="dialog stress">${s.split[0]}</div><div class="dialog calm">${s.split[1]}</div></div>`;
+        }
+        if (s.logo) {
+          html = `<div class="logo-row"><img src="../logo.png" alt="" /><div class="act">${s.act}</div></div><div class="sub">${s.sub}</div><a class="cta" href="${APP}">${s.cta}</a>`;
+        }
+        el.innerHTML = html;
+        stage.appendChild(el);
+      });
+    }
+
+    function tickBar() {
+      if (!started) return;
+      const elapsed = Date.now() - started;
+      bar.style.width = Math.min(100, (elapsed / TOTAL) * 100) + "%";
+      if (elapsed < TOTAL) requestAnimationFrame(tickBar);
+    }
+
+    function go(i) {
+      index = i % SCENES[lang].length;
+      progress.textContent = (index + 1) + " / " + SCENES[lang].length;
+      stage.querySelectorAll(".scene").forEach((el, j) => {
+        el.classList.toggle("active", j === index);
+      });
+      clearTimeout(timer);
+      timer = setTimeout(() => go(index + 1), DURATIONS[index] || 7000);
+    }
+
+    function setLang(next) {
+      lang = next;
+      document.documentElement.lang = lang;
+      document.documentElement.dir = lang === "fa" ? "rtl" : "ltr";
+      langBtn.textContent = lang === "fa" ? "English" : "فارسی";
+      index = 0;
+      started = Date.now();
+      renderScenes();
+      go(0);
+      tickBar();
+    }
+
+    langBtn.addEventListener("click", () => setLang(lang === "fa" ? "en" : "fa"));
+    setLang("fa");
+  </script>
+</body>
+</html>

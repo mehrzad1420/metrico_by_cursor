@@ -112,12 +112,62 @@
     </div>
     <div class="shell section-title" id="plans">
       <h2 data-i18n="plans.title"></h2>
+      <p data-i18n="plans.sub"></p>
     </div>
     <div class="shell plans">
-      <div class="plan" tabindex="0"><strong data-i18n="plan.starter"></strong><span data-i18n="plan.starterD"></span></div>
-      <div class="plan featured" tabindex="0"><strong data-i18n="plan.plus"></strong><span data-i18n="plan.plusD"></span></div>
-      <div class="plan" tabindex="0"><strong data-i18n="plan.pro"></strong><span data-i18n="plan.proD"></span></div>
-      <div class="plan" tabindex="0"><strong data-i18n="plan.ark"></strong><span data-i18n="plan.arkD"></span></div>
+      <div class="plan" tabindex="0" data-plan="start">
+        <strong data-i18n="plan.starter"></strong>
+        <div class="plan-price" data-i18n="plan.starterPrice"></div>
+        <span data-i18n="plan.starterD"></span>
+        <a class="plan-buy" data-app-href data-i18n="plan.startCta"></a>
+      </div>
+      <div class="plan featured" tabindex="0" data-plan="plus">
+        <strong data-i18n="plan.plus"></strong>
+        <div class="plan-price" data-i18n="plan.plusPrice"></div>
+        <span data-i18n="plan.plusD"></span>
+        <button type="button" class="plan-buy" data-checkout="plus" data-i18n="plan.buy"></button>
+      </div>
+      <div class="plan" tabindex="0" data-plan="pro">
+        <strong data-i18n="plan.pro"></strong>
+        <div class="plan-price" data-i18n="plan.proPrice"></div>
+        <span data-i18n="plan.proD"></span>
+        <button type="button" class="plan-buy" data-checkout="pro" data-i18n="plan.buy"></button>
+      </div>
+      <div class="plan" tabindex="0" data-plan="ark">
+        <strong data-i18n="plan.ark"></strong>
+        <div class="plan-price" data-i18n="plan.arkPrice"></div>
+        <span data-i18n="plan.arkD"></span>
+        <button type="button" class="plan-buy" data-checkout="ark" data-i18n="plan.buy"></button>
+      </div>
+    </div>
+    <div class="shell plans-note">
+      <p data-i18n="plans.discountNote"></p>
+      <p data-i18n="plans.payNote"></p>
+    </div>
+
+    <div id="checkout-modal" class="checkout-modal" hidden>
+      <div class="checkout-panel" role="dialog" aria-modal="true" aria-labelledby="checkout-title">
+        <button type="button" class="checkout-close" id="checkout-close" aria-label="Close">×</button>
+        <h3 id="checkout-title" data-i18n="checkout.title"></h3>
+        <p class="checkout-plan" id="checkout-plan-label"></p>
+        <div class="checkout-row">
+          <span data-i18n="checkout.listPrice"></span>
+          <strong id="checkout-list-price"></strong>
+        </div>
+        <label class="checkout-label" for="checkout-discount" data-i18n="checkout.discountLabel"></label>
+        <div class="checkout-discount-row">
+          <input id="checkout-discount" type="text" dir="ltr" autocomplete="off" />
+          <button type="button" id="checkout-apply-discount" data-i18n="checkout.applyDiscount"></button>
+        </div>
+        <p class="checkout-discount-msg" id="checkout-discount-msg" hidden></p>
+        <div class="checkout-row total">
+          <span data-i18n="checkout.payable"></span>
+          <strong id="checkout-payable"></strong>
+        </div>
+        <p class="checkout-hint" id="checkout-hint" data-i18n="checkout.hintFa"></p>
+        <button type="button" class="btn btn-p checkout-pay" id="checkout-pay" data-i18n="checkout.pay"></button>
+        <p class="checkout-status" id="checkout-status" hidden></p>
+      </div>
     </div>
     <div class="shell cta-band">
       <h2 data-i18n="cta.title"></h2>
@@ -135,5 +185,6 @@
     </footer>
   </div>
   <script src="js/i18n.js"></script>
+  <script src="js/pricing.js"></script>
 </body>
 </html>
