@@ -8,6 +8,7 @@
       "meta.title.about": "About — Metrico",
       "meta.title.guide": "Evaluator demo guide — Metrico",
       "meta.title.markets": "Markets — Metrico",
+      "meta.title.competitors": "Why Metrico — landscape",
       "meta.title.contact": "Contact — Metrico",
       "meta.title.privacy": "Privacy — Metrico",
       "nav.home": "Home",
@@ -138,6 +139,48 @@
       "cta.title": "Evaluate the live product",
       "cta.sub": "Open the working app, try the labeled demo, or email us for a walkthrough.",
       "cta.btn": "Open live application",
+      "comp.linkT": "Why teams choose Metrico",
+      "comp.linkP": "Our strengths next to familiar tools — international and local — without the noise.",
+      "comp.h1": "Where Metrico stands out",
+      "comp.lead":
+        "A short landscape note for partners and evaluators. We describe Metrico’s advantages only — not a critique of other products.",
+      "comp.tone":
+        "Other tools are useful in their domains. Below is how Metrico is built for mid-size developers who live in unit sales, installments, and owner updates every day.",
+      "comp.intT": "International reference points",
+      "comp.intP":
+        "Examples many teams already know: Procore and Buildertrend in construction software, Monday.com-style work hubs, and CRM platforms such as Salesforce or HubSpot.",
+      "comp.c1t": "Alongside construction suites (e.g. Procore, Buildertrend)",
+      "comp.c1p":
+        "Metrico is purpose-built for the pre-sale → handover money loop: colored unit grids, installment schedules, buyer receivables, and owner portal links in one calm product — with an installable offline PWA for the field.",
+      "comp.c2t": "Alongside work hubs (e.g. Monday.com, Asana)",
+      "comp.c2p":
+        "Metrico carries construction-native objects out of the box: floors, units, sale status, down payments, installment rows, project ledgers, and PDF reports ready for partners and accountants.",
+      "comp.c3t": "Alongside CRM platforms (e.g. Salesforce, HubSpot)",
+      "comp.c3p":
+        "Metrico keeps the sales contact next to the unit map and the payment plan — so “which units are sold, what is owed, what the owner can see” stays one workflow, not three disconnected systems.",
+      "comp.c4t": "Alongside drawing / BIM viewers",
+      "comp.c4p":
+        "Metrico keeps technical drawings viewable inside the same app that already holds units, finance, and owner updates — so teams stay in one command center.",
+      "comp.irT": "Iranian and regional reference points",
+      "comp.irP":
+        "Familiar local patterns: Excel / Google Sheets portfolios, desktop accounting packages (such as Sepidar or Holoo-class tools), and general CRM or messaging-led sales follow-up.",
+      "comp.c5t": "Alongside spreadsheet portfolios",
+      "comp.c5p":
+        "Metrico turns the same daily questions into a live unit map with automatic contract totals, remaining balances, average sale price per m², and installment ticks — available on phone at the site.",
+      "comp.c6t": "Alongside local accounting packages",
+      "comp.c6p":
+        "Metrico stays close to the project: investor shares, project cash, check views, and owner-safe progress sharing — then exports PDFs that accounting teams can still use.",
+      "comp.c7t": "Alongside chat- and CRM-led sales follow-up",
+      "comp.c7p":
+        "Metrico gives each sold or reserved unit a clear home for buyer data, documents, installment status, and a secure owner link with progress gallery — without exposing the full ledger.",
+      "comp.sumT": "Metrico advantages, in one list",
+      "comp.s1": "Visual unit grid for sold / reserved / vacant — not only tables.",
+      "comp.s2": "Installments, project finance, and investor views tied to the same project.",
+      "comp.s3": "Owner portal + gallery without sharing the full books.",
+      "comp.s4": "Offline-capable PWA with bilingual English and Persian.",
+      "comp.s5": "Higher tiers: inventory, contracts & QC, takeoff, and energy tools.",
+      "comp.cta": "Open live app",
+      "comp.cta2": "Demo guide",
       "footer.rights": "© Metrico",
       "about.h1": "About Metrico",
       "about.lead":
@@ -257,6 +300,7 @@
       "meta.title.home": "متریکو — مدیریت پروژه ساختمانی",
       "meta.title.about": "درباره — متریکو",
       "meta.title.guide": "راهنمای دمو ارزیاب — متریکو",
+      "meta.title.competitors": "چرا متریکو — مقایسهٔ مثبت",
       "meta.title.contact": "تماس — متریکو",
       "meta.title.privacy": "حریم خصوصی — متریکو",
       "nav.home": "خانه",
@@ -384,6 +428,48 @@
       "cta.title": "محصول زنده را ارزیابی کنید",
       "cta.sub": "اپ واقعی را باز کنید، دموی برچسب‌خورده را ببینید، یا برای راهنمایی ایمیل بزنید.",
       "cta.btn": "باز کردن اپلیکیشن زنده",
+      "comp.linkT": "چرا تیم‌ها متریکو را انتخاب می‌کنند",
+      "comp.linkP": "مزایای ما کنار ابزارهای آشنا — خارجی و داخلی — بدون حاشیه.",
+      "comp.h1": "متریکو کجا می‌درخشد",
+      "comp.lead":
+        "یادداشت کوتاه برای شریک و ارزیاب. فقط از مزایای متریکو می‌گوییم — نه نقد محصولات دیگر.",
+      "comp.tone":
+        "ابزارهای دیگر در حوزهٔ خودشان مفیدند. اینجا می‌گوییم متریکو چطور برای سازندهٔ متوسط‌مقیاسی ساخته شده که هر روز با واحد، اقساط و به‌روزرسانی مالک زندگی می‌کند.",
+      "comp.intT": "نمونه‌های بین‌المللی آشنا",
+      "comp.intP":
+        "نمونه‌هایی که خیلی از تیم‌ها می‌شناسند: پروکُر و بیلدرترند در نرم‌افزار ساخت، هاب‌های کاری شبیه ماندی‌دات‌کام، و سی‌آر‌امهایی مثل سیِیلزفورس یا هاب‌اسپات.",
+      "comp.c1t": "کنار سوئیت‌های ساختمانی (مثل پروکُر، بیلدرترند)",
+      "comp.c1p":
+        "متریکو برای حلقهٔ پیش‌فروش تا تحویل پول ساخته شده: جدول رنگی واحد، اقساط، مطالبات خریدار و لینک پورتال مالک در یک محصول آرام — با وب‌اپ آفلاین قابل نصب برای کارگاه.",
+      "comp.c2t": "کنار هاب‌های کاری (مثل ماندی‌دات‌کام، آسانا)",
+      "comp.c2p":
+        "متریکو از اول اشیای ساختمانی دارد: طبقه، واحد، وضعیت فروش، پیش‌پرداخت، ردیف اقساط، دفتر پروژه و گزارش پی‌دی‌اف آماده برای شریک و حسابدار.",
+      "comp.c3t": "کنار سی‌آر‌ام (مثل سیِیلزفورس، هاب‌اسپات)",
+      "comp.c3p":
+        "متریکو مخاطب فروش را کنار نقشهٔ واحد و برنامهٔ پرداخت نگه می‌دارد — تا «کدام واحد فروخته، چقدر مانده، مالک چه می‌بیند» یک جریان باشد نه سه سیستم جدا.",
+      "comp.c4t": "کنار نمایشگرهای نقشه / مدل",
+      "comp.c4p":
+        "متریکو نقشه‌های فنی را داخل همان اپی نشان می‌دهد که واحد، مالی و به‌روزرسانی مالک را هم دارد — تا تیم در یک مرکز فرمان بماند.",
+      "comp.irT": "نمونه‌های ایرانی و منطقه‌ای آشنا",
+      "comp.irP":
+        "الگوهای آشنای محلی: سبد پروژه در اکسل / شیت، نرم‌افزارهای حسابداری رومیزی (در حد سپیدار یا هلو)، و پیگیری فروش با سی‌آر‌ام عمومی یا پیام‌رسان.",
+      "comp.c5t": "کنار سبد اکسلی پروژه‌ها",
+      "comp.c5p":
+        "متریکو همان سوال‌های روزانه را به نقشهٔ زندهٔ واحد تبدیل می‌کند: مبلغ قرارداد خودکار، مانده، میانگین قیمت هر متر، تیک اقساط — روی موبایل در کارگاه.",
+      "comp.c6t": "کنار بسته‌های حسابداری محلی",
+      "comp.c6p":
+        "متریکو نزدیک پروژه می‌ماند: سهم سرمایه‌گذار، نقد پروژه، نمای چک، و اشتراک پیشرفت امن با مالک — بعد پی‌دی‌افهایی که تیم حسابداری هم می‌تواند استفاده کند.",
+      "comp.c7t": "کنار پیگیری فروش با چت و سی‌آر‌ام عمومی",
+      "comp.c7p":
+        "متریکو برای هر واحد فروخته یا رزرو، خانهٔ روشنی برای دادهٔ خریدار، مدارک، وضعیت اقساط و لینک امن مالک با گالری پیشرفت دارد — بدون افشای دفتر کامل.",
+      "comp.sumT": "مزایای متریکو در یک فهرست",
+      "comp.s1": "جدول بصری واحد برای فروخته / رزرو / خالی — نه فقط جدول متنی.",
+      "comp.s2": "اقساط، مالی پروژه و نمای سرمایه‌گذار روی همان پروژه.",
+      "comp.s3": "پورتال مالک + گالری بدون اشتراک دفتر کامل.",
+      "comp.s4": "وب‌اپ آفلاین با فارسی و انگلیسی.",
+      "comp.s5": "پلن‌های بالاتر: انبار، قرارداد و کنترل کیفیت، متره و انرژی.",
+      "comp.cta": "باز کردن اپ زنده",
+      "comp.cta2": "راهنمای دمو",
       "footer.rights": "© متریکو",
       "about.h1": "دربارهٔ متریکو",
       "about.lead":
