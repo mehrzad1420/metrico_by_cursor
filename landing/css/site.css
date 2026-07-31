@@ -455,6 +455,7 @@ html[dir="rtl"] .hero .lead { margin-inline: 0; }
 .lang-switch:hover { box-shadow: 0 4px 14px var(--glow); transform: translateY(-1px); }
 .nav-link.active { color: var(--text); font-weight: 600; }
 .nav-link.active::after { transform: scaleX(1); }
+[data-en-only][hidden] { display: none !important; }
 .doc-main { padding: 1.5rem 0 3rem; }
 .doc-card {
   max-width: 44rem;

@@ -7,6 +7,7 @@
       "meta.title.home": "Metrico — Construction Project Management",
       "meta.title.about": "About — Metrico",
       "meta.title.guide": "Evaluator demo guide — Metrico",
+      "meta.title.markets": "Markets — Metrico",
       "meta.title.contact": "Contact — Metrico",
       "meta.title.privacy": "Privacy — Metrico",
       "nav.home": "Home",
@@ -21,7 +22,7 @@
       "hero.eyebrow": "Construction command center",
       "hero.title": "One place for units, money, and owners",
       "hero.lead":
-        "A bilingual PWA for developers and contractors: unit sales, installments, project finance, and owner updates — built for the field, with a clear path from pilot markets to European scale.",
+        "A bilingual PWA for developers and contractors: unit sales, installments, project finance, and owner updates — built for the field, with offline sync.",
       "hero.chip1": "Offline PWA",
       "hero.chip2": "EN / FA",
       "hero.chip3": "Owner portal",
@@ -264,7 +265,7 @@
       "hero.eyebrow": "مرکز فرمان ساخت‌وساز",
       "hero.title": "واحد، پول و مالک — همه در یک جا",
       "hero.lead":
-        "اپ دوزبانه برای سازندگان و پیمانکاران: فروش واحد، اقساط، مالی پروژه و به‌روزرسانی مالک — آمادهٔ کارگاه، با مسیر روشن از بازار آزمایش تا مقیاس اروپایی.",
+        "اپ دوزبانه برای سازندگان و پیمانکاران: فروش واحد، اقساط، مالی پروژه و به‌روزرسانی مالک — آمادهٔ کارگاه، با همگام‌سازی آفلاین.",
       "hero.chip1": "آفلاین روی کارگاه",
       "hero.chip2": "فارسی و انگلیسی",
       "hero.chip3": "پورتال مالک",
@@ -387,15 +388,13 @@
         "در مرورگر روی موبایل، تبلت و رایانه اجرا می‌شود و مثل اپ روی صفحهٔ اصلی نصب می‌شود. روی کارگاه آفلاین کار کنید؛ وقتی آنلاین شدید همگام کنید.",
       "about.p3":
         "محصول از ابتدا دوزبانهٔ انگلیسی و فارسی است. پلن‌ها از آغاز تا ارک با رشد تیم، پروژه، انبار، متره و انرژی را باز می‌کنند.",
-      "about.marketT": "بازارها — اول آزمایش، بعد اروپا",
-      "about.marketP":
-        "مسیر در یک خط: یادگیری در بازار آزمایش ← گسترش به ترکیه و خلیج ← عملیات از استونی / اتحادیه اروپا ← فروش نرم‌افزار اشتراکی تکرارپذیر به تیم‌های ساختمانی اروپایی و بین‌المللی. ایران می‌تواند بازار بازخورد اولیه باشد چون درد واحد و اقساط آنجا واقعی است؛ جغرافیای نهایی شرکت نیست.",
+      "about.marketT": "",
+      "about.marketP": "",
       "about.demoT": "دادهٔ نمایشی",
       "about.demoP":
-        "حساب دمو داخل اپ دادهٔ نمونه برای ارزیابی محصول است. برچسب دمو دارد و به‌عنوان مشتری پرداخت‌کننده یا کشش واقعی بازار معرفی نمی‌شود.",
-      "about.baseT": "جهت شرکت",
-      "about.baseP":
-        "متریکو را به‌عنوان نرم‌افزار مقیاس‌پذیر با جهت اتحادیه اروپا می‌سازیم: پایگاه شرکتی استونی / اروپا، جذب نیروی تخصصی مهندسی و فروش، صورتحساب و انطباق آمادهٔ اروپا، سپس عمق‌بخشی انرژی، مصالح و بینش بازار.",
+        "حساب دمو داخل اپ دادهٔ نمونه برای ارزیابی محصول است. برچسب دمو دارد و به‌عنوان مشتری پرداخت‌کننده معرفی نمی‌شود.",
+      "about.baseT": "",
+      "about.baseP": "",
       "about.cta": "باز کردن اپ زنده",
       "guide.h1": "راهنمای دمو برای ارزیاب",
       "guide.lead":
@@ -444,8 +443,8 @@
         "از داخل اپ پشتیبان بگیرید. صفحهٔ حریم خصوصی را برای میزبانی و حقوق داده بخوانید.",
       "guide.linksT": "لینک‌های مفید",
       "guide.linkApp": "اپلیکیشن زنده",
-      "guide.linkOnepager": "یک‌صفحه‌ای رسمی کمیته (انگلیسی، چاپ/PDF)",
-      "guide.linkAbout": "دربارهٔ متریکو و بازارها",
+      "guide.linkOnepager": "خلاصهٔ محصول (انگلیسی)",
+      "guide.linkAbout": "دربارهٔ متریکو",
       "guide.linkPrivacy": "حریم خصوصی",
       "guide.linkContact": "تماس",
       "guide.time": "مرور معمول: حدود ۱۰ دقیقه روی دمو، به‌علاوهٔ عمیق‌شدن اختیاری در ماژول‌های پلن بالاتر.",
@@ -492,6 +491,9 @@
   };
 
   function getLang() {
+    if (document.body && document.body.getAttribute("data-force-lang") === "en") {
+      return "en";
+    }
     const saved = localStorage.getItem(STORAGE_KEY);
     if (saved === "en" || saved === "fa") return saved;
     const nav = (navigator.language || "en").toLowerCase();
@@ -499,6 +501,9 @@
   }
 
   function setLang(lang) {
+    if (document.body && document.body.getAttribute("data-force-lang") === "en") {
+      lang = "en";
+    }
     localStorage.setItem(STORAGE_KEY, lang);
     applyLang(lang);
   }
@@ -509,6 +514,9 @@
 
   function applyLang(lang) {
     lang = lang || getLang();
+    if (document.body && document.body.getAttribute("data-force-lang") === "en") {
+      lang = "en";
+    }
     const root = document.documentElement;
     root.lang = lang === "fa" ? "fa" : "en";
     root.dir = lang === "fa" ? "rtl" : "ltr";
@@ -533,6 +541,11 @@
       el.setAttribute("href", APP_URL);
     });
 
+    document.querySelectorAll("[data-en-only]").forEach(function (el) {
+      el.hidden = lang !== "en";
+      el.style.display = lang === "en" ? "" : "none";
+    });
+
     const switcher = document.getElementById("lang-switch");
     if (switcher) {
       switcher.textContent = t(lang, "lang.switch");
@@ -544,6 +557,7 @@
   }
 
   function toggleLang() {
+    if (document.body && document.body.getAttribute("data-force-lang") === "en") return;
     setLang(getLang() === "fa" ? "en" : "fa");
   }
 
