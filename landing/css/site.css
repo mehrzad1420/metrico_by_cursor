@@ -304,6 +304,25 @@
     .plan:not(.featured) .plan-buy {
       background: transparent; color: var(--text); border: 1px solid var(--border);
     }
+    .market-innov {
+      background: var(--glass);
+      border: 1px solid var(--border);
+      border-radius: 18px;
+      padding: 1.25rem 1.2rem;
+      margin-bottom: 1rem;
+      backdrop-filter: blur(10px);
+    }
+    .market-innov h3 {
+      font-size: 1rem;
+      margin-bottom: 0.55rem;
+      color: var(--text);
+    }
+    .market-innov p {
+      font-size: 0.9rem;
+      color: var(--muted);
+      line-height: 1.65;
+      max-width: 62ch;
+    }
     .market-path {
       display: grid;
       grid-template-columns: repeat(4, 1fr);

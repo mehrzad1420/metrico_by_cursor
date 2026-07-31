@@ -75,6 +75,9 @@
       "market.title": "Pilot markets first — then Europe",
       "market.sub":
         "We learn where the pain is acute, then scale as an EU-based SaaS — not as a one-country lifestyle tool.",
+      "market.innovT": "Innovation thesis",
+      "market.innovP":
+        "Metrico’s innovation is not another generic project board. It is a repeatable operating system for the construction pre-sale → build → handover loop: visual unit grids, installment math, site finance, and owner updates in one bilingual offline-capable product. Generic CRMs track contacts; heavyweight construction suites optimize job-site logistics. Mid-size developers still run units, buyers, and receivables in spreadsheets and chat. Metrico closes that gap with software leverage — the same SaaS sold on annual plans — so growth does not require rebuilding a custom agency stack for every project or country.",
       "market.s1n": "01",
       "market.s1t": "Pilot & learn",
       "market.s1p": "Real projects teach unit sales, installments, and owner pressure — before we overbuild.",
@@ -145,6 +148,9 @@
         "It runs in the browser on phone, tablet, and desktop. Install to the home screen like a native app. Work offline on site; sync when you are back online.",
       "about.p3":
         "The product ships bilingual English and Persian. Plans from Starter through Ark unlock more projects, inventory, takeoff, and energy tools as teams grow.",
+      "about.innovT": "Innovation",
+      "about.innovP":
+        "Metrico’s innovation is not another generic project board. It is a repeatable operating system for the construction pre-sale → build → handover loop: visual unit grids, installment math, site finance, and owner updates in one bilingual offline-capable product. Generic CRMs track contacts; heavyweight construction suites optimize job-site logistics. Mid-size developers still run units, buyers, and receivables in spreadsheets and chat. Metrico closes that gap with software leverage — the same SaaS sold on annual plans — so growth does not require rebuilding a custom agency stack for every project or country.",
       "about.marketT": "Markets — pilot, then Europe",
       "about.marketP":
         "Path in one line: learn in a pilot market → expand to Turkey and the Gulf → operate from Estonia / EU → sell a repeatable SaaS into European and international construction teams. Iran can be an early feedback market because the unit + installment pain is real there; it is not positioned as the final geography of the company.",

@@ -1,0 +1,9 @@
+Metrico — Innovation paragraph (English, committee-ready)
+Last updated: 2026-07-31
+
+Metrico’s innovation is not another generic project board. It is a repeatable operating system for the construction pre-sale → build → handover loop: visual unit grids, installment math, site finance, and owner updates in one bilingual offline-capable product. Generic CRMs track contacts; heavyweight construction suites optimize job-site logistics. Mid-size developers still run units, buyers, and receivables in spreadsheets and chat. Metrico closes that gap with software leverage — the same SaaS sold on annual plans — so growth does not require rebuilding a custom agency stack for every project or country.
+
+Also published on:
+- landing/markets.html (Innovation thesis)
+- landing/about.html (English only)
+- landing/onepager.html (Innovation section)
