@@ -11,6 +11,7 @@
       "meta.title.privacy": "Privacy — Metrico",
       "nav.home": "Home",
       "nav.platform": "Platform",
+      "nav.markets": "Markets",
       "nav.about": "About",
       "nav.guide": "Guide",
       "nav.contact": "Contact",
@@ -20,7 +21,7 @@
       "hero.eyebrow": "Construction command center",
       "hero.title": "One place for units, money, and owners",
       "hero.lead":
-        "A bilingual PWA for developers and contractors: unit sales, installments, project finance, and owner updates — built for the field, with offline sync.",
+        "A bilingual PWA for developers and contractors: unit sales, installments, project finance, and owner updates — built for the field, with a clear path from pilot markets to European scale.",
       "hero.chip1": "Offline PWA",
       "hero.chip2": "EN / FA",
       "hero.chip3": "Owner portal",
@@ -70,17 +71,35 @@
       "cap.c6p": "English and Persian UI — ready for cross-border teams.",
       "cap.c7t": "Flexible plans",
       "cap.c7p": "Inventory, takeoff, and energy tools in higher tiers.",
-      "market.title": "Built to scale beyond one country",
-      "market.sub": "Honest positioning for partners and evaluators — product first, then market expansion.",
-      "market.m1t": "Wedge",
+      "market.title": "Pilot markets first — then Europe",
+      "market.sub":
+        "We learn where the pain is acute, then scale as an EU-based SaaS — not as a one-country lifestyle tool.",
+      "market.s1n": "01",
+      "market.s1t": "Pilot & learn",
+      "market.s1p": "Real projects teach unit sales, installments, and owner pressure — before we overbuild.",
+      "market.s2n": "02",
+      "market.s2t": "Near markets",
+      "market.s2p": "Expand into Turkey and the Gulf with the same product core and bilingual UI.",
+      "market.s3n": "03",
+      "market.s3t": "Europe base",
+      "market.s3p": "Company operations from Estonia / EU: talent, billing, and compliance.",
+      "market.s4n": "04",
+      "market.s4t": "Product scale",
+      "market.s4p": "EU payments, deeper takeoff/energy, and market-price insights on the roadmap.",
+      "market.m1t": "Why a pilot market",
       "market.m1p":
-        "Replace spreadsheet chaos for unit sales, installments, and owner questions — the daily pain of mid-size developers.",
-      "market.m2t": "Go-to-market",
+        "An early operating market (including Iran where we already understand the workflow) is for feedback and product truth — not the end destination. Mid-size developers drowning in spreadsheets are the wedge customer.",
+      "market.m2t": "Regional expansion",
       "market.m2p":
-        "Prove value with real projects in growth markets, then expand through Turkey, the Gulf, and Europe with an EU company base.",
-      "market.m3t": "Roadmap",
+        "Next commercial push: Turkey and Gulf developers who share similar pre-sale + installment patterns. Same SaaS, localized go-to-market — not a custom agency rebuild per country.",
+      "market.m3t": "European growth",
       "market.m3p":
-        "Next: EU billing, richer energy reporting, material takeoff depth, and aggregated local price insights — clearly marked as product roadmap.",
+        "European adopters and partners come after the product is bilingual, field-proven, and company-ready. We sell software subscriptions — not local consulting hours.",
+      "market.m4t": "Estonia as operating base",
+      "market.m4p":
+        "We intend to incorporate and operate from Estonia: hire specialized engineering and international sales talent, complete EU-ready billing, and use Estonian digital infrastructure as HQ — while selling into construction markets beyond any single country.",
+      "market.note":
+        "Honest note: sample demo data is labeled demo. We do not present it as live paying traction. Early markets teach; Europe is the scale path.",
       "plans.title": "Plans that scale with your portfolio",
       "plans.sub": "Annual billing. Discount codes apply to purchase and renewal.",
       "plans.discountNote": "Have a discount code? Enter it at checkout for purchase or renewal.",
@@ -125,15 +144,15 @@
         "It runs in the browser on phone, tablet, and desktop. Install to the home screen like a native app. Work offline on site; sync when you are back online.",
       "about.p3":
         "The product ships bilingual English and Persian. Plans from Starter through Ark unlock more projects, inventory, takeoff, and energy tools as teams grow.",
-      "about.marketT": "Markets",
+      "about.marketT": "Markets — pilot, then Europe",
       "about.marketP":
-        "Iran can be an early operating market for real project feedback. Expansion targets include Turkey, the Gulf, and later European adopters — with company operations intended from an EU base.",
+        "Path in one line: learn in a pilot market → expand to Turkey and the Gulf → operate from Estonia / EU → sell a repeatable SaaS into European and international construction teams. Iran can be an early feedback market because the unit + installment pain is real there; it is not positioned as the final geography of the company.",
       "about.demoT": "Demo data",
       "about.demoP":
         "The in-app demo account is sample data for product evaluation. It is labeled demo and is not presented as live paying customers or production traction.",
       "about.baseT": "Company direction",
       "about.baseP":
-        "We are building Metrico as a scalable SaaS: hire specialized talent for engineering and international sales, complete EU-ready billing, and deepen energy, materials, and market-insight modules.",
+        "We are building Metrico as a scalable EU-oriented SaaS: Estonian / EU company base, specialized engineering and GTM hires, EU-ready billing and compliance, then deeper energy, materials, and market-insight modules.",
       "about.cta": "Open the live app",
       "guide.h1": "Evaluator demo guide",
       "guide.lead":
@@ -235,6 +254,7 @@
       "meta.title.privacy": "حریم خصوصی — متریکو",
       "nav.home": "خانه",
       "nav.platform": "بستر",
+      "nav.markets": "بازارها",
       "nav.about": "درباره",
       "nav.guide": "راهنما",
       "nav.contact": "تماس",
@@ -244,7 +264,7 @@
       "hero.eyebrow": "مرکز فرمان ساخت‌وساز",
       "hero.title": "واحد، پول و مالک — همه در یک جا",
       "hero.lead":
-        "اپ دوزبانه برای سازندگان و پیمانکاران: فروش واحد، اقساط، مالی پروژه و به‌روزرسانی مالک — آمادهٔ کارگاه، با همگام‌سازی آفلاین.",
+        "اپ دوزبانه برای سازندگان و پیمانکاران: فروش واحد، اقساط، مالی پروژه و به‌روزرسانی مالک — آمادهٔ کارگاه، با مسیر روشن از بازار آزمایش تا مقیاس اروپایی.",
       "hero.chip1": "آفلاین روی کارگاه",
       "hero.chip2": "فارسی و انگلیسی",
       "hero.chip3": "پورتال مالک",
@@ -294,17 +314,35 @@
       "cap.c6p": "رابط فارسی و انگلیسی — مناسب تیم‌های فرامرزی.",
       "cap.c7t": "پلن‌های انعطاف‌پذیر",
       "cap.c7p": "انبار، متره و انرژی در پلن‌های بالاتر.",
-      "market.title": "طراحی‌شده برای مقیاس فراتر از یک کشور",
-      "market.sub": "موقعیت‌گذاری صادقانه برای شریک و ارزیاب — اول محصول، بعد گسترش بازار.",
-      "market.m1t": "نقطهٔ ورود",
+      "market.title": "اول بازار آزمایش — بعد اروپا",
+      "market.sub":
+        "آنجا که درد حاد است یاد می‌گیریم، سپس به‌عنوان نرم‌افزار اشتراکی با پایگاه اتحادیه اروپا مقیاس می‌گیریم — نه ابزار تک‌کشوری.",
+      "market.s1n": "۰۱",
+      "market.s1t": "آزمایش و یادگیری",
+      "market.s1p": "پروژه‌های واقعی فروش واحد، اقساط و فشار مالک را آموزش می‌دهند — قبل از ساخت بیش‌ازحد.",
+      "market.s2n": "۰۲",
+      "market.s2t": "بازارهای همسایه",
+      "market.s2p": "گسترش به ترکیه و خلیج با همان هستهٔ محصول و رابط دوزبانه.",
+      "market.s3n": "۰۳",
+      "market.s3t": "پایگاه اروپا",
+      "market.s3p": "عملیات شرکت از استونی / اتحادیه اروپا: استعداد، صورتحساب، انطباق.",
+      "market.s4n": "۰۴",
+      "market.s4t": "مقیاس محصول",
+      "market.s4p": "پرداخت اروپایی، عمق متره/انرژی، و بینش قیمت بازار در نقشهٔ راه.",
+      "market.m1t": "چرا بازار آزمایش",
       "market.m1p":
-        "جایگزینی آشفتگی اکسل برای فروش واحد، اقساط و سوال‌های مالک — درد روزمرهٔ سازندگان متوسط.",
-      "market.m2t": "ورود به بازار",
+        "بازار عملیاتی اولیه (از جمله ایران که گردش‌کارش را می‌شناسیم) برای بازخورد و حقیقت محصول است — نه مقصد نهایی. مشتری نقطهٔ ورود: سازندهٔ متوسط‌مقیاس غرق در اکسل.",
+      "market.m2t": "گسترش منطقه‌ای",
       "market.m2p":
-        "ارزش را با پروژه‌های واقعی در بازارهای رشد اثبات کنید؛ سپس از طریق ترکیه، خلیج فارس و اروپا با پایگاه شرکتی در اتحادیه اروپا گسترش دهید.",
-      "market.m3t": "نقشهٔ راه",
+        "فشار تجاری بعدی: سازندگان ترکیه و خلیج با الگوی مشابه پیش‌فروش و اقساط. همان نرم‌افزار اشتراکی، ورود به بازار بومی‌شده — نه بازسازی سفارشی آژانس برای هر کشور.",
+      "market.m3t": "رشد اروپایی",
       "market.m3p":
-        "بعدی: صورتحساب اروپایی، گزارش انرژی غنی‌تر، عمق متره مصالح، و بینش قیمت محلی تجمیعی — به‌وضوح به‌عنوان نقشهٔ راه محصول.",
+        "پذیرندگان و شرکای اروپایی بعد از محصول دوزبانه، اثبات میدانی، و آمادگی شرکتی می‌آیند. اشتراک نرم‌افزار می‌فروشیم — نه ساعت مشاورهٔ محلی.",
+      "market.m4t": "استونی به‌عنوان پایگاه عملیات",
+      "market.m4p":
+        "قصد داریم از استونی ثبت و اداره کنیم: جذب نیروی تخصصی مهندسی و فروش بین‌المللی، تکمیل صورتحساب آمادهٔ اروپا، و استفاده از زیرساخت دیجیتال استونی به‌عنوان مرکز — در حالی که به بازارهای ساختمانی فراتر از یک کشور می‌فروشیم.",
+      "market.note":
+        "یادداشت صادقانه: دادهٔ نمونهٔ دمو برچسب دمو دارد و به‌عنوان کشش واقعی پرداخت‌کننده معرفی نمی‌شود. بازارهای اولیه آموزش می‌دهند؛ مسیر مقیاس، اروپاست.",
       "plans.title": "پلن‌هایی که با سبد پروژهٔ شما رشد می‌کنند",
       "plans.sub": "صورتحساب سالانه. کد تخفیف برای خرید و تمدید اعمال می‌شود.",
       "plans.discountNote": "کد تخفیف دارید؟ در مرحلهٔ پرداخت برای خرید یا تمدید وارد کنید.",
@@ -349,15 +387,15 @@
         "در مرورگر روی موبایل، تبلت و رایانه اجرا می‌شود و مثل اپ روی صفحهٔ اصلی نصب می‌شود. روی کارگاه آفلاین کار کنید؛ وقتی آنلاین شدید همگام کنید.",
       "about.p3":
         "محصول از ابتدا دوزبانهٔ انگلیسی و فارسی است. پلن‌ها از آغاز تا ارک با رشد تیم، پروژه، انبار، متره و انرژی را باز می‌کنند.",
-      "about.marketT": "بازارها",
+      "about.marketT": "بازارها — اول آزمایش، بعد اروپا",
       "about.marketP":
-        "ایران می‌تواند بازار اولیهٔ عملیاتی برای بازخورد واقعی پروژه باشد. هدف گسترش شامل ترکیه، خلیج و بعداً پذیرندگان اروپایی است — با عملیات شرکتی از پایگاه اتحادیهٔ اروپا.",
+        "مسیر در یک خط: یادگیری در بازار آزمایش ← گسترش به ترکیه و خلیج ← عملیات از استونی / اتحادیه اروپا ← فروش نرم‌افزار اشتراکی تکرارپذیر به تیم‌های ساختمانی اروپایی و بین‌المللی. ایران می‌تواند بازار بازخورد اولیه باشد چون درد واحد و اقساط آنجا واقعی است؛ جغرافیای نهایی شرکت نیست.",
       "about.demoT": "دادهٔ نمایشی",
       "about.demoP":
         "حساب دمو داخل اپ دادهٔ نمونه برای ارزیابی محصول است. برچسب دمو دارد و به‌عنوان مشتری پرداخت‌کننده یا کشش واقعی بازار معرفی نمی‌شود.",
       "about.baseT": "جهت شرکت",
       "about.baseP":
-        "متریکو را به‌عنوان نرم‌افزار مقیاس‌پذیر می‌سازیم: جذب نیروی تخصصی برای مهندسی و فروش بین‌المللی، تکمیل صورتحساب آمادهٔ اروپا، و عمق‌بخشی ماژول‌های انرژی، مصالح و بینش بازار.",
+        "متریکو را به‌عنوان نرم‌افزار مقیاس‌پذیر با جهت اتحادیه اروپا می‌سازیم: پایگاه شرکتی استونی / اروپا، جذب نیروی تخصصی مهندسی و فروش، صورتحساب و انطباق آمادهٔ اروپا، سپس عمق‌بخشی انرژی، مصالح و بینش بازار.",
       "about.cta": "باز کردن اپ زنده",
       "guide.h1": "راهنمای دمو برای ارزیاب",
       "guide.lead":

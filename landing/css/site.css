@@ -304,16 +304,58 @@
     .plan:not(.featured) .plan-buy {
       background: transparent; color: var(--text); border: 1px solid var(--border);
     }
+    .market-path {
+      display: grid;
+      grid-template-columns: repeat(4, 1fr);
+      gap: 0.65rem;
+      padding-bottom: 0.85rem;
+    }
+    @media (max-width: 900px) { .market-path { grid-template-columns: 1fr 1fr; } }
+    @media (max-width: 520px) { .market-path { grid-template-columns: 1fr; } }
+    .market-step {
+      position: relative;
+      background: var(--glass);
+      border: 1px solid var(--border);
+      border-radius: 16px;
+      padding: 0.9rem 0.95rem;
+      backdrop-filter: blur(10px);
+      display: flex;
+      flex-direction: column;
+      gap: 0.25rem;
+      min-height: 100%;
+    }
+    .market-num {
+      font-size: 0.72rem;
+      font-weight: 700;
+      letter-spacing: 0.04em;
+      color: var(--accent2);
+    }
+    .market-step strong {
+      font-size: 0.9rem;
+      color: var(--text);
+    }
+    .market-step span:last-child {
+      font-size: 0.78rem;
+      color: var(--muted);
+      line-height: 1.5;
+    }
     .market-grid {
-      display: grid; grid-template-columns: repeat(3, 1fr); gap: 0.85rem; padding-bottom: 1.5rem;
+      display: grid; grid-template-columns: repeat(3, 1fr); gap: 0.85rem; padding-bottom: 0.65rem;
     }
     @media (max-width: 768px) { .market-grid { grid-template-columns: 1fr; } }
     .market-card {
       background: var(--glass); border: 1px solid var(--border); border-radius: 18px;
       padding: 1.2rem 1.1rem; backdrop-filter: blur(10px);
     }
+    .market-card-wide { grid-column: 1 / -1; }
     .market-card h3 { font-size: 0.95rem; margin-bottom: 0.45rem; }
     .market-card p { font-size: 0.82rem; color: var(--muted); line-height: 1.55; }
+    .market-note {
+      padding: 0 0 2rem;
+      color: var(--muted);
+      font-size: 0.8rem;
+      line-height: 1.55;
+    }
     .plans-note {
       padding: 0 0 2.25rem; color: var(--muted); font-size: 0.82rem; line-height: 1.55;
     }
