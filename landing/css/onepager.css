@@ -40,6 +40,17 @@ html[dir="rtl"] .toolbar { direction: rtl; }
   color: #fff;
   border-color: var(--accent);
 }
+.ver-banner {
+  font-size: 0.78rem;
+  font-weight: 600;
+  color: var(--accent);
+  background: #eaf1f8;
+  border: 1px solid var(--line);
+  border-radius: 8px;
+  padding: 0.55rem 0.7rem;
+  margin-bottom: 0.75rem;
+  line-height: 1.45;
+}
 .sheet {
   width: min(210mm, 100% - 1.5rem);
   min-height: 297mm;
