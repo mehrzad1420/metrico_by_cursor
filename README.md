@@ -2,7 +2,7 @@
   <img src="icons/icon-512.png" alt="Metrico Logo" width="120" height="120" style="border-radius: 24px; box-shadow: 0 8px 24px rgba(0,0,0,0.15);"/>
 </p>
 
-<h1 align="center">Metrico · میتریکو</h1>
+<h1 align="center">Metrico · متریکو</h1>
 <h3 align="center">Smart Construction &amp; Real-Estate Project Management Platform</h3>
 
 <p align="center">
@@ -144,22 +144,22 @@ Higher plans include all features from lower tiers.
   </tr>
   <tr>
     <td><b>Start</b></td>
-    <td>میتریکو آغاز</td>
+    <td>متریکو آغاز</td>
     <td>Free · 1 project · unit sales &amp; expenses · 15 contacts</td>
   </tr>
   <tr>
     <td><b>Plus</b></td>
-    <td>میتریکو پلاس</td>
+    <td>متریکو پلاس</td>
     <td>3 projects · PDF export · AI chat · maps · backup/restore</td>
   </tr>
   <tr>
     <td><b>Pro</b></td>
-    <td>میتریکو پرو</td>
+    <td>متریکو پرو</td>
     <td>10 projects · full accounting · material inventory · tax · KML</td>
   </tr>
   <tr>
     <td><b>Ark</b></td>
-    <td>میتریکو ارک</td>
+    <td>متریکو ارک</td>
     <td>Unlimited projects · energy calculations · quantity takeoff</td>
   </tr>
 </table>

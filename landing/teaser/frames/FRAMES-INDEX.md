@@ -1,4 +1,4 @@
-# فهرست فریم‌های تیزر میتریکو
+# فهرست فریم‌های تیزر متریکو
 
 **مسیر:** `landing/teaser/frames/`  
 **تعداد فایل:** ۵۳ (شامل ۲ مرجع شخصیت و ۲ نسخهٔ اصلاح‌شده)
@@ -46,7 +46,7 @@
 | 17 | `f17-him-waiting-awkward.png` | آقا منتظر با کاغذ |
 | 18 | `f18-ots-tablet-reveal.png` | چرخش تبلت — «همینجا» |
 | 19 | `f19-him-asking.png` | سؤال آقا |
-| 20 | `f20-both-relaxed.png` | هر دو آرام — نام میتریکو |
+| 20 | `f20-both-relaxed.png` | هر دو آرام — نام متریکو |
 | 21 | `f21-tablet-send-pdf.png` | ارسال PDF از تبلت |
 | 22 | `f22-split-contrast.png` | اسپلیت: آقا vs خانم |
 | 31 | `f31-him-installs-app.png` | آقا در حال نصب اپ |

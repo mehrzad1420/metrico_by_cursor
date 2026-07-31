@@ -643,7 +643,7 @@ const GUIDE_SECTIONS = [
     label: "پلن‌های اشتراک",
     icon: LucideCrown,
     steps: [
-      { title: "چهار سطح اشتراک", body: "میتریکو در چهار سطح ارائه می‌شود: آغاز (رایگان)، پلاس، پرو و ارک. هر پلن بالاتر، تمام امکانات پلن‌های پایین‌تر را هم شامل می‌شود. از منو → «پلن اشتراک» وضعیت فعلی و جدول مقایسه را ببینید.", img: "صفحه پلن اشتراک" },
+      { title: "چهار سطح اشتراک", body: "متریکو در چهار سطح ارائه می‌شود: آغاز (رایگان)، پلاس، پرو و ارک. هر پلن بالاتر، تمام امکانات پلن‌های پایین‌تر را هم شامل می‌شود. از منو → «پلن اشتراک» وضعیت فعلی و جدول مقایسه را ببینید.", img: "صفحه پلن اشتراک" },
       { title: "آغاز و پلاس", body: "آغاز: یک پروژه، فروش واحد و ثبت هزینه. پلاس: تا ۳ پروژه، گزارش PDF، چت هوشمند، نقشه مکان‌یابی، پنل اختصاصی مالک، گالری تصاویر، نقشه‌های اتوکد/BIM/سه‌بعدی پروژه، پشتیبان‌گیری و مخاطبین نامحدود.", img: "مقایسه آغاز و پلاس" },
       { title: "پرو — حسابداری و انبار", body: "پلن پرو تا ۱۰ پروژه، حسابداری کامل پروژه، انبارگردانی و موجودی مصالح، سامانه‌های مالیاتی و خروجی KML را فعال می‌کند.", img: "امکانات پرو" },
       { title: "ارک — انرژی و متره", body: "بالاترین سطح: پروژه نامحدود، محاسبات انرژی ساختمان و ابزار متره و برآورد. انرژی و متره فقط در پلن ارک در دسترس است.", img: "امکانات ارک" },
@@ -1150,10 +1150,10 @@ const APP_VERSION = "2.54.1";
 
 const METRICO_PLAN_ORDER = ["start", "plus", "pro", "ark"];
 const METRICO_PLANS = {
-  start: { id: "start", name: "میتریکو آغاز", tagline: "شروع رایگان — یک پروژه، مدیریت پایه", rank: 0, maxProjects: 1, maxContacts: 15, maxReminders: 10, priceYearToman: 0, priceYearEur: 0 },
-  plus: { id: "plus", name: "میتریکو پلاس", tagline: "فروش و هزینه حرفه‌ای + گزارش و چت", rank: 1, maxProjects: 3, maxContacts: 9999, maxReminders: 9999, priceYearToman: 4000000, priceYearEur: 50 },
-  pro: { id: "pro", name: "میتریکو پرو", tagline: "حسابداری کامل + انبار مصالح + مالیات", rank: 2, maxProjects: 10, maxContacts: 9999, maxReminders: 9999, priceYearToman: 10000000, priceYearEur: 100 },
-  ark: { id: "ark", name: "میتریکو ارک", tagline: "نامحدود + انرژی + متره + سازمانی", rank: 3, maxProjects: 999, maxContacts: 9999, maxReminders: 9999, priceYearToman: 16000000, priceYearEur: 150 },
+  start: { id: "start", name: "متریکو آغاز", tagline: "شروع رایگان — یک پروژه، مدیریت پایه", rank: 0, maxProjects: 1, maxContacts: 15, maxReminders: 10, priceYearToman: 0, priceYearEur: 0 },
+  plus: { id: "plus", name: "متریکو پلاس", tagline: "فروش و هزینه حرفه‌ای + گزارش و چت", rank: 1, maxProjects: 3, maxContacts: 9999, maxReminders: 9999, priceYearToman: 4000000, priceYearEur: 50 },
+  pro: { id: "pro", name: "متریکو پرو", tagline: "حسابداری کامل + انبار مصالح + مالیات", rank: 2, maxProjects: 10, maxContacts: 9999, maxReminders: 9999, priceYearToman: 10000000, priceYearEur: 100 },
+  ark: { id: "ark", name: "متریکو ارک", tagline: "نامحدود + انرژی + متره + سازمانی", rank: 3, maxProjects: 999, maxContacts: 9999, maxReminders: 9999, priceYearToman: 16000000, priceYearEur: 150 },
 };
 const METRICO_LOCAL_DISCOUNTS = {
   METRICO10: { percent: 10, kinds: ["purchase", "renewal"] },
@@ -2224,7 +2224,7 @@ const DICT = {
   "هنوز نظری ثبت نشده": "No feedback yet",
   "علامت‌گذاری به‌عنوان خوانده‌شده": "Mark as read",
   "نظرات کاربران": "User feedback",
-  "پیام شما برای تیم میتریکو (مدیر سیستم) ارسال می‌شود.": "Your message is sent to the Metrico team (system admin).",
+  "پیام شما برای تیم متریکو (مدیر سیستم) ارسال می‌شود.": "Your message is sent to the Metrico team (system admin).",
   "یادداشت‌ها": "Notes", "یادآوری‌ها": "Reminders", "نقشه پروژه‌ها": "Projects Map",
   "گزارش PDF": "PDF reports", "چت هوشمند": "Smart chat",
   "خروج از برنامه": "Log out", "برای ورود مجدد باید رمز عبور را دوباره وارد کنی. مطمئنی؟": "You'll need to log in again. Are you sure?",
@@ -2308,7 +2308,7 @@ const DICT = {
   // Activation success
   "حساب کاربری شما فعال شد": "Your account is activated",
   "ایمیل شما با موفقیت تأیید شد": "Your email has been successfully verified",
-  "اکنون می‌توانید وارد برنامه شوید و از امکانات میتریکو برای مدیریت پروژه‌های ساختمانی استفاده کنید.": "You can now sign in and use Metrico for construction project management.",
+  "اکنون می‌توانید وارد برنامه شوید و از امکانات متریکو برای مدیریت پروژه‌های ساختمانی استفاده کنید.": "You can now sign in and use Metrico for construction project management.",
   "از اعتماد و همراهی شما سپاسگزاریم — امیدواریم متریکو در مسیر موفقیت پروژه‌هایتان همراه شما باشد.": "Thank you for your trust — we hope Metrico helps you succeed with your projects.",
   "ورود به برنامه": "Enter App",
   // FAB / reports
@@ -2586,15 +2586,15 @@ const DICT = {
   "خروجی KML": "KML export", "متره و برآورد": "Takeoff & estimate",
   // About (short headers — full paragraphs in next pass if needed)
   "تیم بنیان‌گذار": "Founding team",
-  "میتریکو یک محصول استارتاپی است که توسط تیم ما طراحی، توسعه و به‌صورت مستمر بهبود می‌یابد.": "Metrico is a startup product designed, built, and continuously improved by our team.",
+  "متریکو یک محصول استارتاپی است که توسط تیم ما طراحی، توسعه و به‌صورت مستمر بهبود می‌یابد.": "Metrico is a startup product designed, built, and continuously improved by our team.",
   "مهرزاد سعیدی": "Mehrzad Saeedi",
   "مدیر طراحی و توسعه نرم‌افزار": "Software Design & Development Lead",
   "سروه خوشکلام": "srwa khoshkalam",
   "برنامه‌ریز و توسعه‌دهنده بخش حسابداری و مالی": "Accounting & Financial Module Planner and Developer",
-  "ما به‌عنوان مالکان و ایده‌پردازان میتریکو، این اپلیکیشن را به‌صورت تیمی خلق کرده‌ایم تا مدیریت پروژه‌های ساختمانی را ساده‌تر، دقیق‌تر و در دسترس‌تر کنیم.": "As co-owners and creators of Metrico, we built this application as a team to make construction project management simpler, more accurate, and more accessible.",
-  "میتریکو حاصل ترکیب تجربه اجرایی میدانی در صنعت ساختمان و تخصص فنی در طراحی نرم‌افزار است. ما به‌صورت یک تیم استارتاپی، بی‌وقفه روی توسعه، پایداری و بهبود تجربه کاربری کار می‌کنیم — از نظرات، پیشنهادها و گزارش اشکالات شما استقبال می‌کنیم و آن‌ها را در اولویت نقشه راه محصول قرار می‌دهیم.": "Metrico combines hands-on construction industry experience with software engineering expertise. As a startup team, we work continuously on development, stability, and user experience — we welcome your feedback, suggestions, and bug reports and prioritize them on our product roadmap.",
+  "ما به‌عنوان مالکان و ایده‌پردازان متریکو، این اپلیکیشن را به‌صورت تیمی خلق کرده‌ایم تا مدیریت پروژه‌های ساختمانی را ساده‌تر، دقیق‌تر و در دسترس‌تر کنیم.": "As co-owners and creators of Metrico, we built this application as a team to make construction project management simpler, more accurate, and more accessible.",
+  "متریکو حاصل ترکیب تجربه اجرایی میدانی در صنعت ساختمان و تخصص فنی در طراحی نرم‌افزار است. ما به‌صورت یک تیم استارتاپی، بی‌وقفه روی توسعه، پایداری و بهبود تجربه کاربری کار می‌کنیم — از نظرات، پیشنهادها و گزارش اشکالات شما استقبال می‌کنیم و آن‌ها را در اولویت نقشه راه محصول قرار می‌دهیم.": "Metrico combines hands-on construction industry experience with software engineering expertise. As a startup team, we work continuously on development, stability, and user experience — we welcome your feedback, suggestions, and bug reports and prioritize them on our product roadmap.",
   "با سابقه مدیریت و اجرای پروژه‌های ساختمانی و آشنایی عمیق با نیازهای واقعی کارگاه، دفتر فنی و مالک، مسیر طراحی معماری، توسعه و بهبود مستمر محصول را هدایت می‌کند.": "With a background in managing and executing construction projects and deep familiarity with real site, technical office, and owner needs, he leads the product architecture, development, and continuous improvement of Metrico.",
-  "با تمرکز بر فرآیندهای مالی و حسابداری پروژه، ساختار گزارش‌ها، تراز حساب‌ها، جریان‌های مالی و خروجی‌های قابل ارائه به حسابدار را برنامه‌ریزی و در بخش حسابداری و مالی میتریکو پیاده‌سازی می‌کند.": "Focused on project finance and accounting workflows, she plans and implements report structures, account balances, financial flows, and accountant-ready outputs in Metrico's accounting and financial module.",
+  "با تمرکز بر فرآیندهای مالی و حسابداری پروژه، ساختار گزارش‌ها، تراز حساب‌ها، جریان‌های مالی و خروجی‌های قابل ارائه به حسابدار را برنامه‌ریزی و در بخش حسابداری و مالی متریکو پیاده‌سازی می‌کند.": "Focused on project finance and accounting workflows, she plans and implements report structures, account balances, financial flows, and accountant-ready outputs in Metrico's accounting and financial module.",
   "برای دریافت کد فعال‌سازی حساب تماس بگیرید": "Contact us for account activation code",
   // Misc
   "نسخه": "Version",
@@ -2724,7 +2724,7 @@ Object.assign(DICT, {
   "درخواست حذف کامل حساب و داده‌های وابسته را از صفحه «درباره» ثبت کنید. تلاش می‌کنیم ظرف ۳۰ روز کاری درخواست را انجام دهیم (پروژه‌ها، پورتال‌ها، فیدبک و metadata).": "Request full account deletion via the About page. We aim to complete it within 30 business days (projects, portals, feedback, and metadata).",
   "اطلاعات شما به اشخاص ثالث فروخته یا اجاره داده نمی‌شود. برای ارائهٔ سرویس، داده در Supabase (میزبان) نگهداری می‌شود؛ هنگام استفاده از نقشه، مرورگر شما ممکن است آدرس IP را برای دریافت کاشی به OpenStreetMap بفرستد. اشتراک‌گذاری عمدی فقط با ابزارهایی مثل PDF یا پشتیبان‌گیری و با تصمیم شماست.": "Your data is not sold or rented. Supabase hosts your data; when you use the map, your browser may send your IP to OpenStreetMap for map tiles. Deliberate sharing is only via PDF export or backup at your choice.",
   "نقش حقوقی نسبت به خریداران": "Legal role for buyer data",
-  "شما (پیمانکار/سازنده) معمولاً کنترل‌کنندهٔ دادهٔ خریداران و مالکان در پروژه‌های خود هستید؛ میتریکو برای میزبانی و پورتال مالk به‌عنوان پردازشگر عمل می‌کند. برای مشتریان اتحادیهٔ اروپا قرارداد پردازشگری (DPA) جداگانه پیشنهاد می‌شود.": "You (developer/contractor) are usually the controller for buyer/owner data in your projects; Metrico acts as processor for hosting and the owner portal. A separate DPA is offered for EU customers.",
+  "شما (پیمانکار/سازنده) معمولاً کنترل‌کنندهٔ دادهٔ خریداران و مالکان در پروژه‌های خود هستید؛ متریکو برای میزبانی و پورتال مالk به‌عنوان پردازشگر عمل می‌کند. برای مشتریان اتحادیهٔ اروپا قرارداد پردازشگری (DPA) جداگانه پیشنهاد می‌شود.": "You (developer/contractor) are usually the controller for buyer/owner data in your projects; Metrico acts as processor for hosting and the owner portal. A separate DPA is offered for EU customers.",
   "دسترسی و کپی داده (قابل حمل)": "Access & data portability",
   "از منوی «پشتیبان‌گیری» می‌توانید خروجی JSON از پروژه‌ها، شرکت، مخاطبین و یادآوری‌ها بگیرید. برای سایر درخواست‌های دسترسی از صفحه «درباره» تماس بگیرید.": "Use Backup in the menu to export JSON of projects, company, contacts, and reminders. For other access requests, contact us via About.",
   "ذخیرهٔ موقت در مرورگر": "Temporary browser storage",
@@ -2990,10 +2990,10 @@ Object.assign(DICT, {
   "سرد": "Cold",
   "معتدل": "Temperate",
   "گرم و مرطوب": "Hot and humid",
-  "میتریکو آغاز": "Metrico Start",
-  "میتریکو پلاس": "Metrico Plus",
-  "میتریکو پرو": "Metrico Pro",
-  "میتریکو ارک": "Metrico Arc",
+  "متریکو آغاز": "Metrico Start",
+  "متریکو پلاس": "Metrico Plus",
+  "متریکو پرو": "Metrico Pro",
+  "متریکو ارک": "Metrico Arc",
   "شروع رایگان — یک پروژه، مدیریت پایه": "Free start — one project, basic management",
   "فروش و هزینه حرفه‌ای + گزارش و چت": "Professional sales & expenses + reports & chat",
   "حسابداری کامل + انبار مصالح + مالیات": "Full accounting + inventory + tax",
@@ -3339,7 +3339,7 @@ Object.assign(DICT, {
   "راهنمای تصویری": "Illustration guide",
   "راهنمای": "Guide to",
   "شامل: تغییر زبان FA/EN در ورود · قراردادهای تخصصی A4 · کنترل کیفیت صورت‌وضعیت · ویرایش تعداد واحد هر طبقه": "Includes: FA/EN language switch at login · specialized A4 contracts · progress billing QC · edit units per floor",
-  "تیم بنیان‌گذار میتریکو": "Metrico founding team",
+  "تیم بنیان‌گذار متریکو": "Metrico founding team",
   "جدول owner_portals در Supabase یافت نشد. فایل supabase/owner-portals.sql را اجرا کنید.": "Table owner_portals not found in Supabase. Run supabase/owner-portals.sql.",
   "تابع RPC در Supabase ثبت نشده. فایل owner-portals.sql را دوباره اجرا کنید.": "RPC function not registered in Supabase. Re-run owner-portals.sql.",
   "دسترسی دیتابیس رد شد. فایل owner-portals.sql را دوباره اجرا کنید (بخش GRANT).": "Database access denied. Re-run owner-portals.sql (GRANT section).",
@@ -3362,7 +3362,7 @@ const GUIDE_I18N = {
   "نقشه‌های پروژه": "Project Drawings",
   "نقشه و مکان‌یابی": "Map & Geolocation",
   "چهار سطح اشتراک": "Four Subscription Tiers",
-  "میتریکو در چهار سطح ارائه می‌شود: آغاز (رایگان)، پلاس، پرو و ارک. هر پلن بالاتر، تمام امکانات پلن‌های پایین‌تر را هم شامل می‌شود. از منو → «پلن اشتراک» وضعیت فعلی و جدول مقایسه را ببینید.": "Metrico is offered in four tiers: Starter (free), Plus, Pro, and Arc. Each higher plan includes all features of the plans below it. From the menu → \"Subscription Plan\", view your current status and the comparison table.",
+  "متریکو در چهار سطح ارائه می‌شود: آغاز (رایگان)، پلاس، پرو و ارک. هر پلن بالاتر، تمام امکانات پلن‌های پایین‌تر را هم شامل می‌شود. از منو → «پلن اشتراک» وضعیت فعلی و جدول مقایسه را ببینید.": "Metrico is offered in four tiers: Starter (free), Plus, Pro, and Arc. Each higher plan includes all features of the plans below it. From the menu → \"Subscription Plan\", view your current status and the comparison table.",
   "صفحه پلن اشتراک": "Subscription plan page",
   "آغاز و پلاس": "Starter & Plus",
   "آغاز: یک پروژه، فروش واحد و ثبت هزینه. پلاس: تا ۳ پروژه، گزارش PDF، چت هوشمند، نقشه مکان‌یابی، پنل اختصاصی مالک، گالری تصاویر، نقشه‌های اتوکد/BIM/سه‌بعدی پروژه، پشتیبان‌گیری و مخاطبین نامحدود.": "Starter: one project, unit sales, and expense tracking. Plus: up to 3 projects, PDF reports, smart chat, geolocation map, dedicated owner portal, image gallery, AutoCAD/BIM/3D project drawings, backups, and unlimited contacts.",
@@ -7113,7 +7113,7 @@ function ActivationSuccessScreen({ onContinue, source }) {
           <p className="text-xs text-[#128C7E] font-semibold mb-2">{t("ایمیل شما با موفقیت تأیید شد")}</p>
         )}
         <p className="text-sm text-[#6B7280] leading-7 mb-6">
-          {t("اکنون می‌توانید وارد برنامه شوید و از امکانات میتریکو برای مدیریت پروژه‌های ساختمانی استفاده کنید.")}
+          {t("اکنون می‌توانید وارد برنامه شوید و از امکانات متریکو برای مدیریت پروژه‌های ساختمانی استفاده کنید.")}
           {" "}
           {t("از اعتماد و همراهی شما سپاسگزاریم — امیدواریم متریکو در مسیر موفقیت پروژه‌هایتان همراه شما باشد.")}
         </p>
@@ -10466,7 +10466,7 @@ function SideMenu({ company, projects, activeTab, currentScreen, isReadOnly, eff
               }`}
             >
               <LucideCrown size={15} /> {t("پلن اشتراک")}
-              <span className="mr-auto text-[10px] font-bold text-[#6B7280]">{t(METRICO_PLANS[effectivePlan].name).replace(/^(Metrico|میتریکو) /, "")}</span>
+              <span className="mr-auto text-[10px] font-bold text-[#6B7280]">{t(METRICO_PLANS[effectivePlan].name).replace(/^(Metrico|متریکو) /, "")}</span>
             </button>
             {isSuperAdmin && (
               <button
@@ -10648,13 +10648,13 @@ function AboutScreen({ onBack, user, company, isReadOnly, onError }) {
         </p>
         <div className="bg-[#EFF6FF] border border-[#BFDBFE] rounded-xl p-3 text-xs text-[#1E3A8A] leading-6 mb-3">
           <div className="font-bold mb-1">{t("نقش حقوقی نسبت به خریداران")}</div>
-          {t("شما (پیمانکار/سازنده) معمولاً کنترل‌کنندهٔ دادهٔ خریداران و مالکان در پروژه‌های خود هستید؛ میتریکو برای میزبانی و پورتال مالk به‌عنوان پردازشگر عمل می‌کند. برای مشتریان اتحادیهٔ اروپا قرارداد پردازشگری (DPA) جداگانه پیشنهاد می‌شود.")}
+          {t("شما (پیمانکار/سازنده) معمولاً کنترل‌کنندهٔ دادهٔ خریداران و مالکان در پروژه‌های خود هستید؛ متریکو برای میزبانی و پورتال مالk به‌عنوان پردازشگر عمل می‌کند. برای مشتریان اتحادیهٔ اروپا قرارداد پردازشگری (DPA) جداگانه پیشنهاد می‌شود.")}
         </div>
         <div className="m-card-muted p-4 mb-4">
           <div className="font-bold text-[#14213D] text-sm mb-2">{t("تیم بنیان‌گذار")}</div>
-          <p className="text-sm leading-7 mb-3">{t("میتریکو یک محصول استارتاپی است که توسط تیم ما طراحی، توسعه و به‌صورت مستمر بهبود می‌یابد.")}</p>
-          <p className="text-xs text-[#6B7280] leading-6 mb-4">{t("ما به‌عنوان مالکان و ایده‌پردازان میتریکو، این اپلیکیشن را به‌صورت تیمی خلق کرده‌ایم تا مدیریت پروژه‌های ساختمانی را ساده‌تر، دقیق‌تر و در دسترس‌تر کنیم.")}</p>
-          <p className="text-xs text-[#4B5563] leading-6 mb-4">{t("میتریکو حاصل ترکیب تجربه اجرایی میدانی در صنعت ساختمان و تخصص فنی در طراحی نرم‌افزار است. ما به‌صورت یک تیم استارتاپی، بی‌وقفه روی توسعه، پایداری و بهبود تجربه کاربری کار می‌کنیم — از نظرات، پیشنهادها و گزارش اشکالات شما استقبال می‌کنیم و آن‌ها را در اولویت نقشه راه محصول قرار می‌دهیم.")}</p>
+          <p className="text-sm leading-7 mb-3">{t("متریکو یک محصول استارتاپی است که توسط تیم ما طراحی، توسعه و به‌صورت مستمر بهبود می‌یابد.")}</p>
+          <p className="text-xs text-[#6B7280] leading-6 mb-4">{t("ما به‌عنوان مالکان و ایده‌پردازان متریکو، این اپلیکیشن را به‌صورت تیمی خلق کرده‌ایم تا مدیریت پروژه‌های ساختمانی را ساده‌تر، دقیق‌تر و در دسترس‌تر کنیم.")}</p>
+          <p className="text-xs text-[#4B5563] leading-6 mb-4">{t("متریکو حاصل ترکیب تجربه اجرایی میدانی در صنعت ساختمان و تخصص فنی در طراحی نرم‌افزار است. ما به‌صورت یک تیم استارتاپی، بی‌وقفه روی توسعه، پایداری و بهبود تجربه کاربری کار می‌کنیم — از نظرات، پیشنهادها و گزارش اشکالات شما استقبال می‌کنیم و آن‌ها را در اولویت نقشه راه محصول قرار می‌دهیم.")}</p>
           <div className="space-y-3">
             {renderTeamMember(
               "project_maps",
@@ -10666,7 +10666,7 @@ function AboutScreen({ onBack, user, company, isReadOnly, onError }) {
               "accounting",
               "سروه خوشکلام",
               "برنامه‌ریز و توسعه‌دهنده بخش حسابداری و مالی",
-              "با تمرکز بر فرآیندهای مالی و حسابداری پروژه، ساختار گزارش‌ها، تراز حساب‌ها، جریان‌های مالی و خروجی‌های قابل ارائه به حسابدار را برنامه‌ریزی و در بخش حسابداری و مالی میتریکو پیاده‌سازی می‌کند."
+              "با تمرکز بر فرآیندهای مالی و حسابداری پروژه، ساختار گزارش‌ها، تراز حساب‌ها، جریان‌های مالی و خروجی‌های قابل ارائه به حسابدار را برنامه‌ریزی و در بخش حسابداری و مالی متریکو پیاده‌سازی می‌کند."
             )}
           </div>
         </div>
@@ -10678,7 +10678,7 @@ function AboutScreen({ onBack, user, company, isReadOnly, onError }) {
               {t("نظرات و پیشنهادات")}
             </div>
             <p className="text-xs text-[#6B7280] leading-6 mb-3">
-              {t("پیام شما برای تیم میتریکو (مدیر سیستم) ارسال می‌شود.")}
+              {t("پیام شما برای تیم متریکو (مدیر سیستم) ارسال می‌شود.")}
             </p>
             {feedbackOk ? (
               <div className="text-sm text-[#166534] bg-green-50 rounded-xl px-3 py-2.5">{t("نظر شما ثبت شد. از مشارکت شما سپاسگزاریم.")}</div>
@@ -10760,7 +10760,7 @@ function PrivacyScreen({ onBack }) {
         </div>
         <div>
           <div className="font-bold text-[#14213D] mb-1">{t("نقش حقوقی نسبت به خریداران")}</div>
-          {t("شما (پیمانکار/سازنده) معمولاً کنترل‌کنندهٔ دادهٔ خریداران و مالکان در پروژه‌های خود هستید؛ میتریکو برای میزبانی و پورتال مالk به‌عنوان پردازشگر عمل می‌کند. برای مشتریان اتحادیهٔ اروپا قرارداد پردازشگری (DPA) جداگانه پیشنهاد می‌شود.")}
+          {t("شما (پیمانکار/سازنده) معمولاً کنترل‌کنندهٔ دادهٔ خریداران و مالکان در پروژه‌های خود هستید؛ متریکو برای میزبانی و پورتال مالk به‌عنوان پردازشگر عمل می‌کند. برای مشتریان اتحادیهٔ اروپا قرارداد پردازشگری (DPA) جداگانه پیشنهاد می‌شود.")}
         </div>
         <div>
           <div className="font-bold text-[#14213D] mb-1">{t("دسترسی و کپی داده (قابل حمل)")}</div>
@@ -11064,7 +11064,7 @@ function GuidePrintContent() {
         </div>
       ))}
       <div style={{ fontSize: 10, color: "#9CA3AF", borderTop: "1px solid #E5E7EB", paddingTop: 12, marginTop: 16 }}>
-        © {APP_NAME} v{APP_VERSION} — {t("تیم بنیان‌گذار میتریکو")}
+        © {APP_NAME} v{APP_VERSION} — {t("تیم بنیان‌گذار متریکو")}
       </div>
     </div>
   );

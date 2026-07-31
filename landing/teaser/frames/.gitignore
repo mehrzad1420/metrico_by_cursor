@@ -1,0 +1,2 @@
+﻿# Keep teaser frame PNGs local (large binaries)
+landing/teaser/frames/*.png

@@ -1,5 +1,5 @@
 -- ═══════════════════════════════════════════════════════════════
--- Metrico — Subscription plans (میتریکو آغاز / پلاس / پرو / ارک)
+-- Metrico — Subscription plans (متریکو آغاز / پلاس / پرو / ارک)
 -- Run once in Supabase SQL Editor AFTER schema.sql
 -- ═══════════════════════════════════════════════════════════════
 

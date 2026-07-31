@@ -1,4 +1,4 @@
-# فیلمنامهٔ کامل تیزر میتریکو — «نهارِ پرتلفن»
+# فیلمنامهٔ کامل تیزر متریکو — «نهارِ پرتلفن»
 ## برای ساخت ویدیو با هوش مصنوعی (Runway / Kling / Pika / Sora / و غیره)
 
 **نسخه سند:** 1.0 · **تاریخ:** 2026-07-27  
@@ -16,11 +16,11 @@
 
 # بخش ۲ — پیام و CTA
 
-**پیام (FA):** وقتی آمار پراکنده است، هر تماس یک بحران است. میتریکو همهٔ پروژه را یک‌جا — همان لحظه.
+**پیام (FA):** وقتی آمار پراکنده است، هر تماس یک بحران است. متریکو همهٔ پروژه را یک‌جا — همان لحظه.
 
 **پیام (EN):** When your numbers live in chaos, every call is a crisis. Metrico puts every project in one place — right now.
 
-**CTA پایان (FA):** میتریکو — رایگان شروع کنید.  
+**CTA پایان (FA):** متریکو — رایگان شروع کنید.  
 **CTA (EN):** Metrico — Start free.
 
 **URL روی پایان‌صفحه:**  
@@ -375,7 +375,7 @@
 
 ---
 
-## SHOT 17 — نام بردن میتریکو
+## SHOT 17 — نام بردن متریکو
 
 **Timecode:** 0:50 – 0:53  
 **Duration generate:** 5s (use 3s)  
@@ -386,7 +386,7 @@
 
 **Dialogue FA:**  
 - **آقا:** …میشه بعد ناهار بگی چی نصب کردی؟  
-- **خانم:** میتریکو. یک مرکز فرمان — نه یک فایل دیگر.
+- **خانم:** متریکو. یک مرکز فرمان — نه یک فایل دیگر.
 
 **Dialogue EN:**  
 - **Him:** …After lunch. What app is that?  
@@ -411,7 +411,7 @@
 `Abstract purple and navy gradient motion background, soft light leaks, modern tech commercial, seamless loop`
 
 **VO FA:**  
-میتریکو — مدیریت پروژه ساختمانی. واحد، مالی، مالک، گزارش. فارسی. آفلاین.
+متریکو — مدیریت پروژه ساختمانی. واحد، مالی، مالک، گزارش. فارسی. آفلاین.
 
 **VO EN:**  
 Metrico — construction project management. Units, finance, owners, reports. Persian-first. Offline.
@@ -428,7 +428,7 @@ Metrico — construction project management. Units, finance, owners, reports. Pe
 **Optional AI prompt:**  
 `Minimal motion graphics end card, logo placeholder square center, purple blue gradient background, clean modern SaaS ad, no fake text`
 
-**On-screen FA:** میتریکو · رایگان شروع کنید  
+**On-screen FA:** متریکو · رایگان شروع کنید  
 **On-screen EN:** Metrico · Start free  
 **URL:** github.io/metrico link or landing URL  
 
