@@ -1,5 +1,6 @@
 (function () {
   const APP_URL = "https://mehrzad1420.github.io/metrico_by_cursor/index.html";
+  const LANDING_BASE = "https://mehrzad1420.github.io/metrico_by_cursor/landing/";
   const STORAGE_KEY = "metrico-landing-lang";
 
   const STR = {
@@ -631,6 +632,10 @@
 
     document.querySelectorAll("[data-app-href]").forEach(function (el) {
       el.setAttribute("href", APP_URL);
+    });
+    document.querySelectorAll("[data-landing-href]").forEach(function (el) {
+      const path = el.getAttribute("data-landing-href") || "";
+      el.setAttribute("href", LANDING_BASE + path.replace(/^\//, ""));
     });
 
     document.querySelectorAll("[data-en-only]").forEach(function (el) {
