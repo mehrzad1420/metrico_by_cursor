@@ -304,6 +304,16 @@
     .plan:not(.featured) .plan-buy {
       background: transparent; color: var(--text); border: 1px solid var(--border);
     }
+    .market-grid {
+      display: grid; grid-template-columns: repeat(3, 1fr); gap: 0.85rem; padding-bottom: 1.5rem;
+    }
+    @media (max-width: 768px) { .market-grid { grid-template-columns: 1fr; } }
+    .market-card {
+      background: var(--glass); border: 1px solid var(--border); border-radius: 18px;
+      padding: 1.2rem 1.1rem; backdrop-filter: blur(10px);
+    }
+    .market-card h3 { font-size: 0.95rem; margin-bottom: 0.45rem; }
+    .market-card p { font-size: 0.82rem; color: var(--muted); line-height: 1.55; }
     .plans-note {
       padding: 0 0 2.25rem; color: var(--muted); font-size: 0.82rem; line-height: 1.55;
     }
