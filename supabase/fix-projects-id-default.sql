@@ -1,9 +1,14 @@
--- Fix: projects.id DEFAULT was advancing a sequence and casting to uuid
--- (error: invalid input syntax for type uuid: "15" / "19" / …)
--- Run in Supabase SQL Editor after plan-enforcement.sql / demo-readonly.sql
+-- Fix: projects.id was IDENTITY (or a sequence cast to uuid), so INSERT got
+-- invalid uuid values like "15". Postgres rejects ALTER ... SET DEFAULT on an
+-- IDENTITY column (42601) — DROP IDENTITY first, then set gen_random_uuid().
+-- Re-run this entire file in Supabase SQL Editor (safe to repeat).
 
-ALTER TABLE public.projects
-  ALTER COLUMN id SET DEFAULT gen_random_uuid();
+-- Drop identity if present (required before changing default)
+ALTER TABLE public.projects ALTER COLUMN id DROP IDENTITY IF EXISTS;
+
+-- Ensure uuid default (not a serial sequence cast)
+ALTER TABLE public.projects ALTER COLUMN id DROP DEFAULT;
+ALTER TABLE public.projects ALTER COLUMN id SET DEFAULT gen_random_uuid();
 
 CREATE OR REPLACE FUNCTION public.ensure_demo_project_seed(p_name text, p_data jsonb)
 RETURNS uuid
@@ -32,13 +37,17 @@ BEGIN
   END IF;
 
   PERFORM set_config('metrico.allow_demo_seed', '1', true);
-  INSERT INTO public.projects (id, user_id, name, data)
-  VALUES (gen_random_uuid(), v_uid, v_name, coalesce(p_data, '{}'::jsonb))
+  -- Rely on DEFAULT gen_random_uuid() after DROP IDENTITY above
+  INSERT INTO public.projects (user_id, name, data)
+  VALUES (v_uid, v_name, coalesce(p_data, '{}'::jsonb))
   RETURNING id INTO v_id;
   PERFORM set_config('metrico.allow_demo_seed', '', true);
 
   RETURN v_id;
 END;
 $$;
+
+REVOKE ALL ON FUNCTION public.ensure_demo_project_seed(text, jsonb) FROM PUBLIC;
+GRANT EXECUTE ON FUNCTION public.ensure_demo_project_seed(text, jsonb) TO authenticated;
 
 NOTIFY pgrst, 'reload schema';

@@ -71,9 +71,11 @@ CREATE TRIGGER projects_enforce_plan_limit
   BEFORE INSERT ON public.projects
   FOR EACH ROW EXECUTE FUNCTION public.enforce_project_plan_limit();
 
--- Repair broken projects.id default (serial/sequence cast to uuid → 22P02)
-ALTER TABLE public.projects
-  ALTER COLUMN id SET DEFAULT gen_random_uuid();
+-- Repair broken projects.id default (IDENTITY / serial cast → 22P02 / 42601).
+-- DROP IDENTITY first: ALTER ... SET DEFAULT fails on identity columns.
+ALTER TABLE public.projects ALTER COLUMN id DROP IDENTITY IF EXISTS;
+ALTER TABLE public.projects ALTER COLUMN id DROP DEFAULT;
+ALTER TABLE public.projects ALTER COLUMN id SET DEFAULT gen_random_uuid();
 
 -- One-time demo seed (bypasses RLS; only when demo user has zero projects)
 CREATE OR REPLACE FUNCTION public.ensure_demo_project_seed(p_name text, p_data jsonb)
@@ -103,9 +105,9 @@ BEGIN
   END IF;
 
   PERFORM set_config('metrico.allow_demo_seed', '1', true);
-  -- Explicit id: avoids broken DEFAULT nextval(...)::uuid on some DBs
-  INSERT INTO public.projects (id, user_id, name, data)
-  VALUES (gen_random_uuid(), v_uid, v_name, coalesce(p_data, '{}'::jsonb))
+  -- Rely on DEFAULT gen_random_uuid() after DROP IDENTITY above
+  INSERT INTO public.projects (user_id, name, data)
+  VALUES (v_uid, v_name, coalesce(p_data, '{}'::jsonb))
   RETURNING id INTO v_id;
   PERFORM set_config('metrico.allow_demo_seed', '', true);
 
