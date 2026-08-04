@@ -177,6 +177,43 @@
     grid-template-columns: repeat(3, minmax(0, 1fr));
     gap: 0.65rem;
   }
+  .m-da-kpi-grid {
+    display: grid;
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+    gap: 0.65rem;
+  }
+  @media (min-width: 640px) {
+    .m-da-kpi-grid { grid-template-columns: repeat(3, minmax(0, 1fr)); }
+  }
+  @media (min-width: 900px) {
+    .m-da-kpi-grid.m-da-kpi-5 { grid-template-columns: repeat(5, minmax(0, 1fr)); }
+    .m-da-kpi-grid.m-da-kpi-4 { grid-template-columns: repeat(4, minmax(0, 1fr)); }
+  }
+  .m-da-charts-row {
+    display: grid;
+    grid-template-columns: 1fr;
+    gap: 0.75rem;
+  }
+  @media (min-width: 768px) {
+    .m-da-charts-row.m-da-2 { grid-template-columns: 1.2fr 0.8fr; }
+    .m-da-charts-row.m-da-3 { grid-template-columns: 1.2fr 0.8fr 0.9fr; }
+  }
+  .m-da-tab {
+    flex: 1;
+    text-align: center;
+    padding: 0.65rem 0.5rem;
+    border-radius: 0.75rem;
+    font-size: 0.75rem;
+    font-weight: 700;
+    color: #6B7280;
+    background: transparent;
+    border: 1px solid transparent;
+    transition: background 0.15s, color 0.15s;
+  }
+  .m-da-tab.active {
+    background: #14213D;
+    color: #fff;
+  }
   .m-summary-card {
     background: var(--m-surface);
     border: 1px solid var(--m-border);
@@ -1254,7 +1291,7 @@ function projectCardTheme(projectId) {
   return PROJECT_CARD_PALETTE[Math.abs(h) % PROJECT_CARD_PALETTE.length];
 }
 const APP_NAME = "Metrico";
-const APP_VERSION = "2.54.7";
+const APP_VERSION = "2.54.8";
 
 const METRICO_PLAN_ORDER = ["start", "plus", "pro", "ark"];
 const METRICO_PLANS = {
@@ -2343,6 +2380,47 @@ const DICT = {
   "انبارگردانی و موجودی مصالح": "Material Inventory",
   "سامانه‌های مالیاتی": "Tax Systems",
   "مدیریت قراردادها": "Contract Management",
+  "تحلیل داده‌ها": "Data Analysis",
+  "نمودارهای مالی": "Financial charts",
+  "نمودارهای تحلیلی": "Analytical charts",
+  "یک پروژه را برای تحلیل انتخاب کنید": "Select a project to analyze",
+  "ابتدا یک پروژه بسازید تا تحلیل داده‌ها در دسترس باشد.": "Create a project first to use data analysis.",
+  "موجودی نقدی": "Cash balance",
+  "تقریبی: دریافت‌های فروش منهای هزینه‌های دوره (حساب بانکی ثبت نشده)": "Approx: sales receipts minus period expenses (no bank accounts)",
+  "از تراز حساب‌های بانکی/صندوق پروژه": "From project bank/cash account balances",
+  "هزینه‌ها": "Expenses",
+  "جریان نقدی خالص": "Net cash flow",
+  "نرخ سود": "Profit rate",
+  "جریان نقدی در زمان": "Cash flow over time",
+  "دریافت": "Inflow",
+  "پرداخت": "Outflow",
+  "درآمد در برابر هزینه": "Income vs expenses",
+  "مازاد خالص": "Net surplus",
+  "کسری خالص": "Net deficit",
+  "بودجه در برابر واقعی": "Budget vs actual",
+  "برای این پروژه فیلد بودجه تعریف نشده است.": "No budget fields are defined for this project.",
+  "تراکنش‌های اخیر": "Recent transactions",
+  "هزینه بر اساس دسته": "Expenses by category",
+  "بدون عنوان": "Untitled",
+  "ورودی": "In",
+  "خروجی": "Out",
+  "درآمد کل فروش": "Total sales revenue",
+  "واحدهای فروخته‌شده": "Units sold",
+  "میانگین قیمت فروش هر متر": "Avg selling price per m²",
+  "حاشیه سود ناخالص": "Gross profit margin",
+  "پیشرفت در زمان": "Progress over time",
+  "سرعت فروش": "Sales velocity",
+  "نمای قیمت": "Pricing overview",
+  "توزیع قیمت هر متر بر اساس طبقه و وضعیت": "Price per m² by floor and unit status",
+  "میانگین تومان/م²": "Avg Toman/m²",
+  "تعداد واحد": "Unit count",
+  "داده‌ای برای نمایش نیست": "No data to display",
+  "چاپ کل تب": "Print whole tab",
+  "گزارش تحلیل مالی": "Financial analysis report",
+  "گزارش تحلیل فروش": "Sales analysis report",
+  "مازاد": "Surplus",
+  "کسری": "Deficit",
+  "نوع": "Type",
   "راهنما": "Guide",
   "هنوز پروژه‌ای ثبت نشده": "No projects registered yet",
   "جستجوی پروژه، واحد، مخاطب...": "Search projects, units, contacts...",
@@ -4905,6 +4983,168 @@ function inventoryExpenseValueOf(project) {
 function profitOf(project) {
   return revenueRecognizedOf(project) - expensesPeriodOf(project);
 }
+function projectCashBalanceInfo(project) {
+  const accounts = normalizeBankAccounts(project);
+  if (accounts.length > 0) {
+    return {
+      value: accounts.reduce((s, a) => s + computeAccountBalance(project, a.id), 0),
+      approximate: false,
+    };
+  }
+  return {
+    value: revenueRecognizedOf(project) - expensesPeriodOf(project),
+    approximate: true,
+  };
+}
+function analysisMonthKey(dateStr) {
+  const d = String(dateStr || "").slice(0, 7);
+  return /^\d{4}-\d{2}$/.test(d) ? d : "";
+}
+function analysisWeekKey(dateStr) {
+  const raw = String(dateStr || "").slice(0, 10);
+  if (!/^\d{4}-\d{2}-\d{2}$/.test(raw)) return "";
+  const dt = new Date(raw + "T12:00:00");
+  if (Number.isNaN(dt.getTime())) return "";
+  const day = dt.getDay();
+  const mondayOffset = day === 0 ? -6 : 1 - day;
+  dt.setDate(dt.getDate() + mondayOffset);
+  return dt.toISOString().slice(0, 10);
+}
+function buildProjectCashflowByMonth(project) {
+  const map = {};
+  const bump = (key, field, amt) => {
+    if (!key) return;
+    if (!map[key]) map[key] = { key, inflow: 0, outflow: 0 };
+    map[key][field] += amt;
+  };
+  (project.financeTransactions || []).forEach((tx) => {
+    if (tx.type !== "income") return;
+    bump(analysisMonthKey(tx.date), "inflow", Number(tx.amount) || 0);
+  });
+  (project.expenses || []).filter((e) => !isInventoryCapitalizedExpense(e)).forEach((e) => {
+    bump(analysisMonthKey(e.date), "outflow", Number(e.amount) || 0);
+  });
+  return Object.values(map).sort((a, b) => a.key.localeCompare(b.key));
+}
+function groupProjectExpensesByTitle(project) {
+  const map = {};
+  (project.expenses || []).filter((e) => !isInventoryCapitalizedExpense(e)).forEach((e) => {
+    const label = String(e.title || "").trim() || "بدون عنوان";
+    map[label] = (map[label] || 0) + (Number(e.amount) || 0);
+  });
+  return Object.entries(map)
+    .map(([label, value]) => ({ label, value }))
+    .sort((a, b) => b.value - a.value);
+}
+function buildProjectRecentTransactions(project, limit = 12) {
+  const rows = [];
+  (project.expenses || []).filter((e) => !isInventoryCapitalizedExpense(e)).forEach((e) => {
+    rows.push({
+      id: `exp-${e.id}`,
+      date: e.date || "",
+      title: e.title || "بدون عنوان",
+      amount: Number(e.amount) || 0,
+      kind: "out",
+      typeKey: "هزینه",
+    });
+  });
+  (project.financeTransactions || []).filter((tx) => tx.type === "income").forEach((tx) => {
+    rows.push({
+      id: `inc-${tx.id}`,
+      date: tx.date || "",
+      title: tx.note || "دریافت درآمد فروش",
+      amount: Number(tx.amount) || 0,
+      kind: "in",
+      typeKey: "درآمد",
+    });
+  });
+  return rows.sort((a, b) => (b.date || "").localeCompare(a.date || "")).slice(0, limit);
+}
+function unitFirstSaleDate(project, unit) {
+  const txs = (project.financeTransactions || [])
+    .filter((tx) => tx.type === "income" && tx.unitId === unit.id && tx.date)
+    .map((tx) => tx.date)
+    .sort();
+  if (txs.length) return txs[0];
+  const inst = (unit.installments || []).filter((i) => i.paid && i.date).map((i) => i.date).sort();
+  return inst[0] || "";
+}
+function buildSalesProgressSeries(project) {
+  const events = [];
+  (project.units || []).filter((u) => u.status === "sold").forEach((u) => {
+    const d = unitFirstSaleDate(project, u);
+    if (!d) return;
+    events.push({ date: d, units: 1, revenue: totalPriceOf(u) });
+  });
+  (project.financeTransactions || []).filter((tx) => tx.type === "income" && tx.date).forEach((tx) => {
+    events.push({ date: tx.date, units: 0, revenue: Number(tx.amount) || 0, recognizedOnly: true });
+  });
+  const byDay = {};
+  events.forEach((ev) => {
+    const k = String(ev.date).slice(0, 10);
+    if (!byDay[k]) byDay[k] = { key: k, units: 0, revenue: 0, recognized: 0 };
+    byDay[k].units += ev.units || 0;
+    if (ev.recognizedOnly) byDay[k].recognized += ev.revenue || 0;
+    else byDay[k].revenue += ev.revenue || 0;
+  });
+  let cumUnits = 0;
+  let cumRev = 0;
+  let cumRec = 0;
+  return Object.values(byDay)
+    .sort((a, b) => a.key.localeCompare(b.key))
+    .map((row) => {
+      cumUnits += row.units;
+      cumRev += row.revenue;
+      cumRec += row.recognized;
+      return {
+        key: row.key,
+        units: cumUnits,
+        revenue: cumRec > 0 ? cumRec : cumRev,
+      };
+    });
+}
+function buildSalesVelocityBars(project, mode = "month") {
+  const map = {};
+  (project.financeTransactions || []).filter((tx) => tx.type === "income").forEach((tx) => {
+    const key = mode === "week" ? analysisWeekKey(tx.date) : analysisMonthKey(tx.date);
+    if (!key) return;
+    if (!map[key]) map[key] = { key, revenue: 0, units: 0 };
+    map[key].revenue += Number(tx.amount) || 0;
+  });
+  (project.units || []).filter((u) => u.status === "sold").forEach((u) => {
+    const d = unitFirstSaleDate(project, u);
+    const key = mode === "week" ? analysisWeekKey(d) : analysisMonthKey(d);
+    if (!key) return;
+    if (!map[key]) map[key] = { key, revenue: 0, units: 0 };
+    map[key].units += 1;
+  });
+  return Object.values(map).sort((a, b) => a.key.localeCompare(b.key));
+}
+function buildPriceByFloorStatus(project) {
+  const map = {};
+  (project.units || []).forEach((u) => {
+    const floor = u.floor != null && u.floor !== "" ? String(u.floor) : "—";
+    const status = u.status || "vacant";
+    const key = `${floor}||${status}`;
+    if (!map[key]) map[key] = { floor, status, count: 0, area: 0, value: 0 };
+    map[key].count += 1;
+    map[key].area += Number(u.area) || 0;
+    map[key].value += totalPriceOf(u);
+  });
+  return Object.values(map)
+    .map((r) => ({
+      ...r,
+      avgPpm: r.area > 0 ? r.value / r.area : 0,
+    }))
+    .sort((a, b) => String(a.floor).localeCompare(String(b.floor), undefined, { numeric: true }) || a.status.localeCompare(b.status));
+}
+function avgSoldPricePerSqm(project) {
+  const sold = (project.units || []).filter((u) => u.status === "sold" && Number(u.area) > 0);
+  if (!sold.length) return 0;
+  const area = sold.reduce((s, u) => s + (Number(u.area) || 0), 0);
+  const value = sold.reduce((s, u) => s + totalPriceOf(u), 0);
+  return area > 0 ? value / area : 0;
+}
 function isProjectFinancialLocked(project, dateStr) {
   const lock = project?.financialLockedThrough;
   if (!lock || !dateStr) return false;
@@ -5209,6 +5449,142 @@ function DonutChart({ data, size = 84, centerLabel, centerValue, dark = false })
   }
 
   return <div ref={containerRef} id={uid} style={{ width: size, height: size }} />;
+}
+
+function AnalysisAreaChart({ series, height = 180 }) {
+  const w = 320;
+  const h = height;
+  const pad = { t: 12, r: 8, b: 28, l: 8 };
+  const inflow = series.map((s) => s.inflow || 0);
+  const outflow = series.map((s) => s.outflow || 0);
+  const maxY = Math.max(...inflow, ...outflow, 1);
+  const n = Math.max(series.length, 1);
+  const innerW = w - pad.l - pad.r;
+  const innerH = h - pad.t - pad.b;
+  const xAt = (i) => pad.l + (n <= 1 ? innerW / 2 : (i / (n - 1)) * innerW);
+  const yAt = (v) => pad.t + innerH - (v / maxY) * innerH;
+  function areaPath(values) {
+    if (!values.length) return "";
+    let d = `M ${xAt(0)} ${yAt(0)}`;
+    values.forEach((v, i) => { d += ` L ${xAt(i)} ${yAt(v)}`; });
+    d += ` L ${xAt(values.length - 1)} ${yAt(0)} Z`;
+    return d;
+  }
+  function linePath(values) {
+    if (!values.length) return "";
+    return values.map((v, i) => `${i === 0 ? "M" : "L"} ${xAt(i)} ${yAt(v)}`).join(" ");
+  }
+  if (!series.length) {
+    return <div className="text-xs text-[#9CA3AF] text-center py-10">—</div>;
+  }
+  return (
+    <svg viewBox={`0 0 ${w} ${h}`} className="w-full h-auto" role="img">
+      <path d={areaPath(inflow)} fill="rgba(20,33,61,0.18)" />
+      <path d={areaPath(outflow)} fill="rgba(165,197,232,0.55)" />
+      <path d={linePath(inflow)} fill="none" stroke="#14213D" strokeWidth="2" />
+      <path d={linePath(outflow)} fill="none" stroke="#A5C5E8" strokeWidth="2" />
+      {series.map((s, i) => (
+        (i === 0 || i === series.length - 1 || series.length <= 6) ? (
+          <text key={s.key} x={xAt(i)} y={h - 8} textAnchor="middle" fontSize="9" fill="#9CA3AF">{s.key.slice(2)}</text>
+        ) : null
+      ))}
+    </svg>
+  );
+}
+
+function AnalysisLineChart({ series, height = 180, unitMax }) {
+  const w = 320;
+  const h = height;
+  const pad = { t: 14, r: 28, b: 28, l: 8 };
+  const revenues = series.map((s) => s.revenue || 0);
+  const units = series.map((s) => s.units || 0);
+  const maxR = Math.max(...revenues, 1);
+  const maxU = Math.max(unitMax || 0, ...units, 1);
+  const n = Math.max(series.length, 1);
+  const innerW = w - pad.l - pad.r;
+  const innerH = h - pad.t - pad.b;
+  const xAt = (i) => pad.l + (n <= 1 ? innerW / 2 : (i / (n - 1)) * innerW);
+  const yR = (v) => pad.t + innerH - (v / maxR) * innerH;
+  const yU = (v) => pad.t + innerH - (v / maxU) * innerH;
+  function linePath(ys) {
+    return ys.map((y, i) => `${i === 0 ? "M" : "L"} ${xAt(i)} ${y}`).join(" ");
+  }
+  if (!series.length) {
+    return <div className="text-xs text-[#9CA3AF] text-center py-10">—</div>;
+  }
+  return (
+    <svg viewBox={`0 0 ${w} ${h}`} className="w-full h-auto" role="img">
+      <path d={linePath(revenues.map(yR))} fill="none" stroke="#14213D" strokeWidth="2.2" />
+      <path d={linePath(units.map(yU))} fill="none" stroke="#A5C5E8" strokeWidth="2" strokeDasharray="5 4" />
+      {series.map((s, i) => (
+        (i === 0 || i === series.length - 1 || series.length <= 5) ? (
+          <text key={s.key} x={xAt(i)} y={h - 8} textAnchor="middle" fontSize="9" fill="#9CA3AF">{String(s.key).slice(5)}</text>
+        ) : null
+      ))}
+    </svg>
+  );
+}
+
+function AnalysisBarChart({ series, valueKey = "revenue", height = 160, color = "#14213D" }) {
+  const w = 320;
+  const h = height;
+  const pad = { t: 18, r: 8, b: 28, l: 8 };
+  const values = series.map((s) => Number(s[valueKey]) || 0);
+  const maxY = Math.max(...values, 1);
+  const n = Math.max(series.length, 1);
+  const innerW = w - pad.l - pad.r;
+  const innerH = h - pad.t - pad.b;
+  const gap = 6;
+  const barW = Math.max(8, (innerW - gap * (n - 1)) / n);
+  if (!series.length) {
+    return <div className="text-xs text-[#9CA3AF] text-center py-10">—</div>;
+  }
+  return (
+    <svg viewBox={`0 0 ${w} ${h}`} className="w-full h-auto" role="img">
+      {series.map((s, i) => {
+        const v = values[i];
+        const bh = (v / maxY) * innerH;
+        const x = pad.l + i * (barW + gap);
+        const y = pad.t + innerH - bh;
+        return (
+          <g key={s.key}>
+            <rect x={x} y={y} width={barW} height={Math.max(bh, 1)} rx="4" fill={color} />
+            {n <= 8 && (
+              <text x={x + barW / 2} y={h - 8} textAnchor="middle" fontSize="8" fill="#9CA3AF">
+                {String(s.key).length > 7 ? String(s.key).slice(2) : s.key}
+              </text>
+            )}
+          </g>
+        );
+      })}
+    </svg>
+  );
+}
+
+function AnalysisHBarList({ items, total, maxItems = 6 }) {
+  const list = items.slice(0, maxItems);
+  const denom = total > 0 ? total : list.reduce((s, i) => s + i.value, 0) || 1;
+  if (!list.length) {
+    return <div className="text-xs text-[#9CA3AF] text-center py-6">—</div>;
+  }
+  return (
+    <div className="flex flex-col gap-2.5">
+      {list.map((item) => {
+        const pct = Math.round((item.value / denom) * 1000) / 10;
+        return (
+          <div key={item.label}>
+            <div className="flex items-center justify-between gap-2 text-[11px] mb-1">
+              <span className="font-semibold text-[#14213D] truncate">{item.label}</span>
+              <span className="text-[#6B7280] shrink-0">{pct}٪ · {fmt(item.value)}</span>
+            </div>
+            <div className="h-2 rounded-full bg-[#F1F5F9] overflow-hidden">
+              <div className="h-full rounded-full bg-[#14213D]" style={{ width: `${Math.min(100, pct)}%` }} />
+            </div>
+          </div>
+        );
+      })}
+    </div>
+  );
 }
 
 function polarWedgePath(cx, cy, rInner, rOuter, startDeg, endDeg) {
@@ -9434,6 +9810,15 @@ function AppContent() {
             ensurePdfExport={ensurePdfExport}
           />
         )}
+        {screen === "data_analysis" && (
+          <DataAnalysisScreen
+            company={company}
+            projects={projects}
+            contacts={contacts}
+            onBack={() => setScreen("dashboard")}
+            ensurePdfExport={ensurePdfExport}
+          />
+        )}
         {screen === "takeoff" && (
           <TakeoffScreen
             onBack={() => setScreen("dashboard")}
@@ -9610,6 +9995,7 @@ function AppContent() {
           onOpenGuide={() => { setScreen("guide"); setShowMenu(false); }}
           onOpenPrivacy={() => { setScreen("privacy"); setShowMenu(false); }}
           onOpenContacts={() => { setScreen("contacts"); setShowMenu(false); }}
+          onOpenDataAnalysis={() => { setScreen("data_analysis"); setShowMenu(false); }}
           onOpenNotes={() => { setScreen("notes"); setShowMenu(false); }}
           onOpenReminders={() => { setScreen("reminders"); setShowMenu(false); }}
           onOpenMap={() => requirePlan("map", () => { setScreen("map"); setShowMenu(false); })}
@@ -10445,7 +10831,7 @@ function ContractsScreen({ company, projects, activeProjectId, contacts, isReadO
   );
 }
 
-function SideMenu({ company, projects, activeTab, currentScreen, isReadOnly, effectivePlan, planExpiresAt, isSuperAdmin, onOpenDashboard, onSelectProject, onNewProject, onClose, onOpenPlan, onOpenAdminMembers, onOpenBackup, onOpenAbout, onOpenGuide, onOpenPrivacy, onOpenTax, onOpenContacts, onOpenNotes, onOpenReminders, onOpenMap, onOpenEnergy, onOpenTakeoff, onOpenInventory, onOpenContracts, onLogout }) {
+function SideMenu({ company, projects, activeTab, currentScreen, isReadOnly, effectivePlan, planExpiresAt, isSuperAdmin, onOpenDashboard, onSelectProject, onNewProject, onClose, onOpenPlan, onOpenAdminMembers, onOpenBackup, onOpenAbout, onOpenGuide, onOpenPrivacy, onOpenTax, onOpenContacts, onOpenNotes, onOpenReminders, onOpenMap, onOpenEnergy, onOpenTakeoff, onOpenInventory, onOpenContracts, onOpenDataAnalysis, onLogout }) {
   const { lang, t } = useContext(LanguageContext);
   const menuDir = lang === "fa" ? "rtl" : "ltr";
   const [confirmLogout, setConfirmLogout] = useState(false);
@@ -10639,6 +11025,7 @@ function SideMenu({ company, projects, activeTab, currentScreen, isReadOnly, eff
               </button>
             )}
             <MenuItem onClick={onOpenContacts} icon={<Users size={15} />} label={t("دفترچه مخاطبین")} />
+            <MenuItem onClick={onOpenDataAnalysis} icon={<LucideFileBarChart size={15} />} label={t("تحلیل داده‌ها")} active={currentScreen === "data_analysis"} />
             <MenuItem onClick={onOpenNotes} icon={<LucideStickyNote size={15} />} label={t("یادداشت‌ها")} />
             <MenuItem onClick={onOpenReminders} icon={<Bell size={15} />} label={t("یادآوری‌ها")} />
             <MenuItem onClick={onOpenMap} icon={<MapPinIcon size={15} />} label={t("موقعیت مکانی پروژه‌ها")} featureKey="map" />
@@ -13006,6 +13393,450 @@ function LocationScreen({ onBack, projects, onOpenProject, onExportKml }) {
           >
             {t("دریافت خروجی KML همه پروژه‌ها")}
           </button>
+        </>
+      )}
+    </div>
+  );
+}
+
+function DataAnalysisScreen({ company, projects, contacts, onBack, ensurePdfExport }) {
+  const { lang, t } = useContext(LanguageContext);
+  const screenDir = lang === "fa" ? "rtl" : "ltr";
+  const [projectId, setProjectId] = useState(() => (projects.length === 1 ? projects[0].id : ""));
+  const [tab, setTab] = useState("financial");
+  const projectIdsKey = useMemo(() => projects.map((p) => p.id).join("\u0001"), [projects]);
+
+  useEffect(() => {
+    if (!projects.length) {
+      setProjectId("");
+      return;
+    }
+    if (projects.length === 1) {
+      setProjectId(projects[0].id);
+      return;
+    }
+    setProjectId((prev) => {
+      const prevStr = String(prev || "");
+      if (prevStr && projects.some((p) => String(p.id) === prevStr)) return prev;
+      return "";
+    });
+  }, [projectIdsKey]);
+
+  const project = useMemo(
+    () => projects.find((p) => String(p.id) === String(projectId)) ?? null,
+    [projects, projectId]
+  );
+
+  const financial = useMemo(() => {
+    if (!project) return null;
+    const cash = projectCashBalanceInfo(project);
+    const income = revenueRecognizedOf(project);
+    const expenses = expensesPeriodOf(project);
+    const net = income - expenses;
+    const profit = profitOf(project);
+    const profitRate = income > 0 ? (profit / income) * 100 : null;
+    const cashflow = buildProjectCashflowByMonth(project);
+    const byCategory = groupProjectExpensesByTitle(project);
+    const recent = buildProjectRecentTransactions(project, 12);
+    return { cash, income, expenses, net, profit, profitRate, cashflow, byCategory, recent };
+  }, [project]);
+
+  const analytical = useMemo(() => {
+    if (!project) return null;
+    const contractRevenue = revenueOf(project);
+    const recognized = revenueRecognizedOf(project);
+    const soldUnits = (project.units || []).filter((u) => u.status === "sold").length;
+    const avgPpm = avgSoldPricePerSqm(project);
+    const revForMargin = recognized > 0 ? recognized : contractRevenue;
+    const profit = profitOf(project);
+    const margin = revForMargin > 0 ? (profit / revForMargin) * 100 : null;
+    const progress = buildSalesProgressSeries(project);
+    const velocity = buildSalesVelocityBars(project, "month");
+    const priceRows = buildPriceByFloorStatus(project);
+    return { contractRevenue, recognized, soldUnits, avgPpm, margin, progress, velocity, priceRows, revenueDisplay: recognized > 0 ? recognized : contractRevenue };
+  }, [project]);
+
+  const financialPrintRows = useMemo(() => {
+    if (!financial || !project) return [];
+    return [
+      { metric: t("موجودی نقدی"), value: fmt(financial.cash.value) },
+      { metric: t("درآمد کل"), value: fmt(financial.income) },
+      { metric: t("هزینه‌ها"), value: fmt(financial.expenses) },
+      { metric: t("جریان نقدی خالص"), value: fmt(financial.net) },
+      { metric: t("نرخ سود"), value: financial.profitRate == null ? "—" : `${financial.profitRate.toFixed(1)}٪` },
+      ...financial.byCategory.map((c) => ({ metric: `${t("هزینه بر اساس دسته")}: ${c.label}`, value: fmt(c.value) })),
+      ...financial.recent.map((r) => ({
+        metric: `${r.date || "—"} · ${t(r.typeKey)} · ${r.title}`,
+        value: `${r.kind === "in" ? "+" : "−"}${fmt(r.amount)}`,
+      })),
+    ];
+  }, [financial, project, t]);
+
+  const analyticalPrintRows = useMemo(() => {
+    if (!analytical || !project) return [];
+    return [
+      { metric: t("درآمد کل فروش"), value: fmt(analytical.revenueDisplay) },
+      { metric: t("واحدهای فروخته‌شده"), value: String(analytical.soldUnits) },
+      { metric: t("میانگین قیمت فروش هر متر"), value: fmt(Math.round(analytical.avgPpm)) },
+      { metric: t("حاشیه سود ناخالص"), value: analytical.margin == null ? "—" : `${analytical.margin.toFixed(1)}٪` },
+      ...analytical.priceRows.map((r) => ({
+        metric: `${t("طبقه")} ${r.floor} · ${t(STATUS[r.status]?.label || r.status)}`,
+        value: `${fmt(Math.round(r.avgPpm))} · ${r.count}`,
+      })),
+    ];
+  }, [analytical, project, t]);
+
+  function KpiCard({ label, value, sub, tone }) {
+    const valueCls = tone === "pos" ? "text-[#166534]" : tone === "neg" ? "text-[#B91C1C]" : "text-[#14213D]";
+    return (
+      <div className="m-card p-3 min-w-0">
+        <div className="text-[10px] text-[#6B7280] leading-snug mb-1">{label}</div>
+        <div className={`text-sm font-extrabold leading-tight truncate ${valueCls}`}>{value}</div>
+        {sub ? <div className="text-[9px] text-[#9CA3AF] mt-1 leading-4">{sub}</div> : null}
+      </div>
+    );
+  }
+
+  function ChartCard({ title, children, printProps }) {
+    return (
+      <div className="m-card p-4">
+        <div className="flex items-start justify-between gap-2 mb-3">
+          <div className="text-sm font-bold text-[#14213D]">{title}</div>
+          {printProps ? <PrintExportButton {...printProps} ensurePdfExport={ensurePdfExport} className="!py-1.5 !px-2.5 shrink-0" /> : null}
+        </div>
+        {children}
+      </div>
+    );
+  }
+
+  return (
+    <div className="px-4 pt-5 pb-10" dir={screenDir} style={{ background: "#F8F9FB", minHeight: "100%" }}>
+      <div className="flex items-center gap-3 mb-4">
+        <button type="button" onClick={onBack} className="p-1"><ChevronLeft size={20} className={lang === "en" ? "rotate-180" : ""} /></button>
+        <div className="m-screen-title flex-1">{t("تحلیل داده‌ها")}</div>
+      </div>
+
+      {projects.length === 0 ? (
+        <div className="text-center text-[#9CA3AF] text-sm mt-16 px-6">
+          {t("ابتدا یک پروژه بسازید تا تحلیل داده‌ها در دسترس باشد.")}
+        </div>
+      ) : (
+        <>
+          <div className="m-card p-4 mb-4">
+            <label className="text-xs font-semibold text-[#6B7280] mb-2 block">{t("انتخاب پروژه")}</label>
+            <select
+              value={projectId || ""}
+              onChange={(e) => setProjectId(e.target.value)}
+              className="w-full m-input-field px-3 py-2.5 text-sm outline-none"
+            >
+              <option value="">{t("یک پروژه را برای تحلیل انتخاب کنید")}</option>
+              {projects.map((p) => (
+                <option key={p.id} value={String(p.id)}>{p.name}</option>
+              ))}
+            </select>
+          </div>
+
+          {!project ? (
+            <div className="m-card p-8 text-center text-sm text-[#9CA3AF]">
+              {t("یک پروژه را برای تحلیل انتخاب کنید")}
+            </div>
+          ) : (
+            <>
+              <div className="flex gap-2 p-1 mb-4 rounded-2xl bg-white border border-black/5">
+                <button type="button" className={`m-da-tab ${tab === "financial" ? "active" : ""}`} onClick={() => setTab("financial")}>
+                  {t("نمودارهای مالی")}
+                </button>
+                <button type="button" className={`m-da-tab ${tab === "analytical" ? "active" : ""}`} onClick={() => setTab("analytical")}>
+                  {t("نمودارهای تحلیلی")}
+                </button>
+              </div>
+
+              {tab === "financial" && financial && (
+                <div className="flex flex-col gap-3">
+                  <div className="flex justify-end">
+                    <PrintExportButton
+                      company={company}
+                      title={`${t("گزارش تحلیل مالی")} — ${project.name}`}
+                      subtitle={financial.cash.approximate ? t("تقریبی: دریافت‌های فروش منهای هزینه‌های دوره (حساب بانکی ثبت نشده)") : t("از تراز حساب‌های بانکی/صندوق پروژه")}
+                      columns={[{ key: "metric", label: t("شرح") }, { key: "value", label: t("مبلغ") }]}
+                      rows={financialPrintRows}
+                      ensurePdfExport={ensurePdfExport}
+                    />
+                  </div>
+                  <div className="m-da-kpi-grid m-da-kpi-5">
+                    <KpiCard
+                      label={t("موجودی نقدی")}
+                      value={fmt(financial.cash.value)}
+                      sub={financial.cash.approximate ? t("تقریبی: دریافت‌های فروش منهای هزینه‌های دوره (حساب بانکی ثبت نشده)") : t("از تراز حساب‌های بانکی/صندوق پروژه")}
+                      tone={financial.cash.value >= 0 ? "pos" : "neg"}
+                    />
+                    <KpiCard label={t("درآمد کل")} value={fmt(financial.income)} tone="pos" />
+                    <KpiCard label={t("هزینه‌ها")} value={fmt(financial.expenses)} />
+                    <KpiCard label={t("جریان نقدی خالص")} value={fmt(financial.net)} tone={financial.net >= 0 ? "pos" : "neg"} />
+                    <KpiCard
+                      label={t("نرخ سود")}
+                      value={financial.profitRate == null ? "—" : `${financial.profitRate.toFixed(1)}٪`}
+                      tone={financial.profitRate == null ? null : financial.profitRate >= 0 ? "pos" : "neg"}
+                    />
+                  </div>
+
+                  <div className="m-da-charts-row m-da-3">
+                    <ChartCard
+                      title={t("جریان نقدی در زمان")}
+                      printProps={{
+                        company,
+                        title: `${t("جریان نقدی در زمان")} — ${project.name}`,
+                        columns: [
+                          { key: "key", label: t("ماه") },
+                          { key: "inflow", label: t("دریافت") },
+                          { key: "outflow", label: t("پرداخت") },
+                        ],
+                        rows: financial.cashflow.map((r) => ({ key: r.key, inflow: fmt(r.inflow), outflow: fmt(r.outflow) })),
+                      }}
+                    >
+                      {financial.cashflow.length === 0 ? (
+                        <div className="text-xs text-[#9CA3AF] text-center py-8">{t("داده‌ای برای نمایش نیست")}</div>
+                      ) : (
+                        <>
+                          <div className="flex gap-3 text-[10px] text-[#6B7280] mb-2">
+                            <span className="flex items-center gap-1"><span className="w-2.5 h-2.5 rounded-sm bg-[#14213D]" /> {t("دریافت")}</span>
+                            <span className="flex items-center gap-1"><span className="w-2.5 h-2.5 rounded-sm bg-[#A5C5E8]" /> {t("پرداخت")}</span>
+                          </div>
+                          <AnalysisAreaChart series={financial.cashflow} />
+                        </>
+                      )}
+                    </ChartCard>
+
+                    <ChartCard
+                      title={t("درآمد در برابر هزینه")}
+                      printProps={{
+                        company,
+                        title: `${t("درآمد در برابر هزینه")} — ${project.name}`,
+                        columns: [{ key: "label", label: t("شرح") }, { key: "value", label: t("مبلغ") }],
+                        rows: [
+                          { label: t("درآمد"), value: fmt(financial.income) },
+                          { label: t("هزینه"), value: fmt(financial.expenses) },
+                          { label: financial.net >= 0 ? t("مازاد خالص") : t("کسری خالص"), value: fmt(Math.abs(financial.net)) },
+                        ],
+                      }}
+                    >
+                      <div className="flex flex-col items-center">
+                        <DonutChart
+                          size={140}
+                          data={[
+                            { label: t("درآمد"), value: financial.income, color: "#14213D" },
+                            { label: t("هزینه"), value: financial.expenses, color: "#A5C5E8" },
+                          ]}
+                          centerLabel={financial.net >= 0 ? t("مازاد") : t("کسری")}
+                          centerValue={fmt(Math.abs(financial.net))}
+                        />
+                        <div className="text-[11px] text-[#6B7280] mt-2">
+                          {financial.net >= 0 ? t("مازاد خالص") : t("کسری خالص")}: <span className="font-bold text-[#14213D]">{fmt(Math.abs(financial.net))}</span>
+                        </div>
+                      </div>
+                    </ChartCard>
+
+                    <ChartCard title={t("بودجه در برابر واقعی")}>
+                      <div className="text-xs text-[#6B7280] leading-6 text-center py-8 px-2">
+                        {t("برای این پروژه فیلد بودجه تعریف نشده است.")}
+                      </div>
+                    </ChartCard>
+                  </div>
+
+                  <div className="m-da-charts-row m-da-2">
+                    <ChartCard
+                      title={t("تراکنش‌های اخیر")}
+                      printProps={{
+                        company,
+                        title: `${t("تراکنش‌های اخیر")} — ${project.name}`,
+                        columns: [
+                          { key: "date", label: t("تاریخ") },
+                          { key: "title", label: t("شرح") },
+                          { key: "type", label: t("نوع") },
+                          { key: "amount", label: t("مبلغ") },
+                        ],
+                        rows: financial.recent.map((r) => ({
+                          date: formatAppDate(r.date, false, lang) || "—",
+                          title: r.title,
+                          type: r.kind === "in" ? t("ورودی") : t("خروجی"),
+                          amount: fmt(r.amount),
+                        })),
+                      }}
+                    >
+                      {financial.recent.length === 0 ? (
+                        <div className="text-xs text-[#9CA3AF] text-center py-6">{t("داده‌ای برای نمایش نیست")}</div>
+                      ) : (
+                        <div className="flex flex-col divide-y divide-black/5">
+                          {financial.recent.map((r) => (
+                            <div key={r.id} className="py-2.5 flex items-start justify-between gap-2">
+                              <div className="min-w-0">
+                                <div className="text-[12px] font-semibold text-[#14213D] truncate">{r.title}</div>
+                                <div className="text-[10px] text-[#9CA3AF] mt-0.5">
+                                  {formatAppDate(r.date, false, lang) || "—"} · {r.kind === "in" ? t("ورودی") : t("خروجی")}
+                                </div>
+                              </div>
+                              <div className={`text-[12px] font-bold shrink-0 ${r.kind === "in" ? "text-[#166534]" : "text-[#B91C1C]"}`}>
+                                {r.kind === "in" ? "+" : "−"}{fmt(r.amount)}
+                              </div>
+                            </div>
+                          ))}
+                        </div>
+                      )}
+                    </ChartCard>
+
+                    <ChartCard
+                      title={t("هزینه بر اساس دسته")}
+                      printProps={{
+                        company,
+                        title: `${t("هزینه بر اساس دسته")} — ${project.name}`,
+                        columns: [{ key: "label", label: t("دسته") }, { key: "value", label: t("مبلغ") }],
+                        rows: financial.byCategory.map((c) => ({ label: c.label, value: fmt(c.value) })),
+                      }}
+                    >
+                      <AnalysisHBarList items={financial.byCategory} total={financial.expenses} />
+                      {financial.byCategory.length > 0 && (
+                        <div className="text-[11px] text-[#6B7280] mt-3 pt-2 border-t border-black/5">
+                          {t("هزینه کل")}: <span className="font-bold text-[#14213D]">{fmt(financial.expenses)}</span>
+                        </div>
+                      )}
+                    </ChartCard>
+                  </div>
+                </div>
+              )}
+
+              {tab === "analytical" && analytical && (
+                <div className="flex flex-col gap-3">
+                  <div className="flex justify-end">
+                    <PrintExportButton
+                      company={company}
+                      title={`${t("گزارش تحلیل فروش")} — ${project.name}`}
+                      subtitle={t("نمودارهای تحلیلی")}
+                      columns={[{ key: "metric", label: t("شرح") }, { key: "value", label: t("مقدار") }]}
+                      rows={analyticalPrintRows}
+                      ensurePdfExport={ensurePdfExport}
+                    />
+                  </div>
+                  <div className="m-da-kpi-grid m-da-kpi-4">
+                    <KpiCard label={t("درآمد کل فروش")} value={fmt(analytical.revenueDisplay)} tone="pos" />
+                    <KpiCard label={t("واحدهای فروخته‌شده")} value={String(analytical.soldUnits)} />
+                    <KpiCard label={t("میانگین قیمت فروش هر متر")} value={fmt(Math.round(analytical.avgPpm))} />
+                    <KpiCard
+                      label={t("حاشیه سود ناخالص")}
+                      value={analytical.margin == null ? "—" : `${analytical.margin.toFixed(1)}٪`}
+                      tone={analytical.margin == null ? null : analytical.margin >= 0 ? "pos" : "neg"}
+                    />
+                  </div>
+
+                  <div className="m-da-charts-row m-da-2">
+                    <ChartCard
+                      title={t("پیشرفت در زمان")}
+                      printProps={{
+                        company,
+                        title: `${t("پیشرفت در زمان")} — ${project.name}`,
+                        columns: [
+                          { key: "key", label: t("تاریخ") },
+                          { key: "units", label: t("واحدهای فروخته‌شده") },
+                          { key: "revenue", label: t("درآمد") },
+                        ],
+                        rows: analytical.progress.map((r) => ({ key: r.key, units: String(r.units), revenue: fmt(r.revenue) })),
+                      }}
+                    >
+                      {analytical.progress.length === 0 ? (
+                        <div className="text-xs text-[#9CA3AF] text-center py-8">{t("داده‌ای برای نمایش نیست")}</div>
+                      ) : (
+                        <>
+                          <div className="flex gap-3 text-[10px] text-[#6B7280] mb-2">
+                            <span className="flex items-center gap-1"><span className="w-2.5 h-0.5 bg-[#14213D]" /> {t("درآمد")}</span>
+                            <span className="flex items-center gap-1"><span className="w-2.5 h-0.5 bg-[#A5C5E8]" style={{ borderTop: "2px dashed #A5C5E8" }} /> {t("واحد")}</span>
+                          </div>
+                          <AnalysisLineChart series={analytical.progress} />
+                        </>
+                      )}
+                    </ChartCard>
+
+                    <ChartCard
+                      title={t("سرعت فروش")}
+                      printProps={{
+                        company,
+                        title: `${t("سرعت فروش")} — ${project.name}`,
+                        columns: [
+                          { key: "key", label: t("ماه") },
+                          { key: "revenue", label: t("درآمد") },
+                          { key: "units", label: t("واحد") },
+                        ],
+                        rows: analytical.velocity.map((r) => ({ key: r.key, revenue: fmt(r.revenue), units: String(r.units) })),
+                      }}
+                    >
+                      {analytical.velocity.length === 0 ? (
+                        <div className="text-xs text-[#9CA3AF] text-center py-8">{t("داده‌ای برای نمایش نیست")}</div>
+                      ) : (
+                        <AnalysisBarChart series={analytical.velocity} valueKey="revenue" />
+                      )}
+                    </ChartCard>
+                  </div>
+
+                  <ChartCard
+                    title={t("نمای قیمت")}
+                    printProps={{
+                      company,
+                      title: `${t("نمای قیمت")} — ${project.name}`,
+                      subtitle: t("توزیع قیمت هر متر بر اساس طبقه و وضعیت"),
+                      columns: [
+                        { key: "floor", label: t("طبقه") },
+                        { key: "status", label: t("وضعیت") },
+                        { key: "avg", label: t("میانگین تومان/م²") },
+                        { key: "count", label: t("تعداد واحد") },
+                      ],
+                      rows: analytical.priceRows.map((r) => ({
+                        floor: r.floor,
+                        status: t(STATUS[r.status]?.label || r.status),
+                        avg: fmt(Math.round(r.avgPpm)),
+                        count: String(r.count),
+                      })),
+                    }}
+                  >
+                    <div className="text-[11px] text-[#6B7280] mb-3">{t("توزیع قیمت هر متر بر اساس طبقه و وضعیت")}</div>
+                    {analytical.priceRows.length === 0 ? (
+                      <div className="text-xs text-[#9CA3AF] text-center py-6">{t("داده‌ای برای نمایش نیست")}</div>
+                    ) : (
+                      <>
+                        <AnalysisBarChart
+                          series={analytical.priceRows.map((r) => ({
+                            key: `${r.floor}-${r.status}`,
+                            revenue: r.avgPpm,
+                          }))}
+                          valueKey="revenue"
+                          color="#1A2B4B"
+                        />
+                        <div className="mt-3 overflow-x-auto">
+                          <table className="w-full text-[11px]">
+                            <thead>
+                              <tr className="text-[#9CA3AF] border-b border-black/5">
+                                <th className={`py-2 font-semibold ${lang === "fa" ? "text-right" : "text-left"}`}>{t("طبقه")}</th>
+                                <th className={`py-2 font-semibold ${lang === "fa" ? "text-right" : "text-left"}`}>{t("وضعیت")}</th>
+                                <th className={`py-2 font-semibold ${lang === "fa" ? "text-right" : "text-left"}`}>{t("میانگین تومان/م²")}</th>
+                                <th className={`py-2 font-semibold ${lang === "fa" ? "text-right" : "text-left"}`}>{t("تعداد واحد")}</th>
+                              </tr>
+                            </thead>
+                            <tbody>
+                              {analytical.priceRows.map((r) => (
+                                <tr key={`${r.floor}-${r.status}`} className="border-b border-black/5">
+                                  <td className="py-2 font-semibold text-[#14213D]">{r.floor}</td>
+                                  <td className="py-2 text-[#374151]">{t(STATUS[r.status]?.label || r.status)}</td>
+                                  <td className="py-2 text-[#14213D]">{fmt(Math.round(r.avgPpm))}</td>
+                                  <td className="py-2 text-[#6B7280]">{r.count}</td>
+                                </tr>
+                              ))}
+                            </tbody>
+                          </table>
+                        </div>
+                      </>
+                    )}
+                  </ChartCard>
+                </div>
+              )}
+            </>
+          )}
         </>
       )}
     </div>
