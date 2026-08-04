@@ -161,6 +161,64 @@
     letter-spacing: -0.02em;
     color: var(--m-text);
   }
+  .m-summary-grid {
+    display: grid;
+    grid-template-columns: repeat(3, minmax(0, 1fr));
+    gap: 0.65rem;
+  }
+  .m-summary-card {
+    background: var(--m-surface);
+    border: 1px solid var(--m-border);
+    border-radius: var(--m-radius-xl);
+    box-shadow: var(--m-shadow-card);
+    padding: 0.75rem 0.65rem;
+    display: flex;
+    flex-direction: column;
+    align-items: flex-start;
+    gap: 0.35rem;
+    min-width: 0;
+  }
+  .m-summary-icon {
+    width: 2rem;
+    height: 2rem;
+    border-radius: 0.65rem;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+  }
+  .m-project-thumb {
+    width: 2.25rem;
+    height: 2.25rem;
+    border-radius: 0.65rem;
+    object-fit: cover;
+    flex-shrink: 0;
+    border: 1px solid var(--m-border);
+    background: #EEF2F7;
+  }
+  .m-project-thumb-ph {
+    width: 2.25rem;
+    height: 2.25rem;
+    border-radius: 0.65rem;
+    flex-shrink: 0;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    border: 1px solid var(--m-border);
+    background: linear-gradient(145deg, #EEF2F7 0%, #E2E8F0 100%);
+    color: #64748B;
+  }
+  .m-progress-slim {
+    height: 0.375rem;
+    border-radius: 9999px;
+    overflow: hidden;
+    background: rgba(20, 33, 61, 0.12);
+  }
+  .m-progress-slim-fill {
+    height: 100%;
+    border-radius: 9999px;
+    background: linear-gradient(90deg, #102a56 0%, #1a3a6e 55%, #0ea5e9 100%);
+    transition: width 500ms ease-out;
+  }
   .m-menu-item-active {
     background: linear-gradient(135deg, var(--m-navy) 0%, var(--m-navy-mid) 100%) !important;
     color: #fff !important;
@@ -783,6 +841,9 @@ const STATUS = {
 
 const JALALI_MONTHS = ["فروردین", "اردیبهشت", "خرداد", "تیر", "مرداد", "شهریور", "مهر", "آبان", "آذر", "دی", "بهمن", "اسفند"];
 const GREGORIAN_MONTHS = ["January", "February", "March", "April", "May", "June", "July", "August", "September", "October", "November", "December"];
+const HIJRI_MONTHS_EN = ["Muharram", "Safar", "Rabiʻ I", "Rabiʻ II", "Jumada I", "Jumada II", "Rajab", "Shaʻban", "Ramadan", "Shawwal", "Dhuʻl-Qiʻdah", "Dhuʻl-Hijjah"];
+const JALALI_WEEKDAYS = ["یکشنبه", "دوشنبه", "سه‌شنبه", "چهارشنبه", "پنجشنبه", "جمعه", "شنبه"];
+const EN_WEEKDAYS = ["Sunday", "Monday", "Tuesday", "Wednesday", "Thursday", "Friday", "Saturday"];
 
 function daysInGregorianMonth(year, month) {
   if (!year || !month) return 31;
@@ -897,6 +958,62 @@ function formatAppDate(val, withTime, lang) {
 
 function formatJalaliDate(val, withTime, lang) {
   return formatAppDate(val, withTime, lang || "fa");
+}
+
+/** Kuwaiti algorithm: Gregorian → Hijri (civil / tabular). Returns [hy, hm, hd]. */
+function gregorianToHijri(gy, gm, gd) {
+  const jd = Math.floor((1461 * (gy + 4800 + Math.floor((gm - 14) / 12))) / 4)
+    + Math.floor((367 * (gm - 2 - 12 * Math.floor((gm - 14) / 12))) / 12)
+    - Math.floor((3 * Math.floor((gy + 4900 + Math.floor((gm - 14) / 12)) / 100)) / 4)
+    + gd - 32075;
+  const l = jd - 1948440 + 10632;
+  const n = Math.floor((l - 1) / 10631);
+  const l2 = l - 10631 * n + 354;
+  const j = Math.floor((10985 - l2) / 5316) * Math.floor((50 * l2) / 17719)
+    + Math.floor(l2 / 5670) * Math.floor((43 * l2) / 15238);
+  const l3 = l2 - Math.floor((30 - j) / 15) * Math.floor((17719 * j) / 50)
+    - Math.floor(j / 16) * Math.floor((15238 * j) / 43) + 29;
+  const hm = Math.floor((24 * l3) / 709);
+  const hd = l3 - Math.floor((709 * hm) / 24);
+  const hy = 30 * n + j - 30;
+  return [hy, hm, hd];
+}
+
+function formatDashboardCalendarDate(lang, date = new Date()) {
+  const gy = date.getFullYear();
+  const gm = date.getMonth() + 1;
+  const gd = date.getDate();
+  const weekday = date.getDay();
+  if (lang === "en") {
+    try {
+      const intl = new Intl.DateTimeFormat("en-US-u-ca-islamic", {
+        weekday: "long", day: "numeric", month: "long", year: "numeric",
+      }).format(date);
+      if (intl && !/Invalid/i.test(intl)) return intl;
+    } catch (e) { /* fallthrough */ }
+    const [hy, hm, hd] = gregorianToHijri(gy, gm, gd);
+    return `${EN_WEEKDAYS[weekday]}, ${hd} ${HIJRI_MONTHS_EN[hm - 1] || ""} ${hy} AH`;
+  }
+  const [jy, jm, jd] = gregorianToJalali(gy, gm, gd);
+  return `${JALALI_WEEKDAYS[weekday]} ${jd} ${JALALI_MONTHS[jm - 1] || ""} ${jy}`;
+}
+
+function resolveUserDisplayName(user, company) {
+  const meta = user?.user_metadata || {};
+  const fromMeta = [meta.full_name, meta.fullName, meta.name, meta.display_name, meta.displayName]
+    .map((s) => String(s || "").trim())
+    .find(Boolean);
+  if (fromMeta) return fromMeta;
+  const email = String(user?.email || "").trim();
+  if (email.includes("@")) {
+    const local = email.split("@")[0].replace(/[._+-]+/g, " ").replace(/\s+/g, " ").trim();
+    if (local) {
+      return local.split(" ").map((w) => (w ? w.charAt(0).toUpperCase() + w.slice(1) : "")).join(" ");
+    }
+  }
+  const companyName = String(company?.name || "").trim();
+  if (companyName) return companyName;
+  return "";
 }
 
 function jalaliPartsToIso(jy, jm, jd) {
@@ -1146,7 +1263,7 @@ function projectCardTheme(projectId) {
   return PROJECT_CARD_PALETTE[Math.abs(h) % PROJECT_CARD_PALETTE.length];
 }
 const APP_NAME = "Metrico";
-const APP_VERSION = "2.54.1";
+const APP_VERSION = "2.54.2";
 
 const METRICO_PLAN_ORDER = ["start", "plus", "pro", "ark"];
 const METRICO_PLANS = {
@@ -2230,6 +2347,14 @@ const DICT = {
   "خروج از برنامه": "Log out", "برای ورود مجدد باید رمز عبور را دوباره وارد کنی. مطمئنی؟": "You'll need to log in again. Are you sure?",
   // Dashboard
   "داشبورد": "Dashboard",
+  "خوش آمدید": "Welcome",
+  "خوش آمدید،": "Welcome,",
+  "تعداد پروژه‌ها": "Projects",
+  "تعداد کل واحدهای فروخته‌شده": "Total sold units",
+  "نمایش مرحله پروژه": "Show project phase",
+  "مرحله فعلی پروژه": "Current project phase",
+  "پیشرفت کلی:": "Overall progress:",
+  "برای بستن دوباره لمس کن": "Tap again to close",
   "پروژه فعال": "active projects",
   "پیام مالک": "Owner messages",
   "پلن اشتراک": "Subscription Plan",
@@ -5294,41 +5419,23 @@ function ProjectProgressBar({ value = 0, phaseLabel }) {
   const phase = phaseLabel || t("مشخص نشده");
   const [showTip, setShowTip] = useState(false);
   const pct = Math.min(100, Math.max(0, Number(value) || 0));
-  const dotFill = "radial-gradient(circle, rgba(255,255,255,0.55) 2.5px, transparent 2.5px)";
-  const dotTrack = "radial-gradient(circle, rgba(255,255,255,0.14) 2.5px, transparent 2.5px)";
 
   return (
     <div className="w-full relative">
-      <div className="flex items-center justify-between mb-1.5 px-0.5">
+      <div className="flex items-center justify-between mb-1 px-0.5">
         <span className="text-[10px] font-semibold text-[#6B7280]">{t("پیشرفت پروژه")}</span>
-        <span className="text-xs font-bold text-[#0ea5e9]">{pct}{t("٪")}</span>
+        <span className="text-[11px] font-bold text-[#102a56]">{pct}{t("٪")}</span>
       </div>
       <button
         type="button"
         onClick={(e) => { e.stopPropagation(); setShowTip((v) => !v); }}
-        className="w-full relative block h-11 rounded-full overflow-hidden cursor-pointer"
-        style={{
-          background: "#1a3352",
-          boxShadow: "inset 0 2px 6px rgba(0,0,0,0.35), 0 0 0 2px rgba(255,255,255,0.08), 0 0 0 3px rgba(26,51,82,0.25)",
-        }}
-        aria-label="نمایش مرحله پروژه"
+        className="w-full relative block m-progress-slim cursor-pointer"
+        aria-label={t("نمایش مرحله پروژه")}
       >
         <div
-          className="absolute inset-y-0 left-0 rounded-full transition-all duration-700 ease-out overflow-hidden"
-          style={{
-            width: `${Math.max(pct, pct > 0 ? 8 : 0)}%`,
-            background: "linear-gradient(180deg, #38bdf8 0%, #0ea5e9 45%, #0284c7 100%)",
-            boxShadow: "inset 0 -2px 4px rgba(0,0,0,0.15), inset 0 2px 4px rgba(255,255,255,0.25)",
-          }}
-        >
-          <div className="absolute inset-0 opacity-90" style={{ backgroundImage: dotFill, backgroundSize: "14px 100%" }} />
-        </div>
-        <div className="absolute inset-0 pointer-events-none" style={{ backgroundImage: dotTrack, backgroundSize: "14px 100%" }} />
-        <div className="absolute inset-0 flex items-center justify-center pointer-events-none px-3">
-          <span className="text-[11px] text-white font-medium italic drop-shadow-sm truncate">
-            {pct >= 100 ? "تکمیل شده" : `${pct}٪`}
-          </span>
-        </div>
+          className="m-progress-slim-fill"
+          style={{ width: `${pct}%` }}
+        />
       </button>
       {showTip && (
         <>
@@ -5337,10 +5444,10 @@ function ProjectProgressBar({ value = 0, phaseLabel }) {
             className="absolute z-[66] left-0 right-0 mt-2 bg-[#14213D] text-white text-xs rounded-xl px-3.5 py-3 shadow-xl border border-white/10"
             onClick={(e) => e.stopPropagation()}
           >
-            <div className="font-bold text-sm mb-1">مرحله فعلی پروژه</div>
-            <div className="text-white/90 leading-relaxed">{phaseLabel}</div>
-            <div className="text-[#7dd3fc] text-[10px] mt-2 font-semibold">پیشرفت کلی: {pct}٪</div>
-            <div className="text-white/50 text-[10px] mt-1">برای بستن دوباره لمس کن</div>
+            <div className="font-bold text-sm mb-1">{t("مرحله فعلی پروژه")}</div>
+            <div className="text-white/90 leading-relaxed">{phase}</div>
+            <div className="text-[#7dd3fc] text-[10px] mt-2 font-semibold">{t("پیشرفت کلی:")} {pct}{t("٪")}</div>
+            <div className="text-white/50 text-[10px] mt-1">{t("برای بستن دوباره لمس کن")}</div>
           </div>
         </>
       )}
@@ -5821,6 +5928,14 @@ async function processGalleryImage(file) {
 
 function normalizeProjectGallery(project) {
   return Array.isArray(project?.gallery) ? project.gallery : [];
+}
+
+function projectCoverImage(project) {
+  const gallery = normalizeProjectGallery(project);
+  if (!gallery.length) return null;
+  const sorted = gallery.slice().sort((a, b) => String(b.createdAt || "").localeCompare(String(a.createdAt || "")));
+  const cover = sorted[0] || gallery[0];
+  return cover.thumbDataUrl || cover.dataUrl || null;
 }
 
 function portalGalleryFromProject(project) {
@@ -7970,18 +8085,26 @@ function AppContent() {
       p_name: DEMO_PROJECT_NAME,
       p_data: dataPayload,
     });
+    if (!err && seedId && isValidUuid(seedId)) {
+      const { data: row, error: fetchErr } = await window.sb.from("projects").select("*").eq("id", seedId).maybeSingle();
+      if (!fetchErr && row) {
+        const project = normalizeProjectRow(row);
+        setProjects((prev) => [...prev, project]);
+        setActiveTab(project.id);
+        return;
+      }
+    }
+    // Fallback: local-only sample project when RPC fails (e.g. broken projects.id DEFAULT → uuid "N")
+    // Demo is read-only; evaluators still need a populated tour until SQL default is repaired.
+    const localId = (typeof crypto !== "undefined" && typeof crypto.randomUUID === "function")
+      ? crypto.randomUUID()
+      : `00000000-0000-4000-8000-${String(Date.now()).padStart(12, "0").slice(-12)}`;
+    const localProject = { ...dataPayload, id: localId, supabaseId: localId, name: DEMO_PROJECT_NAME };
+    setProjects((prev) => (prev.some((p) => p.name === DEMO_PROJECT_NAME) ? prev : [...prev, localProject]));
+    setActiveTab(localId);
     if (err) {
-      setError(t("ساخت پروژه دمو ناموفق بود: ") + err.message);
-      return;
+      console.warn("ensure_demo_project_seed failed; using local demo project", err.message || err);
     }
-    const { data: row, error: fetchErr } = await window.sb.from("projects").select("*").eq("id", seedId).maybeSingle();
-    if (fetchErr || !row) {
-      setError(t("بارگذاری پروژه دمو ناموفق بود."));
-      return;
-    }
-    const project = normalizeProjectRow(row);
-    setProjects((prev) => [...prev, project]);
-    setActiveTab(project.id);
   }
 
   useEffect(() => {
@@ -9350,6 +9473,7 @@ function AppContent() {
             projects={projects}
             contacts={contacts}
             company={company}
+            user={user}
             ensurePdfExport={ensurePdfExport}
             backHandlerRef={childBackHandler}
             onOpenProject={(id) => { setActiveTab(id); setScreen("app"); }}
@@ -16527,7 +16651,7 @@ function OwnerMessagesModal({ project, messages, onClose, onOpened, onReply }) {
   );
 }
 
-function DashboardProjectCard({ project, contacts, theme, onOpenProject, onOpenGallery, onOpenMessages, unreadCount, onShowBalanceModal }) {
+function DashboardProjectCard({ project, contacts, theme, company, onOpenProject, onOpenGallery, onOpenMessages, unreadCount, onShowBalanceModal }) {
   const { lang, t } = useContext(LanguageContext);
   const cardDir = lang === "fa" ? "rtl" : "ltr";
   const sold = project.units.filter((u) => u.status === "sold").length;
@@ -16541,7 +16665,7 @@ function DashboardProjectCard({ project, contacts, theme, onOpenProject, onOpenG
   const receivables = projectReceivablesList(project, contacts);
   const payables = projectPayablesList(project, contacts);
   const avgPrice = avgSalePricePerSqm(project);
-  const galleryCount = normalizeProjectGallery(project).length;
+  const coverSrc = projectCoverImage(project) || company?.logo || null;
 
   return (
     <div
@@ -16555,10 +16679,28 @@ function DashboardProjectCard({ project, contacts, theme, onOpenProject, onOpenG
     >
       <div className="h-1 rounded-full mb-3" style={{ background: `linear-gradient(90deg, ${theme.stripe || theme.accent}, transparent)` }} />
       <div className="flex items-start justify-between gap-2 mb-3">
-        <button type="button" onClick={() => onOpenProject(project.id)} className="flex-1 text-right min-w-0">
-          <div className="font-bold text-base text-[#14213D] truncate">{project.name}</div>
-          {project.phase && <div className="text-[10px] text-[#9CA3AF] mt-0.5 truncate">{t(project.phase)}</div>}
-        </button>
+        <div className="flex-1 flex items-start gap-2.5 min-w-0">
+          <button
+            type="button"
+            onClick={(e) => {
+              e.stopPropagation();
+              if (onOpenGallery) onOpenGallery(project.id);
+              else onOpenProject(project.id);
+            }}
+            className="shrink-0"
+            title={onOpenGallery ? t("گالری تصاویر") : project.name}
+          >
+            {coverSrc ? (
+              <img src={coverSrc} alt="" className="m-project-thumb" />
+            ) : (
+              <span className="m-project-thumb-ph" aria-hidden="true"><Building2 size={16} /></span>
+            )}
+          </button>
+          <button type="button" onClick={() => onOpenProject(project.id)} className="flex-1 text-right min-w-0">
+            <div className="font-bold text-base text-[#14213D] truncate">{project.name}</div>
+            {project.phase && <div className="text-[10px] text-[#9CA3AF] mt-0.5 truncate">{t(project.phase)}</div>}
+          </button>
+        </div>
         <div className="flex items-center gap-1 shrink-0">
           {(unreadCount || 0) > 0 && onOpenMessages && (
             <button
@@ -16570,20 +16712,6 @@ function DashboardProjectCard({ project, contacts, theme, onOpenProject, onOpenG
             >
               <Bell size={14} />
               <span className="absolute -top-1.5 -left-1.5 min-w-[16px] h-4 px-1 rounded-full bg-[#B91C1C] text-white text-[9px] font-bold flex items-center justify-center">{unreadCount}</span>
-            </button>
-          )}
-          {onOpenGallery && (
-            <button
-              type="button"
-              onClick={(e) => { e.stopPropagation(); onOpenGallery(project.id); }}
-              className="relative w-8 h-8 rounded-lg flex items-center justify-center text-[#64748B] hover:text-[#128C7E]"
-              style={{ background: theme.surface || "#FFFFFF", border: `1px solid ${theme.border}` }}
-              title={t("گالری تصاویر")}
-            >
-              <LucideImage size={15} />
-              {galleryCount > 0 && (
-                <span className="absolute -top-1 -left-1 min-w-[14px] h-[14px] px-0.5 rounded-full bg-[#128C7E] text-white text-[8px] font-bold flex items-center justify-center">{galleryCount}</span>
-              )}
             </button>
           )}
           <button type="button" onClick={() => onOpenProject(project.id)} className="w-8 h-8 rounded-lg flex items-center justify-center text-[#CBD5E1]">
@@ -16646,7 +16774,7 @@ function DashboardProjectCard({ project, contacts, theme, onOpenProject, onOpenG
   );
 }
 
-function ProjectCarousel({ projects, contacts, onOpenProject, onOpenGallery, onOpenMessages, unreadByProject, onShowBalanceModal }) {
+function ProjectCarousel({ projects, contacts, company, onOpenProject, onOpenGallery, onOpenMessages, unreadByProject, onShowBalanceModal }) {
   const { t } = useContext(LanguageContext);
   const [activeIndex, setActiveIndex] = useState(0);
   const trackRef = useRef(null);
@@ -16755,6 +16883,7 @@ function ProjectCarousel({ projects, contacts, onOpenProject, onOpenGallery, onO
                   project={p}
                   contacts={contacts}
                   theme={theme}
+                  company={company}
                   onOpenProject={onOpenProject}
                   onOpenGallery={onOpenGallery}
                   onOpenMessages={onOpenMessages}
@@ -16794,8 +16923,8 @@ function ProjectCarousel({ projects, contacts, onOpenProject, onOpenGallery, onO
   );
 }
 
-function DashboardScreen({ projects, contacts, company, ensurePdfExport, backHandlerRef, onOpenProject, onOpenGallery, onOpenMessages, unreadByProject, totalUnreadMessages, onNewProject, onQuickExpense, onQuickTransfer }) {
-  const { t } = useContext(LanguageContext);
+function DashboardScreen({ projects, contacts, company, user, ensurePdfExport, backHandlerRef, onOpenProject, onOpenGallery, onOpenMessages, unreadByProject, totalUnreadMessages, onNewProject, onQuickExpense, onQuickTransfer }) {
+  const { lang, t } = useContext(LanguageContext);
   const [balanceModal, setBalanceModal] = useState(null);
 
   useEffect(() => {
@@ -16820,35 +16949,70 @@ function DashboardScreen({ projects, contacts, company, ensurePdfExport, backHan
     return { units, sold, vacant, reserved, revenue, expenses, profit: projects.reduce((s, p) => s + profitOf(p), 0) };
   }, [projects]);
 
+  const displayName = useMemo(() => resolveUserDisplayName(user, company), [user, company]);
+  const calendarDate = useMemo(() => formatDashboardCalendarDate(lang), [lang]);
+  const welcomeTitle = displayName
+    ? `${t("خوش آمدید،")} ${displayName}`
+    : t("خوش آمدید");
+
+  const summaryCards = [
+    {
+      key: "projects",
+      label: t("تعداد پروژه‌ها"),
+      value: String(projects.length),
+      icon: <LucideBuilding size={16} />,
+      iconBg: "rgba(16, 42, 86, 0.1)",
+      iconColor: "#102a56",
+    },
+    {
+      key: "sold",
+      label: t("تعداد کل واحدهای فروخته‌شده"),
+      value: String(totals.sold),
+      icon: <LucideCheckCircle size={16} />,
+      iconBg: "rgba(22, 101, 52, 0.12)",
+      iconColor: "#166534",
+    },
+    {
+      key: "profit",
+      label: t("سود خالص"),
+      value: fmt(Math.abs(totals.profit)),
+      icon: <LucideTrendingUp size={16} />,
+      iconBg: totals.profit >= 0 ? "rgba(201, 162, 39, 0.16)" : "rgba(185, 28, 28, 0.12)",
+      iconColor: totals.profit >= 0 ? "#A16207" : "#B91C1C",
+      valueClass: totals.profit >= 0 ? "text-[#166534]" : "text-[#B91C1C]",
+      suffix: totals.profit < 0 ? t("زیان") : null,
+    },
+  ];
+
   return (
     <div className="px-4 pt-4 pb-8">
       <div className="mb-4">
-        <div className="flex items-center justify-between gap-2">
-          <div className="m-dashboard-title">{t("داشبورد")}</div>
+        <div className="flex items-start justify-between gap-2">
+          <div className="min-w-0">
+            <div className="m-dashboard-title truncate">{welcomeTitle}</div>
+            <div className="text-xs text-[#6B7280] mt-1">{calendarDate}</div>
+          </div>
           {totalUnreadMessages > 0 && (
-            <span className="text-[10px] font-bold bg-[#B91C1C] text-white rounded-full px-2.5 py-1 flex items-center gap-1">
+            <span className="text-[10px] font-bold bg-[#B91C1C] text-white rounded-full px-2.5 py-1 flex items-center gap-1 shrink-0">
               <Bell size={12} /> {totalUnreadMessages} {t("پیام مالک")}
             </span>
           )}
         </div>
-        <div className="text-xs text-[#6B7280] mt-0.5">{projects.length} {t("پروژه فعال")}</div>
       </div>
 
-      {projects.length > 0 && (
-        <div className="m-card-hero rounded-2xl p-4 text-white flex items-center gap-4 mb-5">
-          <PolarProfitChart revenue={totals.revenue} expenses={totals.expenses} profit={totals.profit} size={118} dark />
-          <div className="flex-1">
-            <div className="flex justify-between text-xs mb-1"><span className="text-white/60">{t("درآمد محقق‌شده")}</span><span className="font-semibold">{fmt(totals.revenue)}</span></div>
-            <div className="flex justify-between text-xs mb-1"><span className="text-white/60">{t("هزینه دوره")}</span><span className="font-semibold text-[#FCA5A5]">{fmt(totals.expenses)}</span></div>
-            <div className="flex justify-between text-xs"><span className="text-white/60">{totals.profit >= 0 ? t("سود کل") : t("زیان کل")}</span><span className={`font-bold ${totals.profit >= 0 ? "text-[#86EFAC]" : "text-[#FCA5A5]"}`}>{fmt(Math.abs(totals.profit))}</span></div>
-            <div className="flex gap-2 mt-2 text-[9px]">
-              <span className="flex items-center gap-1"><span className="w-2 h-2 rounded-full bg-[#22C55E]" /> {t("درآمد")}</span>
-              <span className="flex items-center gap-1"><span className="w-2 h-2 rounded-full bg-[#EF4444]" /> {t("هزینه")}</span>
-              <span className="flex items-center gap-1"><span className="w-2 h-2 rounded-full bg-[#38BDF8]" /> {totals.profit >= 0 ? t("سود") : t("زیان")}</span>
+      <div className="m-summary-grid mb-5">
+        {summaryCards.map((card) => (
+          <div key={card.key} className="m-summary-card">
+            <div className="m-summary-icon" style={{ background: card.iconBg, color: card.iconColor }}>
+              {card.icon}
+            </div>
+            <div className="text-[10px] text-[#6B7280] leading-snug line-clamp-2">{card.label}</div>
+            <div className={`text-sm font-extrabold text-[#14213D] leading-tight truncate w-full ${card.valueClass || ""}`}>
+              {card.suffix ? `${card.suffix} ` : ""}{card.value}
             </div>
           </div>
-        </div>
-      )}
+        ))}
+      </div>
 
       {projects.length === 0 ? (
         <div className="text-center text-[#6B7280] mt-16 text-sm px-8">
@@ -16861,6 +17025,7 @@ function DashboardScreen({ projects, contacts, company, ensurePdfExport, backHan
         <ProjectCarousel
           projects={projects}
           contacts={contacts}
+          company={company}
           onOpenProject={onOpenProject}
           onOpenGallery={onOpenGallery}
           onOpenMessages={onOpenMessages}
