@@ -852,7 +852,6 @@ const STATUS = {
 
 const JALALI_MONTHS = ["فروردین", "اردیبهشت", "خرداد", "تیر", "مرداد", "شهریور", "مهر", "آبان", "آذر", "دی", "بهمن", "اسفند"];
 const GREGORIAN_MONTHS = ["January", "February", "March", "April", "May", "June", "July", "August", "September", "October", "November", "December"];
-const HIJRI_MONTHS_EN = ["Muharram", "Safar", "Rabiʻ I", "Rabiʻ II", "Jumada I", "Jumada II", "Rajab", "Shaʻban", "Ramadan", "Shawwal", "Dhuʻl-Qiʻdah", "Dhuʻl-Hijjah"];
 const JALALI_WEEKDAYS = ["یکشنبه", "دوشنبه", "سه‌شنبه", "چهارشنبه", "پنجشنبه", "جمعه", "شنبه"];
 const EN_WEEKDAYS = ["Sunday", "Monday", "Tuesday", "Wednesday", "Thursday", "Friday", "Saturday"];
 
@@ -971,25 +970,7 @@ function formatJalaliDate(val, withTime, lang) {
   return formatAppDate(val, withTime, lang || "fa");
 }
 
-/** Kuwaiti algorithm: Gregorian → Hijri (civil / tabular). Returns [hy, hm, hd]. */
-function gregorianToHijri(gy, gm, gd) {
-  const jd = Math.floor((1461 * (gy + 4800 + Math.floor((gm - 14) / 12))) / 4)
-    + Math.floor((367 * (gm - 2 - 12 * Math.floor((gm - 14) / 12))) / 12)
-    - Math.floor((3 * Math.floor((gy + 4900 + Math.floor((gm - 14) / 12)) / 100)) / 4)
-    + gd - 32075;
-  const l = jd - 1948440 + 10632;
-  const n = Math.floor((l - 1) / 10631);
-  const l2 = l - 10631 * n + 354;
-  const j = Math.floor((10985 - l2) / 5316) * Math.floor((50 * l2) / 17719)
-    + Math.floor(l2 / 5670) * Math.floor((43 * l2) / 15238);
-  const l3 = l2 - Math.floor((30 - j) / 15) * Math.floor((17719 * j) / 50)
-    - Math.floor(j / 16) * Math.floor((15238 * j) / 43) + 29;
-  const hm = Math.floor((24 * l3) / 709);
-  const hd = l3 - Math.floor((709 * hm) / 24);
-  const hy = 30 * n + j - 30;
-  return [hy, hm, hd];
-}
-
+/** Format dashboard date: Jalali for FA, Gregorian for EN. */
 function formatDashboardCalendarDate(lang, date = new Date()) {
   const gy = date.getFullYear();
   const gm = date.getMonth() + 1;
@@ -997,13 +978,12 @@ function formatDashboardCalendarDate(lang, date = new Date()) {
   const weekday = date.getDay();
   if (lang === "en") {
     try {
-      const intl = new Intl.DateTimeFormat("en-US-u-ca-islamic", {
+      return new Intl.DateTimeFormat("en-US", {
         weekday: "long", day: "numeric", month: "long", year: "numeric",
       }).format(date);
-      if (intl && !/Invalid/i.test(intl)) return intl;
-    } catch (e) { /* fallthrough */ }
-    const [hy, hm, hd] = gregorianToHijri(gy, gm, gd);
-    return `${EN_WEEKDAYS[weekday]}, ${hd} ${HIJRI_MONTHS_EN[hm - 1] || ""} ${hy} AH`;
+    } catch (e) {
+      return `${EN_WEEKDAYS[weekday]}, ${GREGORIAN_MONTHS[gm - 1] || ""} ${gd}, ${gy}`;
+    }
   }
   const [jy, jm, jd] = gregorianToJalali(gy, gm, gd);
   return `${JALALI_WEEKDAYS[weekday]} ${jd} ${JALALI_MONTHS[jm - 1] || ""} ${jy}`;
@@ -1274,7 +1254,7 @@ function projectCardTheme(projectId) {
   return PROJECT_CARD_PALETTE[Math.abs(h) % PROJECT_CARD_PALETTE.length];
 }
 const APP_NAME = "Metrico";
-const APP_VERSION = "2.54.5";
+const APP_VERSION = "2.54.6";
 
 const METRICO_PLAN_ORDER = ["start", "plus", "pro", "ark"];
 const METRICO_PLANS = {
@@ -1611,23 +1591,18 @@ function buildDocumentPrintHTML(companyInfo, docTitle, activityName, docNumber, 
   const contractorSign = signNames?.contractor || "";
   const projectName = options.projectName || "";
   const pageTitle = docTitle || "سند";
+  const extraStart = projectName
+    ? `<div style="font-size:12px;color:#374151;margin-top:4px;font-weight:600;">پروژه: ${escReportHtml(projectName)}</div>`
+    : "";
   return `<!DOCTYPE html><html lang="fa" dir="rtl"><head><meta charset="UTF-8"><title>${escReportHtml(pageTitle)}</title>
     <style>
-      @page { size: A4; margin: 18mm 15mm; }
+      @page { size: A4; margin: 14mm 12mm; }
       body{font-family:Tahoma,Arial,sans-serif;color:#14213D;padding:0;margin:0 auto;max-width:210mm;min-height:297mm;padding-bottom:70px;position:relative;line-height:1.9;font-size:13px;background:#fff;}
       .print-btn{position:fixed;top:10px;left:10px;background:#14213D;color:#fff;border:none;padding:10px 16px;border-radius:8px;font-size:14px;z-index:10;cursor:pointer;}
       .wm{position:fixed;top:50%;left:50%;transform:translate(-50%,-50%);width:260px;opacity:0.04;z-index:0;pointer-events:none;}
       .report-footer{position:fixed;bottom:0;left:0;right:0;text-align:center;font-size:9.5px;color:#9CA3AF;border-top:1px solid #E5E7EB;padding:8px 10px;background:#fff;}
-      .report-body{position:relative;z-index:1;padding:18mm 15mm 24mm;}
-      .doc-header{display:flex;justify-content:space-between;align-items:flex-start;gap:16px;border-bottom:2px solid #14213D;padding-bottom:14px;margin-bottom:18px;}
-      .doc-header-left{display:flex;align-items:center;gap:10px;}
-      .doc-header-right{text-align:right;flex:1;}
-      .doc-company{font-weight:800;font-size:17px;color:#14213D;}
-      .doc-project{font-size:12px;color:#374151;margin-top:4px;font-weight:600;}
-      .doc-main-title{font-size:15px;font-weight:800;color:#14213D;margin-top:8px;padding-top:8px;border-top:1px solid #E5E7EB;}
-      .doc-activity{font-size:11px;color:#6B7280;margin-top:2px;}
+      .report-body{position:relative;z-index:1;padding:14mm 12mm 24mm;}
       .doc-meta{display:flex;justify-content:flex-end;gap:20px;font-size:11px;color:#6B7280;margin-bottom:14px;}
-      .doc-body-title{text-align:center;font-size:16px;font-weight:800;margin:0 0 18px;padding:10px;background:#F4F6F5;border-radius:8px;border:1px solid #E5E7EB;}
       .sign-row{display:flex;justify-content:space-between;margin-top:48px;gap:24px;}
       .sign-box{flex:1;text-align:center;border-top:1px solid #CBD5E1;padding-top:8px;font-size:12px;}
       @media print{.print-btn{display:none;} body{padding:0;} .report-body{padding:0;}}
@@ -1635,19 +1610,10 @@ function buildDocumentPrintHTML(companyInfo, docTitle, activityName, docNumber, 
     <img class="wm" src="${METRICO_WATERMARK}">
     <button class="print-btn" onclick="window.print()">چاپ / ذخیره PDF</button>
     <div class="report-body">
-    <div class="doc-header">
-      <div class="doc-header-left">
-        ${companyInfo?.logo ? `<img src="${companyInfo.logo}" style="width:48px;height:48px;border-radius:10px;object-fit:cover;">` : `<img src="${METRICO_WATERMARK}" style="width:40px;height:40px;object-fit:contain;">`}
-      </div>
-      <div class="doc-header-right">
-        <div class="doc-company">${escReportHtml(companyInfo?.name || APP_NAME)}</div>
-        ${companyLetterheadLinesHtml(companyInfo, escReportHtml)}
-        ${projectName ? `<div class="doc-project">پروژه: ${escReportHtml(projectName)}</div>` : ""}
-      </div>
-    </div>
+    ${buildReportLetterheadHtml(companyInfo, pageTitle, "fa", escReportHtml, extraStart)}
     <div class="doc-meta"><span>شماره: ${escReportHtml(docNumber)}</span><span>تاریخ: ${escReportHtml(docDate)}</span></div>
     ${bodyHtml}
-    <div class="sign-row"><div class="sign-box">امضاء کارفرما<br>${escReportHtml(employerSign)}</div><div class="sign-box">امضاء پیمانکار<br>${escReportHtml(contractorSign)}</div></div>
+  <div class="sign-row"><div class="sign-box">امضاء کارفرما<br>${escReportHtml(employerSign)}</div><div class="sign-box">امضاء پیمانکار<br>${escReportHtml(contractorSign)}</div></div>
     </div>
     <div class="report-footer">تهیه شده توسط نرم‌افزار ${APP_NAME} — نسخه ${APP_VERSION}</div>
   </body></html>`;
@@ -1672,14 +1638,13 @@ function openContractPrint(companyInfo, contract, contacts, projectName, lang) {
     ? `<p>${escReportHtml(contract.customClauses)}</p>`
     : fillContractTemplate(buildStandardContractClauses(contract.activityName, unitLabel), vars);
   const docTitle = contractDocTitle(contract.activityName);
-  const body = `<div class="doc-body-title">${escReportHtml(docTitle)}</div>${clauses}`;
+  const body = clauses;
   const html = buildDocumentPrintHTML(companyInfo, docTitle, contract.activityName, contract.contractNumber, vars.contractDate, body, {
     employer: employer?.name,
     contractor: contractor?.name,
   }, { projectName });
   try {
-    const blob = new Blob([html], { type: "text/html" });
-    window.open(URL.createObjectURL(blob), "_blank");
+    openHtmlReport(html);
   } catch (e) { console.error(e); }
 }
 
@@ -1692,7 +1657,6 @@ function openProgressStatementPrint(companyInfo, stmt, contract, contacts, proje
   const periodFrom = stmt.periodFrom ? formatAppDate(stmt.periodFrom, false, cal) : "—";
   const periodTo = stmt.periodTo ? formatAppDate(stmt.periodTo, false, cal) : "—";
   const body = `
-<div class="doc-body-title">${escReportHtml(docTitle)}</div>
 <table style="width:100%;border-collapse:collapse;margin-bottom:16px;">
 <tr><td style="border:1px solid #E5E7EB;padding:6px 8px;width:30%;">پروژه</td><td style="border:1px solid #E5E7EB;padding:6px 8px;">${escReportHtml(projectName)}</td></tr>
 <tr><td style="border:1px solid #E5E7EB;padding:6px 8px;">قرارداد</td><td style="border:1px solid #E5E7EB;padding:6px 8px;">${escReportHtml(contract.contractNumber)} — ${escReportHtml(contract.activityName)}</td></tr>
@@ -1723,8 +1687,7 @@ ${qcRows ? `<p><strong>چک‌لیست QC انجام‌شده:</strong></p><ul s
     contractor: contractor?.name,
   }, { projectName });
   try {
-    const blob = new Blob([html], { type: "text/html" });
-    window.open(URL.createObjectURL(blob), "_blank");
+    openHtmlReport(html);
   } catch (e) { console.error(e); }
 }
 
@@ -2283,7 +2246,6 @@ function openContractAmendmentPrint(companyInfo, contract, amendment, contacts, 
   const contractor = contacts.find((c) => c.id === contract.contractorContactId);
   const docTitle = `${t("متمم قرارداد")} ${amendment.amendmentNo || ""}`;
   const body = `
-<div class="doc-body-title">${escReportHtml(docTitle)}</div>
 <p><strong>${escReportHtml(t("قرارداد مبنا:"))}</strong> ${escReportHtml(contract.contractNumber)} — ${escReportHtml(contract.activityName)}</p>
 <p><strong>${escReportHtml(t("کارفرما:"))}</strong> ${escReportHtml(employer?.name)} &nbsp;|&nbsp; <strong>${escReportHtml(t("پیمانکار:"))}</strong> ${escReportHtml(contractor?.name)}</p>
 <table style="width:100%;border-collapse:collapse;margin:16px 0;">
@@ -2299,8 +2261,7 @@ ${amendment.customClauses ? `<div>${escReportHtml(amendment.customClauses)}</div
     contractor: contractor?.name,
   }, { projectName });
   try {
-    const blob = new Blob([html], { type: "text/html" });
-    window.open(URL.createObjectURL(blob), "_blank");
+    openHtmlReport(html);
   } catch (e) { console.error(e); }
 }
 
@@ -3687,6 +3648,38 @@ function companyLetterheadLinesHtml(companyInfo, esc) {
   return html;
 }
 
+/** Shared printable letterhead: start=company details, center=company logo, end=Metrico logo. Title sits below the header rule. */
+function buildReportLetterheadHtml(companyInfo, titleLine, lang, escFn, extraStartHtml = "") {
+  const e = escFn || escReportHtml;
+  const name = e(companyInfo?.name || APP_NAME);
+  const details = companyLetterheadLinesHtml(companyInfo, e);
+  const companyLogo = companyInfo?.logo
+    ? `<img src="${companyInfo.logo}" alt="" style="width:52px;height:52px;border-radius:10px;object-fit:cover;">`
+    : "";
+  return `
+  <div style="display:grid;grid-template-columns:1fr auto 1fr;align-items:center;gap:12px;border-bottom:2px solid #14213D;padding-bottom:12px;margin-bottom:12px;">
+    <div style="text-align:start;min-width:0;">
+      <div style="font-weight:800;font-size:16px;line-height:1.3;">${name}</div>
+      ${details}
+      ${extraStartHtml || ""}
+    </div>
+    <div style="display:flex;justify-content:center;align-items:center;">${companyLogo}</div>
+    <div style="display:flex;justify-content:end;align-items:center;">
+      <img src="${METRICO_WATERMARK}" alt="Metrico" style="width:36px;height:36px;object-fit:contain;">
+    </div>
+  </div>
+  ${titleLine ? `<h1 style="text-align:center;font-size:15px;font-weight:800;margin:0 0 16px;color:#14213D;line-height:1.4;">${e(titleLine)}</h1>` : ""}`;
+}
+
+function openHtmlReport(html) {
+  const w = window.open("about:blank", "_blank");
+  if (!w) return null;
+  w.document.open();
+  w.document.write(html);
+  w.document.close();
+  return w;
+}
+
 function buildTableReportHTML(companyInfo, title, subtitle, columns, rows, lang = "fa") {
   const isEn = lang === "en";
   const htmlLang = isEn ? "en" : "fa";
@@ -3696,12 +3689,14 @@ function buildTableReportHTML(companyInfo, title, subtitle, columns, rows, lang 
   const footer = isEn
     ? "Generated by Metrico — Contact: +98 919 226 4332 — Email: mehrzad.saeedi@gmail.com"
     : "تهیه شده توسط نرم‌افزار متریکو — با ما در تماس باشید: ۰۹۱۹۲۲۶۴۳۳۲ — ایمیل: mehrzad.saeedi@gmail.com";
+  const titleLine = `${title}${subtitle ? " — " + subtitle : ""} — ${formatAppDate(new Date().toISOString().slice(0, 10), false, lang)}`;
   const head = columns.map((c) => `<th style="border:1px solid #E5E7EB;padding:6px 8px;text-align:${textAlign};background:#F4F6F5;">${escReportHtml(c.label)}</th>`).join("");
   const body = rows.map((row) =>
     `<tr>${columns.map((c) => `<td style="border:1px solid #E5E7EB;padding:6px 8px;text-align:${textAlign};font-size:12px;">${escReportHtml(typeof c.render === "function" ? c.render(row) : row[c.key])}</td>`).join("")}</tr>`
   ).join("");
   return `<!DOCTYPE html><html lang="${htmlLang}" dir="${dir}"><head><meta charset="UTF-8"><title>${escReportHtml(title)}</title>
     <style>
+      @page { size: A4; margin: 14mm 12mm; }
       body{font-family:Tahoma,Arial,sans-serif;color:#14213D;padding:20px;padding-bottom:70px;position:relative;}
       table{width:100%;border-collapse:collapse;}
       .print-btn{position:fixed;top:10px;${isEn ? "right" : "left"}:10px;background:#14213D;color:#fff;border:none;padding:10px 16px;border-radius:8px;font-size:14px;z-index:10;cursor:pointer;}
@@ -3713,13 +3708,7 @@ function buildTableReportHTML(companyInfo, title, subtitle, columns, rows, lang 
     <img class="wm" src="${METRICO_WATERMARK}">
     <button class="print-btn" onclick="window.print()">${printLabel}</button>
     <div class="report-body">
-    <div style="display:flex;align-items:center;gap:10px;border-bottom:2px solid #14213D;padding-bottom:12px;margin-bottom:16px;">
-      ${companyInfo?.logo ? `<img src="${companyInfo.logo}" style="width:44px;height:44px;border-radius:10px;object-fit:cover;">` : ""}
-      <img src="${METRICO_WATERMARK}" style="width:34px;height:34px;object-fit:contain;${isEn ? "margin-left:auto;" : "margin-right:auto;"}">
-      <div><div style="font-weight:800;font-size:18px;">${escReportHtml(companyInfo?.name || APP_NAME)}</div>
-      ${companyLetterheadLinesHtml(companyInfo, escReportHtml)}
-      <div style="font-size:11px;color:#6B7280;margin-top:6px;">${escReportHtml(title)}${subtitle ? " — " + escReportHtml(subtitle) : ""} — ${formatAppDate(new Date().toISOString().slice(0, 10), false, lang)}</div></div>
-    </div>
+    ${buildReportLetterheadHtml(companyInfo, titleLine, lang, escReportHtml)}
     <table><thead><tr>${head}</tr></thead><tbody>${body}</tbody></table>
     </div>
     <div class="report-footer">${footer}</div>
@@ -3729,9 +3718,7 @@ function buildTableReportHTML(companyInfo, title, subtitle, columns, rows, lang 
 function openTableReport(companyInfo, title, subtitle, columns, rows, lang = "fa") {
   try {
     const html = buildTableReportHTML(companyInfo, title, subtitle, columns, rows, lang);
-    const blob = new Blob([html], { type: "text/html" });
-    const url = URL.createObjectURL(blob);
-    window.open(url, "_blank");
+    openHtmlReport(html);
   } catch (e) {
     console.error(e);
   }
@@ -8506,9 +8493,9 @@ function AppContent() {
     const dir = isEn ? "ltr" : "rtl";
     const textAlign = isEn ? "left" : "right";
     const printBtnPos = isEn ? "right" : "left";
-    const logoMargin = isEn ? "margin-left:auto;" : "margin-right:auto;";
     const headers = [tFn("طبقه"), tFn("واحد"), tFn("وضعیت"), tFn("متراژ"), tFn("جهت"), tFn("خریدار"), tFn("تلفن"), tFn("کد پستی"), tFn("مبلغ کل"), tFn("پرداخت‌شده"), tFn("مانده")];
     const grandRevenue = projectList.reduce((s, p) => s + p.units.filter((u) => u.status === "sold").reduce((s2, u) => s2 + totalPriceOf(u), 0), 0);
+    const titleLine = `${tFn("گزارش پروژه‌های ساختمانی")} — ${formatAppDate(new Date().toISOString().slice(0, 10), false, lang)}`;
     const projectsHtml = projectList.map((project) => {
       const revenue = revenueOf(project);
       const recognized = revenueRecognizedOf(project);
@@ -8541,6 +8528,7 @@ function AppContent() {
 
     return `<!DOCTYPE html><html lang="${htmlLang}" dir="${dir}"><head><meta charset="UTF-8"><title>${esc(tFn("گزارش پروژه‌ها"))}</title>
       <style>
+        @page { size: A4; margin: 14mm 12mm; }
         body{font-family:Tahoma,Arial,sans-serif;color:#14213D;padding:20px;padding-bottom:70px;position:relative;}
         table{width:100%;border-collapse:collapse;}
         td,th{border:1px solid #E5E7EB;padding:5px 6px;text-align:${textAlign};}
@@ -8553,13 +8541,7 @@ function AppContent() {
       <img class="wm" src="${METRICO_WATERMARK}">
       <button class="print-btn" onclick="window.print()">${esc(tFn("چاپ / ذخیره PDF"))}</button>
       <div class="report-body">
-      <div style="display:flex;align-items:center;gap:10px;border-bottom:2px solid #14213D;padding-bottom:12px;margin-bottom:16px;">
-        ${companyInfo?.logo ? `<img src="${companyInfo.logo}" style="width:44px;height:44px;border-radius:10px;object-fit:cover;">` : ""}
-        <img src="${METRICO_WATERMARK}" style="width:34px;height:34px;object-fit:contain;${logoMargin}">
-        <div><div style="font-weight:800;font-size:18px;">${esc(companyInfo?.name)}</div>
-        ${companyLetterheadLinesHtml(companyInfo, esc)}
-        <div style="font-size:11px;color:#6B7280;margin-top:6px;">${esc(tFn("گزارش پروژه‌های ساختمانی"))} — ${formatAppDate(new Date().toISOString().slice(0, 10), false, lang)}</div></div>
-      </div>
+      ${buildReportLetterheadHtml(companyInfo, titleLine, lang, esc)}
       ${projectList.length > 1 ? `<div style="font-size:13px;font-weight:700;margin-bottom:16px;">${esc(tFn("مجموع درآمد کل پروژه‌ها:"))} ${fmt(grandRevenue)}${esc(tFn(" تومان"))}</div>` : ""}
       ${projectsHtml}
       </div>
@@ -8575,7 +8557,6 @@ function AppContent() {
     const dir = isEn ? "ltr" : "rtl";
     const textAlign = isEn ? "left" : "right";
     const printBtnPos = isEn ? "right" : "left";
-    const logoMargin = isEn ? "margin-left:auto;" : "margin-right:auto;";
     const revenue = revenueOf(project);
     const recognized = revenueRecognizedOf(project);
     const expenses = expensesPeriodOf(project);
@@ -8588,11 +8569,13 @@ function AppContent() {
     const remainingTotal = soldUnits.reduce((s, u) => s + remainingOf(u, project), 0);
     const soldArea = soldUnits.reduce((s, u) => s + (Number(u.area) || 0), 0);
     const avgPricePerSqm = soldArea > 0 ? revenue / soldArea : 0;
+    const titleLine = `${tFn("گزارش مالی پروژه:")} ${project.name} — ${formatAppDate(new Date().toISOString().slice(0, 10), false, lang)}`;
     const expenseRows = (project.expenses || []).slice().sort((a, b) => (b.date || "").localeCompare(a.date || "")).map((e) => `
       <tr><td>${esc(e.title)}</td><td>${esc(formatAppDate(e.date, false, lang) || "-")}</td><td>${fmt(e.amount)}</td></tr>`).join("");
 
     return `<!DOCTYPE html><html lang="${htmlLang}" dir="${dir}"><head><meta charset="UTF-8"><title>${esc(tFn("گزارش مالی"))} - ${esc(project.name)}</title>
       <style>
+        @page { size: A4; margin: 14mm 12mm; }
         body{font-family:Tahoma,Arial,sans-serif;color:#14213D;padding:20px;padding-bottom:70px;position:relative;}
         table{width:100%;border-collapse:collapse;}
         td,th{border:1px solid #E5E7EB;padding:6px 8px;font-size:12px;text-align:${textAlign};}
@@ -8606,13 +8589,7 @@ function AppContent() {
       <img class="wm" src="${METRICO_WATERMARK}">
       <button class="print-btn" onclick="window.print()">${esc(tFn("چاپ / ذخیره PDF"))}</button>
       <div class="report-body">
-      <div style="display:flex;align-items:center;gap:10px;border-bottom:2px solid #14213D;padding-bottom:12px;margin-bottom:16px;">
-        ${companyInfo?.logo ? `<img src="${companyInfo.logo}" style="width:44px;height:44px;border-radius:10px;object-fit:cover;">` : ""}
-        <img src="${METRICO_WATERMARK}" style="width:34px;height:34px;object-fit:contain;${logoMargin}">
-        <div><div style="font-weight:800;font-size:18px;">${esc(companyInfo?.name)}</div>
-        ${companyLetterheadLinesHtml(companyInfo, esc)}
-        <div style="font-size:11px;color:#6B7280;margin-top:6px;">${esc(tFn("گزارش مالی پروژه:"))} ${esc(project.name)} — ${formatAppDate(new Date().toISOString().slice(0, 10), false, lang)}</div></div>
-      </div>
+      ${buildReportLetterheadHtml(companyInfo, titleLine, lang, esc)}
 
       <div style="display:grid;grid-template-columns:1fr 1fr;gap:10px;margin-bottom:16px;">
         <div class="card"><div style="font-size:11px;color:#6B7280;">${esc(tFn("وضعیت واحدها"))}</div>
@@ -8651,15 +8628,16 @@ function AppContent() {
     const dir = isEn ? "ltr" : "rtl";
     const textAlign = isEn ? "left" : "right";
     const printBtnPos = isEn ? "right" : "left";
-    const logoMargin = isEn ? "margin-left:auto;" : "margin-right:auto;";
     const total = totalPriceOf(unit);
     const paid = paidOf(unit, project);
     const remaining = remainingOf(unit, project);
+    const titleLine = `${tFn("گزارش واحد")} — ${formatAppDate(new Date().toISOString().slice(0, 10), false, lang)}`;
     const instRows = (unit.installments || []).slice().sort((a, b) => (a.date || "").localeCompare(b.date || "")).map((i) => `
       <tr><td>${esc(formatAppDate(i.date, false, lang) || "-")}</td><td>${fmt(i.amount)}</td><td>${i.paid ? esc(tFn("پرداخت‌شده")) : esc(tFn("پرداخت‌نشده"))}</td></tr>`).join("");
 
     return `<!DOCTYPE html><html lang="${htmlLang}" dir="${dir}"><head><meta charset="UTF-8"><title>${esc(tFn("گزارش واحد"))} ${esc(unit.unitNumber)} - ${esc(project.name)}</title>
       <style>
+        @page { size: A4; margin: 14mm 12mm; }
         body{font-family:Tahoma,Arial,sans-serif;color:#14213D;padding:20px;padding-bottom:70px;position:relative;}
         table{width:100%;border-collapse:collapse;}
         td,th{border:1px solid #E5E7EB;padding:6px 8px;font-size:12px;text-align:${textAlign};}
@@ -8673,13 +8651,7 @@ function AppContent() {
       <img class="wm" src="${METRICO_WATERMARK}">
       <button class="print-btn" onclick="window.print()">${esc(tFn("چاپ / ذخیره PDF"))}</button>
       <div class="report-body">
-      <div style="display:flex;align-items:center;gap:10px;border-bottom:2px solid #14213D;padding-bottom:12px;margin-bottom:16px;">
-        ${companyInfo?.logo ? `<img src="${companyInfo.logo}" style="width:44px;height:44px;border-radius:10px;object-fit:cover;">` : ""}
-        <img src="${METRICO_WATERMARK}" style="width:34px;height:34px;object-fit:contain;${logoMargin}">
-        <div><div style="font-weight:800;font-size:18px;">${esc(companyInfo?.name)}</div>
-        ${companyLetterheadLinesHtml(companyInfo, esc)}
-        <div style="font-size:11px;color:#6B7280;margin-top:6px;">${esc(tFn("گزارش واحد"))} — ${formatAppDate(new Date().toISOString().slice(0, 10), false, lang)}</div></div>
-      </div>
+      ${buildReportLetterheadHtml(companyInfo, titleLine, lang, esc)}
 
       <div class="card">
         <div style="font-size:15px;font-weight:800;margin-bottom:4px;">${esc(project.name)}</div>
@@ -8725,9 +8697,7 @@ function AppContent() {
     try {
       const list = scope === "all" ? projects : projects.filter((p) => p.id === activeTab);
       const html = buildReportHTML(company, list, t, lang);
-      const blob = new Blob([html], { type: "text/html" });
-      const url = URL.createObjectURL(blob);
-      window.open(url, "_blank");
+      openHtmlReport(html);
     } catch (e) {
       setError(t("ساخت گزارش ناموفق بود."));
     }
@@ -8737,9 +8707,7 @@ function AppContent() {
     if (!ensurePdfExport()) return;
     try {
       const html = buildFinancialReportHTML(company, project, t, lang);
-      const blob = new Blob([html], { type: "text/html" });
-      const url = URL.createObjectURL(blob);
-      window.open(url, "_blank");
+      openHtmlReport(html);
     } catch (e) {
       setError(t("ساخت گزارش مالی ناموفق بود."));
     }
@@ -8749,9 +8717,7 @@ function AppContent() {
     if (!ensurePdfExport()) return;
     try {
       const html = buildUnitReportHTML(company, project, unit, t, lang);
-      const blob = new Blob([html], { type: "text/html" });
-      const url = URL.createObjectURL(blob);
-      window.open(url, "_blank");
+      openHtmlReport(html);
     } catch (e) {
       setError(t("ساخت گزارش واحد ناموفق بود."));
     }
