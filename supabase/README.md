@@ -12,7 +12,8 @@ Run these SQL scripts **in order** in Supabase Dashboard → SQL Editor.
 | 6 | `owner-portal-messages.sql` | Owner ↔ developer messaging |
 | 7 | `product-feedback.sql` | About-page feedback → super admin inbox |
 | 8 | `demo-readonly.sql` | Server-side read-only for `demo@metrico.app` (RLS + portal RPCs) |
-| 9 | `plan-enforcement.sql` | Project count limits + `ensure_demo_project_seed` RPC |
+| 9 | `plan-enforcement.sql` | Project count limits + `ensure_demo_project_seed` RPC (explicit `gen_random_uuid()`) |
+| 9b | `fix-projects-id-default.sql` | Repair broken `projects.id` DEFAULT (sequence→uuid 22P02) + reinstall demo seed RPC |
 | 10 | `plan-features-enforcement.sql` | Plan feature RPC + owner portal upsert gate (run after 9 + demo-readonly) |
 | 11 | `account-deletion.sql` | Self-service GDPR erasure → `delete_my_account()` |
 | 12 | `profiles-hardening.sql` | Block client updates to plan/role/activated on `profiles` |
