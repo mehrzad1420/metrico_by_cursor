@@ -38,6 +38,17 @@
   .no-scrollbar { scrollbar-width: none; -ms-overflow-style: none; }
   .project-carousel-track { scroll-padding-inline: 7.5%; }
   .project-carousel-card { scroll-snap-align: center; scroll-snap-stop: always; }
+  @media (min-width: 768px) {
+    .project-carousel-track {
+      justify-content: center;
+      scroll-padding-inline: 1.5rem;
+      padding-inline: 1.5rem !important;
+    }
+    .project-carousel-card {
+      width: min(320px, 28vw);
+      max-width: 320px;
+    }
+  }
   .print-area { display: none; }
   @media print {
     body * { visibility: hidden; }
@@ -16812,10 +16823,12 @@ function ProjectCarousel({ projects, contacts, company, onOpenProject, onOpenGal
     const card = cardRefs.current[next];
     const track = trackRef.current;
     if (!card || !track) return;
-    const cardLeft = card.offsetLeft;
-    const cardWidth = card.offsetWidth;
-    const target = cardLeft - (track.clientWidth - cardWidth) / 2;
-    track.scrollTo({ left: target, behavior: "smooth" });
+    // Use rect delta + scrollBy so Windows RTL scrollLeft quirks don't mis-center cards.
+    const trackRect = track.getBoundingClientRect();
+    const cardRect = card.getBoundingClientRect();
+    const delta = (cardRect.left + cardRect.width / 2) - (trackRect.left + trackRect.width / 2);
+    if (Math.abs(delta) < 1) return;
+    track.scrollBy({ left: delta, behavior: "smooth" });
   }
 
   useEffect(() => {
@@ -17014,7 +17027,7 @@ function DashboardScreen({ projects, contacts, company, user, ensurePdfExport, b
         ))}
       </div>
 
-      <div className="text-sm font-extrabold text-[#14213D] mb-3 tracking-tight">{t("پروژه‌ها")}</div>
+      <div className="text-lg sm:text-xl font-extrabold text-[#14213D] mb-3 tracking-tight">{t("پروژه‌ها")}</div>
 
       {projects.length === 0 ? (
         <div className="text-center text-[#6B7280] mt-16 text-sm px-8">
