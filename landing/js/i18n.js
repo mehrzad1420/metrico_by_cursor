@@ -10,6 +10,11 @@
       "meta.title.guide": "Evaluator demo guide — Metrico",
       "meta.title.markets": "Markets — Metrico",
       "meta.title.competitors": "Why Metrico — landscape",
+      "meta.title.revenue": "Revenue & unit economics — Metrico",
+      "meta.title.evidence": "Market evidence & early validation — Metrico",
+      "meta.title.mmap": "2–3 year market map — Metrico",
+      "meta.title.estonia": "Estonia presence plan — Metrico",
+      "meta.title.bizplan": "Business plan & founder — Metrico",
       "meta.title.contact": "Contact — Metrico",
       "meta.title.privacy": "Privacy — Metrico",
       "nav.home": "Home",
@@ -182,6 +187,425 @@
       "comp.s5": "Higher tiers: inventory, contracts & QC, takeoff, and energy tools.",
       "comp.cta": "Open live app",
       "comp.cta2": "Demo guide",
+      "rev.linkT": "Revenue model & unit economics",
+      "rev.linkP": "Annual SaaS plans, pricing ladder, and early-stage economics — labeled as a model, not live traction.",
+      "rev.print": "Print / Save PDF",
+      "rev.h1": "Revenue model & unit economics",
+      "rev.lead":
+        "A committee-ready note on how Metrico earns money and how we think about early unit economics. Honest early-stage framing — not fake customer metrics.",
+      "rev.honestT": "Model / assumptions — not live KPIs",
+      "rev.honestP":
+        "Figures below describe the product’s pricing ladder and a simple early-stage model. They are not reported CAC, LTV, or MRR from a large paying base. Demo data is labeled demo and is not paying traction.",
+      "rev.modelT": "Revenue model",
+      "rev.modelP":
+        "Metrico is a SaaS product sold on annual subscription plans. Teams start free and upgrade when they need more projects or deeper modules.",
+      "rev.m1": "Primary revenue today: paid plan upgrades (Plus, Pro, Ark) on annual prepaid billing.",
+      "rev.m2": "Secondary (later, only if product demand proves it): extra seats, add-on modules, or white-label / agency packaging — not claimed as live revenue streams yet.",
+      "rev.m3": "We sell software subscriptions — not custom agency rebuilds per project.",
+      "rev.ladderT": "Pricing ladder (what each plan unlocks)",
+      "rev.ladderP":
+        "Limits and feature gates match the live product configuration. European list prices are annual euro amounts; Persian checkout shows local Toman equivalents.",
+      "rev.p1t": "Starter — Free",
+      "rev.p1p":
+        "1 project · up to 15 contacts · up to 10 reminders · core unit sales and expense tools. Entry freemium tier for evaluation and very small portfolios.",
+      "rev.p2t": "Plus — €50 / year",
+      "rev.p2p":
+        "Up to 3 projects · PDF reports · backup/restore · chat · maps · owner portal · project drawings gallery. Unlocks the full day-to-day sales + owner loop.",
+      "rev.p3t": "Pro — €100 / year",
+      "rev.p3p":
+        "Up to 10 projects · project accounting · inventory · contracts · tax prep views · KML export. For teams that need deeper site finance and materials.",
+      "rev.p4t": "Ark — €150 / year",
+      "rev.p4p":
+        "High project ceiling (effectively unlimited for mid-size portfolios) · energy tools · takeoff / quantity estimating. Showcase tier; the labeled demo runs at Ark for evaluation.",
+      "rev.payT": "Checkout paths",
+      "rev.payP":
+        "Billing is productized in the app; gateway readiness differs by region.",
+      "rev.pay1": "Iran / Persian checkout: Zarinpal path exists in the payment function; live merchant configuration may still be pending — orders can be saved when the provider is not configured.",
+      "rev.pay2": "Europe / English checkout: card billing is under development. Evaluators can email hello@metrico.app for EU billing, or use a founder upgrade code.",
+      "rev.pay3": "Discount codes apply to purchase and renewal where checkout is available.",
+      "rev.demoT": "Demo versus paid",
+      "rev.demoP":
+        "Anyone can start on Starter free. Partners and committee evaluators can also use the labeled demo account (demo@metrico.app) for a read-only Ark-level walkthrough — sample data, not paying customers. Password is provided by founders on request.",
+      "rev.unitT": "Unit economics (early model)",
+      "rev.unitP":
+        "Early-stage software: keep assumptions modest and explicit. These are planning targets for a freemium SaaS, not audited live metrics.",
+      "rev.u1t": "ARPU (annual)",
+      "rev.u1p":
+        "List prices: €50 / €100 / €150 per year for Plus / Pro / Ark. Blended ARPU depends on mix; a conservative early mix weighted toward Plus/Pro keeps ARPU in a low three-digit euro range or below.",
+      "rev.u2t": "Gross margin (software SaaS)",
+      "rev.u2p":
+        "Typical pure-software margins are high after hosting and payment fees. We model a credible mid–high software margin once billing is live — not 99% fantasy, and not consulting-heavy COGS.",
+      "rev.u3t": "CAC & LTV (targets)",
+      "rev.u3p":
+        "Target assumption for early GTM: keep CAC low via founder-led demos, content, and partner intros (low three-digit euros or less per paying account). LTV is annual prepaid × expected multi-year retention; even 2–3 years of Plus/Pro can support a healthy LTV:CAC if CAC stays lean. These are model targets until paid cohorts exist.",
+      "rev.u4t": "Cash flow shape",
+      "rev.u4p":
+        "Annual prepaid plans improve early cash collection versus monthly. Freemium lowers acquisition friction; paid conversion is the primary growth lever.",
+      "rev.pathT": "Path: freemium → paid",
+      "rev.pathP":
+        "Learn in a pilot market with real project workflows → convert active teams to Plus/Pro/Ark → expand regionally with the same SaaS core → complete EU-ready billing for international sales. Scale is software leverage, not headcount per project.",
+      "rev.sumT": "In one list",
+      "rev.s1": "SaaS, annual plans: Starter free → Plus €50 → Pro €100 → Ark €150.",
+      "rev.s2": "Primary revenue: upgrades; future add-ons only if demand proves them.",
+      "rev.s3": "Iran: Zarinpal path; EU card billing still under development.",
+      "rev.s4": "Free Starter + labeled demo for evaluation; no fake paying-customer claims.",
+      "rev.s5": "Unit economics shown as early model/assumptions for committee — not live KPI dashboards.",
+      "rev.cta": "Open live app",
+      "rev.cta2": "Demo guide",
+      "ev.linkT": "Market evidence & early validation",
+      "ev.linkP": "Founder-as-user proof, small feedback circle, one live project — honest early stage, not scaled traction.",
+      "ev.print": "Print / Save PDF",
+      "ev.h1": "Market evidence & early validation",
+      "ev.lead":
+        "How Metrico is being proven in the field today: by a founder who still runs construction projects, a small circle of early operators, and one active project on the live product.",
+      "ev.honestT": "Early-stage validation — not scaled commercial traction",
+      "ev.honestP":
+        "This page is for evaluators. We do not invent company names, paying-customer counts, or growth charts. What follows is the real circle of use and feedback as of now — early validation and design partners, not a claim of market scale.",
+      "ev.founderT": "Founder as active user",
+      "ev.founderP":
+        "Metrico is built by someone who lives the same workflows the product serves. For about ten years the founder has worked across residential and commercial projects in three roles — so product ideas come from the field, not from slides alone.",
+      "ev.f1": "Investor on construction projects.",
+      "ev.f2": "Supervising engineer (مهندس ناظر) — formal oversight of build quality and compliance.",
+      "ev.f3": "Project supervisor / superintendent — day-to-day delivery across many sites.",
+      "ev.painT": "The gaps before Metrico",
+      "ev.painP":
+        "Nobody else around the founder felt these field gaps the same way — which is why he is best placed to drive Metrico’s product direction as a builder, construction project manager, and site supervisor who still uses the tool himself.",
+      "ev.pain1": "Information fragmentation across notebooks, spreadsheets, chat, and paper.",
+      "ev.pain2": "Manual and paper-heavy processes that break when several projects run at once.",
+      "ev.pain3": "Repetitive hand-built statistics and reporting with little reuse.",
+      "ev.pain4": "Weak real-time control when supervising multiple projects in parallel.",
+      "ev.solvedT": "What Metrico already covers",
+      "ev.solvedP":
+        "On the founder’s own work, Metrico addresses a major share of those gaps — from financial and accounting issues through progress supervision and owner communication. The founder’s estimate: about 70% of the previous problems and blind spots are now handled in the product.",
+      "ev.sol1t": "From money to progress",
+      "ev.sol1p":
+        "Project finance, unit/sales context, and progress oversight sit in one operating loop instead of scattered files.",
+      "ev.sol2t": "Owner communication",
+      "ev.sol2p":
+        "Updates for owners and stakeholders without rebuilding the same report from scratch every week.",
+      "ev.circleT": "Early operators & feedback circle",
+      "ev.circleP":
+        "Beyond the founder and his spouse — who design and build the product together — four people are currently reviewing and using Metrico. They help find issues and give practical feedback. Roles in that circle:",
+      "ev.cir1": "Project supervisors.",
+      "ev.cir2": "Architect / designer.",
+      "ev.cir3": "Builder and investor perspectives.",
+      "ev.circleNote":
+        "Frame this honestly: early validation and design partners — not “X paying customers.” We do not list company names or commercial deal counts here.",
+      "ev.liveT": "Current live usage",
+      "ev.liveP":
+        "One live construction project is currently being run with Metrico. That is the active operating proof today — useful and real, and still early.",
+      "ev.pathT": "Where we intend to offer Metrico",
+      "ev.pathP":
+        "Primary focus is the international market. The product is meant to serve builders in Iran and in Europe — same core software, bilingual interface, field-first workflows. Ambition is geographic reach; traction claims stay limited to what is true above.",
+      "ev.sumT": "In one list",
+      "ev.s1": "Founder is an active user with ~10 years across investor, supervising engineer, and project superintendent roles.",
+      "ev.s2": "Pain was fragmentation, paper/manual work, repetitive reporting, and weak multi-project control.",
+      "ev.s3": "Founder estimates ~70% of those gaps are addressed — finance through progress and owner updates.",
+      "ev.s4": "Early circle: founders (founder + spouse) plus four reviewers/operators in supervisor, architect/designer, builder, and investor roles.",
+      "ev.s5": "One active project on Metrico today; intent to offer in Iran and Europe — no inflated customer metrics.",
+      "ev.cta": "Open live app",
+      "ev.cta2": "Demo guide",
+      "mmap.linkT": "2–3 year market map",
+      "mmap.linkP": "Year-1 focus weights, ICP, 90-day actions, and directional Year 2–3 channels — labeled as plan assumptions.",
+      "mmap.print": "Print / Save PDF",
+      "mmap.h1": "2–3 year market map",
+      "mmap.lead":
+        "Where Metrico intends to spend effort over the next two to three years: dual markets with a heavier European beachhead via an Estonian technical base, honest early-adoption targets, and concrete near-term field actions.",
+      "mmap.honestT": "Plan assumptions / operational goals — not guarantees",
+      "mmap.honestP":
+        "Numbers and weights on this page are founder planning assumptions and go-to-market goals. They are not revenue forecasts, contracted pipeline, or promised conversion rates. We do not invent customers, logos, or traction charts.",
+      "mmap.focusT": "Year-1 geographic effort / focus weights",
+      "mmap.focusP":
+        "These percentages describe where we expect to spend time and attention in Year 1 — not a claimed revenue split by country.",
+      "mmap.f1t": "Iran — ~30% of effort",
+      "mmap.f1p":
+        "Familiar operating market: language, relationships, and field workflows the founders already know. Useful for product feedback and early operators.",
+      "mmap.f2t": "Estonia — ~50% of effort",
+      "mmap.f2p":
+        "Primary company base and technical hiring environment; first customers and pilots; denser product feedback. Beachhead for learning how to sell into the EU — not “50% of revenue from Estonian contractors.”",
+      "mmap.f2tFa": "",
+      "mmap.f2pFa": "",
+      "mmap.f3t": "Other markets — ~20% of effort",
+      "mmap.f3p":
+        "Later European outreach after the Estonia anchor is working — selective, not a spray of fake regional claims.",
+      "mmap.focusNoteEn":
+        "Committee framing: Estonia as HQ / base, talent space, early pilots, and EU learning hub — alongside Iran as a known operating market.",
+      "mmap.icpT": "Year-1 customers (ICP)",
+      "mmap.icpP": "Early buyers and design partners are a mix of construction operators who feel the unit–finance–progress gap:",
+      "mmap.icp1": "Builders / developers.",
+      "mmap.icp2": "Executors and contractors.",
+      "mmap.icp3": "Technical offices and site supervisors.",
+      "mmap.icpGtm":
+        "Primary go-to-market thesis: grow Metrico as a leading app in its domain through product strength and field referrals.",
+      "mmap.adoptT": "12-month adoption goal (assumption)",
+      "mmap.adoptP":
+        "Operational target: roughly 30–60 early users in the first twelve months. Some will enter with strong discounts; referral discounts will reward introducing colleagues. Frame as early adoption and GTM mechanic — not an ARR promise or paying-conversion guarantee.",
+      "mmap.a1": "Target band: ~30–60 early users (assumption).",
+      "mmap.a2": "Discounted entry for selected early operators.",
+      "mmap.a3": "Referral ladder for introductions to peers on other sites.",
+      "mmap.d90T": "Next 90 days — concrete actions",
+      "mmap.d90P": "Near-term field work the founders will actually do:",
+      "mmap.d1": "Attend one construction / industry exhibition.",
+      "mmap.d2": "Meet several construction companies in person.",
+      "mmap.d3": "Visit construction sites and workshops.",
+      "mmap.d4": "Individual talks with site supervisors to introduce the product and start a first marketing network.",
+      "mmap.d90Thesis":
+        "Thesis: the best marketer is a power user — site supervisors who run Metrico can refer peers more credibly than cold ads.",
+      "mmap.channelsP":
+        "Channels we will use: person-to-person introductions, visits to notable construction firms, relevant construction and IT exhibitions, and social / domain platforms. The team will travel for intros when needed. No invented logos or fake stats.",
+      "mmap.y23T": "Year 2–3 expansion (directional)",
+      "mmap.y23P":
+        "Direction only — not invented metrics. After Year-1 beachhead learning:",
+      "mmap.y1": "Presence on relevant EU shared / industry platforms where construction buyers look.",
+      "mmap.y2": "European marketing partners where a real fit exists.",
+      "mmap.y3": "Direct outreach to notable construction firms.",
+      "mmap.y4": "Continuous competitor gap analysis to keep Metrico’s strengths clear and product-led.",
+      "mmap.notT": "What we will not do",
+      "mmap.n1": "Invent customers, paying counts, or growth charts for committee optics.",
+      "mmap.n2": "Treat focus weights as a promised revenue share by country.",
+      "mmap.n3": "Promise a precise paying-conversion rate before we have measured one.",
+      "mmap.crossT": "Related evidence",
+      "mmap.crossP": "Founder field credibility and the current early circle are summarized on the market-evidence sheet: ",
+      "mmap.crossLink": "Market evidence & early validation",
+      "mmap.sumT": "In one list",
+      "mmap.s1": "Year-1 effort weights (not revenue): Iran ~30%, Estonia ~50%, other ~20%.",
+      "mmap.s2": "ICP mix: builders, contractors/executors, technical offices; GTM = grow Metrico as the leading app.",
+      "mmap.s3": "Adoption assumption: ~30–60 early users with discount + referral mechanics — not ARR.",
+      "mmap.s4": "90 days: one exhibition, firm meetings, site visits, supervisor network.",
+      "mmap.s5": "Year 2–3: EU platforms, partners, direct outreach, competitor gap analysis — no fake traction.",
+      "mmap.cta": "Open live app",
+      "mmap.cta2": "Demo guide",
+      "ep.linkT": "Estonia presence plan",
+      "ep.linkP": "Sequence, lean ops model, 90-day actions, and year-1 budget assumption — English committee sheet.",
+      "ep.print": "Print / Save PDF",
+      "ep.h1": "Estonia presence & settlement plan",
+      "ep.lead":
+        "How Metrico intends to establish a real Estonian base: initiate e-Residency in parallel, register the company after committee approval, then relocate once the founder’s current construction project finishes — lean early operations with serious commitment.",
+      "ep.seqT": "Planned sequence (honest)",
+      "ep.seqP":
+        "Initiate e-Residency now (can run in parallel with committee prep; not yet started). Register the Estonian company after committee approval. Complete e-Residency and company setup before physical relocation. Relocate with family after the current construction project in the home country finishes — no invented calendar dates.",
+      "ep.whyT": "Why Estonia",
+      "ep.whyP":
+        "Estonia is the intended EU company base and early product-learning environment — not an empty letterhead HQ.",
+      "ep.w1": "Digital society and startup ecosystem suited to building and selling software from an EU base.",
+      "ep.w2": "EU legal and commercial foothold for a repeatable SaaS, aligned with the market-map beachhead.",
+      "ep.w3":
+        "A demanding automation / digital culture that helps surface product weaknesses early — beachhead validation before costly mistakes.",
+      "ep.modelT": "12-month presence model",
+      "ep.modelP":
+        "Serious commitment with lean early ops — family relocation as a commitment signal, not lifestyle marketing.",
+      "ep.m1": "Founder relocates with spouse once the current home-country construction project is complete.",
+      "ep.m2": "Hire one technical / developer team member in Estonia.",
+      "ep.m3": "Start from home / residence; open a physical office later only if the team grows.",
+      "ep.m4": "Operate Metrico actively in the Estonian environment to earn local feedback — not a paper presence.",
+      "ep.d90T": "First 90 days (Estonia-related)",
+      "ep.d90P": "Near-term actions tied to the Estonian base — after the sequence above allows them:",
+      "ep.d1": "Register the Estonian company (after committee approval).",
+      "ep.d2": "Meet accelerator(s) and relevant ecosystem contacts.",
+      "ep.valT": "Local validation intent",
+      "ep.valP":
+        "Run Metrico with real operating discipline in Estonia first: find product gaps in a digitally mature market before scaling spend elsewhere. Beachhead learning — not claimed European traction.",
+      "ep.langT": "Language roadmap",
+      "ep.langP":
+        "Product and GTM languages: English first. Next: German for DACH (Germany, Austria, Switzerland). We do not claim German as a common language of the Netherlands or invent other locale claims.",
+      "ep.budT": "Year-1 budget assumption",
+      "ep.budP":
+        "Planned year-1 living + go-to-market budget assumption: €40,000 — covering residence for the founder, spouse, and two children, plus marketing / exhibitions and related early GTM costs. Assumption for planning — not a grant claim or audited spend.",
+      "ep.notT": "What this is not",
+      "ep.n1": "Not claimed completed e-Residency, company registration, or physical relocation today.",
+      "ep.n2": "Not invented customers, office leases, headcount, or M&A narrative.",
+      "ep.n3": "Not speculative fluff or guaranteed timeline dates for committee optics.",
+      "ep.crossT": "Related sheets",
+      "ep.crossP1": "Year-1 geographic effort weights and near-term field actions: ",
+      "ep.crossMap": "2–3 year market map",
+      "ep.crossP2": ". Founder field credibility and early circle: ",
+      "ep.crossEv": "Market evidence & early validation",
+      "ep.crossP3": ".",
+      "ep.sumT": "In one list",
+      "ep.s1": "Sequence: initiate e-Residency now → company after approval → relocate after current project; e-Residency + company before entry.",
+      "ep.s2": "Presence: relocate with spouse; hire one engineer; home office first.",
+      "ep.s3": "90 days (Estonia-related): company registration + accelerator meetings.",
+      "ep.s4": "Validate locally in Estonia’s digital environment; languages EN → German/DACH.",
+      "ep.s5": "Year-1 living + GTM budget assumption: €40,000 — no fake traction.",
+      "ep.cta": "Open live app",
+      "ep.cta2": "Demo guide",
+      "bp.linkT": "Business plan & founder CV",
+      "bp.linkP":
+        "Short committee business plan plus founder CV highlights — English sheet (EN-only).",
+      "bp.print": "Print / Save PDF",
+      "bp.h1": "Business plan & founder summary",
+      "bp.lead":
+        "A concise committee pack for Metrico: problem → product → model → go-to-market, plus founder CV highlights. Live product first; no invented traction.",
+      "bp.honestT": "Committee short form — not a 30-page novel",
+      "bp.honestP":
+        "This sheet summarizes the operating plan and founder background. Detailed pricing, market map, early evidence, and Estonia presence live on linked pages. We do not invent paying customers, revenue charts, or M&A stories.",
+      "bp.secPlan": "1. Business plan",
+      "bp.probT": "Problem",
+      "bp.probP":
+        "Mid-size developers and contractors still run the pre-sale → build → handover loop across spreadsheets, chat, and paper:",
+      "bp.prob1": "Unit status, buyers, and installments live in Excel, chat, and notebooks.",
+      "bp.prob2": "Site teams need mobile tools that work with weak connectivity.",
+      "bp.prob3": "Owners ask for progress while full ledgers must stay private.",
+      "bp.prob4":
+        "Generic CRMs and heavyweight construction suites miss the unit + installment + site-finance reality of mid-size builders.",
+      "bp.solT": "Solution",
+      "bp.solP":
+        "Metrico is a bilingual offline-capable PWA — an all-in-one site operations tool for the construction site (the Swiss-army knife operators reach for when units, money, and owners collide):",
+      "bp.sol1": "Visual floor / unit map: sold, reserved, vacant — not only tables.",
+      "bp.sol2": "Auto math: contract from m² × price, remaining debt, average sale price / m².",
+      "bp.sol3": "Installments, project costs, investor shares, check & cash reports, PDFs.",
+      "bp.sol4": "Owner portal + progress gallery — updates without exposing full ledgers.",
+      "bp.sol5": "Installable PWA with offline sync for weak-signal sites.",
+      "bp.diffP":
+        "Positioning in one line: the all-in-one site operations tool for mid-size construction — credible field utility, not a gimmick brand.",
+      "bp.prodT": "Product stage",
+      "bp.prodP": "Metrico is a live SaaS / PWA in production use for demos and onboarding — not a slide-only concept.",
+      "bp.prod1": "Four annual plans: Starter (free) → Plus → Pro → Ark.",
+      "bp.prod2": "Labeled demo account for evaluators (sample data, not traction).",
+      "bp.prod3": "Higher tiers unlock inventory, contracts & QC, takeoff, and energy tools.",
+      "bp.prod4":
+        "Early validation: founder as active user; small feedback circle; one live project — see market-evidence sheet.",
+      "bp.mktT": "Market focus",
+      "bp.mktP":
+        "Year-1 effort weights (planning assumptions — not a promised revenue split):",
+      "bp.mkt1": "Iran ~30% — familiar operating market for feedback and early operators.",
+      "bp.mkt2":
+        "Estonia ~50% — company base, technical hiring, early pilots, and EU beachhead learning.",
+      "bp.mkt3": "Other markets ~20% — selective later European outreach after the beachhead works.",
+      "bp.modelT": "Business model",
+      "bp.modelP":
+        "Repeatable B2B SaaS on annual prepaid plans — software subscriptions, not custom agency rebuilds per project.",
+      "bp.model1": "Starter — Free (1 project · core tools).",
+      "bp.model2": "Plus — €50 / year · Pro — €100 / year · Ark — €150 / year.",
+      "bp.model3":
+        "Primary revenue: paid upgrades. EU card billing under development; Iran checkout path exists. No invented ARR.",
+      "bp.modelLinkP": "Full ladder and unit-economics assumptions: ",
+      "bp.modelLink": "Revenue & unit economics",
+      "bp.modelLinkEnd": ".",
+      "bp.d90T": "Go-to-market — next 90 days",
+      "bp.d90P": "Near-term field work (aligned with the market map):",
+      "bp.d901": "Attend one construction / industry exhibition.",
+      "bp.d902": "Meet several construction companies in person; visit sites and workshops.",
+      "bp.d903": "Individual talks with site supervisors to seed a referral network.",
+      "bp.d904":
+        "Advance committee / e-Residency prep in parallel — company registration after approval (see Estonia presence).",
+      "bp.y12T": "12-month priorities (business-first)",
+      "bp.y12P":
+        "Ordered for company building. Family relocation is an enabling step after the current construction project — detailed sequence on the Estonia presence sheet.",
+      "bp.y121":
+        "Establish the Estonian company after committee approval; complete e-Residency / company setup needed to operate.",
+      "bp.y122":
+        "Local validation: run Metrico in Estonia’s digital environment; gather early-user feedback.",
+      "bp.y123": "Hire one developer preferably in Estonia / EU.",
+      "bp.y124":
+        "Investor and customer intro platforms plus a realistic exhibition calendar.",
+      "bp.y125": "Grow a site-supervisor referral network and run demos.",
+      "bp.y126":
+        "Family relocation and suitable housing after (or alongside completion of) the founder’s current construction project — enabling the Estonian base, not the headline goal of this plan.",
+      "bp.y12LinkP": "Relocation sequence and year-1 presence assumptions: ",
+      "bp.y12Link": "Estonia presence plan",
+      "bp.y12LinkEnd": ".",
+      "bp.teamT": "Team",
+      "bp.teamP": "Current team is intentionally lean:",
+      "bp.team1": "Founder (MEHRZAD SAEEDI) — product, domain, and go-to-market.",
+      "bp.team2":
+        "Spouse — accounting education; advises on accounting principles for product and books (not a separate commercial claim).",
+      "bp.team3": "Next hire: one developer, preferably Estonia / EU.",
+      "bp.riskT": "Risks & mitigations",
+      "bp.riskP":
+        "Managed risks — honest, not fear-mongering. Mitigations are operational, not guarantees.",
+      "bp.r1t": "Geopolitical spillover (Russia–Europe)",
+      "bp.r1p":
+        "Risk: regional instability affecting travel, sentiment, or capital flows. Mitigation: EU company base, English-first product, diversified beachhead learning — not single-country dependency.",
+      "bp.r2t": "Middle East recession pressure",
+      "bp.r2p":
+        "Risk: weaker demand in familiar early markets. Mitigation: Year-1 effort already weights Estonia / EU beachhead; Iran remains a feedback market, not the end destination.",
+      "bp.r3t": "Capital / asset transfer to Estonia",
+      "bp.r3p":
+        "Risk: timing and compliance friction moving capital. Mitigation: lean year-1 budget assumption (€40k living + GTM on Estonia sheet); start home-office; no invented grants.",
+      "bp.r4t": "Product intro timing vs finding prospects",
+      "bp.r4p":
+        "Risk: product readiness and prospect pipeline misaligned. Mitigation: founder-as-user + supervisor referral network; exhibition and site visits in the 90-day plan.",
+      "bp.r5t": "Competing where markets/marketing are less known",
+      "bp.r5p":
+        "Risk: rivals with deeper local marketing. Mitigation: domain wedge (units + installments + owner portal), honest competitor sheet, beachhead learning before spray spend.",
+      "bp.r6t": "EU payments / billing readiness",
+      "bp.r6p":
+        "Risk: European card checkout still under development. Mitigation: labeled paths (email / founder codes); prioritize EU billing after company setup.",
+      "bp.r7t": "Early-team bandwidth",
+      "bp.r7p":
+        "Risk: two-person team capacity. Mitigation: one EU developer hire as priority #3; scope GTM to exhibitions, referrals, and demos — not heavy paid media.",
+      "bp.r8t": "Language / localization & CAC uncertainty",
+      "bp.r8p":
+        "Risk: beyond EN/FA; CAC not yet measured. Mitigation: EN first, then German/DACH on roadmap; treat CAC/LTV as early model on revenue sheet — no fake conversion rates.",
+      "bp.askT": "Ask / next (committee path)",
+      "bp.askP": "What we seek from Startup Committee recognition:",
+      "bp.ask1":
+        "Recognition to build Metrico as an Estonian / EU SaaS company — hire specialized engineering talent and operate from Estonia’s digital infrastructure.",
+      "bp.ask2":
+        "A clear path to register the company after approval and complete EU-ready billing and compliance.",
+      "bp.ask3":
+        "Evaluators can open the live app and labeled demo (see Guide) — product evidence before paperwork claims.",
+      "bp.secFounder": "2. Founder — MEHRZAD SAEEDI",
+      "bp.fnLead":
+        "Founder CV highlights for committee review. Contact and LinkedIn below; personal address and family details omitted.",
+      "bp.fnPosT": "Why this founder fits Metrico",
+      "bp.fnPosP":
+        "Familiar with construction-site gaps from three angles — so product direction comes from the field, not from slides alone:",
+      "bp.fnPos1": "Urban planning / GIS expert inside a municipality.",
+      "bp.fnPos2": "Builder / owner–investor on construction projects.",
+      "bp.fnPos3":
+        "Construction project manager and site superintendent — day-to-day workshop and site supervision (including ~4 years in superintendent / workshop supervision as project manager and as builder/investor).",
+      "bp.fnPos4":
+        "Also ~10 years spanning investor, supervising engineer, and project superintendent roles (see market-evidence).",
+      "bp.fnEduT": "Education",
+      "bp.fnEdu1":
+        "Master of geological sciences (petrology) — University of Birjand — completed 2011 (brilliant-talent recognition).",
+      "bp.fnEdu2": "Bachelor of geology — University of Zanjan — completed 2007.",
+      "bp.fnWorkT": "Selected roles (CV + field years)",
+      "bp.fnW1":
+        "GIS and urban expert — Baneh Municipality — full time, 2013–2016.",
+      "bp.fnW2":
+        "Mining exploration supervisor — Baneh Municipality — full time, 2009–2013.",
+      "bp.fnW3":
+        "GIS expert — Baneh Governorate — 2009 (part time, ~3 months).",
+      "bp.fnW4":
+        "Manager — Baneh Aftab Derakhshan shopping center — full time, 2016–2020.",
+      "bp.fnW5":
+        "Surveyor / aerial-photo interpreter — Mabna Naghshe Iranian Bakhtar (own company) — part time, ongoing as of CV.",
+      "bp.fnW6":
+        "Earlier: computer lab supervisor (Zanjan University, 2005–2007); geology map field expert; geological software instructor (Birjand University, 2009); surveyor for water resources and judiciary (part time).",
+      "bp.fnW7":
+        "Additional field years (founder statement, beyond the printed CV timeline): ~4 years site superintendent / workshop supervision as construction project manager and as builder/investor.",
+      "bp.fnSkillT": "Skills relevant to Metrico",
+      "bp.fnSk1": "GIS, mapping, surveying, aerial-photo interpretation; municipal urban / civil project courses.",
+      "bp.fnSk2":
+        "Tools: ArcGIS track, AutoCAD, Global Mapper, RockWorks, Surfer; total station and multi-frequency GPS.",
+      "bp.fnSk3": "Mine supervision; online / web map preparation; ICDL computer skills.",
+      "bp.fnSk4":
+        "Domain: construction project oversight, unit/finance/progress pain from builder and supervisor seats.",
+      "bp.fnLangT": "Languages",
+      "bp.fnLangP":
+        "Persian (native). English — general and specialized (stated on CV). Product ships bilingual EN / FA.",
+      "bp.fnLinkT": "Professional profile",
+      "bp.fnLink": "LinkedIn — Mehrzad Saeedi",
+      "bp.fnContact": "Email: hello@metrico.app · Founder: mehrzad.saeedi@gmail.com",
+      "bp.crossT": "Related committee sheets",
+      "bp.crossRev": "Revenue & unit economics",
+      "bp.crossMap": "2–3 year market map",
+      "bp.crossEv": "Market evidence & early validation",
+      "bp.crossEp": "Estonia presence plan",
+      "bp.crossComp": "Competitive landscape (why Metrico)",
+      "bp.crossOne": "One-pager (print/PDF)",
+      "bp.sumT": "In one list",
+      "bp.s1": "Live bilingual SaaS for units, installments, site finance, and owner updates.",
+      "bp.s2": "Model: annual plans Free → €50 / €100 / €150; no invented ARR.",
+      "bp.s3":
+        "12-month priorities: company + e-Residency → local validation → hire developer → intros/exhibitions → supervisor network → family relocate as enabling step.",
+      "bp.s4": "Team today: founder + spouse (accounting advice); next hire = EU developer.",
+      "bp.s5": "Founder: municipal GIS/urban + geology MSc + ~4y site supervision + builder/investor — LinkedIn linked.",
+      "bp.cta": "Open live app",
+      "bp.cta2": "Demo guide",
       "footer.rights": "© Metrico",
       "about.h1": "About Metrico",
       "about.lead":
@@ -302,6 +726,11 @@
       "meta.title.about": "درباره — متریکو",
       "meta.title.guide": "راهنمای دمو ارزیاب — متریکو",
       "meta.title.competitors": "چرا متریکو — مقایسهٔ مثبت",
+      "meta.title.revenue": "مدل درآمد و واحد اقتصادی — متریکو",
+      "meta.title.evidence": "شواهد بازار و اعتبارسنجی اولیه — متریکو",
+      "meta.title.mmap": "نقشه بازار ۲–۳ ساله — متریکو",
+      "meta.title.estonia": "برنامهٔ حضور استونی — متریکو",
+      "meta.title.bizplan": "بیزنس‌پلن و بنیان‌گذار — متریکو",
       "meta.title.contact": "تماس — متریکو",
       "meta.title.privacy": "حریم خصوصی — متریکو",
       "nav.home": "خانه",
@@ -471,6 +900,197 @@
       "comp.s5": "پلن‌های بالاتر: انبار، قرارداد و کنترل کیفیت، متره و انرژی.",
       "comp.cta": "باز کردن اپ زنده",
       "comp.cta2": "راهنمای دمو",
+      "rev.linkT": "مدل درآمد و واحد اقتصادی",
+      "rev.linkP": "پلن‌های سالانه، نردبان قیمت، و اقتصاد اولیه — به‌عنوان مدل، نه کشش پرداخت‌شده.",
+      "rev.print": "چاپ / ذخیره پی‌دی‌اف",
+      "rev.h1": "مدل درآمد و واحد اقتصادی",
+      "rev.lead":
+        "یادداشت آماده برای ارزیاب دربارهٔ نحوهٔ درآمد متریکو و نگاه اولیه به واحد اقتصادی. روایت صادقانهٔ مرحلهٔ ابتدایی — بدون آمار جعلی مشتری.",
+      "rev.honestT": "مدل / فرض — نه شاخص زنده",
+      "rev.honestP":
+        "اعداد زیر نردبان قیمت محصول و یک مدل سادهٔ مرحلهٔ ابتدایی را توصیف می‌کنند. سی‌ای‌سی، ال‌تی‌وی یا درآمد ماهانه از پایهٔ بزرگ پرداخت‌کننده گزارش نمی‌شود. دادهٔ دمو برچسب دمو دارد و کشش پرداخت‌شده نیست.",
+      "rev.modelT": "مدل درآمد",
+      "rev.modelP":
+        "متریکو یک محصول نرم‌افزاری اشتراکی با پلن‌های سالانه است. تیم‌ها رایگان شروع می‌کنند و وقتی پروژه یا ماژول بیشتری لازم دارند ارتقا می‌دهند.",
+      "rev.m1": "درآمد اصلی امروز: ارتقا به پلن‌های پولی (پلاس، پرو، ارک) با صورتحساب پیش‌پرداخت سالانه.",
+      "rev.m2": "درآمد ثانویه (بعداً، فقط اگر تقاضا ثابت شود): صندلی اضافه، افزونه، یا بسته‌بندی وایت‌لیبل / آژانس — هنوز به‌عنوان جریان درآمد زنده ادعا نمی‌شود.",
+      "rev.m3": "ما اشتراک نرم‌افزار می‌فروشیم — نه بازسازی سفارشی آژانسی برای هر پروژه.",
+      "rev.ladderT": "نردبان قیمت (هر پلن چه باز می‌کند)",
+      "rev.ladderP":
+        "سقف‌ها و قفل امکانات با پیکربندی محصول زنده هم‌خوان است. قیمت اروپایی سالانه به یورو است؛ تسویهٔ فارسی معادل تومانی نشان می‌دهد.",
+      "rev.p1t": "آغاز — رایگان",
+      "rev.p1p":
+        "۱ پروژه · تا ۱۵ مخاطب · تا ۱۰ یادآور · فروش واحد و هزینهٔ پایه. پلن رایگان برای ارزیابی و سبد خیلی کوچک.",
+      "rev.p2t": "پلاس — ۴ میلیون تومان / سال",
+      "rev.p2p":
+        "تا ۳ پروژه · گزارش پی‌دی‌اف · پشتیبان · چت · نقشه · پورتال مالک · گالری نقشهٔ فنی. حلقهٔ روزمرهٔ فروش و مالک را باز می‌کند.",
+      "rev.p3t": "پرو — ۱۰ میلیون تومان / سال",
+      "rev.p3p":
+        "تا ۱۰ پروژه · حسابداری پروژه · انبار · قرارداد · نمای مالیات · خروجی کی‌ام‌ال. برای تیم‌هایی که مالی عمیق‌تر و مصالح می‌خواهند.",
+      "rev.p4t": "ارک — ۱۶ میلیون تومان / سال",
+      "rev.p4p":
+        "سقف بالای پروژه (برای سبد متوسط‌مقیاس عملاً نامحدود) · انرژی · متره و برآورد. سطح نمایش؛ دموی برچسب‌خورده برای ارزیابی در سطح ارک اجرا می‌شود.",
+      "rev.payT": "مسیر پرداخت",
+      "rev.payP":
+        "صورتحساب در اپ تعریف شده؛ آمادگی درگاه بر اساس منطقه فرق دارد.",
+      "rev.pay1": "ایران / تسویهٔ فارسی: مسیر زرین‌پال در تابع پرداخت وجود دارد؛ پیکربندی مرچنت زنده ممکن است هنوز ناقص باشد — وقتی درگاه پیکربندی نشده، سفارش می‌تواند ثبت شود.",
+      "rev.pay2": "اروپا / تسویهٔ انگلیسی: پرداخت کارتی در حال توسعه است. ارزیاب می‌تواند برای صورتحساب اروپایی به hello@metrico.app ایمیل بزند یا از کد ارتقای بنیان‌گذار استفاده کند.",
+      "rev.pay3": "کد تخفیف در خرید و تمدید، هرجا تسویه فعال باشد، اعمال می‌شود.",
+      "rev.demoT": "دمو در برابر پولی",
+      "rev.demoP":
+        "هر کسی می‌تواند با آغاز رایگان شروع کند. شریک و ارزیاب می‌توانند حساب دموی برچسب‌خورده (demo@metrico.app) را برای مرور فقط‌مشاهده در سطح ارک استفاده کنند — دادهٔ نمونه، نه مشتری پرداخت‌کننده. رمز را بنیان‌گذاران در صورت درخواست می‌دهند.",
+      "rev.unitT": "واحد اقتصادی (مدل اولیه)",
+      "rev.unitP":
+        "نرم‌افزار مرحلهٔ ابتدایی: فرض‌ها را ساده و شفاف نگه می‌داریم. این‌ها هدف برنامه‌ریزی برای فریمیوم است، نه متریک حسابرسی‌شدهٔ زنده.",
+      "rev.u1t": "درآمد متوسط هر حساب (سالانه)",
+      "rev.u1p":
+        "قیمت فهرست: پلاس / پرو / ارک مطابق پلن‌های سایت. میانگین واقعی به ترکیب پلن بستگی دارد؛ ترکیب محافظه‌کارانهٔ زودهنگام معمولاً میانگین را پایین نگه می‌دارد.",
+      "rev.u2t": "حاشیهٔ ناخالص (نرم‌افزار)",
+      "rev.u2p":
+        "حاشیهٔ معمول نرم‌افزار خالص بعد از میزبانی و کارمزد پرداخت بالاست. بعد از فعال‌شدن صورتحساب، حاشیهٔ معتبر میانه‌بالا را مدل می‌کنیم — نه خیال ۹۹٪ و نه هزینهٔ سنگین مشاوره.",
+      "rev.u3t": "هزینهٔ جذب و ارزش طول عمر (هدف)",
+      "rev.u3p":
+        "فرض هدف برای شروع: هزینهٔ جذب را با دموی بنیان‌گذار، محتوا و معرفی شریک پایین نگه داریم. ارزش طول عمر برابر پیش‌پرداخت سالانه × ماندگاری چندساله است؛ حتی ۲–۳ سال پلاس/پرو می‌تواند نسبت سالمی بسازد اگر جذب ارزان بماند. تا وقتی کوهورت پولی نباشد، این‌ها هدف مدل‌اند.",
+      "rev.u4t": "شکل جریان نقد",
+      "rev.u4p":
+        "پلن سالانهٔ پیش‌پرداخت نسبت به ماهانه نقد زودتری می‌آورد. فریمیوم اصطکاک جذب را کم می‌کند؛ تبدیل به پولی اهرم اصلی رشد است.",
+      "rev.pathT": "مسیر: رایگان ← پولی",
+      "rev.pathP":
+        "یادگیری با گردش‌کار واقعی پروژه ← تبدیل تیم‌های فعال به پلاس/پرو/ارک ← گسترش منطقه‌ای با همان هستهٔ محصول ← تکمیل صورتحساب بین‌المللی. مقیاس از اهرم نرم‌افزار است، نه نیروی انسانی برای هر پروژه.",
+      "rev.sumT": "در یک فهرست",
+      "rev.s1": "نرم‌افزار اشتراکی سالانه: آغاز رایگان ← پلاس ← پرو ← ارک (قیمت‌ها در بخش پلن‌ها).",
+      "rev.s2": "درآمد اصلی: ارتقا؛ افزونه‌های بعدی فقط اگر تقاضا ثابت شود.",
+      "rev.s3": "ایران: مسیر زرین‌پال؛ پرداخت کارتی اروپا هنوز در حال توسعه.",
+      "rev.s4": "آغاز رایگان + دموی برچسب‌خورده برای ارزیابی؛ بدون ادعای مشتری پرداخت‌کنندهٔ جعلی.",
+      "rev.s5": "واحد اقتصادی به‌عنوان مدل/فرض اولیه برای ارزیاب — نه داشبورد شاخص زنده.",
+      "rev.cta": "باز کردن اپ زنده",
+      "rev.cta2": "راهنمای دمو",
+      "ev.linkT": "شواهد بازار و اعتبارسنجی اولیه",
+      "ev.linkP": "اثبات با کاربر واقعی بنیان‌گذار، حلقهٔ بازخورد کوچک، یک پروژهٔ زنده — مرحلهٔ اولیهٔ صادقانه، نه کشش مقیاس‌یافته.",
+      "ev.print": "چاپ / ذخیره پی‌دی‌اف",
+      "ev.h1": "شواهد بازار و اعتبارسنجی اولیه",
+      "ev.lead":
+        "متریکو امروز چطور در میدان اثبات می‌شود: بنیان‌گذاری که هنوز پروژهٔ ساختمانی می‌گرداند، حلقهٔ کوچکی از کاربران اولیه، و یک پروژهٔ فعال روی محصول زنده.",
+      "ev.honestT": "اعتبارسنجی اولیه — نه کشش تجاری مقیاس‌یافته",
+      "ev.honestP":
+        "این صفحه برای معرفی صادقانهٔ محصول است. نام شرکت جعلی، تعداد مشتری پرداخت‌کننده، یا نمودار رشد ساختگی نداریم. آنچه می‌خوانید همان حلقهٔ واقعی استفاده و بازخورد امروز است — شرکای طراحی و اعتبارسنجی اولیه، نه ادعای مقیاس بازار.",
+      "ev.founderT": "بنیان‌گذار به‌عنوان کاربر فعال",
+      "ev.founderP":
+        "متریکو را کسی ساخته که همان گردش‌کارهایی را زندگی می‌کند که محصول پوشش می‌دهد. حدود ده سال، بنیان‌گذار در پروژه‌های مسکونی و تجاری در سه نقش کار کرده — پس ایده‌های محصول از کارگاه می‌آید، نه فقط از اسلاید.",
+      "ev.f1": "سرمایه‌گذار در پروژه‌های ساختمانی.",
+      "ev.f2": "مهندس ناظر — نظارت رسمی بر کیفیت و انطباق ساخت.",
+      "ev.f3": "سرپرست / ناظر اجرایی پروژه — تحویل روزبه‌روز در چند کارگاه.",
+      "ev.painT": "خلأها قبل از متریکو",
+      "ev.painP":
+        "اطراف بنیان‌گذار کسی این خلأهای میدانی را به همین شدت حس نمی‌کرد — برای همین، به‌عنوان سازنده، مدیر پروژهٔ ساختمانی و سرپرست کارگاه که خودش از ابزار استفاده می‌کند، بهترین جایگاه را برای هدایت ایده‌های محصول دارد.",
+      "ev.pain1": "پراکندگی اطلاعات بین دفترچه، اکسل، پیام و کاغذ.",
+      "ev.pain2": "فرآیندهای دستی و کاغذی که وقتی چند پروژه هم‌زمان می‌شود می‌شکنند.",
+      "ev.pain3": "آمار و گزارش‌های تکراری دستی با استفادهٔ مجدد کم.",
+      "ev.pain4": "کنترل لحظه‌ای ضعیف هنگام نظارت هم‌زمان چند پروژه.",
+      "ev.solvedT": "متریکو الان چه بخشی را پوشش می‌دهد",
+      "ev.solvedP":
+        "روی کار خود بنیان‌گذار، متریکو بخش بزرگی از این خلأها را پوشش می‌دهد — از مسائل مالی و حسابداری تا نظارت پیشرفت و ارتباط با مالک. برآورد بنیان‌گذار: حدود ۷۰٪ مشکلات و نقاط کور قبلی الان در محصول حل می‌شود.",
+      "ev.sol1t": "از پول تا پیشرفت",
+      "ev.sol1p":
+        "مالی پروژه، زمینهٔ واحد/فروش، و نظارت پیشرفت در یک حلقهٔ عملیاتی می‌نشینند — نه در فایل‌های پراکنده.",
+      "ev.sol2t": "ارتباط با مالک",
+      "ev.sol2p":
+        "به‌روزرسانی برای مالک و ذی‌نفعان بدون ساختن دوبارهٔ همان گزارش هر هفته.",
+      "ev.circleT": "حلقهٔ کاربران اولیه و بازخورد",
+      "ev.circleP":
+        "علاوه بر بنیان‌گذار و همسرش — که با هم محصول را طراحی و می‌سازند — الان چهار نفر متریکو را بررسی و استفاده می‌کنند. کمک می‌کنند ایرادها پیدا شود و بازخورد کاربردی بدهند. نقش‌ها در این حلقه:",
+      "ev.cir1": "سرپرستان پروژه.",
+      "ev.cir2": "معمار / طراح.",
+      "ev.cir3": "نگاه سازنده و سرمایه‌گذار.",
+      "ev.circleNote":
+        "صادقانه بگوییم: اعتبارسنجی اولیه و شرکای طراحی — نه «چند مشتری پرداخت‌کننده». اینجا نام شرکت یا تعداد قرارداد تجاری نمی‌آوریم.",
+      "ev.liveT": "استفادهٔ زندهٔ فعلی",
+      "ev.liveP":
+        "الان یک پروژهٔ ساختمانی زنده با متریکو مدیریت می‌شود. این همان اثبات عملی امروز است — واقعی و مفید، و هنوز اولیه.",
+      "ev.pathT": "قصد عرضهٔ محصول",
+      "ev.pathP":
+        "هدف، خدمت به سازندگان در بازار محلی و بازارهای گسترده‌تر است — همان هستهٔ نرم‌افزار، رابط دوزبانه، گردش‌کار میدان‌محور. برنامه‌ها و امکانات متریکو برای کار روزمرهٔ تیم ساخت طراحی شده‌اند؛ ادعای کشش فقط همان چیزی است که بالا آمده.",
+      "ev.sumT": "در یک فهرست",
+      "ev.s1": "بنیان‌گذار کاربر فعال است با حدود ۱۰ سال در نقش‌های سرمایه‌گذار، مهندس ناظر و سرپرست پروژه.",
+      "ev.s2": "درد اصلی: پراکندگی، کار دستی/کاغذی، گزارش تکراری، کنترل ضعیف چندپروژه‌ای.",
+      "ev.s3": "برآورد بنیان‌گذار: حدود ۷۰٪ این خلأها پوشش داده شده — از مالی تا پیشرفت و ارتباط مالک.",
+      "ev.s4": "حلقهٔ اولیه: بنیان‌گذاران (بنیان‌گذار + همسر) به‌اضافهٔ چهار بازبین/کاربر در نقش سرپرست، معمار/طراح، سازنده و سرمایه‌گذار.",
+      "ev.s5": "یک پروژهٔ فعال روی متریکو امروز؛ تمرکز روی ارزش عملی محصول و پلن‌ها — بدون آمار مشتری جعلی.",
+      "ev.cta": "باز کردن اپ زنده",
+      "ev.cta2": "راهنمای دمو",
+      "mmap.linkT": "نقشه بازار ۲–۳ ساله",
+      "mmap.linkP": "وزن تمرکز سال اول، مخاطب اولیه، اقدامات ۹۰ روزه، و جهت گسترش سال‌های بعد — به‌عنوان فرض برنامه، نه تضمین.",
+      "mmap.print": "چاپ / ذخیره پی‌دی‌اف",
+      "mmap.h1": "نقشه بازار ۲–۳ ساله",
+      "mmap.lead":
+        "متریکو در دو تا سه سال آینده کجا وقت و توجه می‌گذارد: بازار آشنای محلی به‌اضافهٔ گسترش بین‌المللی محصول، هدف‌های صادقانهٔ پذیرش اولیه، و اقدامات میدانی نزدیک.",
+      "mmap.honestT": "فرض‌های برنامه / اهداف عملیاتی — نه تضمین",
+      "mmap.honestP":
+        "اعداد و وزن‌های این صفحه فرض برنامه‌ریزی بنیان‌گذار و اهداف ورود به بازارند. پیش‌بینی درآمد قراردادی، خط لولهٔ امضاشده، یا وعدهٔ نرخ تبدیل پرداخت نیستند. مشتری، لوگو یا نمودار کشش جعلی نمی‌سازیم.",
+      "mmap.focusT": "وزن تمرکز جغرافیایی سال اول (تلاش، نه سهم درآمد)",
+      "mmap.focusP":
+        "این درصدها جایی را نشان می‌دهند که در سال اول وقت و توجه می‌گذاریم — نه سهم درآمد ادعا‌شده بر اساس کشور.",
+      "mmap.f1t": "بازار آشنای محلی — حدود ۳۰٪ تلاش",
+      "mmap.f1p":
+        "بازاری که زبان، روابط و گردش‌کار میدانی‌اش را می‌شناسیم. برای بازخورد محصول و کاربران اولیه مفید است.",
+      "mmap.f2t": "",
+      "mmap.f2p": "",
+      "mmap.f2tFa": "گسترش بین‌المللی محصول — حدود ۵۰٪ تلاش",
+      "mmap.f2pFa":
+        "تمرکز سنگین‌تر روی بازارهای محصول در اروپا و محیط فنی مناسب برای تیم و پایلوت‌های اولیه — به‌عنوان نقطهٔ اتکای یادگیری فروش بین‌المللی، نه وعدهٔ سهم درآمد از یک کشور خاص.",
+      "mmap.f3t": "بازارهای دیگر — حدود ۲۰٪ تلاش",
+      "mmap.f3p":
+        "گسترش گزینشی اروپا و مناطق مرتبط بعد از تثبیت نقطهٔ اتکای اولیه — نه پخش ادعاهای منطقه‌ای ساختگی.",
+      "mmap.focusNoteEn": "",
+      "mmap.icpT": "مخاطب سال اول",
+      "mmap.icpP": "خریداران و شرکای طراحی اولیه ترکیبی از فعالان ساخت هستند که شکاف واحد–مالی–پیشرفت را حس می‌کنند:",
+      "mmap.icp1": "سازندگان / توسعه‌دهندگان.",
+      "mmap.icp2": "مجریان و پیمانکاران.",
+      "mmap.icp3": "دفاتر فنی و سرپرستان کارگاه.",
+      "mmap.icpGtm":
+        "فرض اصلی ورود به بازار: رشد متریکو به‌عنوان اپ پیشرو در حوزهٔ خودش از راه قدرت محصول و معرفی میدانی.",
+      "mmap.adoptT": "هدف پذیرش ۱۲ ماهه (فرض)",
+      "mmap.adoptP":
+        "هدف عملیاتی: حدود ۳۰ تا ۶۰ کاربر اولیه در دوازده ماه اول. برخی با تخفیف جدی وارد می‌شوند؛ تخفیف معرفی همکار برای معرفی همتایان. این را به‌عنوان پذیرش اولیه و مکانیک ورود به بازار بخوانید — نه وعدهٔ درآمد سالانه یا تضمین تبدیل پرداخت.",
+      "mmap.a1": "بازهٔ هدف: حدود ۳۰ تا ۶۰ کاربر اولیه (فرض).",
+      "mmap.a2": "ورود تخفیف‌دار برای بخشی از کاربران اولیه.",
+      "mmap.a3": "نردبان معرفی برای آوردن همتایان در کارگاه‌های دیگر.",
+      "mmap.d90T": "۹۰ روز آینده — اقدامات مشخص",
+      "mmap.d90P": "کار میدانی نزدیک که انجام می‌دهیم:",
+      "mmap.d1": "حضور در یک نمایشگاه ساختمانی / صنعتی.",
+      "mmap.d2": "ملاقات حضوری با چند شرکت ساختمانی.",
+      "mmap.d3": "بازدید از کارگاه‌ها و سایت‌های ساخت.",
+      "mmap.d4": "گفت‌وگوی فردی با سرپرستان کارگاه برای معرفی محصول و شروع شبکهٔ اولیهٔ بازاریابی.",
+      "mmap.d90Thesis":
+        "فرض: بهترین بازاریاب، کاربر قدرتمند است — سرپرست کارگاهی که متریکو را جدی استفاده کند، همتایان را معتبرتر از تبلیغ سرد معرفی می‌کند.",
+      "mmap.channelsP":
+        "کانال‌هایی که استفاده می‌کنیم: معرفی نفر‌به‌نفر، بازدید از شرکت‌های ساختمانی شناخته‌شده، نمایشگاه‌های مرتبط ساخت و فناوری، و بسترهای اجتماعی / تخصصی مرتبط. در صورت نیاز برای معرفی حضوری سفر می‌کنیم. لوگو یا آمار جعلی نمی‌سازیم.",
+      "mmap.y23T": "گسترش سال ۲ و ۳ (جهت‌دار)",
+      "mmap.y23P":
+        "فقط جهت — بدون متریک ساختگی. بعد از یادگیری نقطهٔ اتکای سال اول:",
+      "mmap.y1": "حضور در بسترهای مشترک / صنعتی مرتبط که خریداران ساخت آنجا می‌گردند.",
+      "mmap.y2": "شرکای بازاریابی اروپایی هرجا تناسب واقعی باشد.",
+      "mmap.y3": "ارتباط مستقیم با شرکت‌های ساختمانی شاخص.",
+      "mmap.y4": "تحلیل پیوستهٔ شکاف رقبا برای روشن نگه‌داشتن نقاط قوت متریکو و مسیر محصول‌محور.",
+      "mmap.notT": "چه کارهایی نمی‌کنیم",
+      "mmap.n1": "ساخت مشتری، تعداد پرداخت‌کننده، یا نمودار رشد برای ظاهر کمیته.",
+      "mmap.n2": "تلقی وزن تمرکز به‌عنوان سهم درآمد وعده‌داده‌شده بر اساس کشور.",
+      "mmap.n3": "وعدهٔ نرخ تبدیل پرداخت دقیق قبل از اندازه‌گیری واقعی.",
+      "mmap.crossT": "شواهد مرتبط",
+      "mmap.crossP": "اعتبار میدانی بنیان‌گذار و حلقهٔ اولیه در برگهٔ شواهد بازار آمده است: ",
+      "mmap.crossLink": "شواهد بازار و اعتبارسنجی اولیه",
+      "mmap.sumT": "در یک فهرست",
+      "mmap.s1": "وزن تلاش سال اول (نه درآمد): بازار محلی حدود ۳۰٪، گسترش بین‌المللی حدود ۵۰٪، سایر حدود ۲۰٪.",
+      "mmap.s2": "مخاطب: سازنده، پیمانکار/مجری، دفتر فنی؛ ورود به بازار = رشد متریکو به‌عنوان اپ پیشرو.",
+      "mmap.s3": "فرض پذیرش: حدود ۳۰ تا ۶۰ کاربر اولیه با تخفیف و معرفی — نه وعدهٔ درآمد.",
+      "mmap.s4": "۹۰ روز: یک نمایشگاه، ملاقات شرکت‌ها، بازدید کارگاه، شبکهٔ سرپرستان.",
+      "mmap.s5": "سال ۲–۳: بسترها، شرکا، ارتباط مستقیم، تحلیل شکاف رقبا — بدون کشش جعلی.",
+      "mmap.cta": "باز کردن اپ زنده",
+      "mmap.cta2": "راهنمای دمو",
+      "ep.linkT": "برنامهٔ حضور استونی",
+      "ep.linkP": "برگهٔ انگلیسی کمیته — در رابط فارسی نمایش داده نمی‌شود.",
+      "bp.linkT": "بیزنس‌پلن و رزومهٔ بنیان‌گذار",
+      "bp.linkP": "برگهٔ انگلیسی کمیته — در رابط فارسی نمایش داده نمی‌شود.",
       "footer.rights": "© متریکو",
       "about.h1": "دربارهٔ متریکو",
       "about.lead":
@@ -641,6 +1261,10 @@
     document.querySelectorAll("[data-en-only]").forEach(function (el) {
       el.hidden = lang !== "en";
       el.style.display = lang === "en" ? "" : "none";
+    });
+    document.querySelectorAll("[data-fa-only]").forEach(function (el) {
+      el.hidden = lang !== "fa";
+      el.style.display = lang === "fa" ? "" : "none";
     });
 
     const switcher = document.getElementById("lang-switch");

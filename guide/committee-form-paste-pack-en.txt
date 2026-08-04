@@ -1,0 +1,154 @@
+Metrico — Startup Committee form paste pack (English)
+Use these blocks when filling the official Startup Estonia / Startup Committee application.
+Do NOT paste the demo password into public PDF attachments; put it only in a private note field if the form has one.
+
+============================================================
+QUICK LINKS (put in the form)
+============================================================
+Product (live app):
+https://mehrzad1420.github.io/metrico_by_cursor/index.html
+
+Landing:
+https://mehrzad1420.github.io/metrico_by_cursor/landing/
+
+Evaluator demo guide:
+https://mehrzad1420.github.io/metrico_by_cursor/landing/guide.html
+
+Pitch PDF folder (local archive):
+guide/committee-pdfs/
+
+Demo login (private):
+Email: demo@metrico.app
+Password: (your private password — do not put in public attachments)
+Note: read-only labeled demo sample data — not paying customers.
+
+Founder contact:
+Mehrzad Saeedi
+mehrzad.saeedi@gmail.com
+LinkedIn: https://www.linkedin.com/in/mehrzad-saeedi-a8aa3714a
+
+============================================================
+COMPANY / PRODUCT NAME
+============================================================
+Metrico
+
+============================================================
+ONE-LINE PITCH
+============================================================
+Metrico is a bilingual SaaS / PWA construction command center for mid-size developers and contractors: unit sales, installment schedules, project finance, and owner updates in one offline-capable product.
+
+============================================================
+PROBLEM
+============================================================
+Mid-size residential and commercial developers still run critical operations across spreadsheets, paper, and chat. Unit status, buyer installments, site costs, and owner progress updates are fragmented. Site teams often work with weak connectivity. Generic CRMs track contacts; heavyweight construction suites focus on job-site logistics — neither fully covers the pre-sale → build → handover money-and-units loop.
+
+============================================================
+SOLUTION / PRODUCT
+============================================================
+Metrico replaces that chaos with one installable web app:
+- Visual unit / floor grids (sold, reserved, vacant)
+- Automatic contract and installment math (m² × price, remaining debt, averages)
+- Project finance, costs, investor shares, PDF reports
+- Owner portal and progress gallery without exposing full ledgers
+- Offline-capable PWA for on-site use
+- English / Persian today; German (DACH) planned next
+
+Live product is available for evaluation now.
+
+============================================================
+INNOVATION / WHY STARTUP (not a local agency)
+============================================================
+Metrico’s innovation is not another generic project board. It is a repeatable operating system for the construction pre-sale → build → handover loop: visual unit grids, installment math, site finance, and owner updates in one bilingual offline-capable product. Generic CRMs track contacts; heavyweight construction suites optimize job-site logistics. Mid-size developers still run units, buyers, and receivables in spreadsheets and chat. Metrico closes that gap with software leverage — the same SaaS sold on annual plans — so growth does not require rebuilding a custom agency stack for every project or country.
+
+============================================================
+SCALABILITY
+============================================================
+Metrico is software sold on annual subscription plans, not custom consultancy per project. The same product can serve many builders and technical offices. Marginal cost of an additional customer is mainly hosting and support, not rebuilding the product. Market expansion is multi-country (familiar operating market first, then Estonia / EU beachhead, then broader Europe including DACH via German localization).
+
+============================================================
+BUSINESS MODEL
+============================================================
+SaaS annual plans:
+- Starter: free (entry)
+- Plus / Pro / Ark: paid annual tiers (about €50 / €100 / €150)
+Primary revenue: paid plan upgrades.
+Iran checkout path via local PSP (in progress); EU card billing under development.
+Early go-to-market: discounts and referral discounts for introducing colleagues.
+Year-one adoption goal (assumption, not a guarantee): about 30–60 early users.
+
+============================================================
+TARGET CUSTOMERS (ICP)
+============================================================
+Builders, project executors / contractors, and technical offices managing residential and commercial projects — especially teams that sell units with installments and must report progress to owners.
+
+============================================================
+TRACTION / VALIDATION (HONEST)
+============================================================
+Early-stage validation, not scaled commercial traction:
+- Founder is an active daily user and built Metrico from real site pain (investor, supervising engineer, project superintendent; ~10 years across residential and commercial work).
+- Founder estimates Metrico already removes roughly 70% of previous fragmentation / paper / multi-project control gaps on his own work.
+- Founder + spouse (product builders) plus four reviewers/operators (site supervisors, architect, builder, investor roles) giving feedback.
+- One live construction project currently run on Metrico.
+No fake paying-customer counts.
+
+============================================================
+TEAM
+============================================================
+Mehrzad Saeedi — Founder / product & domain lead.
+Construction operator with municipal GIS / urban planning background; MSc geology (petrology). Owns product direction, domain model, and go-to-market. Builds with modern development tools and will hire a dedicated software engineer in Estonia / EU for technical scale.
+
+Spouse / co-founder contributor — accounting education; advises on accounting principles and financial logic inside the product. Not an English-facing sales role.
+
+Next hire: one software engineer in Estonia / EU.
+
+============================================================
+MARKET / 12–36 MONTH FOCUS (effort weights, NOT revenue share)
+============================================================
+Year-1 focus of effort (assumptions):
+- ~30% familiar operating market (Iran)
+- ~50% Estonia as EU base: company, talent, first pilots, product learning in a digital environment
+- ~20% other markets later
+Year 2–3: broader EU outreach via platforms, partners, direct construction-firm demos, exhibitions, and site-supervisor referral networks.
+90-day actions: exhibition presence, meetings with construction firms, site visits, supervisor intros.
+
+============================================================
+ESTONIA PLAN
+============================================================
+Sequence: Startup Committee recognition first → register Estonian company after approval → relocate with family after the current construction project finishes.
+Year-one lean plan: home office first; hire one engineer; local validation in Estonia before expensive mistakes; English first, then German for DACH.
+Planned year-one budget assumption: €40,000 (living + go-to-market).
+e-Residency is a separate digital-ID track and is not the core immigration path for this application.
+
+============================================================
+ASK
+============================================================
+We ask the Startup Committee to recognize Metrico as a qualifying startup so we can proceed with Estonian company formation and the founder visa / residence path, hire one engineer, and operate from Estonia with a lean, evidence-based plan. A working demo is available today.
+
+============================================================
+ATTACHMENTS TO UPLOAD (from guide/committee-pdfs/)
+============================================================
+Recommended minimum:
+1. metrico-onepager-en.pdf
+2. metrico-pitch-deck-en.pdf
+3. metrico-business-plan-en.pdf  (or full: metrico-business-plan-full-en.pdf)
+4. metrico-cv-mehrzad-saeedi-en.pdf
+5. metrico-market-evidence-en.pdf
+
+Also useful if upload slots allow:
+- metrico-revenue-en.pdf
+- metrico-market-map-en.pdf
+- metrico-estonia-presence-en.pdf
+- metrico-competitors-en.pdf
+- metrico-guide-en.pdf
+
+============================================================
+CHECK BEFORE SUBMIT
+============================================================
+[ ] Product link opens
+[ ] Landing + guide links open
+[ ] Demo email listed; password only in private channel/field
+[ ] No fake customer metrics
+[ ] Spouse role = accounting principles (honest)
+[ ] Founder English contact email = mehrzad.saeedi@gmail.com
+[ ] Attach PDFs
+[ ] Save Startup Code when approved

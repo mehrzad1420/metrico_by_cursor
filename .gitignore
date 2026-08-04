@@ -12,3 +12,16 @@ config.local.js
 # OS / editor
 Thumbs.db
 .DS_Store
+
+# Local npm (no package.json intended)
+node_modules/
+package-lock.json
+
+
+# Local-only generated / pitch stills (keep on disk; do not push)
+guide/intro-clip-stills/*.png
+guide/pitch-video-stills/
+guide/intro-clip-stills-real/
+guide/start.png
+landing/teaser/frames/
+landing/teaser/storyboard-60/

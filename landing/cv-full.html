@@ -1,0 +1,347 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Curriculum Vitae — Mehrzad Saeedi</title>
+  <meta name="robots" content="noindex,nofollow" />
+  <link rel="icon" href="logo.png" />
+  <style>
+    :root {
+      --ink: #1a2332;
+      --muted: #4a5568;
+      --rule: #c5ced9;
+      --accent: #1e3a5f;
+    }
+    * { box-sizing: border-box; margin: 0; padding: 0; }
+    body {
+      font-family: "Segoe UI", "Helvetica Neue", Arial, sans-serif;
+      color: var(--ink);
+      background: #eef1f5;
+      line-height: 1.45;
+      font-size: 10.5pt;
+    }
+    .toolbar {
+      max-width: 210mm;
+      margin: 1rem auto 0.5rem;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      gap: 0.75rem;
+      padding: 0 0.5rem;
+    }
+    .toolbar a, .toolbar button {
+      font: inherit;
+      font-size: 0.85rem;
+      padding: 0.4rem 0.85rem;
+      border-radius: 8px;
+      border: 1px solid var(--rule);
+      background: #fff;
+      color: var(--accent);
+      text-decoration: none;
+      cursor: pointer;
+    }
+    .sheet {
+      max-width: 210mm;
+      margin: 0 auto 2rem;
+      background: #fff;
+      padding: 18mm 16mm;
+      box-shadow: 0 4px 24px rgba(0,0,0,0.08);
+    }
+    header.cv-head {
+      border-bottom: 2.5px solid var(--accent);
+      padding-bottom: 0.85rem;
+      margin-bottom: 1.1rem;
+    }
+    header.cv-head h1 {
+      font-size: 22pt;
+      letter-spacing: 0.04em;
+      font-weight: 700;
+      color: var(--accent);
+      text-transform: uppercase;
+    }
+    header.cv-head .role {
+      font-size: 11pt;
+      color: var(--muted);
+      margin-top: 0.25rem;
+      font-weight: 500;
+    }
+    .contact {
+      margin-top: 0.65rem;
+      font-size: 9.5pt;
+      color: var(--muted);
+      display: flex;
+      flex-wrap: wrap;
+      gap: 0.35rem 1.1rem;
+    }
+    .contact a { color: var(--accent); text-decoration: none; }
+    h2 {
+      font-size: 11pt;
+      text-transform: uppercase;
+      letter-spacing: 0.06em;
+      color: var(--accent);
+      border-bottom: 1px solid var(--rule);
+      padding-bottom: 0.2rem;
+      margin: 1.15rem 0 0.55rem;
+    }
+    p, li { color: var(--ink); }
+    .summary {
+      margin: 0.4rem 0 0.2rem;
+      color: var(--muted);
+      font-size: 10pt;
+    }
+    .job { margin: 0.55rem 0 0.75rem; break-inside: avoid; }
+    .job .title {
+      font-weight: 650;
+      font-size: 10.5pt;
+    }
+    .job .meta {
+      font-size: 9.5pt;
+      color: var(--muted);
+      margin: 0.1rem 0 0.25rem;
+    }
+    .job ul, .edu ul, .skills ul, .train ul, .pubs ul, .honors ul {
+      padding-inline-start: 1.15rem;
+      margin: 0.2rem 0;
+    }
+    .job li, .edu li, .skills li, .train li, .pubs li, .honors li {
+      margin: 0.18rem 0;
+      font-size: 10pt;
+    }
+    .edu-item { margin: 0.4rem 0; break-inside: avoid; }
+    .edu-item strong { font-weight: 650; }
+    .edu-item .meta { font-size: 9.5pt; color: var(--muted); }
+    .two-col {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 0.35rem 1.5rem;
+    }
+    .note {
+      margin-top: 1.25rem;
+      font-size: 8.5pt;
+      color: var(--muted);
+      border-top: 1px solid var(--rule);
+      padding-top: 0.5rem;
+    }
+    @media print {
+      body { background: #fff; font-size: 10pt; }
+      .toolbar { display: none !important; }
+      .sheet {
+        max-width: none;
+        margin: 0;
+        padding: 0;
+        box-shadow: none;
+      }
+      @page { size: A4 portrait; margin: 14mm 14mm; }
+      a { color: inherit; text-decoration: none; }
+    }
+  </style>
+</head>
+<body>
+  <div class="toolbar no-print">
+    <a href="business-plan.html">Short business plan</a>
+    <button type="button" onclick="window.print()">Print / Save PDF</button>
+  </div>
+
+  <article class="sheet" aria-label="Curriculum Vitae — Mehrzad Saeedi">
+    <header class="cv-head">
+      <h1>Mehrzad Saeedi</h1>
+      <p class="role">Founder, Metrico · Construction operator · GIS &amp; urban planning specialist</p>
+      <div class="contact">
+        <span>Email: <a href="mailto:mehrzad.saeedi@gmail.com">mehrzad.saeedi@gmail.com</a></span>
+        <span>Company: <a href="mailto:hello@metrico.app">hello@metrico.app</a></span>
+        <span>Mobile: +98&nbsp;918&nbsp;668&nbsp;8850</span>
+        <span>Tel: +98&nbsp;87&nbsp;3426&nbsp;0935</span>
+        <span>Nationality: Iranian · Born 12 September 1985</span>
+        <span><a href="https://www.linkedin.com/in/mehrzad-saeedi-a8aa3714a" rel="noopener noreferrer" target="_blank">LinkedIn</a></span>
+      </div>
+    </header>
+
+    <h2>Professional summary</h2>
+    <p class="summary">
+      Geologist (MSc petrology) and municipal GIS / urban specialist who later built and managed commercial
+      property operations, then moved fully into construction as investor, supervising engineer, project
+      manager, and site superintendent. Approximately ten years across residential and commercial projects
+      inform Metrico — a live bilingual SaaS / PWA for unit sales, installments, site finance, and owner
+      updates. Combines field domain depth with product ownership; currently founding Metrico toward an
+      Estonian / EU company base.
+    </p>
+
+    <h2>Construction &amp; founder experience</h2>
+    <div class="job">
+      <div class="title">Founder — Metrico (construction operations SaaS / PWA)</div>
+      <div class="meta">Present · Live product · English / Persian</div>
+      <ul>
+        <li>Owns product direction, domain model, and go-to-market for mid-size developers and contractors.</li>
+        <li>Active daily user of the product on a live construction project; iterates from real site pain.</li>
+        <li>Building toward Estonian / EU company registration after Startup Committee recognition; English-first, then German / DACH localization on the roadmap.</li>
+      </ul>
+    </div>
+    <div class="job">
+      <div class="title">Construction project manager &amp; site superintendent; builder / investor</div>
+      <div class="meta">≈ 4 years (founder statement; complementary to earlier printed CV timeline) · Residential &amp; commercial</div>
+      <ul>
+        <li>Day-to-day workshop and site supervision as project manager, and as builder/investor on own projects.</li>
+        <li>Hands-on ownership of unit status, buyer installments, progress reporting, and multi-project coordination — the workflows Metrico digitizes.</li>
+      </ul>
+    </div>
+    <div class="job">
+      <div class="title">Investor · Supervising engineer · Project superintendent</div>
+      <div class="meta">≈ 10 years spanning these roles (founder statement; market-evidence framing)</div>
+      <ul>
+        <li>Investor on construction projects; supervising engineer (formal build-quality oversight); superintendent for delivery across sites.</li>
+        <li>Estimated that Metrico already addresses roughly 70% of prior fragmentation, paper process, and multi-project control gaps on his own work.</li>
+      </ul>
+    </div>
+
+    <h2>Selected professional roles</h2>
+    <div class="job">
+      <div class="title">Manager — Baneh Aftab Derakhshan Shopping Center</div>
+      <div class="meta">Full time · 2016–2020 · Baneh, Iran</div>
+      <ul>
+        <li>Operational management of a commercial shopping center — tenant, facilities, and day-to-day business oversight.</li>
+      </ul>
+    </div>
+    <div class="job">
+      <div class="title">GIS and Urban Expert — Baneh Municipality</div>
+      <div class="meta">Full time · 2013–2016</div>
+      <ul>
+        <li>Urban / GIS specialist inside municipal administration; spatial analysis and urban planning support.</li>
+      </ul>
+    </div>
+    <div class="job">
+      <div class="title">Mining Exploration Supervisor — Baneh Municipality</div>
+      <div class="meta">Full time · 2009–2013</div>
+      <ul>
+        <li>Supervised municipal mining exploration activities; applied geological and field methods in a public-sector setting.</li>
+      </ul>
+    </div>
+    <div class="job">
+      <div class="title">Surveyor &amp; Aerial-Photo Interpreter — Mabna Naghshe Iranian Bakhtar</div>
+      <div class="meta">Part time · Own company · Ongoing as of source CV</div>
+      <ul>
+        <li>Surveying, mapping, and aerial-photo interpretation services through a firm co-owned / operated by the founder.</li>
+      </ul>
+    </div>
+    <div class="job">
+      <div class="title">GIS Expert — Baneh Governorate</div>
+      <div class="meta">Part time · ≈ 3 months · 2009</div>
+    </div>
+    <div class="job">
+      <div class="title">Surveyor &amp; Arena Expert</div>
+      <div class="meta">Part time · Collaborations with Baneh Water Resources Administration and Baneh Judiciary</div>
+    </div>
+    <div class="job">
+      <div class="title">Specialized Geological Software Teacher — University of Birjand</div>
+      <div class="meta">2009</div>
+      <ul>
+        <li>Taught specialized geological and GIS software; later recognized by the Scientific Society of Geology.</li>
+      </ul>
+    </div>
+    <div class="job">
+      <div class="title">Field Expert — Geology Map Making · Mashhad Abyaft Consulting Engineers</div>
+      <div class="meta">Part time · 2008</div>
+    </div>
+    <div class="job">
+      <div class="title">Computer Lab Supervisor — Zanjan University, Faculty of Science</div>
+      <div class="meta">Part time · ≈ 2.5 years · 2005–2007</div>
+    </div>
+
+    <h2>Education</h2>
+    <div class="edu">
+      <div class="edu-item">
+        <strong>Master of Geological Sciences (Petrology)</strong>
+        <div class="meta">University of Birjand · Birjand, Iran · Completed 2011 · GPA 17/18 · Brilliant-talent student recognition</div>
+        <ul>
+          <li>Master’s thesis: Petrology of the Romenjan sub-volcanic mass (2010).</li>
+        </ul>
+      </div>
+      <div class="edu-item">
+        <strong>Bachelor of Geology</strong>
+        <div class="meta">University of Zanjan · Zanjan, Iran · Completed 2007 · GPA 12.33/20</div>
+      </div>
+      <div class="edu-item">
+        <strong>Pre-university — Natural Sciences</strong>
+        <div class="meta">Abu Reyhan Birooni · Baneh, Iran · 2003 · Score 16</div>
+      </div>
+      <div class="edu-item">
+        <strong>High-school diploma — Natural Sciences</strong>
+        <div class="meta">Ebrahimi · Baneh, Iran · 2002 · Score 17</div>
+      </div>
+    </div>
+
+    <h2>Skills</h2>
+    <div class="skills two-col">
+      <ul>
+        <li>Geological survey, field geology, laboratory geology</li>
+        <li>Geological map making; aerial-photo interpretation</li>
+        <li>GIS expert; online / web map preparation</li>
+        <li>Mine supervision; geoelectrical / RES testing &amp; outputs</li>
+        <li>Mapping &amp; measurement: total station, multi-frequency GPS</li>
+      </ul>
+      <ul>
+        <li>Software: ArcGIS (basic → advanced), AutoCAD, Global Mapper, RockWorks, Surfer, GCDkit, ioGAS</li>
+        <li>ICDL computer skills (Office, Photoshop, internet, hardware, network)</li>
+        <li>Construction project oversight; unit / finance / progress operations</li>
+        <li>Languages: Persian (native); English — general and specialized (per source CV)</li>
+      </ul>
+    </div>
+
+    <h2>Selected training courses</h2>
+    <div class="train">
+      <ul>
+        <li>Basic ArcGIS (10 h), Introductory ArcGIS (30 h), Advanced ArcGIS (30 h) — Birjand University, Office of Entrepreneurship and Leading Talent · 2008</li>
+        <li>Industrial waste disposal management (4 h) — Kurdistan Province Industrial Township Company · 2013</li>
+        <li>Management of civil projects in the municipality (20 h) — Deputy Governor of Kurdistan · 2014</li>
+        <li>Familiarity with Urban Development Plans in Iran (20 h) — Deputy Governor of Kurdistan · 2014</li>
+        <li>Urban identity (20 h) — Deputy Governor of Kurdistan · 2014</li>
+        <li>Application of GIS in crisis management (20 h) — Deputy Governor of Kurdistan · 2014</li>
+        <li>Areas of Implementation of Urban Design Programs in Iran (20 h) — Deputy Governor of Kurdistan · 2014</li>
+        <li>Job Planning and Management (20 h) — Iran Geopolitics Association · 2015</li>
+        <li>Principles and technical measures of the city (16 h) — Sharif University of Technology · 2015</li>
+        <li>Municipal Commissions (20 h) — Kurdistan Academic Center for Education · 2016</li>
+        <li>Introduction to Value Engineering (20 h) — Kurdistan Academic Center for Education · 2016</li>
+        <li>Familiarity with urban areas (20 h) — Kurdistan Academic Center for Education · 2016</li>
+        <li>Role of Information Technology in Urban Development Management (20 h) — Kurdistan Academic Center for Education · 2016</li>
+        <li>Management of Urban Services (20 h) — Kurdistan Academic Center for Education · 2016</li>
+      </ul>
+    </div>
+
+    <h2>Publications &amp; research / consulting projects</h2>
+    <div class="pubs">
+      <ul>
+        <li>Poster — “Petrography and mineralogy of the sub-volcanic mass of Romenjan” — 1st National Conference on Mining and Related Sciences · 2010</li>
+        <li>Poster — “Petrography and mineralogy of the volcanic mass of Shadan” — 1st National Conference on Mining and Related Sciences · 2010</li>
+        <li>Poster — “Petrography and geochemistry of volcanic rocks in the Pokht region, southeast of Birjand” — 27th Earth Science Forum · 2010</li>
+        <li>Master’s thesis — Petrology of Romenjan sub-volcanic mass · 2010</li>
+        <li>“Identifying and organizing areas at risk during wartime located around military sites with the help of GIS” — Kurdistan Province Crisis Management Conference · 1391 (Iranian calendar)</li>
+        <li>“The use of GIS in identifying accident-prone points of vital arteries — case study: Baneh gas network, Rashid Qala T.B.S. station” — Kurdistan Province Crisis Management Conference · 1391</li>
+        <li>Master Plan of Dekanan Baneh Tourism Sample Area — foreign investment project — Kohen Dej Consulting Engineers · Spring 2014</li>
+        <li>Environmental plan of Dekanan Baneh tourism sample area — foreign investment project — Kohen Dej Consulting Engineers · Autumn 2014</li>
+      </ul>
+    </div>
+
+    <h2>Honors &amp; awards</h2>
+    <div class="honors">
+      <ul>
+        <li>Brilliant-talent student in Master’s degree</li>
+        <li>Certificate of appreciation — Scientific Society of Human Literature Department, Zanjan University (cooperation)</li>
+        <li>Certificate of appreciation — Baneh Association for the Protection of Special Patients (cooperation)</li>
+        <li>Certificate of appreciation — Kurdistan head office of Komiteh Emdad for talent as Master’s student</li>
+        <li>Certificate of appreciation — Scientific Society of Geology, Birjand University (taught specialized geological software)</li>
+        <li>Certificate of appreciation — Scientific Society of Geology, Birjand University (taught GIS software)</li>
+        <li>Certificate of appreciation — Baneh Mayor for Engineer’s Day</li>
+        <li>Letter of credit as vice chairman and treasurer of the labor council — Department of Labor</li>
+        <li>1st place — archery tournament, South Khorasan Province · 2009</li>
+      </ul>
+    </div>
+
+    <p class="note">
+      Personal details omitted for committee distribution: parents’ names and full residential street address.
+      Source CV PDF facts retained for education, employment, training, publications, honors, and skills.
+      Construction superintendent / builder-investor years and Metrico founder role are founder-provided additions beyond the older printed CV.
+      LinkedIn: https://www.linkedin.com/in/mehrzad-saeedi-a8aa3714a
+    </p>
+  </article>
+</body>
+</html>

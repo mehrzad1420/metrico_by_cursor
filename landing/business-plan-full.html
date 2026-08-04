@@ -1,0 +1,832 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Metrico — Full Business Plan (Committee)</title>
+  <meta name="robots" content="noindex,nofollow" />
+  <link rel="icon" href="logo.png" />
+  <style>
+    :root {
+      --ink: #1a2332;
+      --muted: #3d4a5c;
+      --rule: #c8d0dc;
+      --accent: #1e3a5f;
+      --soft: #f4f6f9;
+    }
+    * { box-sizing: border-box; margin: 0; padding: 0; }
+    body {
+      font-family: "Georgia", "Times New Roman", serif;
+      color: var(--ink);
+      background: #e8ecf1;
+      line-height: 1.55;
+      font-size: 10.5pt;
+    }
+    .toolbar {
+      max-width: 210mm;
+      margin: 1rem auto 0.5rem;
+      display: flex;
+      justify-content: space-between;
+      gap: 0.75rem;
+      padding: 0 0.5rem;
+      font-family: "Segoe UI", system-ui, sans-serif;
+    }
+    .toolbar a, .toolbar button {
+      font: inherit;
+      font-size: 0.85rem;
+      padding: 0.4rem 0.85rem;
+      border-radius: 8px;
+      border: 1px solid var(--rule);
+      background: #fff;
+      color: var(--accent);
+      text-decoration: none;
+      cursor: pointer;
+    }
+    .doc {
+      max-width: 210mm;
+      margin: 0 auto 2.5rem;
+      background: #fff;
+      padding: 16mm 15mm 18mm;
+      box-shadow: 0 4px 28px rgba(0,0,0,0.08);
+    }
+    .cover {
+      min-height: 70vh;
+      display: flex;
+      flex-direction: column;
+      justify-content: center;
+      border-bottom: 2px solid var(--accent);
+      padding-bottom: 2rem;
+      margin-bottom: 1.5rem;
+    }
+    .cover .eyebrow {
+      font-family: "Segoe UI", system-ui, sans-serif;
+      font-size: 9pt;
+      letter-spacing: 0.12em;
+      text-transform: uppercase;
+      color: var(--muted);
+      margin-bottom: 1rem;
+    }
+    .cover h1 {
+      font-size: 26pt;
+      color: var(--accent);
+      line-height: 1.2;
+      margin-bottom: 0.5rem;
+    }
+    .cover .sub {
+      font-size: 13pt;
+      color: var(--muted);
+      margin-bottom: 1.5rem;
+    }
+    .cover .meta {
+      font-family: "Segoe UI", system-ui, sans-serif;
+      font-size: 9.5pt;
+      color: var(--muted);
+      line-height: 1.7;
+    }
+    .cover .disclaimer {
+      margin-top: 2rem;
+      padding: 0.85rem 1rem;
+      background: var(--soft);
+      border-left: 3px solid var(--accent);
+      font-family: "Segoe UI", system-ui, sans-serif;
+      font-size: 9pt;
+      color: var(--muted);
+    }
+    h2.sec {
+      font-family: "Segoe UI", system-ui, sans-serif;
+      font-size: 13pt;
+      color: var(--accent);
+      margin: 0 0 0.75rem;
+      padding-bottom: 0.35rem;
+      border-bottom: 1.5px solid var(--rule);
+      page-break-before: always;
+    }
+    h2.sec.first { page-break-before: auto; }
+    h3 {
+      font-family: "Segoe UI", system-ui, sans-serif;
+      font-size: 11pt;
+      color: var(--accent);
+      margin: 1.1rem 0 0.4rem;
+    }
+    p { margin: 0.45rem 0 0.65rem; text-align: justify; hyphens: auto; }
+    ul, ol { margin: 0.35rem 0 0.85rem; padding-inline-start: 1.35rem; }
+    li { margin: 0.28rem 0; }
+    .lead { font-size: 11pt; color: var(--muted); }
+    .callout {
+      margin: 0.85rem 0 1rem;
+      padding: 0.75rem 0.95rem;
+      background: var(--soft);
+      border: 1px solid var(--rule);
+      font-family: "Segoe UI", system-ui, sans-serif;
+      font-size: 9.5pt;
+      break-inside: avoid;
+    }
+    .callout strong {
+      display: block;
+      font-size: 9.5pt;
+      margin-bottom: 0.3rem;
+      color: var(--accent);
+    }
+    table.fin {
+      width: 100%;
+      border-collapse: collapse;
+      font-family: "Segoe UI", system-ui, sans-serif;
+      font-size: 9pt;
+      margin: 0.75rem 0 1rem;
+    }
+    table.fin th, table.fin td {
+      border: 1px solid var(--rule);
+      padding: 0.4rem 0.5rem;
+      text-align: left;
+      vertical-align: top;
+    }
+    table.fin th { background: var(--soft); color: var(--accent); }
+    .toc {
+      font-family: "Segoe UI", system-ui, sans-serif;
+      font-size: 10pt;
+      margin: 1rem 0 0;
+    }
+    .toc li { margin: 0.35rem 0; }
+    .toc a { color: var(--accent); text-decoration: none; }
+    .muted { color: var(--muted); font-size: 9.5pt; }
+    .footer-note {
+      margin-top: 2rem;
+      padding-top: 0.75rem;
+      border-top: 1px solid var(--rule);
+      font-family: "Segoe UI", system-ui, sans-serif;
+      font-size: 8.5pt;
+      color: var(--muted);
+    }
+    @media print {
+      body { background: #fff; }
+      .toolbar { display: none !important; }
+      .doc { max-width: none; margin: 0; padding: 0; box-shadow: none; }
+      .cover { min-height: auto; page-break-after: always; }
+      h2.sec { page-break-before: always; }
+      h2.sec.first { page-break-before: auto; }
+      h3, .callout, table.fin, .job-block { break-inside: avoid; }
+      @page { size: A4 portrait; margin: 14mm 14mm 16mm; }
+      a { color: inherit; text-decoration: none; }
+    }
+  </style>
+</head>
+<body>
+  <div class="toolbar no-print">
+    <a href="business-plan.html">Short summary sheet</a>
+    <button type="button" onclick="window.print()">Print / Save PDF</button>
+  </div>
+
+  <article class="doc">
+    <!-- COVER -->
+    <div class="cover">
+      <p class="eyebrow">Startup Estonia · Committee pack · Confidential for evaluation</p>
+      <h1>Metrico</h1>
+      <p class="sub">Full business plan — construction operations SaaS</p>
+      <div class="meta">
+        <div>Company direction: Estonian / EU SaaS base</div>
+        <div>Founder: Mehrzad Saeedi</div>
+        <div>Document: Full plan (English) · August 2026</div>
+        <div>Companion: Short summary sheet · Full founder CV · Committee one-pager &amp; evidence sheets</div>
+        <div>Live product: https://mehrzad1420.github.io/metrico_by_cursor/index.html</div>
+        <div>Contact: hello@metrico.app · mehrzad.saeedi@gmail.com</div>
+      </div>
+      <div class="disclaimer">
+        <strong>Honesty note</strong>
+        This plan does not invent paying customers, ARR charts, logos, headcount, or M&amp;A stories.
+        Traction is early and limited; financial figures are labeled assumptions or list prices.
+        Geographic weights describe Year-1 effort focus, not promised revenue by country.
+      </div>
+    </div>
+
+    <h2 class="sec first">Contents</h2>
+    <ol class="toc">
+      <li><a href="#s1">Executive summary</a></li>
+      <li><a href="#s2">Problem</a></li>
+      <li><a href="#s3">Solution &amp; product</a></li>
+      <li><a href="#s4">Market &amp; ICP</a></li>
+      <li><a href="#s5">Competition &amp; differentiation</a></li>
+      <li><a href="#s6">Business model &amp; unit economics</a></li>
+      <li><a href="#s7">Go-to-market</a></li>
+      <li><a href="#s8">Traction &amp; validation</a></li>
+      <li><a href="#s9">Estonia / EU presence plan</a></li>
+      <li><a href="#s10">Team &amp; hiring</a></li>
+      <li><a href="#s11">Financial outlook (assumptions)</a></li>
+      <li><a href="#s12">Risks &amp; mitigations</a></li>
+      <li><a href="#s13">Milestones &amp; ask</a></li>
+      <li><a href="#s14">Appendix — links &amp; materials</a></li>
+    </ol>
+
+    <!-- 1 -->
+    <h2 class="sec" id="s1">1. Executive summary</h2>
+    <p class="lead">
+      Metrico is a live, bilingual (English / Persian) SaaS progressive web application for mid-size
+      construction developers and contractors. It unifies the pre-sale → build → handover operating loop:
+      visual unit inventories, installment schedules, project finance, and owner-safe progress updates —
+      including offline use on weak-signal sites.
+    </p>
+    <p>
+      The product is not a slide deck. It is in production use for demos, onboarding, and one live
+      construction project run by the founder. Early validation is intentionally framed as early: the
+      founder is an active user with roughly ten years across investor, supervising engineer, and site
+      superintendent roles; a small circle of four reviewers (plus spouse co-builder) provides practical
+      feedback; there is no invented customer count.
+    </p>
+    <p>
+      Commercial model: annual prepaid SaaS plans — Starter free, Plus €50/year, Pro €100/year, Ark €150/year.
+      Primary revenue is paid upgrades. European card billing is under development; an Iran checkout path
+      exists. Unit economics are early-model assumptions, not audited KPIs.
+    </p>
+    <p>
+      Year-1 geographic effort weights (planning assumptions, not revenue share): Iran ≈ 30% (familiar
+      operating market for feedback), Estonia ≈ 50% (company base, hiring, EU beachhead learning), other
+      markets ≈ 20% (selective later European outreach). Adoption assumption: roughly 30–60 early users in
+      twelve months, with discounts and referral mechanics — not an ARR promise.
+    </p>
+    <p>
+      Estonia path: initiate e-Residency in parallel with committee preparation; register the Estonian
+      company after committee approval; relocate with family after the founder’s current home-country
+      construction project finishes; hire one developer preferably in Estonia / EU; start from home office.
+      Year-1 living + GTM budget assumption: €40,000. Language roadmap: English first, then German for DACH.
+      No M&amp;A narrative. Ask: Startup Committee recognition to build Metrico as a serious Estonian / EU
+      software company with a clear path to company registration, EU billing, and specialized hiring.
+    </p>
+    <div class="callout">
+      <strong>One-line positioning</strong>
+      The all-in-one site operations tool for mid-size construction — a Swiss-army knife for when units,
+      money, and owners collide — credible field utility, not a lifestyle brand or local agency service.
+    </div>
+
+    <!-- 2 -->
+    <h2 class="sec" id="s2">2. Problem</h2>
+    <p>
+      Mid-size residential and commercial developers still run the commercial heart of a project —
+      which units are sold, what buyers owe, what investors need to see, and what owners may safely see —
+      across spreadsheets, chat threads, notebooks, and paper. That stack breaks as soon as several
+      projects run in parallel, or when a site team needs answers on a phone with poor connectivity.
+    </p>
+    <h3>2.1 Daily failure modes</h3>
+    <ul>
+      <li>Unit status, buyers, and installment rows live in Excel, messaging apps, and handwritten ledgers — with no single source of truth.</li>
+      <li>Site supervisors and sales staff need mobile tools that keep working when signal is weak; desktop-only accounting packages do not follow them to the site.</li>
+      <li>Owners and stakeholders ask for progress updates, while full project ledgers must remain private — forcing ad-hoc reports rebuilt every week.</li>
+      <li>Generic CRMs track contacts but not floor maps and m² × price contracts; heavyweight construction suites optimize job-site logistics but often miss the unit + installment + owner-portal reality of mid-size builders.</li>
+      <li>Repetitive hand-built statistics (average sale price per m², remaining debt, investor shares) consume hours and still go stale.</li>
+    </ul>
+    <h3>2.2 Who feels this most</h3>
+    <p>
+      Builders and developers selling units off-plan or in stages; contractors and executors coordinating
+      delivery with commercial status; technical offices and site supervisors who are asked for both
+      progress and commercial answers. The founder lived these gaps as investor, supervising engineer,
+      and superintendent — which is why Metrico’s product direction starts from field workflows rather
+      than from a generic project board template.
+    </p>
+    <h3>2.3 Why “another CRM” or “another PM tool” does not close the gap</h3>
+    <p>
+      Contact-centric CRM platforms leave the unit map and payment plan in separate systems. Work hubs
+      (task boards) can track activity but do not ship construction-native objects — floors, units, sale
+      status, down payments, installment rows, check views — out of the box. Local accounting packages
+      are strong at books after the fact, weaker at live site + owner communication. Spreadsheet
+      portfolios scale poorly across phones, permissions, and offline work. The market therefore still
+      has room for a focused, repeatable SaaS for the money-and-units loop of mid-size construction.
+    </p>
+
+    <!-- 3 -->
+    <h2 class="sec" id="s3">3. Solution &amp; product</h2>
+    <p>
+      Metrico is a construction command center delivered as an installable progressive web app. Teams
+      use it on phone, tablet, and desktop; they can install it to the home screen and work offline on
+      site, syncing when connectivity returns. The interface ships bilingual English and Persian from day one.
+    </p>
+    <h3>3.1 Core product loop</h3>
+    <ul>
+      <li><strong>Visual floor / unit map</strong> — sold, reserved, vacant — not only tables.</li>
+      <li><strong>Automatic commercial math</strong> — contract totals from m² × price, remaining debt, average sale price per m².</li>
+      <li><strong>Installments &amp; site finance</strong> — schedules, project costs, investor shares, check and cash reports, PDF exports for partners and accountants.</li>
+      <li><strong>Owner portal + progress gallery</strong> — stakeholder updates without exposing the full ledger.</li>
+      <li><strong>Drawings &amp; maps in-app</strong> — technical drawings viewable inside the same product; project pins and KML export including market signal (e.g. average sale price / m² by site).</li>
+      <li><strong>Offline-capable PWA</strong> — field continuity on weak-signal sites.</li>
+    </ul>
+    <h3>3.2 Innovation thesis</h3>
+    <p>
+      Metrico’s innovation is not another generic project board. It is a repeatable operating system for
+      the construction pre-sale → build → handover loop: visual unit grids, installment math, site finance,
+      and owner updates in one bilingual offline-capable product. Generic CRMs track contacts; heavyweight
+      construction suites optimize job-site logistics. Mid-size developers still run units, buyers, and
+      receivables in spreadsheets and chat. Metrico closes that gap with software leverage — the same SaaS
+      sold on annual plans — so growth does not require rebuilding a custom agency stack for every project
+      or country.
+    </p>
+    <h3>3.3 Product stage &amp; plan ladder</h3>
+    <p>
+      Metrico is a live SaaS / PWA in production use for demos and onboarding — not a concept deck.
+      Four annual plans gate depth and portfolio size:
+    </p>
+    <ul>
+      <li><strong>Starter — Free</strong> — 1 project · up to 15 contacts · up to 10 reminders · core unit sales and expense tools. Freemium entry for evaluation and very small portfolios.</li>
+      <li><strong>Plus — €50 / year</strong> — up to 3 projects · PDF reports · backup/restore · chat · maps · owner portal · project drawings gallery. Unlocks the day-to-day sales + owner loop.</li>
+      <li><strong>Pro — €100 / year</strong> — up to 10 projects · project accounting · inventory · contracts · tax prep views · KML export. Deeper site finance and materials.</li>
+      <li><strong>Ark — €150 / year</strong> — high project ceiling for mid-size portfolios · energy tools · takeoff / quantity estimating. Showcase tier; the labeled demo runs at Ark for evaluation.</li>
+    </ul>
+    <div class="callout">
+      <strong>Demo vs traction</strong>
+      Evaluators can use a labeled demo account (demo@metrico.app) for a read-only Ark-level walkthrough —
+      sample data, not paying customers. Password is provided by founders on request (not published in the public repository).
+      Anyone can also start on Starter free.
+    </div>
+    <h3>3.4 What Metrico is not</h3>
+    <ul>
+      <li>Not a local services agency that rebuilds custom software per client project.</li>
+      <li>Not a lifestyle relocation story; company and product come first.</li>
+      <li>Not an M&amp;A or consortium thesis — growth is product-led SaaS expansion.</li>
+      <li>Not a claim of scaled European commercial traction today.</li>
+    </ul>
+
+    <!-- 4 -->
+    <h2 class="sec" id="s4">4. Market &amp; ICP</h2>
+    <h3>4.1 Ideal customer profile (Year 1)</h3>
+    <p>
+      Early buyers and design partners are construction operators who feel the unit–finance–progress gap daily:
+    </p>
+    <ul>
+      <li>Builders / developers (residential and commercial unit sales).</li>
+      <li>Executors and contractors coordinating delivery with commercial status.</li>
+      <li>Technical offices and site supervisors who become power users and referral nodes.</li>
+    </ul>
+    <p>
+      Primary go-to-market thesis: grow Metrico as a leading app in its domain through product strength
+      and field referrals — the best marketer is a power-user site supervisor who can introduce peers
+      more credibly than cold advertising.
+    </p>
+    <h3>4.2 Year-1 geographic effort weights</h3>
+    <p>
+      The following percentages describe where the founders expect to spend time and attention in Year 1.
+      They are <em>not</em> a claimed revenue split by country.
+    </p>
+    <table class="fin">
+      <thead>
+        <tr><th>Focus</th><th>Effort weight</th><th>Rationale</th></tr>
+      </thead>
+      <tbody>
+        <tr>
+          <td>Iran</td>
+          <td>≈ 30%</td>
+          <td>Familiar operating market: language, relationships, field workflows. Useful for product feedback and early operators.</td>
+        </tr>
+        <tr>
+          <td>Estonia</td>
+          <td>≈ 50%</td>
+          <td>Primary company base and technical hiring environment; early pilots; denser product feedback; beachhead for learning EU sales — not “50% of revenue from Estonian contractors.”</td>
+        </tr>
+        <tr>
+          <td>Other markets</td>
+          <td>≈ 20%</td>
+          <td>Selective later European outreach after the Estonia anchor works — not a spray of fake regional claims.</td>
+        </tr>
+      </tbody>
+    </table>
+    <h3>4.3 Adoption goal (assumption)</h3>
+    <p>
+      Operational target for the first twelve months: roughly <strong>30–60 early users</strong>. Some will
+      enter with strong discounts; referral discounts will reward introducing colleagues. Frame as early
+      adoption and GTM mechanic — not an ARR promise or paying-conversion guarantee. Conversion rates will
+      be measured once paid cohorts exist; they are not invented here.
+    </p>
+    <h3>4.4 Path narrative (markets)</h3>
+    <p>
+      Learn in a pilot / familiar market → expand regionally where the same SaaS core fits → operate from
+      an Estonian / EU company base → sell a repeatable product into European and international construction
+      teams. Iran can be an early feedback market because the unit + installment pain is real there; it is
+      not positioned as the final geography of the company.
+    </p>
+
+    <!-- 5 -->
+    <h2 class="sec" id="s5">5. Competition &amp; differentiation</h2>
+    <p>
+      The landscape note below describes Metrico’s advantages only — not a critique of other products.
+      Other tools are useful in their domains. Metrico is built for mid-size developers who live in unit
+      sales, installments, and owner updates every day.
+    </p>
+    <h3>5.1 International reference points</h3>
+    <ul>
+      <li><strong>Alongside construction suites (e.g. Procore, Buildertrend)</strong> — Metrico is purpose-built for the pre-sale → handover money loop: colored unit grids, installment schedules, buyer receivables, and owner portal links in one calm product — with an installable offline PWA for the field.</li>
+      <li><strong>Alongside work hubs (e.g. Monday.com, Asana)</strong> — Metrico carries construction-native objects out of the box: floors, units, sale status, down payments, installment rows, project ledgers, and PDF reports ready for partners and accountants.</li>
+      <li><strong>Alongside CRM platforms (e.g. Salesforce, HubSpot)</strong> — Metrico keeps the sales contact next to the unit map and the payment plan — so “which units are sold, what is owed, what the owner can see” stays one workflow, not three disconnected systems.</li>
+      <li><strong>Alongside drawing / BIM viewers</strong> — Metrico keeps technical drawings viewable inside the same app that already holds units, finance, and owner updates — so teams stay in one command center.</li>
+    </ul>
+    <h3>5.2 Regional / local reference points</h3>
+    <ul>
+      <li><strong>Alongside spreadsheet portfolios</strong> — live unit map with automatic contract totals, remaining balances, average sale price per m², and installment ticks — available on phone at the site.</li>
+      <li><strong>Alongside local accounting packages</strong> — stays close to the project (investor shares, project cash, check views, owner-safe progress) and exports PDFs accounting teams can still use.</li>
+      <li><strong>Alongside chat- and CRM-led sales follow-up</strong> — each sold or reserved unit has a clear home for buyer data, documents, installment status, and a secure owner link with progress gallery — without exposing the full ledger.</li>
+    </ul>
+    <h3>5.3 Differentiation summary</h3>
+    <ul>
+      <li>Visual unit grid for sold / reserved / vacant — not only tables.</li>
+      <li>Installments, project finance, and investor views tied to the same project.</li>
+      <li>Owner portal + gallery without sharing the full books.</li>
+      <li>Offline-capable PWA with bilingual English and Persian.</li>
+      <li>Higher tiers: inventory, contracts &amp; QC, takeoff, and energy tools.</li>
+      <li>Swiss-army-knife positioning for site operations — not a single-feature gadget.</li>
+    </ul>
+
+    <!-- 6 -->
+    <h2 class="sec" id="s6">6. Business model &amp; unit economics</h2>
+    <div class="callout">
+      <strong>Labeled assumptions — not live KPIs</strong>
+      Figures below describe the pricing ladder and a simple early-stage model. They are not reported CAC,
+      LTV, or MRR from a large paying base. Demo data is labeled demo and is not paying traction.
+    </div>
+    <h3>6.1 Revenue model</h3>
+    <ul>
+      <li><strong>Primary revenue today:</strong> paid plan upgrades (Plus, Pro, Ark) on annual prepaid billing.</li>
+      <li><strong>Secondary (later, only if product demand proves it):</strong> extra seats, add-on modules, or white-label / agency packaging — not claimed as live revenue streams yet.</li>
+      <li>We sell software subscriptions — not custom agency rebuilds per project.</li>
+    </ul>
+    <h3>6.2 Pricing ladder (list prices)</h3>
+    <table class="fin">
+      <thead>
+        <tr><th>Plan</th><th>Annual list</th><th>What it unlocks (summary)</th></tr>
+      </thead>
+      <tbody>
+        <tr><td>Starter</td><td>Free</td><td>1 project · core unit/expense tools · evaluation entry</td></tr>
+        <tr><td>Plus</td><td>€50</td><td>Up to 3 projects · PDFs · owner portal · maps · drawings gallery</td></tr>
+        <tr><td>Pro</td><td>€100</td><td>Up to 10 projects · accounting · inventory · contracts · KML</td></tr>
+        <tr><td>Ark</td><td>€150</td><td>High project ceiling · energy · takeoff; demo runs at Ark</td></tr>
+      </tbody>
+    </table>
+    <p class="muted">European list prices are annual euro amounts; Persian checkout shows local Toman equivalents where configured.</p>
+    <h3>6.3 Checkout paths</h3>
+    <ul>
+      <li><strong>Iran / Persian checkout:</strong> Zarinpal path exists in the payment function; live merchant configuration may still be pending — orders can be saved when the provider is not configured.</li>
+      <li><strong>Europe / English checkout:</strong> card billing is under development. Evaluators can email hello@metrico.app for EU billing, or use a founder upgrade code.</li>
+      <li>Discount codes apply to purchase and renewal where checkout is available.</li>
+    </ul>
+    <h3>6.4 Unit economics (early model)</h3>
+    <ul>
+      <li><strong>ARPU (annual).</strong> List prices €50 / €100 / €150. Blended ARPU depends on mix; a conservative early mix weighted toward Plus/Pro keeps ARPU in a low three-digit euro range or below.</li>
+      <li><strong>Gross margin.</strong> Typical pure-software margins are high after hosting and payment fees. We model a credible mid–high software margin once billing is live — not 99% fantasy, and not consulting-heavy COGS.</li>
+      <li><strong>CAC &amp; LTV (targets).</strong> Keep CAC low via founder-led demos, exhibitions, and supervisor referrals (low three-digit euros or less per paying account as a planning target). LTV is annual prepaid × expected multi-year retention; even 2–3 years of Plus/Pro can support a healthy LTV:CAC if CAC stays lean. These are model targets until paid cohorts exist.</li>
+      <li><strong>Cash flow shape.</strong> Annual prepaid plans improve early cash collection versus monthly. Freemium lowers acquisition friction; paid conversion is the primary growth lever.</li>
+    </ul>
+
+    <!-- 7 -->
+    <h2 class="sec" id="s7">7. Go-to-market</h2>
+    <h3>7.1 Next 90 days</h3>
+    <p>Near-term field work the founders will actually do:</p>
+    <ol>
+      <li>Attend one construction / industry exhibition.</li>
+      <li>Meet several construction companies in person; visit sites and workshops.</li>
+      <li>Individual talks with site supervisors to introduce the product and seed a first referral network.</li>
+      <li>Advance committee / e-Residency preparation in parallel — company registration after approval (see Section 9).</li>
+    </ol>
+    <p>
+      Channels: person-to-person introductions, visits to notable construction firms, relevant construction
+      and IT exhibitions, and social / domain platforms. The team will travel for intros when needed.
+      No invented logos or fake stats.
+    </p>
+    <h3>7.2 Year 1</h3>
+    <p>Ordered for company building (business-first):</p>
+    <ol>
+      <li>Establish the Estonian company after committee approval; complete e-Residency / company setup needed to operate.</li>
+      <li>Local validation: run Metrico in Estonia’s digital environment; gather early-user feedback.</li>
+      <li>Hire one developer preferably in Estonia / EU.</li>
+      <li>Investor and customer intro platforms plus a realistic exhibition calendar.</li>
+      <li>Grow a site-supervisor referral network and run demos; pursue the ~30–60 early-user adoption band with discount / referral mechanics.</li>
+      <li>Family relocation and suitable housing after (or alongside completion of) the founder’s current construction project — enabling the Estonian base, not the headline goal of this plan.</li>
+    </ol>
+    <h3>7.3 Year 2–3 (directional)</h3>
+    <p>Direction only — not invented metrics. After Year-1 beachhead learning:</p>
+    <ul>
+      <li>Presence on relevant EU shared / industry platforms where construction buyers look.</li>
+      <li>European marketing partners where a real fit exists.</li>
+      <li>Direct outreach to notable construction firms.</li>
+      <li>Continuous competitor gap analysis to keep Metrico’s strengths clear and product-led.</li>
+      <li>Language expansion: German for DACH after English-first beachhead — without inventing other locale claims.</li>
+    </ul>
+    <h3>7.4 What we will not do</h3>
+    <ul>
+      <li>Invent customers, paying counts, or growth charts for committee optics.</li>
+      <li>Treat focus weights as a promised revenue share by country.</li>
+      <li>Promise a precise paying-conversion rate before we have measured one.</li>
+      <li>Plan growth through M&amp;A or consortium narratives.</li>
+    </ul>
+
+    <!-- 8 -->
+    <h2 class="sec" id="s8">8. Traction &amp; validation</h2>
+    <div class="callout">
+      <strong>Early-stage validation — not scaled commercial traction</strong>
+      We do not invent company names, paying-customer counts, or growth charts. What follows is the real
+      circle of use and feedback as of now.
+    </div>
+    <h3>8.1 Founder as active user</h3>
+    <p>
+      Metrico is built by someone who lives the same workflows the product serves. For about ten years
+      the founder has worked across residential and commercial projects as:
+    </p>
+    <ul>
+      <li>Investor on construction projects.</li>
+      <li>Supervising engineer — formal oversight of build quality and compliance.</li>
+      <li>Project supervisor / superintendent — day-to-day delivery across sites.</li>
+    </ul>
+    <p>
+      Additionally, roughly four years of site superintendent / workshop supervision as construction
+      project manager and as builder/investor deepen that domain seat (founder statement; complementary
+      to the older printed CV timeline).
+    </p>
+    <h3>8.2 Gaps before Metrico</h3>
+    <ul>
+      <li>Information fragmentation across notebooks, spreadsheets, chat, and paper.</li>
+      <li>Manual and paper-heavy processes that break when several projects run at once.</li>
+      <li>Repetitive hand-built statistics and reporting with little reuse.</li>
+      <li>Weak real-time control when supervising multiple projects in parallel.</li>
+    </ul>
+    <h3>8.3 What the product already covers</h3>
+    <p>
+      On the founder’s own work, Metrico addresses a major share of those gaps — from financial and
+      accounting issues through progress supervision and owner communication. The founder’s estimate:
+      about <strong>70%</strong> of the previous problems and blind spots are now handled in the product.
+    </p>
+    <h3>8.4 Early operators &amp; feedback circle</h3>
+    <p>
+      Beyond the founder and his spouse — who design and build the product together — four people are
+      currently reviewing and using Metrico. They help find issues and give practical feedback. Roles
+      in that circle include project supervisors, architect / designer perspectives, and builder and
+      investor perspectives. Frame honestly: early validation and design partners — not “X paying customers.”
+    </p>
+    <h3>8.5 Current live usage</h3>
+    <p>
+      <strong>One live construction project</strong> is currently being run with Metrico. That is the
+      active operating proof today — useful and real, and still early.
+    </p>
+
+    <!-- 9 -->
+    <h2 class="sec" id="s9">9. Estonia / EU presence plan</h2>
+    <h3>9.1 Why Estonia</h3>
+    <ul>
+      <li>Digital society and startup ecosystem suited to building and selling software from an EU base.</li>
+      <li>EU legal and commercial foothold for a repeatable SaaS, aligned with the market-map beachhead.</li>
+      <li>A demanding automation / digital culture that helps surface product weaknesses early — beachhead validation before costly mistakes.</li>
+    </ul>
+    <h3>9.2 Planned sequence (honest)</h3>
+    <ol>
+      <li><strong>Initiate e-Residency now</strong> — can run in parallel with committee preparation; not yet started as of this document.</li>
+      <li><strong>Register the Estonian company after committee approval</strong> — preferred timing; company registration is not a precondition for committee review.</li>
+      <li><strong>Complete e-Residency and company setup before physical relocation.</strong></li>
+      <li><strong>Relocate with family</strong> after the current construction project in the home country finishes — no invented calendar dates.</li>
+    </ol>
+    <h3>9.3 Twelve-month presence model</h3>
+    <ul>
+      <li>Founder relocates with spouse (and children) once the current home-country construction project is complete.</li>
+      <li>Hire one technical / developer team member in Estonia (preferably Estonia / EU).</li>
+      <li>Start from home / residence; open a physical office later only if the team grows.</li>
+      <li>Operate Metrico actively in the Estonian environment to earn local feedback — not a paper presence.</li>
+    </ul>
+    <h3>9.4 First 90 days (Estonia-related)</h3>
+    <ul>
+      <li>Register the Estonian company (after committee approval).</li>
+      <li>Meet accelerator(s) and relevant ecosystem contacts.</li>
+    </ul>
+    <h3>9.5 Language roadmap</h3>
+    <p>
+      Product and GTM languages: <strong>English first</strong>. Next: <strong>German for DACH</strong>
+      (Germany, Austria, Switzerland). We do not claim German as a common language of the Netherlands
+      or invent other locale claims.
+    </p>
+    <h3>9.6 Year-1 budget assumption</h3>
+    <p>
+      Planned year-1 living + go-to-market budget assumption: <strong>€40,000</strong> — covering
+      residence for the founder, spouse, and two children, plus marketing / exhibitions and related early
+      GTM costs. Assumption for planning — not a grant claim or audited spend.
+    </p>
+    <h3>9.7 What this is not</h3>
+    <ul>
+      <li>Not claimed completed e-Residency, company registration, or physical relocation today.</li>
+      <li>Not invented customers, office leases, headcount, or M&amp;A narrative.</li>
+      <li>Not speculative fluff or guaranteed timeline dates for committee optics.</li>
+    </ul>
+
+    <!-- 10 -->
+    <h2 class="sec" id="s10">10. Team &amp; hiring</h2>
+    <h3>10.1 Current team (intentionally lean)</h3>
+    <ul>
+      <li><strong>Mehrzad Saeedi — Founder.</strong> Product, domain, and go-to-market. Background: MSc geology (petrology); municipal GIS / urban expert; commercial center management; ≈10 years across investor, supervising engineer, and superintendent roles; ≈4 years site superintendent / workshop supervision as project manager and builder/investor; Metrico founder and active user. LinkedIn: https://www.linkedin.com/in/mehrzad-saeedi-a8aa3714a</li>
+      <li><strong>Spouse.</strong> Accounting education; advises on accounting principles for product and books (not presented as a separate commercial claim or large “team size”).</li>
+      <li><strong>Early feedback circle.</strong> Four reviewers / operators (supervisors, architect/designer, builder, investor perspectives) — design partners, not employees.</li>
+    </ul>
+    <h3>10.2 Next hire</h3>
+    <p>
+      One developer, preferably in Estonia / EU — to increase engineering bandwidth for product quality,
+      EU localization readiness, and billing / compliance features. Home office first; no invented large
+      engineering org chart.
+    </p>
+    <h3>10.3 Why this founding profile fits the problem</h3>
+    <p>
+      Product direction comes from three angles inside construction: urban / GIS public-sector work,
+      builder / owner–investor economics, and day-to-day site supervision. That combination reduces the
+      risk of building a generic tool that misses installment, unit-map, and owner-privacy realities.
+      Full CV is provided as a companion PDF for committee review.
+    </p>
+
+    <!-- 11 -->
+    <h2 class="sec" id="s11">11. Financial outlook (assumptions)</h2>
+    <div class="callout">
+      <strong>Conservative scenarios — clearly labeled</strong>
+      The tables below are planning scenarios for committee discussion. They are not audited forecasts,
+      contracted pipeline, or promises. Conversion and retention rates are illustrative assumptions
+      until measured. No hockey-stick without stating the levers.
+    </div>
+    <h3>11.1 Cost base (Year 1)</h3>
+    <table class="fin">
+      <thead>
+        <tr><th>Item</th><th>Assumption</th><th>Notes</th></tr>
+      </thead>
+      <tbody>
+        <tr>
+          <td>Living + early GTM</td>
+          <td>€40,000</td>
+          <td>Founder planning assumption for residence (founder, spouse, two children) + exhibitions / marketing</td>
+        </tr>
+        <tr>
+          <td>Hosting / tooling</td>
+          <td>Low four digits / year (order-of-magnitude)</td>
+          <td>Lean SaaS stack; not itemized as a grant ask</td>
+        </tr>
+        <tr>
+          <td>First developer hire</td>
+          <td>To be sized after company setup</td>
+          <td>Priority hire in Estonia / EU; salary not fabricated as a precise EU market guarantee here</td>
+        </tr>
+        <tr>
+          <td>Office</td>
+          <td>€0 initially</td>
+          <td>Home / residence first</td>
+        </tr>
+      </tbody>
+    </table>
+    <h3>11.2 Revenue scenarios (illustrative)</h3>
+    <p>
+      Using list prices and the early-user band of ~30–60. Scenarios vary paying conversion among early
+      users — <em>unknown until measured</em>. Figures are annual subscription revenue at list (before discounts).
+    </p>
+    <table class="fin">
+      <thead>
+        <tr>
+          <th>Scenario</th>
+          <th>Early users</th>
+          <th>Assumed paying mix</th>
+          <th>Illustrative annual revenue</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr>
+          <td>Conservative</td>
+          <td>30</td>
+          <td>10 paying on Plus (€50)</td>
+          <td>≈ €500</td>
+        </tr>
+        <tr>
+          <td>Base</td>
+          <td>45</td>
+          <td>15 Plus + 5 Pro</td>
+          <td>≈ €1,250</td>
+        </tr>
+        <tr>
+          <td>Optimistic (still early)</td>
+          <td>60</td>
+          <td>20 Plus + 10 Pro + 5 Ark</td>
+          <td>≈ €2,750</td>
+        </tr>
+      </tbody>
+    </table>
+    <p class="muted">
+      These Year-1 revenue illustrations are deliberately modest. They show that Metrico is not pretending
+      to be a multi-million ARR story on day one. The business case for committee recognition is the live
+      product, domain founder fit, EU company path, and software leverage — not fantasy Year-1 revenue.
+      Discounts and referrals will reduce effective ARPU further in the earliest cohorts.
+    </p>
+    <h3>11.3 Year 2–3 directional outlook</h3>
+    <p>
+      If beachhead learning works — measured conversion, EU billing live, one developer hired, supervisor
+      referral network active — Year 2–3 can expand paid accounts through EU platforms, partners, and
+      direct outreach while keeping the same SaaS core. We do not invent precise Year-3 ARR. Upside comes
+      from software margin and retention on annual prepaid plans; downside is slow conversion or delayed
+      EU billing (see risks). Secondary revenue (seats, add-ons) only if demand proves it.
+    </p>
+    <h3>11.4 Capital stance</h3>
+    <p>
+      Year-1 operations are planned lean (€40k living + GTM assumption). Capital / asset transfer timing
+      to Estonia is a recognized risk (Section 12). This plan does not claim grant awards, completed
+      fundraising rounds, or M&amp;A exits.
+    </p>
+
+    <!-- 12 -->
+    <h2 class="sec" id="s12">12. Risks &amp; mitigations</h2>
+    <p>Managed risks — honest, not fear-mongering. Mitigations are operational, not guarantees.</p>
+    <h3>12.1 Geopolitical spillover (Russia–Europe)</h3>
+    <p>
+      <strong>Risk:</strong> regional instability affecting travel, sentiment, or capital flows.
+      <strong>Mitigation:</strong> EU company base, English-first product, diversified beachhead learning —
+      not single-country dependency for all learning.
+    </p>
+    <h3>12.2 Middle East recession pressure</h3>
+    <p>
+      <strong>Risk:</strong> weaker demand in familiar early markets.
+      <strong>Mitigation:</strong> Year-1 effort already weights Estonia / EU beachhead; Iran remains a
+      feedback market, not the end destination.
+    </p>
+    <h3>12.3 Capital / asset transfer to Estonia</h3>
+    <p>
+      <strong>Risk:</strong> timing and compliance friction moving capital.
+      <strong>Mitigation:</strong> lean year-1 budget assumption (€40k); start home-office; no invented grants.
+    </p>
+    <h3>12.4 Product intro timing vs finding prospects</h3>
+    <p>
+      <strong>Risk:</strong> product readiness and prospect pipeline misaligned.
+      <strong>Mitigation:</strong> founder-as-user + supervisor referral network; exhibition and site visits
+      in the 90-day plan.
+    </p>
+    <h3>12.5 Competing where markets / marketing are less known</h3>
+    <p>
+      <strong>Risk:</strong> rivals with deeper local marketing.
+      <strong>Mitigation:</strong> domain wedge (units + installments + owner portal), honest competitor
+      sheet, beachhead learning before spray spend.
+    </p>
+    <h3>12.6 EU payments / billing readiness</h3>
+    <p>
+      <strong>Risk:</strong> European card checkout still under development.
+      <strong>Mitigation:</strong> labeled paths (email / founder codes); prioritize EU billing after company setup.
+    </p>
+    <h3>12.7 Early-team bandwidth</h3>
+    <p>
+      <strong>Risk:</strong> two-person core capacity.
+      <strong>Mitigation:</strong> one EU developer hire as a top Year-1 priority; scope GTM to exhibitions,
+      referrals, and demos — not heavy paid media.
+    </p>
+    <h3>12.8 Language / localization &amp; CAC uncertainty</h3>
+    <p>
+      <strong>Risk:</strong> beyond EN/FA; CAC not yet measured.
+      <strong>Mitigation:</strong> EN first, then German/DACH on roadmap; treat CAC/LTV as early model —
+      no fake conversion rates.
+    </p>
+
+    <!-- 13 -->
+    <h2 class="sec" id="s13">13. Milestones &amp; ask</h2>
+    <h3>13.1 Near-term milestones</h3>
+    <ol>
+      <li>Complete Startup Estonia committee pack (this full plan, short summary, CV, evidence sheets, live demo).</li>
+      <li>Initiate e-Residency application in parallel.</li>
+      <li>Committee review / recognition.</li>
+      <li>Register Estonian company after approval; progress EU-ready billing.</li>
+      <li>Execute 90-day field GTM (exhibition, firm meetings, site visits, supervisor network).</li>
+      <li>Hire one developer (Estonia / EU preference).</li>
+      <li>Relocate with family after current construction project completes; validate product locally in Estonia.</li>
+      <li>Measure early conversion among the ~30–60 early-user band; iterate pricing discounts and referrals from data.</li>
+    </ol>
+    <h3>13.2 Ask — what committee recognition enables</h3>
+    <ul>
+      <li>Recognition to build Metrico as an Estonian / EU SaaS company — hire specialized engineering talent and operate from Estonia’s digital infrastructure.</li>
+      <li>A clear path to register the company after approval and complete EU-ready billing and compliance.</li>
+      <li>Evaluators can open the live app and labeled demo (see Guide) — product evidence before paperwork claims.</li>
+    </ul>
+    <h3>13.3 Closing statement</h3>
+    <p>
+      Metrico is a serious early-stage software company with a live product, a domain founder, and an
+      honest Estonia path. We ask for committee review on that basis — not on invented traction.
+    </p>
+
+    <!-- 14 -->
+    <h2 class="sec" id="s14">14. Appendix — links &amp; materials</h2>
+    <h3>14.1 Live product &amp; demo</h3>
+    <ul>
+      <li>Live app: https://mehrzad1420.github.io/metrico_by_cursor/index.html</li>
+      <li>Demo account email: demo@metrico.app (password on request via hello@metrico.app)</li>
+      <li>Landing / Guide (evaluator path): landing/guide.html in the public site pack</li>
+    </ul>
+    <h3>14.2 Committee sheets (HTML sources in repo · EN PDFs under guide/committee-pdfs/)</h3>
+    <ul>
+      <li>Short business plan &amp; CV highlights — business-plan.html · metrico-business-plan-en.pdf</li>
+      <li>This full business plan — business-plan-full.html · metrico-business-plan-full-en.pdf</li>
+      <li>Full founder CV — cv-full.html · metrico-cv-mehrzad-saeedi-en.pdf</li>
+      <li>One-pager — onepager.html · metrico-onepager-en.pdf</li>
+      <li>Markets / innovation — markets.html · metrico-markets-en.pdf</li>
+      <li>Revenue &amp; unit economics — revenue.html · metrico-revenue-en.pdf</li>
+      <li>Market map — market-map.html · metrico-market-map-en.pdf</li>
+      <li>Market evidence — market-evidence.html · metrico-market-evidence-en.pdf</li>
+      <li>Competitors — competitors.html · metrico-competitors-en.pdf</li>
+      <li>Estonia presence — estonia-presence.html · metrico-estonia-presence-en.pdf</li>
+      <li>Pitch deck (10 slides) — pitch-deck.html · metrico-pitch-deck-en.pdf</li>
+    </ul>
+    <h3>14.3 Contact</h3>
+    <ul>
+      <li>hello@metrico.app</li>
+      <li>mehrzad.saeedi@gmail.com</li>
+      <li>LinkedIn: https://www.linkedin.com/in/mehrzad-saeedi-a8aa3714a</li>
+    </ul>
+
+    <p class="footer-note">
+      Metrico — Full business plan (English) · August 2026 · For Startup Estonia committee evaluation ·
+      No invented customers, revenue charts, or M&amp;A claims.
+    </p>
+  </article>
+</body>
+</html>

@@ -1,0 +1,609 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Metrico — Committee pitch deck (EN)</title>
+  <meta name="robots" content="noindex,nofollow" />
+  <meta name="description" content="English committee pitch deck for Metrico. Internal / evaluator source for PDF export." />
+  <link rel="icon" href="logo.png" />
+  <style>
+    :root {
+      --bg: #f8f9fd;
+      --text: #102a56;
+      --muted: #667085;
+      --accent: #5d78ff;
+      --accent-soft: #eef1ff;
+      --line: rgba(16, 42, 86, 0.12);
+      --card: #ffffff;
+      --ink-soft: #3d5278;
+    }
+
+    * { box-sizing: border-box; margin: 0; padding: 0; }
+
+    body {
+      font-family: "Segoe UI", system-ui, -apple-system, sans-serif;
+      color: var(--text);
+      background: #dce3f0;
+      line-height: 1.45;
+    }
+
+    .toolbar {
+      position: sticky;
+      top: 0;
+      z-index: 20;
+      display: flex;
+      gap: 0.75rem;
+      align-items: center;
+      justify-content: space-between;
+      padding: 0.65rem 1.25rem;
+      background: rgba(248, 249, 253, 0.96);
+      border-bottom: 1px solid var(--line);
+    }
+    .toolbar p { font-size: 0.8rem; color: var(--muted); }
+    .toolbar button {
+      border: 1px solid var(--line);
+      background: var(--card);
+      color: var(--text);
+      padding: 0.45rem 0.9rem;
+      border-radius: 8px;
+      font-weight: 600;
+      font-size: 0.82rem;
+      cursor: pointer;
+    }
+
+    .deck {
+      padding: 1.25rem;
+      display: flex;
+      flex-direction: column;
+      gap: 1.25rem;
+      align-items: center;
+    }
+
+    .slide {
+      width: min(100%, 1120px);
+      aspect-ratio: 297 / 210;
+      background:
+        linear-gradient(180deg, #ffffff 0%, var(--bg) 72%, #eef1f8 100%);
+      border: 1px solid var(--line);
+      border-radius: 14px;
+      box-shadow: 0 10px 28px rgba(16, 42, 86, 0.08);
+      padding: 2.1rem 2.4rem 1.7rem;
+      display: flex;
+      flex-direction: column;
+      position: relative;
+      overflow: hidden;
+    }
+
+    .slide::before {
+      content: "";
+      position: absolute;
+      inset: 0 auto 0 0;
+      width: 7px;
+      background: linear-gradient(180deg, #5d78ff 0%, #8e6afe 100%);
+    }
+
+    .slide-top {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      margin-bottom: 1.15rem;
+      gap: 1rem;
+    }
+    .brand {
+      display: flex;
+      align-items: center;
+      gap: 0.55rem;
+      font-weight: 700;
+      font-size: 0.95rem;
+      letter-spacing: -0.02em;
+    }
+    .brand img {
+      width: 34px;
+      height: 34px;
+      border-radius: 9px;
+    }
+    .slide-meta {
+      font-size: 0.72rem;
+      font-weight: 700;
+      letter-spacing: 0.06em;
+      text-transform: uppercase;
+      color: var(--muted);
+    }
+
+    .kicker {
+      font-size: 0.78rem;
+      font-weight: 700;
+      letter-spacing: 0.08em;
+      text-transform: uppercase;
+      color: var(--accent);
+      margin-bottom: 0.45rem;
+    }
+    h1 {
+      font-size: clamp(1.55rem, 2.6vw, 2.05rem);
+      letter-spacing: -0.03em;
+      line-height: 1.15;
+      margin-bottom: 0.85rem;
+      max-width: 22ch;
+    }
+    .lede {
+      color: var(--ink-soft);
+      font-size: 1.02rem;
+      max-width: 52rem;
+      margin-bottom: 1.1rem;
+    }
+
+    .body {
+      flex: 1;
+      display: flex;
+      flex-direction: column;
+      gap: 0.85rem;
+      min-height: 0;
+    }
+
+    ul.points {
+      list-style: none;
+      display: grid;
+      gap: 0.55rem;
+    }
+    ul.points li {
+      position: relative;
+      padding-left: 1.05rem;
+      color: var(--ink-soft);
+      font-size: 0.98rem;
+    }
+    ul.points li::before {
+      content: "";
+      position: absolute;
+      left: 0;
+      top: 0.55em;
+      width: 0.42rem;
+      height: 0.42rem;
+      border-radius: 50%;
+      background: var(--accent);
+    }
+
+    .grid-3 {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 0.75rem;
+    }
+    .grid-2 {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 0.85rem;
+    }
+    .tile {
+      background: var(--card);
+      border: 1px solid var(--line);
+      border-radius: 12px;
+      padding: 0.9rem 1rem;
+    }
+    .tile h3 {
+      font-size: 0.92rem;
+      margin-bottom: 0.35rem;
+      letter-spacing: -0.015em;
+    }
+    .tile p, .tile li {
+      color: var(--ink-soft);
+      font-size: 0.88rem;
+    }
+    .tile ul {
+      list-style: none;
+      display: grid;
+      gap: 0.28rem;
+      margin-top: 0.35rem;
+    }
+    .weight {
+      display: inline-block;
+      font-size: 0.72rem;
+      font-weight: 700;
+      color: var(--accent);
+      background: var(--accent-soft);
+      border-radius: 999px;
+      padding: 0.18rem 0.55rem;
+      margin-bottom: 0.4rem;
+    }
+    .price {
+      font-size: 1.2rem;
+      font-weight: 760;
+      letter-spacing: -0.02em;
+      margin: 0.15rem 0 0.35rem;
+    }
+    .note {
+      font-size: 0.84rem;
+      color: var(--muted);
+      border-top: 1px solid var(--line);
+      padding-top: 0.7rem;
+      margin-top: auto;
+    }
+    .quote {
+      font-size: 1.05rem;
+      color: var(--text);
+      max-width: 46rem;
+      line-height: 1.55;
+    }
+    .quote + .quote { margin-top: 0.75rem; }
+    .sign {
+      margin-top: 1.1rem;
+      font-size: 0.92rem;
+      color: var(--ink-soft);
+    }
+    .sign strong { color: var(--text); }
+
+    .slide-foot {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      margin-top: 0.9rem;
+      padding-top: 0.55rem;
+      border-top: 1px solid var(--line);
+      font-size: 0.72rem;
+      color: var(--muted);
+    }
+
+    @media print {
+      @page {
+        size: A4 landscape;
+        margin: 0;
+      }
+      body { background: #fff; }
+      .no-print { display: none !important; }
+      .deck {
+        padding: 0;
+        gap: 0;
+      }
+      .slide {
+        width: 297mm;
+        height: 210mm;
+        max-width: none;
+        aspect-ratio: auto;
+        border: none;
+        border-radius: 0;
+        box-shadow: none;
+        page-break-after: always;
+        break-after: page;
+        -webkit-print-color-adjust: exact;
+        print-color-adjust: exact;
+      }
+      .slide:last-child {
+        page-break-after: auto;
+        break-after: auto;
+      }
+    }
+
+    @media screen and (max-width: 820px) {
+      .slide { aspect-ratio: auto; min-height: 520px; }
+      .grid-3, .grid-2 { grid-template-columns: 1fr; }
+      h1 { max-width: none; }
+    }
+  </style>
+</head>
+<body>
+  <div class="toolbar no-print">
+    <p>Metrico committee pitch · English only · noindex · for PDF regeneration</p>
+    <button type="button" onclick="window.print()">Print / Save PDF</button>
+  </div>
+
+  <div class="deck">
+
+    <!-- 1. Problem -->
+    <section class="slide" aria-label="Slide 1 — Problem">
+      <div class="slide-top">
+        <div class="brand"><img src="logo.png" alt="" /> Metrico</div>
+        <div class="slide-meta">01 / 10 · Problem</div>
+      </div>
+      <div class="body">
+        <p class="kicker">The daily mess on mid-size builds</p>
+        <h1>Units, buyers, and money live in three different places.</h1>
+        <p class="lede">
+          On mid-size residential and commercial projects, the pre-sale → build → handover loop still runs across spreadsheets, chat threads, and paper. The people who need answers lose hours stitching them together.
+        </p>
+        <ul class="points">
+          <li>Unit status, buyers, and installment schedules sit in Excel, messaging apps, and notebooks — rarely in one calm view.</li>
+          <li>Site teams need tools that still work when connectivity is weak.</li>
+          <li>Owners ask for progress; the full ledger has to stay private.</li>
+          <li>Generic CRMs track contacts. Heavy construction suites chase job-site logistics. Neither owns the unit + installment + site-finance reality of mid-size developers.</li>
+        </ul>
+      </div>
+      <div class="slide-foot"><span>Committee pitch · EN</span><span>Metrico</span></div>
+    </section>
+
+    <!-- 2. Solution -->
+    <section class="slide" aria-label="Slide 2 — Solution">
+      <div class="slide-top">
+        <div class="brand"><img src="logo.png" alt="" /> Metrico</div>
+        <div class="slide-meta">02 / 10 · Solution</div>
+      </div>
+      <div class="body">
+        <p class="kicker">One operating loop</p>
+        <h1>A bilingual field app for units, money, and owners.</h1>
+        <p class="lede">
+          Metrico is a live SaaS / PWA built for that loop — so a developer or site supervisor can see sold units, what is owed, and what an owner can safely see, without rebuilding the same report every week.
+        </p>
+        <ul class="points">
+          <li>Visual floor / unit map: sold, reserved, vacant — not only tables.</li>
+          <li>Contract math from m² × price, remaining debt, average sale price per m².</li>
+          <li>Installments, project costs, investor shares, check &amp; cash reports, PDF exports.</li>
+          <li>Owner portal with a progress gallery — updates without exposing the books.</li>
+          <li>Installable offline-capable PWA for weak-signal sites. English and Persian by design.</li>
+        </ul>
+      </div>
+      <div class="slide-foot"><span>Committee pitch · EN</span><span>Metrico</span></div>
+    </section>
+
+    <!-- 3. Product -->
+    <section class="slide" aria-label="Slide 3 — Product">
+      <div class="slide-top">
+        <div class="brand"><img src="logo.png" alt="" /> Metrico</div>
+        <div class="slide-meta">03 / 10 · Product</div>
+      </div>
+      <div class="body">
+        <p class="kicker">Working software</p>
+        <h1>Live product. Four plans. Ready to demo.</h1>
+        <p class="lede">
+          Metrico is not a concept deck. The app is in production for demos and onboarding — bilingual, field-oriented, with labeled sample data so evaluators can walk the full path.
+        </p>
+        <div class="grid-2">
+          <div class="tile">
+            <h3>What you can open today</h3>
+            <ul>
+              <li>Unit grids and sales context</li>
+              <li>Installments and project finance</li>
+              <li>Owner portal + progress gallery</li>
+              <li>PDF reports for partners and accountants</li>
+              <li>Offline sync on installable PWA</li>
+            </ul>
+          </div>
+          <div class="tile">
+            <h3>Higher tiers unlock more depth</h3>
+            <ul>
+              <li>Inventory and tax-prep path (Pro)</li>
+              <li>Contracts, progress statements, QC (Pro)</li>
+              <li>Takeoff and building energy tools (Ark)</li>
+              <li>In-app drawings and map exports</li>
+              <li>Rule-based assistant on your project data</li>
+            </ul>
+          </div>
+        </div>
+        <p class="note">Demo account: demo@metrico.app (password from founders). Sample data is labeled demo — not paying traction.</p>
+      </div>
+      <div class="slide-foot"><span>Committee pitch · EN</span><span>Metrico</span></div>
+    </section>
+
+    <!-- 4. Real evidence -->
+    <section class="slide" aria-label="Slide 4 — Real evidence">
+      <div class="slide-top">
+        <div class="brand"><img src="logo.png" alt="" /> Metrico</div>
+        <div class="slide-meta">04 / 10 · Evidence</div>
+      </div>
+      <div class="body">
+        <p class="kicker">Early validation — honest</p>
+        <h1>Built by someone who still runs the workflow.</h1>
+        <p class="lede">
+          We do not invent logos or paying-customer charts. What we have today is founder-as-user proof, a small feedback circle, and one live project on the product.
+        </p>
+        <div class="grid-3">
+          <div class="tile">
+            <h3>Founder in the field</h3>
+            <p>~10 years across investor, supervising engineer, and project superintendent roles. Product ideas come from sites, not from slides alone.</p>
+          </div>
+          <div class="tile">
+            <h3>~70% of the old gaps</h3>
+            <p>On the founder’s own work, Metrico already covers about seventy percent of the previous blind spots — finance through progress and owner updates.</p>
+          </div>
+          <div class="tile">
+            <h3>Small circle + one project</h3>
+            <p>Founder and spouse build together; four operators review (supervisors, architect/designer, builder, investor). One active construction project runs on Metrico today.</p>
+          </div>
+        </div>
+        <p class="note">Frame: early validation and design partners — not scaled commercial traction.</p>
+      </div>
+      <div class="slide-foot"><span>Committee pitch · EN</span><span>Metrico</span></div>
+    </section>
+
+    <!-- 5. Market focus -->
+    <section class="slide" aria-label="Slide 5 — Market focus">
+      <div class="slide-top">
+        <div class="brand"><img src="logo.png" alt="" /> Metrico</div>
+        <div class="slide-meta">05 / 10 · Market focus</div>
+      </div>
+      <div class="body">
+        <p class="kicker">Year-1 effort weights</p>
+        <h1>Where we spend attention — not a revenue split.</h1>
+        <p class="lede">
+          These percentages are planning assumptions for time and focus in Year 1. They are not a claimed revenue share by country.
+        </p>
+        <div class="grid-3">
+          <div class="tile">
+            <span class="weight">~30% effort</span>
+            <h3>Iran</h3>
+            <p>Familiar operating market: language, relationships, and field workflows we already know. Useful for product feedback and early operators.</p>
+          </div>
+          <div class="tile">
+            <span class="weight">~50% effort</span>
+            <h3>Estonia</h3>
+            <p>Company base, technical hiring, first pilots, denser feedback. Beachhead for learning how to sell into the EU.</p>
+          </div>
+          <div class="tile">
+            <span class="weight">~20% effort</span>
+            <h3>Other markets</h3>
+            <p>Selective later European outreach after the Estonia anchor is working — not a spray of regional claims.</p>
+          </div>
+        </div>
+        <p class="note">ICP: builders / developers, contractors, technical offices and site supervisors. Grow through product strength and field referrals.</p>
+      </div>
+      <div class="slide-foot"><span>Committee pitch · EN</span><span>Metrico</span></div>
+    </section>
+
+    <!-- 6. Revenue model -->
+    <section class="slide" aria-label="Slide 6 — Revenue model">
+      <div class="slide-top">
+        <div class="brand"><img src="logo.png" alt="" /> Metrico</div>
+        <div class="slide-meta">06 / 10 · Revenue</div>
+      </div>
+      <div class="body">
+        <p class="kicker">Annual SaaS</p>
+        <h1>Start free. Upgrade when the portfolio needs more.</h1>
+        <p class="lede">
+          Metrico sells software subscriptions on annual prepaid plans — not custom agency rebuilds per project. Primary revenue is paid upgrades.
+        </p>
+        <div class="grid-2" style="grid-template-columns: repeat(4, 1fr);">
+          <div class="tile">
+            <h3>Starter</h3>
+            <p class="price">Free</p>
+            <p>1 project · core tools</p>
+          </div>
+          <div class="tile">
+            <h3>Plus</h3>
+            <p class="price">€50 / year</p>
+            <p>More projects · sales &amp; reports</p>
+          </div>
+          <div class="tile">
+            <h3>Pro</h3>
+            <p class="price">€100 / year</p>
+            <p>Inventory · tax prep · deeper finance</p>
+          </div>
+          <div class="tile">
+            <h3>Ark</h3>
+            <p class="price">€150 / year</p>
+            <p>Takeoff · energy · unlimited projects</p>
+          </div>
+        </div>
+        <p class="note">EU card billing is under development. Iran checkout path exists. Unit economics on the revenue sheet are early model assumptions — not live KPI dashboards.</p>
+      </div>
+      <div class="slide-foot"><span>Committee pitch · EN</span><span>Metrico</span></div>
+    </section>
+
+    <!-- 7. Differentiation -->
+    <section class="slide" aria-label="Slide 7 — Differentiation">
+      <div class="slide-top">
+        <div class="brand"><img src="logo.png" alt="" /> Metrico</div>
+        <div class="slide-meta">07 / 10 · Differentiation</div>
+      </div>
+      <div class="body">
+        <p class="kicker">Why operators reach for it</p>
+        <h1>The Swiss-army knife for the construction site.</h1>
+        <p class="lede">
+          Not a slogan factory. When units, money, and owners collide on one project, mid-size teams need one calm tool — not three half-fitted systems and a spreadsheet that never quite matches.
+        </p>
+        <ul class="points">
+          <li>All-in-one site ops for the pre-sale → handover money loop: visual unit grids, installment math, site finance, owner updates.</li>
+          <li>Construction-native objects out of the box — floors, units, sale status, installments, ledgers, PDF reports — instead of forcing a generic CRM to pretend it knows a unit map.</li>
+          <li>Field-first delivery: bilingual UI, offline-capable PWA, owner-safe sharing without opening the full books.</li>
+          <li>Depth when needed: drawings in-app, maps with market signal, contracts &amp; QC, takeoff and energy on higher plans.</li>
+        </ul>
+        <p class="note">Positioning in one line: credible field utility for mid-size construction — not a gimmick brand.</p>
+      </div>
+      <div class="slide-foot"><span>Committee pitch · EN</span><span>Metrico</span></div>
+    </section>
+
+    <!-- 8. 2–3 year map -->
+    <section class="slide" aria-label="Slide 8 — Two to three year map">
+      <div class="slide-top">
+        <div class="brand"><img src="logo.png" alt="" /> Metrico</div>
+        <div class="slide-meta">08 / 10 · 2–3 year map</div>
+      </div>
+      <div class="body">
+        <p class="kicker">Directional plan</p>
+        <h1>Beachhead first. Then careful European reach.</h1>
+        <p class="lede">
+          High-level map only — founder planning assumptions, not promised conversion rates or invented pipeline.
+        </p>
+        <div class="grid-3">
+          <div class="tile">
+            <h3>Next 90 days</h3>
+            <ul>
+              <li>One industry exhibition</li>
+              <li>In-person meetings with construction firms</li>
+              <li>Site and workshop visits</li>
+              <li>Supervisor talks to seed referrals</li>
+            </ul>
+          </div>
+          <div class="tile">
+            <h3>Year 1</h3>
+            <ul>
+              <li>Iran + Estonia dual focus (effort weights)</li>
+              <li>~30–60 early users as an adoption assumption</li>
+              <li>Discount + referral mechanics for early operators</li>
+              <li>Company base and local validation in Estonia</li>
+            </ul>
+          </div>
+          <div class="tile">
+            <h3>Year 2–3</h3>
+            <ul>
+              <li>EU industry platforms where buyers look</li>
+              <li>Marketing partners where fit is real</li>
+              <li>Direct outreach to notable firms</li>
+              <li>Ongoing competitor gap analysis — product-led</li>
+            </ul>
+          </div>
+        </div>
+        <p class="note">Thesis: a power-user site supervisor refers peers more credibly than cold ads.</p>
+      </div>
+      <div class="slide-foot"><span>Committee pitch · EN</span><span>Metrico</span></div>
+    </section>
+
+    <!-- 9. Estonia presence -->
+    <section class="slide" aria-label="Slide 9 — Estonia presence">
+      <div class="slide-top">
+        <div class="brand"><img src="logo.png" alt="" /> Metrico</div>
+        <div class="slide-meta">09 / 10 · Estonia</div>
+      </div>
+      <div class="body">
+        <p class="kicker">Real base, lean ops</p>
+        <h1>Estonia as company home — not a paper HQ.</h1>
+        <p class="lede">
+          We intend a serious Estonian presence: digital infrastructure, EU legal foothold, and a demanding environment that surfaces product weaknesses early.
+        </p>
+        <div class="grid-2">
+          <div class="tile">
+            <h3>Planned sequence</h3>
+            <ul>
+              <li>Initiate e-Residency in parallel with committee prep</li>
+              <li>Register the company after committee approval</li>
+              <li>Complete e-Residency + company setup before relocation</li>
+              <li>Relocate with family after the current home-country construction project finishes</li>
+            </ul>
+          </div>
+          <div class="tile">
+            <h3>Year-1 presence model</h3>
+            <ul>
+              <li>Hire one developer in Estonia</li>
+              <li>Start from home / residence; office later only if the team grows</li>
+              <li>Run Metrico locally for beachhead validation</li>
+              <li>Year-1 living + GTM budget assumption: €40,000</li>
+            </ul>
+          </div>
+        </div>
+        <p class="note">€40k covers residence for founder, spouse, and two children, plus early marketing / exhibitions. Planning assumption — not a grant claim. e-Residency and company registration are not claimed as complete today.</p>
+      </div>
+      <div class="slide-foot"><span>Committee pitch · EN</span><span>Metrico</span></div>
+    </section>
+
+    <!-- 10. Ask -->
+    <section class="slide" aria-label="Slide 10 — Ask">
+      <div class="slide-top">
+        <div class="brand"><img src="logo.png" alt="" /> Metrico</div>
+        <div class="slide-meta">10 / 10 · Ask</div>
+      </div>
+      <div class="body">
+        <p class="kicker">From the founder</p>
+        <h1>I built this because the gap was mine first.</h1>
+        <p class="quote">
+          I have spent years on sites as investor, supervising engineer, and project superintendent. Metrico is the tool I needed when notebooks, spreadsheets, and chat failed me — and I still run a live project on it. Roughly seventy percent of those old blind spots are already gone on my own work. That is not a market-size claim. It is a builder’s proof that the product earns its keep.
+        </p>
+        <p class="quote">
+          I am asking the Startup Committee to review Metrico as an Estonian / EU SaaS company in formation: recognition to register, hire one engineer, and operate from Estonia with a lean year-one plan. A working demo is available today — product evidence before paperwork claims.
+        </p>
+        <p class="sign">
+          <strong>Mehrzad Saeedi</strong> · Founder<br />
+          mehrzad.saeedi@gmail.com · Live app + demo guide on request
+        </p>
+      </div>
+      <div class="slide-foot"><span>Committee pitch · EN</span><span>Metrico · 2026</span></div>
+    </section>
+
+  </div>
+</body>
+</html>
