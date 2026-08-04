@@ -71,11 +71,8 @@ CREATE TRIGGER projects_enforce_plan_limit
   BEFORE INSERT ON public.projects
   FOR EACH ROW EXECUTE FUNCTION public.enforce_project_plan_limit();
 
--- Repair broken projects.id default (IDENTITY / serial cast → 22P02 / 42601).
--- DROP IDENTITY first: ALTER ... SET DEFAULT fails on identity columns.
-ALTER TABLE public.projects ALTER COLUMN id DROP IDENTITY IF EXISTS;
-ALTER TABLE public.projects ALTER COLUMN id DROP DEFAULT;
-ALTER TABLE public.projects ALTER COLUMN id SET DEFAULT gen_random_uuid();
+-- projects.id must be UUID. If live DB drifted to BIGINT IDENTITY, run
+-- fix-projects-id-default.sql once (do not SET DEFAULT gen_random_uuid() on bigint).
 
 -- One-time demo seed (bypasses RLS; only when demo user has zero projects)
 CREATE OR REPLACE FUNCTION public.ensure_demo_project_seed(p_name text, p_data jsonb)

@@ -1,14 +1,60 @@
--- Fix: projects.id was IDENTITY (or a sequence cast to uuid), so INSERT got
--- invalid uuid values like "15". Postgres rejects ALTER ... SET DEFAULT on an
--- IDENTITY column (42601) — DROP IDENTITY first, then set gen_random_uuid().
--- Re-run this entire file in Supabase SQL Editor (safe to repeat).
+-- Repair projects.id to match Metrico app + schema.sql (UUID).
+-- Live DBs sometimes drifted to BIGINT IDENTITY → errors like:
+--   invalid input syntax for type uuid: "15"
+--   column "id" is of type bigint but default expression is of type uuid
+-- Safe to re-run. Paste this WHOLE file into Supabase SQL Editor (no UI collapse text).
 
--- Drop identity if present (required before changing default)
-ALTER TABLE public.projects ALTER COLUMN id DROP IDENTITY IF EXISTS;
+DO $$
+DECLARE
+  typ text;
+  pk_name text;
+BEGIN
+  SELECT c.data_type INTO typ
+  FROM information_schema.columns c
+  WHERE c.table_schema = 'public'
+    AND c.table_name = 'projects'
+    AND c.column_name = 'id';
 
--- Ensure uuid default (not a serial sequence cast)
-ALTER TABLE public.projects ALTER COLUMN id DROP DEFAULT;
-ALTER TABLE public.projects ALTER COLUMN id SET DEFAULT gen_random_uuid();
+  IF typ IS NULL THEN
+    RAISE EXCEPTION 'public.projects.id not found';
+  END IF;
+
+  -- Always drop IDENTITY first when present (blocks SET DEFAULT).
+  BEGIN
+    ALTER TABLE public.projects ALTER COLUMN id DROP IDENTITY IF EXISTS;
+  EXCEPTION
+    WHEN undefined_column THEN NULL;
+    WHEN others THEN NULL;
+  END;
+
+  IF typ IN ('bigint', 'integer', 'smallint', 'numeric') THEN
+    -- Swap BIGINT → UUID without relying on invalid casts of "15"::uuid
+    SELECT tc.constraint_name INTO pk_name
+    FROM information_schema.table_constraints tc
+    WHERE tc.table_schema = 'public'
+      AND tc.table_name = 'projects'
+      AND tc.constraint_type = 'PRIMARY KEY'
+    LIMIT 1;
+
+    IF pk_name IS NOT NULL THEN
+      EXECUTE format('ALTER TABLE public.projects DROP CONSTRAINT %I', pk_name);
+    END IF;
+
+    ALTER TABLE public.projects ADD COLUMN IF NOT EXISTS id_uuid uuid;
+    UPDATE public.projects SET id_uuid = gen_random_uuid() WHERE id_uuid IS NULL;
+    ALTER TABLE public.projects ALTER COLUMN id_uuid SET NOT NULL;
+    ALTER TABLE public.projects ALTER COLUMN id_uuid SET DEFAULT gen_random_uuid();
+
+    ALTER TABLE public.projects DROP COLUMN id;
+    ALTER TABLE public.projects RENAME COLUMN id_uuid TO id;
+    ALTER TABLE public.projects ADD PRIMARY KEY (id);
+  ELSIF typ = 'uuid' THEN
+    ALTER TABLE public.projects ALTER COLUMN id DROP DEFAULT;
+    ALTER TABLE public.projects ALTER COLUMN id SET DEFAULT gen_random_uuid();
+  ELSE
+    RAISE EXCEPTION 'unsupported projects.id type: %', typ;
+  END IF;
+END $$;
 
 CREATE OR REPLACE FUNCTION public.ensure_demo_project_seed(p_name text, p_data jsonb)
 RETURNS uuid
@@ -37,7 +83,6 @@ BEGIN
   END IF;
 
   PERFORM set_config('metrico.allow_demo_seed', '1', true);
-  -- Rely on DEFAULT gen_random_uuid() after DROP IDENTITY above
   INSERT INTO public.projects (user_id, name, data)
   VALUES (v_uid, v_name, coalesce(p_data, '{}'::jsonb))
   RETURNING id INTO v_id;
