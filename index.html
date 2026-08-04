@@ -1263,7 +1263,7 @@ function projectCardTheme(projectId) {
   return PROJECT_CARD_PALETTE[Math.abs(h) % PROJECT_CARD_PALETTE.length];
 }
 const APP_NAME = "Metrico";
-const APP_VERSION = "2.54.3";
+const APP_VERSION = "2.54.4";
 
 const METRICO_PLAN_ORDER = ["start", "plus", "pro", "ark"];
 const METRICO_PLANS = {
@@ -17000,7 +17000,7 @@ function DashboardScreen({ projects, contacts, company, user, ensurePdfExport, b
         </div>
       </div>
 
-      <div className="m-summary-grid mb-5">
+      <div className="m-summary-grid mb-4">
         {summaryCards.map((card) => (
           <div key={card.key} className="m-summary-card">
             <div className="m-summary-icon" style={{ background: card.iconBg, color: card.iconColor }}>
@@ -17013,6 +17013,8 @@ function DashboardScreen({ projects, contacts, company, user, ensurePdfExport, b
           </div>
         ))}
       </div>
+
+      <div className="text-sm font-extrabold text-[#14213D] mb-3 tracking-tight">{t("پروژه‌ها")}</div>
 
       {projects.length === 0 ? (
         <div className="text-center text-[#6B7280] mt-16 text-sm px-8">
