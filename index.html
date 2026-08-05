@@ -1291,7 +1291,7 @@ function projectCardTheme(projectId) {
   return PROJECT_CARD_PALETTE[Math.abs(h) % PROJECT_CARD_PALETTE.length];
 }
 const APP_NAME = "Metrico";
-const APP_VERSION = "2.55.0";
+const APP_VERSION = "2.54.9";
 
 const METRICO_PLAN_ORDER = ["start", "plus", "pro", "ark"];
 const METRICO_PLANS = {
@@ -2858,32 +2858,13 @@ Object.assign(DICT, {
   "خالی — بدون خریدار": "Vacant — no buyer",
   "جزئیات واحد": "Unit details",
   "شماره واحد": "Unit number",
+  "مدل شماتیک بر اساس طبقات و واحدها — پلان واقعی فایل سه‌بعدی نیست.": "Schematic model from floors and units — not a real uploaded 3D floor plan.",
   "ابتدا یک پروژه بسازید تا پلان سه‌بعدی در دسترس باشد.": "Create a project first to use the 3D plan.",
   "یک پروژه را برای پلان سه‌بعدی انتخاب کنید": "Select a project for the 3D plan",
   "بارگذاری موتور سه‌بعدی…": "Loading 3D engine…",
   "بارگذاری موتور سه‌بعدی ناموفق بود. اتصال اینترنت را بررسی کنید.": "Failed to load the 3D engine. Check your internet connection.",
   "این پروژه واحد یا طبقه‌ای ندارد.": "This project has no floors or units.",
   "هنوز واحدی در این طبقه ثبت نشده.": "No units registered on this floor yet.",
-  "نمونه پلان شماتیک": "Schematic plan example",
-  "پلان رنگی ساده با شمال بالا؛ واحدها از شمال‌غربی در جهت ساعت‌گرد شماره‌گذاری می‌شوند.": "Simple color plan with North up; units are numbered NW-clockwise.",
-  "آپلود پلان طبقات": "Upload floor plans",
-  "برای هر طبقه یک JPG رنگی آپلود کنید. اولویت با تعداد واحدهای ثبت‌شده در پروژه است.": "Upload one color JPG per floor. Project floor/unit counts take priority.",
-  "اعمال این پلان برای همه طبقات": "Apply this plan to all floors",
-  "برای هر طبقه باید جداگانه پلان آپلود شود.": "Upload a separate plan for each floor.",
-  "آپلود پلان JPG": "Upload JPG plan",
-  "تعویض پلان JPG": "Replace JPG plan",
-  "در حال پردازش…": "Processing…",
-  "در حال اعمال…": "Applying…",
-  "اعمال پلان نمونه برای نگین": "Apply sample plan to Negin",
-  "اعمال پلان نمونه ناموفق بود.": "Failed to apply the sample plan.",
-  "لطفاً فقط فایل JPG آپلود کنید.": "Please upload a JPG file only.",
-  "خواندن پلان ناموفق بود. فایل JPG دیگری امتحان کنید.": "Could not read the plan. Try another JPG.",
-  "تعداد نواحی پلان با تعداد واحدهای ثبت‌شده در پروژه یکی نیست. ابتدا طبقات/واحدها را در دادهٔ پروژه ویرایش کنید.": "Schematic region count does not match project units. Edit floors/units in project data first.",
-  "پیشنهاد شماره‌گذاری (شمال‌غربی → ساعت‌گرد)": "Suggested numbering (NW → clockwise)",
-  "تأیید شماره‌گذاری": "Confirm numbering",
-  "شماره‌ها تأیید شد": "Numbers confirmed",
-  "همین پلان برای همه طبقات اعمال می‌شود.": "This plan is applied to every floor.",
-  "مدل از پلان شماتیک طبقات اکسترود می‌شود؛ در نبود پلان از شبکهٔ تقریبی استفاده می‌شود.": "Model extruded from floor schematics; falls back to an approximate grid when missing.",
   "هنوز نقشه اتوکدی بارگذاری نشده": "No AutoCAD drawing uploaded yet",
   "رفتن به آپلود در تنظیمات → مدارک": "Go to upload in Settings → Documents",
   "به‌زودی فعال می‌شود": "Coming soon",
@@ -7637,285 +7618,6 @@ function createMetricoOrbit(camera, domElement, THREE) {
   };
 }
 
-const FLOOR_SCHEMATIC_GUIDE_URL = "./floor-schematic-guide.png";
-
-function isNeginProjectName(name) {
-  const s = String(name || "").toLowerCase();
-  return s.includes("negin") || String(name || "").includes("نگین");
-}
-
-function normalizeBuilding3d(project) {
-  const raw = project?.building3d && typeof project.building3d === "object" ? project.building3d : {};
-  return {
-    applyFirstPlanToAll: !!raw.applyFirstPlanToAll,
-    floors: raw.floors && typeof raw.floors === "object" ? { ...raw.floors } : {},
-  };
-}
-
-function building3dFloorKey(floorNumber) {
-  return String(floorNumber);
-}
-
-function getSchematicForFloor(building3d, floorNumber, floorGroups) {
-  const b3d = building3d || { applyFirstPlanToAll: false, floors: {} };
-  const key = building3dFloorKey(floorNumber);
-  let entry = b3d.floors[key] || null;
-  if ((!entry || !entry.schematicDataUrl) && b3d.applyFirstPlanToAll && floorGroups?.length) {
-    const firstKey = building3dFloorKey(floorGroups[0].floor);
-    const first = b3d.floors[firstKey];
-    if (first?.schematicDataUrl) {
-      entry = { ...first, inherited: true };
-    }
-  }
-  return entry || null;
-}
-
-function building3dKeyHint(building3d) {
-  try {
-    const floors = building3d?.floors || {};
-    return Object.keys(floors).map((k) => {
-      const f = floors[k] || {};
-      const url = f.schematicDataUrl || "";
-      const tip = url ? `${url.length}:${url.slice(-24)}` : "0";
-      return `${k}:${f.confirmed ? 1 : 0}:${(f.regions || []).length}:${tip}`;
-    }).join("|") + `|a${building3d.applyFirstPlanToAll ? 1 : 0}`;
-  } catch (e) {
-    return "0";
-  }
-}
-
-function nwClockwiseAngle(cx, cy, ox, oy) {
-  const dx = cx - ox;
-  const dy = cy - oy;
-  return Math.atan2(dx, -dy);
-}
-
-function sortRegionsNwClockwise(regions) {
-  if (!regions?.length) return [];
-  const ox = regions.reduce((s, r) => s + r.cx, 0) / regions.length;
-  const oy = regions.reduce((s, r) => s + r.cy, 0) / regions.length;
-  const NW = -Math.PI / 4;
-  return [...regions]
-    .map((r, i) => ({ r, i, a: (nwClockwiseAngle(r.cx, r.cy, ox, oy) - NW + Math.PI * 4) % (Math.PI * 2) }))
-    .sort((a, b) => a.a - b.a || a.i - b.i)
-    .map((x) => x.r);
-}
-
-function gridFallbackRegions(count, width, height) {
-  const n = Math.max(1, Number(count) || 1);
-  const cols = Math.ceil(Math.sqrt(n));
-  const rows = Math.ceil(n / cols);
-  const cellW = width / cols;
-  const cellH = height / rows;
-  const regions = [];
-  for (let i = 0; i < n; i += 1) {
-    const col = i % cols;
-    const row = Math.floor(i / cols);
-    const minX = col * cellW + cellW * 0.08;
-    const maxX = (col + 1) * cellW - cellW * 0.08;
-    const minY = row * cellH + cellH * 0.08;
-    const maxY = (row + 1) * cellH - cellH * 0.08;
-    regions.push({
-      id: `grid-${i}`,
-      cx: (minX + maxX) / 2,
-      cy: (minY + maxY) / 2,
-      minX, minY, maxX, maxY,
-      color: "#94A3B8",
-      source: "grid",
-    });
-  }
-  return sortRegionsNwClockwise(regions);
-}
-
-function quantizeChannel(v, step) {
-  return Math.round(v / step) * step;
-}
-
-function parseFloorSchematicFromImageData(imageData, expectedCount) {
-  const { width, height, data } = imageData;
-  const step = 24;
-  const visited = new Uint8Array(width * height);
-  const isWhite = (i) => {
-    const o = i * 4;
-    return data[o] > 245 && data[o + 1] > 245 && data[o + 2] > 245;
-  };
-  const colorKeyAt = (i) => {
-    const o = i * 4;
-    const r = quantizeChannel(data[o], step);
-    const g = quantizeChannel(data[o + 1], step);
-    const b = quantizeChannel(data[o + 2], step);
-    return `${r},${g},${b}`;
-  };
-  const minArea = Math.max(80, Math.floor((width * height) * 0.004));
-  const blobs = [];
-
-  for (let y = 0; y < height; y += 1) {
-    for (let x = 0; x < width; x += 1) {
-      const start = y * width + x;
-      if (visited[start] || isWhite(start)) continue;
-      const key = colorKeyAt(start);
-      const queue = [start];
-      visited[start] = 1;
-      let qi = 0;
-      let sumX = 0;
-      let sumY = 0;
-      let count = 0;
-      let minX = x;
-      let maxX = x;
-      let minY = y;
-      let maxY = y;
-      let rSum = 0;
-      let gSum = 0;
-      let bSum = 0;
-      while (qi < queue.length) {
-        const idx = queue[qi++];
-        const px = idx % width;
-        const py = (idx / width) | 0;
-        sumX += px;
-        sumY += py;
-        count += 1;
-        if (px < minX) minX = px;
-        if (px > maxX) maxX = px;
-        if (py < minY) minY = py;
-        if (py > maxY) maxY = py;
-        const o = idx * 4;
-        rSum += data[o];
-        gSum += data[o + 1];
-        bSum += data[o + 2];
-        const neighbors = [idx - 1, idx + 1, idx - width, idx + width];
-        for (let n = 0; n < 4; n += 1) {
-          const ni = neighbors[n];
-          if (ni < 0 || ni >= width * height || visited[ni]) continue;
-          const nx = ni % width;
-          const ny = (ni / width) | 0;
-          if (Math.abs(nx - px) + Math.abs(ny - py) !== 1) continue;
-          if (isWhite(ni)) continue;
-          if (colorKeyAt(ni) !== key) continue;
-          visited[ni] = 1;
-          queue.push(ni);
-        }
-      }
-      if (count < minArea) continue;
-      const bw = maxX - minX + 1;
-      const bh = maxY - minY + 1;
-      if (bw < 4 || bh < 4) continue;
-      const rr = Math.round(rSum / count);
-      const gg = Math.round(gSum / count);
-      const bb = Math.round(bSum / count);
-      blobs.push({
-        id: `blob-${blobs.length}`,
-        cx: sumX / count,
-        cy: sumY / count,
-        minX, minY, maxX, maxY,
-        area: count,
-        color: `#${[rr, gg, bb].map((v) => v.toString(16).padStart(2, "0")).join("")}`,
-        source: "parse",
-      });
-    }
-  }
-
-  blobs.sort((a, b) => b.area - a.area);
-  let regions = blobs;
-  if (blobs.length) {
-    const maxArea = blobs[0].area;
-    regions = blobs.filter((b) => b.area >= maxArea * 0.12);
-  }
-  const expect = Number(expectedCount) || 0;
-  if (expect > 0 && regions.length > expect) {
-    regions = regions.slice(0, expect);
-  }
-  if (!regions.length) {
-    return {
-      ok: false,
-      fallback: true,
-      width,
-      height,
-      regions: gridFallbackRegions(expect || 1, width, height),
-    };
-  }
-  regions = sortRegionsNwClockwise(regions);
-  return { ok: true, fallback: false, width, height, regions };
-}
-
-function loadImageElement(src) {
-  return new Promise((resolve, reject) => {
-    const img = new Image();
-    img.crossOrigin = "anonymous";
-    img.onload = () => resolve(img);
-    img.onerror = () => reject(new Error("image load failed"));
-    img.src = src;
-  });
-}
-
-async function parseFloorSchematic(dataUrl, expectedCount) {
-  const img = await loadImageElement(dataUrl);
-  const maxSide = 640;
-  const scale = Math.min(1, maxSide / Math.max(img.width, img.height));
-  const width = Math.max(8, Math.round(img.width * scale));
-  const height = Math.max(8, Math.round(img.height * scale));
-  const canvas = document.createElement("canvas");
-  canvas.width = width;
-  canvas.height = height;
-  const ctx = canvas.getContext("2d", { willReadFrequently: true });
-  ctx.fillStyle = "#ffffff";
-  ctx.fillRect(0, 0, width, height);
-  ctx.drawImage(img, 0, 0, width, height);
-  const imageData = ctx.getImageData(0, 0, width, height);
-  return parseFloorSchematicFromImageData(imageData, expectedCount);
-}
-
-async function fetchGuideSchematicDataUrl() {
-  const res = await fetch(FLOOR_SCHEMATIC_GUIDE_URL);
-  if (!res.ok) throw new Error("guide fetch failed");
-  const blob = await res.blob();
-  return await new Promise((resolve, reject) => {
-    const reader = new FileReader();
-    reader.onload = () => resolve(reader.result);
-    reader.onerror = reject;
-    reader.readAsDataURL(blob);
-  });
-}
-
-function normalizeRegionCoords(regions, width, height) {
-  const w = Math.max(1, width);
-  const h = Math.max(1, height);
-  return (regions || []).map((r) => ({
-    ...r,
-    cxN: r.cx / w,
-    cyN: r.cy / h,
-    minXN: r.minX / w,
-    minYN: r.minY / h,
-    maxXN: r.maxX / w,
-    maxYN: r.maxY / h,
-  }));
-}
-
-function mapRegionsToFloorUnits(regions, floorUnits, globalStartIndex) {
-  const sortedUnits = [...(floorUnits || [])].sort((a, b) =>
-    String(a.unitNumber).localeCompare(String(b.unitNumber), undefined, { numeric: true })
-  );
-  const sortedRegions = sortRegionsNwClockwise(regions || []);
-  return sortedRegions.map((region, i) => {
-    const unit = sortedUnits[i] || null;
-    return {
-      ...region,
-      unitId: unit?.id || null,
-      unitNumber: unit ? unit.unitNumber : String((globalStartIndex || 0) + i + 1),
-      status: unit?.status || "vacant",
-      mappedIndex: i,
-    };
-  });
-}
-
-function cumulativeUnitOffset(floorGroups, floorIndex) {
-  let n = 0;
-  for (let i = 0; i < floorIndex; i += 1) {
-    const g = floorGroups[i];
-    n += Math.max(g.units.length, Number(g.declaredCount) || 0);
-  }
-  return n;
-}
-
 function buildFloorUnitGroups(project) {
   const floorsMeta = [...(project?.floors || [])].sort((a, b) => Number(a.number) - Number(b.number));
   const units = project?.units || [];
@@ -7947,56 +7649,6 @@ function statusMeshColor(status) {
   if (status === "sold") return STATUS.sold.color;
   if (status === "reserved") return STATUS.reserved.color;
   return STATUS.vacant.color;
-}
-
-function createSemiReclinedNorthMarker(THREE) {
-  const group = new THREE.Group();
-  const stemMat = new THREE.MeshStandardMaterial({ color: 0x1d4ed8, roughness: 0.45, metalness: 0.2 });
-  const tipMat = new THREE.MeshStandardMaterial({ color: 0x2563eb, roughness: 0.35, metalness: 0.25, emissive: 0x1e3a8a, emissiveIntensity: 0.15 });
-  const baseMat = new THREE.MeshStandardMaterial({ color: 0x14213d, roughness: 0.7, metalness: 0.1 });
-
-  const base = new THREE.Mesh(new THREE.CylinderGeometry(0.55, 0.7, 0.18, 24), baseMat);
-  base.position.y = 0.09;
-  group.add(base);
-
-  const disc = new THREE.Mesh(new THREE.CylinderGeometry(0.95, 0.95, 0.06, 32), new THREE.MeshStandardMaterial({
-    color: 0xe2e8f0, roughness: 0.85, metalness: 0.05,
-  }));
-  disc.position.y = 0.2;
-  group.add(disc);
-
-  const stem = new THREE.Mesh(new THREE.CylinderGeometry(0.09, 0.12, 2.2, 16), stemMat);
-  stem.position.set(0, 1.35, 0);
-  group.add(stem);
-
-  const tip = new THREE.Mesh(new THREE.ConeGeometry(0.32, 0.7, 20), tipMat);
-  tip.position.set(0, 2.7, 0);
-  group.add(tip);
-
-  const canvas = document.createElement("canvas");
-  canvas.width = 128;
-  canvas.height = 128;
-  const ctx = canvas.getContext("2d");
-  ctx.clearRect(0, 0, 128, 128);
-  ctx.fillStyle = "#1D4ED8";
-  ctx.beginPath();
-  ctx.arc(64, 64, 52, 0, Math.PI * 2);
-  ctx.fill();
-  ctx.fillStyle = "#ffffff";
-  ctx.font = "bold 72px Vazirmatn, Tahoma, sans-serif";
-  ctx.textAlign = "center";
-  ctx.textBaseline = "middle";
-  ctx.fillText("N", 64, 68);
-  const tex = new THREE.CanvasTexture(canvas);
-  const sprite = new THREE.Sprite(new THREE.SpriteMaterial({ map: tex, transparent: true, depthTest: true }));
-  sprite.scale.set(1.15, 1.15, 1);
-  sprite.position.set(0, 0.85, 0.55);
-  group.add(sprite);
-
-  group.rotation.x = -0.55;
-  group.rotation.z = 0.12;
-  group.userData = { kind: "north", tex, dispose() { tex.dispose(); } };
-  return group;
 }
 
 function Building3DUnitDetailSheet({ unit, project, onClose }) {
@@ -8054,8 +7706,6 @@ function Building3DView({ project }) {
   const [hoverFloor, setHoverFloor] = useState(null);
   const [selectedUnitId, setSelectedUnitId] = useState(null);
   const floorGroups = useMemo(() => buildFloorUnitGroups(project), [project]);
-  const building3d = useMemo(() => normalizeBuilding3d(project), [project]);
-  const building3dKey = useMemo(() => building3dKeyHint(building3d), [building3d]);
   const selectedUnit = useMemo(
     () => (project?.units || []).find((u) => u.id === selectedUnitId) || null,
     [project, selectedUnitId]
@@ -8082,79 +7732,14 @@ function Building3DView({ project }) {
     setLoadState("loading");
 
     ensureThreeJs()
-      .then(async (THREE) => {
-        if (disposed || !mountRef.current) return;
-
-        const PLAN_SIZE = 10;
-        const UNIT_H = 1.55;
-        const FLOOR_H = 0.18;
-        const STORY = UNIT_H + FLOOR_H + 0.38;
-        const floorPlanCache = {};
-
-        await Promise.all(floorGroups.map(async (group, fi) => {
-          const entry = getSchematicForFloor(building3d, group.floor, floorGroups);
-          const unitCount = Math.max(group.units.length, Number(group.declaredCount) || 0, 1);
-          if (entry?.regions?.length) {
-            const mapped = mapRegionsToFloorUnits(entry.regions, group.units, cumulativeUnitOffset(floorGroups, fi));
-            floorPlanCache[String(group.floor)] = {
-              regions: mapped,
-              width: entry.width || 1,
-              height: entry.height || 1,
-              fromSchematic: true,
-              mismatch: mapped.filter((r) => r.unitId).length !== unitCount && entry.regions.length !== unitCount,
-            };
-            return;
-          }
-          if (entry?.schematicDataUrl) {
-            try {
-              const parsed = await parseFloorSchematic(entry.schematicDataUrl, unitCount);
-              const norm = normalizeRegionCoords(parsed.regions, parsed.width, parsed.height);
-              const mapped = mapRegionsToFloorUnits(norm.map((r) => ({
-                ...r,
-                cx: r.cxN,
-                cy: r.cyN,
-                minX: r.minXN,
-                minY: r.minYN,
-                maxX: r.maxXN,
-                maxY: r.maxYN,
-              })), group.units, cumulativeUnitOffset(floorGroups, fi));
-              floorPlanCache[String(group.floor)] = {
-                regions: mapped,
-                width: 1,
-                height: 1,
-                fromSchematic: !parsed.fallback,
-                mismatch: entry.regionsCount != null
-                  ? entry.regionsCount !== unitCount
-                  : (parsed.regions.length !== unitCount),
-              };
-              return;
-            } catch (e) { /* fall through */ }
-          }
-          const grid = gridFallbackRegions(unitCount, 1, 1).map((r) => ({
-            ...r,
-            cx: r.cx,
-            cy: r.cy,
-            minX: r.minX,
-            minY: r.minY,
-            maxX: r.maxX,
-            maxY: r.maxY,
-          }));
-          floorPlanCache[String(group.floor)] = {
-            regions: mapRegionsToFloorUnits(grid, group.units, cumulativeUnitOffset(floorGroups, fi)),
-            width: 1,
-            height: 1,
-            fromSchematic: false,
-            mismatch: false,
-          };
-        }));
-
+      .then((THREE) => {
         if (disposed || !mountRef.current) return;
 
         const width = mount.clientWidth || 320;
         const height = Math.max(280, mount.clientHeight || 360);
 
         const scene = new THREE.Scene();
-        scene.background = new THREE.Color(0xf1f5f4);
+        scene.background = new THREE.Color(0xf4f6f5);
 
         const camera = new THREE.PerspectiveCamera(42, width / height, 0.1, 500);
         const renderer = new THREE.WebGLRenderer({ antialias: true, alpha: false, powerPreference: "low-power" });
@@ -8168,116 +7753,115 @@ function Building3DView({ project }) {
         mount.appendChild(renderer.domElement);
 
         const controls = createMetricoOrbit(camera, renderer.domElement, THREE);
-        controls.limits.minDistance = 5;
-        controls.limits.maxDistance = 90;
+        controls.limits.minDistance = 6;
+        controls.limits.maxDistance = 80;
         controls.limits.maxPolar = Math.PI * 0.48;
         controls.target.set(0, 0, 0);
 
-        scene.add(new THREE.AmbientLight(0xffffff, 0.74));
-        const key = new THREE.DirectionalLight(0xffffff, 0.88);
-        key.position.set(14, 24, 12);
+        scene.add(new THREE.AmbientLight(0xffffff, 0.72));
+        const key = new THREE.DirectionalLight(0xffffff, 0.85);
+        key.position.set(12, 22, 10);
         scene.add(key);
-        const fill = new THREE.DirectionalLight(0xcbd5e1, 0.38);
-        fill.position.set(-12, 10, -10);
+        const fill = new THREE.DirectionalLight(0xcbd5e1, 0.35);
+        fill.position.set(-10, 8, -8);
         scene.add(fill);
 
         const root = new THREE.Group();
         scene.add(root);
 
+        const UNIT_W = 1.35;
+        const UNIT_D = 1.35;
+        const UNIT_H = 1.55;
+        const GAP = 0.18;
+        const FLOOR_H = 0.22;
+        const STORY = UNIT_H + FLOOR_H + 0.35;
         const pickables = [];
-        const floorGroups3d = [];
+        const floorMeshes = [];
         const labelSprites = [];
-        const unitMeshes = [];
 
         floorGroups.forEach((group, fi) => {
+          const unitCount = Math.max(group.units.length, Number(group.declaredCount) || 0, 1);
+          const cols = Math.ceil(Math.sqrt(unitCount));
+          const rows = Math.ceil(unitCount / cols);
+          const gridW = cols * UNIT_W + (cols - 1) * GAP;
+          const gridD = rows * UNIT_D + (rows - 1) * GAP;
           const yBase = fi * STORY;
-          const plan = floorPlanCache[String(group.floor)];
-          const floorGroup = new THREE.Group();
-          floorGroup.userData = { kind: "floorRoot", floor: group.floor, yBase };
-          root.add(floorGroup);
-          floorGroups3d.push(floorGroup);
 
-          const slabGeo = new THREE.BoxGeometry(PLAN_SIZE + 0.9, FLOOR_H, PLAN_SIZE + 0.9);
+          const slabGeo = new THREE.BoxGeometry(gridW + 0.7, FLOOR_H, gridD + 0.7);
           const slabMat = new THREE.MeshStandardMaterial({
             color: 0xe8edf2,
             roughness: 0.9,
             metalness: 0.05,
             transparent: true,
-            opacity: 0.92,
+            opacity: 0.95,
             emissive: new THREE.Color(0x000000),
             emissiveIntensity: 0,
           });
           const slab = new THREE.Mesh(slabGeo, slabMat);
           slab.position.set(0, yBase, 0);
           slab.userData = { kind: "floor", floor: group.floor };
-          floorGroup.add(slab);
+          root.add(slab);
+          floorMeshes.push(slab);
           pickables.push(slab);
 
-          const regions = plan?.regions || [];
-          regions.forEach((region) => {
-            const unit = region.unitId ? group.units.find((u) => u.id === region.unitId) : null;
-            const minX = (region.minXN != null ? region.minXN : region.minX) ?? 0;
-            const maxX = (region.maxXN != null ? region.maxXN : region.maxX) ?? 1;
-            const minY = (region.minYN != null ? region.minYN : region.minY) ?? 0;
-            const maxY = (region.maxYN != null ? region.maxYN : region.maxY) ?? 1;
-            const rw = Math.max(0.08, (maxX - minX)) * PLAN_SIZE;
-            const rd = Math.max(0.08, (maxY - minY)) * PLAN_SIZE;
-            const x = (minX + maxX) / 2 * PLAN_SIZE - PLAN_SIZE / 2;
-            const z = (minY + maxY) / 2 * PLAN_SIZE - PLAN_SIZE / 2;
-            const color = statusMeshColor(unit ? unit.status : region.status || "vacant");
-            const geo = new THREE.BoxGeometry(rw * 0.96, UNIT_H, rd * 0.96);
+          for (let ui = 0; ui < unitCount; ui += 1) {
+            const unit = group.units[ui] || null;
+            const col = ui % cols;
+            const row = Math.floor(ui / cols);
+            const x = -gridW / 2 + UNIT_W / 2 + col * (UNIT_W + GAP);
+            const z = -gridD / 2 + UNIT_D / 2 + row * (UNIT_D + GAP);
+            const color = statusMeshColor(unit ? unit.status : "vacant");
+            const geo = new THREE.BoxGeometry(UNIT_W * 0.92, UNIT_H, UNIT_D * 0.92);
             const mat = new THREE.MeshStandardMaterial({
               color: new THREE.Color(color),
-              roughness: 0.7,
+              roughness: 0.72,
               metalness: 0.08,
-              transparent: true,
-              opacity: unit ? 1 : 0.5,
+              transparent: !unit,
+              opacity: unit ? 1 : 0.45,
             });
             const mesh = new THREE.Mesh(geo, mat);
             mesh.position.set(x, yBase + FLOOR_H / 2 + UNIT_H / 2, z);
             mesh.userData = unit
               ? { kind: "unit", unitId: unit.id, floor: group.floor }
               : { kind: "floor", floor: group.floor };
-            floorGroup.add(mesh);
+            root.add(mesh);
             pickables.push(mesh);
-            unitMeshes.push(mesh);
+
             const edge = new THREE.EdgesGeometry(geo);
-            const line = new THREE.LineSegments(edge, new THREE.LineBasicMaterial({ color: 0x14213d, transparent: true, opacity: 0.28 }));
+            const line = new THREE.LineSegments(edge, new THREE.LineBasicMaterial({ color: 0x14213d, transparent: true, opacity: 0.22 }));
             mesh.add(line);
-          });
+          }
 
           const canvas = document.createElement("canvas");
-          canvas.width = 160;
+          canvas.width = 256;
           canvas.height = 64;
           const ctx = canvas.getContext("2d");
-          ctx.clearRect(0, 0, 160, 64);
-          ctx.fillStyle = "rgba(20, 33, 61, 0.9)";
+          ctx.clearRect(0, 0, 256, 64);
+          ctx.fillStyle = "rgba(20, 33, 61, 0.88)";
           if (typeof ctx.roundRect === "function") {
             ctx.beginPath();
-            ctx.roundRect(8, 10, 144, 44, 10);
+            ctx.roundRect(8, 8, 240, 48, 10);
             ctx.fill();
           } else {
-            ctx.fillRect(8, 10, 144, 44);
+            ctx.fillRect(8, 8, 240, 48);
           }
           ctx.fillStyle = "#ffffff";
-          ctx.font = "bold 28px Vazirmatn, Tahoma, sans-serif";
+          ctx.font = "bold 22px Vazirmatn, Tahoma, sans-serif";
           ctx.textAlign = "center";
           ctx.textBaseline = "middle";
-          ctx.fillText(String(group.floor), 80, 34);
+          const shownCount = group.units.length || Number(group.declaredCount) || 0;
+          const labelText = `${lang === "fa" ? "طبقه" : "Floor"} ${group.floor} · ${shownCount}`;
+          ctx.fillText(labelText, 128, 32);
           const tex = new THREE.CanvasTexture(canvas);
           tex.needsUpdate = true;
           const spriteMat = new THREE.SpriteMaterial({ map: tex, transparent: true, depthTest: false });
           const sprite = new THREE.Sprite(spriteMat);
-          sprite.scale.set(2.4, 0.95, 1);
-          sprite.position.set(PLAN_SIZE / 2 + 1.8, yBase + UNIT_H * 0.65, 0);
+          sprite.scale.set(4.2, 1.05, 1);
+          sprite.position.set(gridW / 2 + 2.2, yBase + UNIT_H * 0.7, 0);
           sprite.userData = { kind: "label" };
-          floorGroup.add(sprite);
+          root.add(sprite);
           labelSprites.push({ sprite, tex, mat: spriteMat, canvas });
         });
-
-        const north = createSemiReclinedNorthMarker(THREE);
-        north.position.set(-PLAN_SIZE / 2 - 2.8, 0.05, -PLAN_SIZE / 2 - 1.2);
-        root.add(north);
 
         const box = new THREE.Box3().setFromObject(root);
         const center = box.getCenter(new THREE.Vector3());
@@ -8285,7 +7869,7 @@ function Building3DView({ project }) {
         root.position.sub(center);
         const maxDim = Math.max(size.x, size.y, size.z, 4);
         const dist = maxDim * 1.55;
-        const defaultCamPos = new THREE.Vector3(dist * 0.9, dist * 0.72, dist * 0.85);
+        const defaultCamPos = new THREE.Vector3(dist * 0.85, dist * 0.55, dist * 0.95);
         const defaultTarget = new THREE.Vector3(0, 0, 0);
 
         function resetCamera() {
@@ -8299,52 +7883,19 @@ function Building3DView({ project }) {
         const raycaster = new THREE.Raycaster();
         const pointer = new THREE.Vector2();
         let highlightedFloor = null;
+        const originalSlabColors = new Map();
+        floorMeshes.forEach((m) => originalSlabColors.set(m, m.material.color.getHex()));
 
         function setFloorHighlight(floorKey) {
           highlightedFloor = floorKey;
-          floorGroups3d.forEach((fg) => {
-            const active = floorKey == null || String(fg.userData.floor) === String(floorKey);
-            fg.traverse((obj) => {
-              if (!obj.isMesh && !obj.isLineSegments && !obj.isSprite) return;
-              if (obj.userData?.kind === "north") return;
-              const mat = obj.material;
-              if (!mat) return;
-              if (obj.isSprite) {
-                mat.opacity = active ? 1 : 0.22;
-                return;
-              }
-              mat.transparent = true;
-              if (obj.userData?.kind === "floor") {
-                mat.opacity = active ? 0.95 : 0.18;
-                if (mat.emissive) {
-                  mat.emissive.setHex(active && floorKey != null ? 0x3b2f0b : 0x000000);
-                  mat.emissiveIntensity = active && floorKey != null ? 0.16 : 0;
-                }
-                if (active && floorKey != null) mat.color.setHex(0xc9a227);
-                else if (obj.userData.kind === "floor") mat.color.setHex(0xe8edf2);
-              } else {
-                mat.opacity = active ? (mat.userData?.baseOpacity ?? 1) : 0.16;
-              }
-            });
+          floorMeshes.forEach((m) => {
+            const active = floorKey != null && String(m.userData.floor) === String(floorKey);
+            m.material.color.setHex(active ? 0xc9a227 : originalSlabColors.get(m));
+            if (m.material.emissive) m.material.emissive.setHex(active ? 0x3b2f0b : 0x000000);
+            m.material.emissiveIntensity = active ? 0.18 : 0;
           });
           setHoverFloor(floorKey);
-
-          if (floorKey != null) {
-            const fi = floorGroups.findIndex((g) => String(g.floor) === String(floorKey));
-            if (fi >= 0) {
-              const yFocus = fi * STORY - center.y + UNIT_H * 0.4;
-              controls.target.set(0, yFocus, 0);
-              const r = Math.max(controls.limits.minDistance, Math.min(maxDim * 1.15, 28));
-              camera.position.set(r * 0.55, r * 0.95, r * 0.55);
-              controls.syncFromCamera();
-              controls.apply();
-            }
-          }
         }
-
-        unitMeshes.forEach((m) => {
-          if (m.material) m.material.userData = { ...(m.material.userData || {}), baseOpacity: m.material.opacity };
-        });
 
         function ndcFromEvent(ev) {
           const rect = renderer.domElement.getBoundingClientRect();
@@ -8388,7 +7939,12 @@ function Building3DView({ project }) {
         function onPointerMove(ev) {
           if (ev.pointerType === "touch" && !ev.buttons) return;
           const hit = pick(ev);
-          if (!hit) return;
+          if (!hit) {
+            if (highlightedFloor != null && !selectedUnitId) {
+              /* keep last floor highlight until another pick */
+            }
+            return;
+          }
           const data = hit.object.userData || {};
           if (data.floor != null) setFloorHighlight(data.floor);
         }
@@ -8418,10 +7974,7 @@ function Building3DView({ project }) {
         setLoadState("ready");
 
         apiRef.current = {
-          resetCamera: () => {
-            resetCamera();
-            if (highlightedFloor != null) setFloorHighlight(highlightedFloor);
-          },
+          resetCamera,
           dispose() {
             cancelAnimationFrame(rafId);
             window.removeEventListener("resize", onResize);
@@ -8429,7 +7982,6 @@ function Building3DView({ project }) {
             renderer.domElement.removeEventListener("pointerup", onPointerUp);
             renderer.domElement.removeEventListener("pointermove", onPointerMove);
             controls.dispose();
-            if (north.userData?.dispose) north.userData.dispose();
             root.traverse((obj) => {
               if (obj.geometry) obj.geometry.dispose();
               if (obj.material) {
@@ -8459,7 +8011,7 @@ function Building3DView({ project }) {
       }
       if (mountRef.current) mountRef.current.innerHTML = "";
     };
-  }, [project?.id, floorGroups, lang, building3dKey]);
+  }, [project?.id, floorGroups, lang]);
 
   if (!floorGroups.length) {
     return (
@@ -8536,7 +8088,7 @@ function Building3DView({ project }) {
       )}
 
       <div className="text-[10px] text-[#9CA3AF] leading-relaxed">
-        {t("مدل از پلان شماتیک طبقات اکسترود می‌شود؛ در نبود پلان از شبکهٔ تقریبی استفاده می‌شود.")}
+        {t("مدل شماتیک بر اساس طبقات و واحدها — پلان واقعی فایل سه‌بعدی نیست.")}
       </div>
 
       {selectedUnit && (
@@ -8550,150 +8102,30 @@ function Building3DView({ project }) {
   );
 }
 
-function Building3DPlanScreen({ projects, initialProjectId, onBack, onUpdateBuilding3d }) {
+function Building3DPlanScreen({ projects, initialProjectId, onBack }) {
   const { lang, t } = useContext(LanguageContext);
   const screenDir = lang === "fa" ? "rtl" : "ltr";
-  const fileRefs = useRef({});
-  const [busyFloor, setBusyFloor] = useState(null);
-  const [warnMsg, setWarnMsg] = useState("");
-  const [previewFloor, setPreviewFloor] = useState(null);
-
-  const pickDefaultProjectId = useCallback(() => {
+  const [projectId, setProjectId] = useState(() => {
     if (initialProjectId && projects.some((p) => String(p.id) === String(initialProjectId))) return String(initialProjectId);
-    const negin = projects.find((p) => isNeginProjectName(p.name));
-    if (negin) return String(negin.id);
     return projects.length === 1 ? String(projects[0].id) : "";
-  }, [projects, initialProjectId]);
-
-  const [projectId, setProjectId] = useState(() => pickDefaultProjectId());
+  });
   const projectIdsKey = useMemo(() => projects.map((p) => p.id).join("\u0001"), [projects]);
 
   useEffect(() => {
     if (!projects.length) { setProjectId(""); return; }
+    if (projects.length === 1) { setProjectId(String(projects[0].id)); return; }
     setProjectId((prev) => {
       const prevStr = String(prev || "");
       if (prevStr && projects.some((p) => String(p.id) === prevStr)) return prev;
-      return pickDefaultProjectId();
+      if (initialProjectId && projects.some((p) => String(p.id) === String(initialProjectId))) return String(initialProjectId);
+      return "";
     });
-  }, [projectIdsKey, pickDefaultProjectId]);
+  }, [projectIdsKey, initialProjectId]);
 
   const project = useMemo(
     () => projects.find((p) => String(p.id) === String(projectId)) ?? null,
     [projects, projectId]
   );
-  const floorGroups = useMemo(() => (project ? buildFloorUnitGroups(project) : []), [project]);
-  const building3d = useMemo(() => normalizeBuilding3d(project), [project]);
-  const isNegin = project ? isNeginProjectName(project.name) : false;
-
-  function persistBuilding3d(next) {
-    if (!project || !onUpdateBuilding3d) return;
-    onUpdateBuilding3d(project.id, next);
-  }
-
-  function patchBuilding3d(mutator) {
-    const next = mutator(normalizeBuilding3d(project));
-    persistBuilding3d(next);
-  }
-
-  async function ingestSchematicForFloor(floorNumber, dataUrl, { confirmAfter, forceApplyAll } = {}) {
-    if (!project) return;
-    const group = floorGroups.find((g) => String(g.floor) === String(floorNumber));
-    const expected = Math.max(group?.units.length || 0, Number(group?.declaredCount) || 0, 1);
-    setBusyFloor(floorNumber);
-    setWarnMsg("");
-    try {
-      const parsed = await parseFloorSchematic(dataUrl, expected);
-      const regions = normalizeRegionCoords(parsed.regions, parsed.width, parsed.height).map((r) => ({
-        id: r.id,
-        cx: r.cxN,
-        cy: r.cyN,
-        minX: r.minXN,
-        minY: r.minYN,
-        maxX: r.maxXN,
-        maxY: r.maxYN,
-        color: r.color,
-        source: r.source,
-      }));
-      if (!parsed.fallback && regions.length !== expected) {
-        setWarnMsg(t("تعداد نواحی پلان با تعداد واحدهای ثبت‌شده در پروژه یکی نیست. ابتدا طبقات/واحدها را در دادهٔ پروژه ویرایش کنید."));
-      }
-      const floorEntry = {
-        schematicDataUrl: dataUrl,
-        northDeg: 0,
-        regions,
-        regionsCount: regions.length,
-        width: 1,
-        height: 1,
-        parseFallback: !!parsed.fallback,
-        confirmed: !!confirmAfter,
-      };
-      patchBuilding3d((prev) => {
-        const applyAll = forceApplyAll != null ? !!forceApplyAll : !!prev.applyFirstPlanToAll;
-        const floors = { ...prev.floors };
-        if (applyAll) {
-          floorGroups.forEach((g) => {
-            floors[building3dFloorKey(g.floor)] = { ...floorEntry };
-          });
-        } else {
-          floors[building3dFloorKey(floorNumber)] = floorEntry;
-        }
-        return { ...prev, applyFirstPlanToAll: applyAll, floors };
-      });
-      setPreviewFloor(floorNumber);
-    } catch (e) {
-      setWarnMsg(t("خواندن پلان ناموفق بود. فایل JPG دیگری امتحان کنید."));
-    } finally {
-      setBusyFloor(null);
-    }
-  }
-
-  async function onPickFile(floorNumber, file) {
-    if (!file) return;
-    const name = String(file.name || "").toLowerCase();
-    if (!name.endsWith(".jpg") && !name.endsWith(".jpeg") && file.type !== "image/jpeg") {
-      setWarnMsg(t("لطفاً فقط فایل JPG آپلود کنید."));
-      return;
-    }
-    try {
-      const dataUrl = await resizeImageLegacy(file, 1280, 0.88);
-      await ingestSchematicForFloor(floorNumber, dataUrl, { confirmAfter: false });
-    } catch (e) {
-      setWarnMsg(t("خواندن پلان ناموفق بود. فایل JPG دیگری امتحان کنید."));
-    }
-  }
-
-  function confirmFloorNumbers(floorNumber) {
-    patchBuilding3d((prev) => {
-      const floors = { ...prev.floors };
-      const keys = prev.applyFirstPlanToAll
-        ? floorGroups.map((g) => building3dFloorKey(g.floor))
-        : [building3dFloorKey(floorNumber)];
-      keys.forEach((k) => {
-        if (floors[k]) floors[k] = { ...floors[k], confirmed: true };
-      });
-      return { ...prev, floors };
-    });
-  }
-
-  async function applySampleToNegin() {
-    if (!project || !isNegin) return;
-    setBusyFloor("sample");
-    setWarnMsg("");
-    try {
-      const dataUrl = await fetchGuideSchematicDataUrl();
-      const firstFloor = floorGroups[0]?.floor ?? 1;
-      await ingestSchematicForFloor(firstFloor, dataUrl, { confirmAfter: false, forceApplyAll: true });
-    } catch (e) {
-      setWarnMsg(t("اعمال پلان نمونه ناموفق بود."));
-    } finally {
-      setBusyFloor(null);
-    }
-  }
-
-  const firstFloor = floorGroups[0]?.floor;
-  const uploadFloors = building3d.applyFirstPlanToAll && firstFloor != null
-    ? floorGroups.filter((g) => String(g.floor) === String(firstFloor))
-    : floorGroups;
 
   return (
     <div className="px-4 pt-5 pb-10" dir={screenDir} style={{ background: "#F8F9FB", minHeight: "100%" }}>
@@ -8712,7 +8144,7 @@ function Building3DPlanScreen({ projects, initialProjectId, onBack, onUpdateBuil
             <label className="text-xs font-semibold text-[#6B7280] mb-2 block">{t("انتخاب پروژه")}</label>
             <select
               value={projectId || ""}
-              onChange={(e) => { setProjectId(e.target.value); setWarnMsg(""); setPreviewFloor(null); }}
+              onChange={(e) => setProjectId(e.target.value)}
               className="w-full m-input-field px-3 py-2.5 text-sm outline-none"
             >
               <option value="">{t("یک پروژه را برای پلان سه‌بعدی انتخاب کنید")}</option>
@@ -8720,156 +8152,19 @@ function Building3DPlanScreen({ projects, initialProjectId, onBack, onUpdateBuil
                 <option key={p.id} value={String(p.id)}>{p.name}</option>
               ))}
             </select>
-            {isNegin && (
-              <button
-                type="button"
-                disabled={!!busyFloor}
-                onClick={applySampleToNegin}
-                className="mt-3 w-full text-[12px] font-semibold px-3 py-2.5 rounded-xl bg-[#128C7E] text-white disabled:opacity-50"
-              >
-                {busyFloor === "sample" ? t("در حال اعمال…") : t("اعمال پلان نمونه برای نگین")}
-              </button>
-            )}
           </div>
-
           {!project ? (
             <div className="m-card p-8 text-center text-sm text-[#9CA3AF]">
               {t("یک پروژه را برای پلان سه‌بعدی انتخاب کنید")}
             </div>
           ) : (
-            <>
-              <div className="m-card p-4 mb-4">
-                <div className="text-xs font-bold text-[#14213D] mb-2">{t("نمونه پلان شماتیک")}</div>
-                <p className="text-[11px] text-[#6B7280] mb-3 leading-relaxed">
-                  {t("پلان رنگی ساده با شمال بالا؛ واحدها از شمال‌غربی در جهت ساعت‌گرد شماره‌گذاری می‌شوند.")}
-                </p>
-                <img
-                  src={FLOOR_SCHEMATIC_GUIDE_URL}
-                  alt={t("نمونه پلان شماتیک")}
-                  className="w-full max-w-sm mx-auto rounded-xl border border-black/10 bg-white"
-                />
-              </div>
-
-              <div className="m-card p-4 mb-4 flex flex-col gap-3">
-                <div className="text-xs font-bold text-[#14213D]">{t("آپلود پلان طبقات")}</div>
-                <p className="text-[11px] text-[#6B7280] leading-relaxed">
-                  {t("برای هر طبقه یک JPG رنگی آپلود کنید. اولویت با تعداد واحدهای ثبت‌شده در پروژه است.")}
-                </p>
-                <label className="flex items-start gap-2 text-[12px] text-[#14213D] cursor-pointer">
-                  <input
-                    type="checkbox"
-                    className="mt-0.5"
-                    checked={!!building3d.applyFirstPlanToAll}
-                    onChange={(e) => {
-                      const checked = e.target.checked;
-                      patchBuilding3d((prev) => {
-                        const floors = { ...prev.floors };
-                        if (checked && firstFloor != null && floors[building3dFloorKey(firstFloor)]) {
-                          const src = floors[building3dFloorKey(firstFloor)];
-                          floorGroups.forEach((g) => {
-                            floors[building3dFloorKey(g.floor)] = { ...src };
-                          });
-                        }
-                        return { ...prev, applyFirstPlanToAll: checked, floors };
-                      });
-                    }}
-                  />
-                  <span>{t("اعمال این پلان برای همه طبقات")}</span>
-                </label>
-                {!building3d.applyFirstPlanToAll && (
-                  <div className="text-[10px] text-amber-800 bg-amber-50 rounded-xl px-3 py-2">
-                    {t("برای هر طبقه باید جداگانه پلان آپلود شود.")}
-                  </div>
-                )}
-
-                {uploadFloors.map((g, idx) => {
-                  const entry = getSchematicForFloor(building3d, g.floor, floorGroups);
-                  const expected = Math.max(g.units.length, Number(g.declaredCount) || 0);
-                  const found = entry?.regions?.length || entry?.regionsCount || 0;
-                  const mismatch = entry && found && expected && found !== expected;
-                  const offset = cumulativeUnitOffset(floorGroups, building3d.applyFirstPlanToAll ? 0 : floorGroups.findIndex((x) => String(x.floor) === String(g.floor)));
-                  const mapped = entry?.regions
-                    ? mapRegionsToFloorUnits(entry.regions, g.units, offset)
-                    : [];
-                  return (
-                    <div key={String(g.floor)} className="border border-black/10 rounded-xl p-3 bg-[#F8FAFC]">
-                      <div className="flex items-center justify-between gap-2 mb-2">
-                        <div className="text-[12px] font-bold text-[#14213D]">
-                          {t("طبقه")} {g.floor}
-                          <span className="text-[#9CA3AF] font-medium"> · {expected} {t("واحد")}</span>
-                        </div>
-                        {entry?.confirmed && (
-                          <span className="text-[10px] font-semibold text-[#047857] bg-[#ECFDF5] px-2 py-0.5 rounded-full">{t("شماره‌ها تأیید شد")}</span>
-                        )}
-                      </div>
-                      {entry?.schematicDataUrl && (
-                        <img src={entry.schematicDataUrl} alt="" className="w-full max-h-36 object-contain rounded-lg bg-white border border-black/5 mb-2" />
-                      )}
-                      <input
-                        ref={(el) => { fileRefs.current[String(g.floor)] = el; }}
-                        type="file"
-                        accept="image/jpeg,.jpg,.jpeg"
-                        className="hidden"
-                        onChange={(e) => {
-                          const f = e.target.files?.[0];
-                          e.target.value = "";
-                          onPickFile(g.floor, f);
-                        }}
-                      />
-                      <button
-                        type="button"
-                        disabled={!!busyFloor}
-                        onClick={() => fileRefs.current[String(g.floor)]?.click()}
-                        className="w-full text-[12px] font-semibold px-3 py-2 rounded-xl bg-[#14213D] text-white disabled:opacity-50"
-                      >
-                        {busyFloor === g.floor ? t("در حال پردازش…") : (entry?.schematicDataUrl ? t("تعویض پلان JPG") : t("آپلود پلان JPG"))}
-                      </button>
-                      {mismatch && (
-                        <div className="mt-2 text-[10px] text-[#B45309] bg-[#FFFBEB] rounded-lg px-2.5 py-2 leading-relaxed">
-                          {t("تعداد نواحی پلان با تعداد واحدهای ثبت‌شده در پروژه یکی نیست. ابتدا طبقات/واحدها را در دادهٔ پروژه ویرایش کنید.")}
-                          <span className="block mt-1 opacity-80">({found} → {expected})</span>
-                        </div>
-                      )}
-                      {mapped.length > 0 && !mismatch && (
-                        <div className="mt-2 flex flex-col gap-1">
-                          <div className="text-[10px] text-[#6B7280] mb-0.5">{t("پیشنهاد شماره‌گذاری (شمال‌غربی → ساعت‌گرد)")}</div>
-                          {mapped.map((r, i) => (
-                            <div key={r.id || i} className="text-[11px] flex items-center gap-2">
-                              <span className="w-3 h-3 rounded-sm shrink-0" style={{ background: r.color || "#94A3B8" }} />
-                              <span>{t("واحد ")}{r.unitNumber}</span>
-                            </div>
-                          ))}
-                          {!entry?.confirmed && (
-                            <button
-                              type="button"
-                              onClick={() => confirmFloorNumbers(g.floor)}
-                              className="mt-1 text-[11px] font-semibold text-[#128C7E]"
-                            >
-                              {t("تأیید شماره‌گذاری")}
-                            </button>
-                          )}
-                        </div>
-                      )}
-                      {building3d.applyFirstPlanToAll && idx === 0 && floorGroups.length > 1 && (
-                        <div className="mt-2 text-[10px] text-[#6B7280]">{t("همین پلان برای همه طبقات اعمال می‌شود.")}</div>
-                      )}
-                    </div>
-                  );
-                })}
-                {warnMsg && (
-                  <div className="text-[11px] text-[#B91C1C] bg-red-50 rounded-xl px-3 py-2">{warnMsg}</div>
-                )}
-              </div>
-
-              <Building3DView project={project} key={`${project.id}-${building3dKeyHint(building3d)}-${previewFloor || ""}`} />
-            </>
+            <Building3DView project={project} />
           )}
         </>
       )}
     </div>
   );
 }
-
 
 function ProjectMapsScreen({ project, embedded, onBack, onOpenUploadSettings, initialTab }) {
   const { lang, t } = useContext(LanguageContext);
@@ -11259,7 +10554,6 @@ function AppContent() {
             projects={projects}
             initialProjectId={activeTab || activeProject?.id}
             onBack={() => setScreen("dashboard")}
-            onUpdateBuilding3d={(projectId, building3d) => updateProjectMeta(projectId, { building3d })}
           />
         )}
         {screen === "takeoff" && (
