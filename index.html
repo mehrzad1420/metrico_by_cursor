@@ -1291,7 +1291,7 @@ function projectCardTheme(projectId) {
   return PROJECT_CARD_PALETTE[Math.abs(h) % PROJECT_CARD_PALETTE.length];
 }
 const APP_NAME = "Metrico";
-const APP_VERSION = "2.54.8";
+const APP_VERSION = "2.54.9";
 
 const METRICO_PLAN_ORDER = ["start", "plus", "pro", "ark"];
 const METRICO_PLANS = {
@@ -2848,6 +2848,23 @@ Object.assign(DICT, {
   "نقشه اتوکد": "AutoCAD drawing",
   "رندر BIM": "BIM render",
   "پلان سه‌بعدی": "3D plan",
+  "پلان سه‌بعدی ساختمان": "3D building plan",
+  "چرخش و بزرگ‌نمایی با انگشت یا ماوس": "Orbit and zoom with touch or mouse",
+  "بازنشانی نما": "Reset camera",
+  "راهنمای رنگ وضعیت": "Status color legend",
+  "واحدهای طبقه": "Floor units",
+  "انتخاب واحد برای جزئیات": "Select a unit for details",
+  "بدون خریدار": "No buyer",
+  "خالی — بدون خریدار": "Vacant — no buyer",
+  "جزئیات واحد": "Unit details",
+  "شماره واحد": "Unit number",
+  "مدل شماتیک بر اساس طبقات و واحدها — پلان واقعی فایل سه‌بعدی نیست.": "Schematic model from floors and units — not a real uploaded 3D floor plan.",
+  "ابتدا یک پروژه بسازید تا پلان سه‌بعدی در دسترس باشد.": "Create a project first to use the 3D plan.",
+  "یک پروژه را برای پلان سه‌بعدی انتخاب کنید": "Select a project for the 3D plan",
+  "بارگذاری موتور سه‌بعدی…": "Loading 3D engine…",
+  "بارگذاری موتور سه‌بعدی ناموفق بود. اتصال اینترنت را بررسی کنید.": "Failed to load the 3D engine. Check your internet connection.",
+  "این پروژه واحد یا طبقه‌ای ندارد.": "This project has no floors or units.",
+  "هنوز واحدی در این طبقه ثبت نشده.": "No units registered on this floor yet.",
   "هنوز نقشه اتوکدی بارگذاری نشده": "No AutoCAD drawing uploaded yet",
   "رفتن به آپلود در تنظیمات → مدارک": "Go to upload in Settings → Documents",
   "به‌زودی فعال می‌شود": "Coming soon",
@@ -7438,10 +7455,721 @@ function ProjectMapFilesSection({ project, isReadOnly, onUpdateCadFiles, onUpdat
   );
 }
 
-function ProjectMapsScreen({ project, embedded, onBack, onOpenUploadSettings }) {
+const THREE_CDN_URL = "https://cdn.jsdelivr.net/npm/three@0.160.0/build/three.min.js";
+let threeJsLoadPromise = null;
+
+function ensureThreeJs() {
+  if (window.THREE && window.THREE.WebGLRenderer) {
+    return Promise.resolve(window.THREE);
+  }
+  if (threeJsLoadPromise) return threeJsLoadPromise;
+  threeJsLoadPromise = new Promise((resolve, reject) => {
+    const existing = document.getElementById("metrico-three-cdn");
+    if (existing) {
+      existing.addEventListener("load", () => {
+        if (window.THREE) resolve(window.THREE);
+        else reject(new Error("THREE missing"));
+      });
+      existing.addEventListener("error", () => {
+        threeJsLoadPromise = null;
+        reject(new Error("THREE load failed"));
+      });
+      if (window.THREE) resolve(window.THREE);
+      return;
+    }
+    const script = document.createElement("script");
+    script.id = "metrico-three-cdn";
+    script.src = THREE_CDN_URL;
+    script.async = true;
+    script.onload = () => {
+      if (window.THREE) resolve(window.THREE);
+      else {
+        threeJsLoadPromise = null;
+        reject(new Error("THREE missing"));
+      }
+    };
+    script.onerror = () => {
+      threeJsLoadPromise = null;
+      reject(new Error("THREE load failed"));
+    };
+    document.head.appendChild(script);
+  });
+  return threeJsLoadPromise;
+}
+
+/** Lightweight orbit + pinch/dolly for Metrico 3D (no OrbitControls module). */
+function createMetricoOrbit(camera, domElement, THREE) {
+  const target = new THREE.Vector3(0, 0, 0);
+  const spherical = new THREE.Spherical();
+  const offset = new THREE.Vector3();
+  let enabled = true;
+  let isDragging = false;
+  let lastX = 0;
+  let lastY = 0;
+  const pointers = new Map();
+  let pinchStartDist = 0;
+  const limits = { minDistance: 6, maxDistance: 80, maxPolar: Math.PI * 0.48 };
+  const damping = 0.12;
+  let thetaVel = 0;
+  let phiVel = 0;
+
+  function syncSphericalFromCamera() {
+    offset.copy(camera.position).sub(target);
+    spherical.setFromVector3(offset);
+  }
+  syncSphericalFromCamera();
+
+  function applySpherical() {
+    spherical.phi = Math.max(0.08, Math.min(limits.maxPolar, spherical.phi));
+    spherical.radius = Math.max(limits.minDistance, Math.min(limits.maxDistance, spherical.radius));
+    offset.setFromSpherical(spherical);
+    camera.position.copy(target).add(offset);
+    camera.lookAt(target);
+  }
+
+  function pointerDist() {
+    const pts = [...pointers.values()];
+    if (pts.length < 2) return 0;
+    const dx = pts[0].x - pts[1].x;
+    const dy = pts[0].y - pts[1].y;
+    return Math.hypot(dx, dy);
+  }
+
+  function onPointerDown(ev) {
+    if (!enabled) return;
+    try { domElement.setPointerCapture?.(ev.pointerId); } catch (e) {}
+    pointers.set(ev.pointerId, { x: ev.clientX, y: ev.clientY });
+    if (pointers.size === 1) {
+      isDragging = true;
+      lastX = ev.clientX;
+      lastY = ev.clientY;
+      thetaVel = 0;
+      phiVel = 0;
+    } else if (pointers.size === 2) {
+      isDragging = false;
+      pinchStartDist = pointerDist();
+    }
+  }
+  function onPointerMove(ev) {
+    if (!enabled || !pointers.has(ev.pointerId)) return;
+    pointers.set(ev.pointerId, { x: ev.clientX, y: ev.clientY });
+    if (pointers.size === 2) {
+      const dist = pointerDist();
+      if (pinchStartDist > 0 && dist > 0) {
+        const scale = pinchStartDist / dist;
+        spherical.radius *= scale;
+        pinchStartDist = dist;
+        applySpherical();
+      }
+      return;
+    }
+    if (!isDragging) return;
+    const dx = ev.clientX - lastX;
+    const dy = ev.clientY - lastY;
+    lastX = ev.clientX;
+    lastY = ev.clientY;
+    const rotSpeed = 0.0055;
+    thetaVel = -dx * rotSpeed;
+    phiVel = -dy * rotSpeed;
+    spherical.theta += thetaVel;
+    spherical.phi += phiVel;
+    applySpherical();
+  }
+  function onPointerUp(ev) {
+    pointers.delete(ev.pointerId);
+    if (pointers.size < 2) pinchStartDist = 0;
+    if (pointers.size === 0) isDragging = false;
+  }
+  function onWheel(ev) {
+    if (!enabled) return;
+    ev.preventDefault();
+    const factor = Math.exp(ev.deltaY * 0.0012);
+    spherical.radius *= factor;
+    applySpherical();
+  }
+
+  domElement.addEventListener("pointerdown", onPointerDown);
+  domElement.addEventListener("pointermove", onPointerMove);
+  domElement.addEventListener("pointerup", onPointerUp);
+  domElement.addEventListener("pointercancel", onPointerUp);
+  domElement.addEventListener("wheel", onWheel, { passive: false });
+
+  return {
+    target,
+    limits,
+    update() {
+      if (!isDragging && (Math.abs(thetaVel) > 0.0001 || Math.abs(phiVel) > 0.0001)) {
+        spherical.theta += thetaVel;
+        spherical.phi += phiVel;
+        thetaVel *= (1 - damping);
+        phiVel *= (1 - damping);
+        applySpherical();
+      }
+    },
+    syncFromCamera: syncSphericalFromCamera,
+    apply: applySpherical,
+    dispose() {
+      domElement.removeEventListener("pointerdown", onPointerDown);
+      domElement.removeEventListener("pointermove", onPointerMove);
+      domElement.removeEventListener("pointerup", onPointerUp);
+      domElement.removeEventListener("pointercancel", onPointerUp);
+      domElement.removeEventListener("wheel", onWheel);
+    },
+  };
+}
+
+function buildFloorUnitGroups(project) {
+  const floorsMeta = [...(project?.floors || [])].sort((a, b) => Number(a.number) - Number(b.number));
+  const units = project?.units || [];
+  if (floorsMeta.length) {
+    return floorsMeta.map((f) => {
+      const floorNum = f.number;
+      const floorUnits = units
+        .filter((u) => String(u.floor) === String(floorNum))
+        .sort((a, b) => String(a.unitNumber).localeCompare(String(b.unitNumber), undefined, { numeric: true }));
+      return { floor: floorNum, units: floorUnits, declaredCount: Number(f.count) || floorUnits.length };
+    });
+  }
+  const byFloor = {};
+  units.forEach((u) => {
+    const key = u.floor != null && u.floor !== "" ? String(u.floor) : "—";
+    if (!byFloor[key]) byFloor[key] = [];
+    byFloor[key].push(u);
+  });
+  return Object.keys(byFloor)
+    .sort((a, b) => String(a).localeCompare(String(b), undefined, { numeric: true }))
+    .map((floor) => ({
+      floor,
+      units: byFloor[floor].sort((a, b) => String(a.unitNumber).localeCompare(String(b.unitNumber), undefined, { numeric: true })),
+      declaredCount: byFloor[floor].length,
+    }));
+}
+
+function statusMeshColor(status) {
+  if (status === "sold") return STATUS.sold.color;
+  if (status === "reserved") return STATUS.reserved.color;
+  return STATUS.vacant.color;
+}
+
+function Building3DUnitDetailSheet({ unit, project, onClose }) {
+  const { lang, t } = useContext(LanguageContext);
+  const dir = lang === "fa" ? "rtl" : "ltr";
+  if (!unit) return null;
+  const s = STATUS[unit.status] || STATUS.vacant;
+  const total = totalPriceOf(unit);
+  const paid = paidOf(unit, project);
+  const remaining = remainingOf(unit, project);
+  const rows = [
+    { label: t("شماره واحد"), value: unit.unitNumber || "—" },
+    { label: t("طبقه"), value: unit.floor != null && unit.floor !== "" ? String(unit.floor) : "—" },
+    { label: t("وضعیت"), value: t(s.label) },
+    { label: t("نام خریدار"), value: unit.buyerName || (unit.status === "vacant" ? t("خالی — بدون خریدار") : t("بدون خریدار")) },
+    { label: t("تلفن خریدار"), value: unit.buyerPhone || "—" },
+    { label: t("متراژ"), value: unit.area ? `${unit.area} m²` : "—" },
+    { label: t("مبلغ کل"), value: `${fmt(total)} ${t("تومان")}` },
+    { label: t("پرداخت‌شده"), value: `${fmt(paid)} ${t("تومان")}` },
+    { label: t("مانده"), value: `${fmt(remaining)} ${t("تومان")}` },
+  ];
+  return (
+    <div className="fixed inset-0 bg-black/45 z-[70] flex items-end sm:items-center sm:justify-center" onClick={onClose}>
+      <div
+        className="bg-white w-full sm:max-w-md sm:rounded-2xl rounded-t-2xl max-h-[85vh] overflow-y-auto shadow-xl"
+        dir={dir}
+        onClick={(e) => e.stopPropagation()}
+      >
+        <div className="sticky top-0 bg-white border-b border-black/5 px-4 py-3 flex items-center gap-3 z-10">
+          <button type="button" onClick={onClose} className="p-1" aria-label={t("بستن")}><X size={18} /></button>
+          <div className="flex-1 min-w-0">
+            <div className="font-bold text-[#14213D] text-sm">{t("جزئیات واحد")}</div>
+            <div className="text-[11px] text-[#6B7280] truncate">{t("واحد ")}{unit.unitNumber} · {t("طبقه ")}{unit.floor}</div>
+          </div>
+          <span className="text-[10px] px-2 py-1 rounded-full font-semibold shrink-0" style={{ background: s.bg, color: s.text }}>{t(s.label)}</span>
+        </div>
+        <div className="px-4 py-3 flex flex-col gap-2.5">
+          {rows.map((r) => (
+            <div key={r.label} className="flex items-start justify-between gap-3 border-b border-black/[0.04] pb-2">
+              <div className="text-[11px] text-[#6B7280] shrink-0">{r.label}</div>
+              <div className="text-sm font-semibold text-[#14213D] text-left break-words">{r.value}</div>
+            </div>
+          ))}
+        </div>
+      </div>
+    </div>
+  );
+}
+
+function Building3DView({ project }) {
+  const { lang, t } = useContext(LanguageContext);
+  const mountRef = useRef(null);
+  const apiRef = useRef(null);
+  const [loadState, setLoadState] = useState("loading");
+  const [hoverFloor, setHoverFloor] = useState(null);
+  const [selectedUnitId, setSelectedUnitId] = useState(null);
+  const floorGroups = useMemo(() => buildFloorUnitGroups(project), [project]);
+  const selectedUnit = useMemo(
+    () => (project?.units || []).find((u) => u.id === selectedUnitId) || null,
+    [project, selectedUnitId]
+  );
+  const hoverGroup = useMemo(
+    () => floorGroups.find((g) => String(g.floor) === String(hoverFloor)) || null,
+    [floorGroups, hoverFloor]
+  );
+
+  useEffect(() => {
+    setSelectedUnitId(null);
+    setHoverFloor(floorGroups.length ? floorGroups[floorGroups.length - 1].floor : null);
+  }, [project?.id]);
+
+  useEffect(() => {
+    let disposed = false;
+    let rafId = 0;
+    const mount = mountRef.current;
+    if (!mount || !floorGroups.length) {
+      setLoadState(floorGroups.length ? "loading" : "empty");
+      return undefined;
+    }
+
+    setLoadState("loading");
+
+    ensureThreeJs()
+      .then((THREE) => {
+        if (disposed || !mountRef.current) return;
+
+        const width = mount.clientWidth || 320;
+        const height = Math.max(280, mount.clientHeight || 360);
+
+        const scene = new THREE.Scene();
+        scene.background = new THREE.Color(0xf4f6f5);
+
+        const camera = new THREE.PerspectiveCamera(42, width / height, 0.1, 500);
+        const renderer = new THREE.WebGLRenderer({ antialias: true, alpha: false, powerPreference: "low-power" });
+        renderer.setPixelRatio(Math.min(window.devicePixelRatio || 1, 2));
+        renderer.setSize(width, height);
+        renderer.domElement.style.width = "100%";
+        renderer.domElement.style.height = "100%";
+        renderer.domElement.style.display = "block";
+        renderer.domElement.style.touchAction = "none";
+        mount.innerHTML = "";
+        mount.appendChild(renderer.domElement);
+
+        const controls = createMetricoOrbit(camera, renderer.domElement, THREE);
+        controls.limits.minDistance = 6;
+        controls.limits.maxDistance = 80;
+        controls.limits.maxPolar = Math.PI * 0.48;
+        controls.target.set(0, 0, 0);
+
+        scene.add(new THREE.AmbientLight(0xffffff, 0.72));
+        const key = new THREE.DirectionalLight(0xffffff, 0.85);
+        key.position.set(12, 22, 10);
+        scene.add(key);
+        const fill = new THREE.DirectionalLight(0xcbd5e1, 0.35);
+        fill.position.set(-10, 8, -8);
+        scene.add(fill);
+
+        const root = new THREE.Group();
+        scene.add(root);
+
+        const UNIT_W = 1.35;
+        const UNIT_D = 1.35;
+        const UNIT_H = 1.55;
+        const GAP = 0.18;
+        const FLOOR_H = 0.22;
+        const STORY = UNIT_H + FLOOR_H + 0.35;
+        const pickables = [];
+        const floorMeshes = [];
+        const labelSprites = [];
+
+        floorGroups.forEach((group, fi) => {
+          const unitCount = Math.max(group.units.length, Number(group.declaredCount) || 0, 1);
+          const cols = Math.ceil(Math.sqrt(unitCount));
+          const rows = Math.ceil(unitCount / cols);
+          const gridW = cols * UNIT_W + (cols - 1) * GAP;
+          const gridD = rows * UNIT_D + (rows - 1) * GAP;
+          const yBase = fi * STORY;
+
+          const slabGeo = new THREE.BoxGeometry(gridW + 0.7, FLOOR_H, gridD + 0.7);
+          const slabMat = new THREE.MeshStandardMaterial({
+            color: 0xe8edf2,
+            roughness: 0.9,
+            metalness: 0.05,
+            transparent: true,
+            opacity: 0.95,
+            emissive: new THREE.Color(0x000000),
+            emissiveIntensity: 0,
+          });
+          const slab = new THREE.Mesh(slabGeo, slabMat);
+          slab.position.set(0, yBase, 0);
+          slab.userData = { kind: "floor", floor: group.floor };
+          root.add(slab);
+          floorMeshes.push(slab);
+          pickables.push(slab);
+
+          for (let ui = 0; ui < unitCount; ui += 1) {
+            const unit = group.units[ui] || null;
+            const col = ui % cols;
+            const row = Math.floor(ui / cols);
+            const x = -gridW / 2 + UNIT_W / 2 + col * (UNIT_W + GAP);
+            const z = -gridD / 2 + UNIT_D / 2 + row * (UNIT_D + GAP);
+            const color = statusMeshColor(unit ? unit.status : "vacant");
+            const geo = new THREE.BoxGeometry(UNIT_W * 0.92, UNIT_H, UNIT_D * 0.92);
+            const mat = new THREE.MeshStandardMaterial({
+              color: new THREE.Color(color),
+              roughness: 0.72,
+              metalness: 0.08,
+              transparent: !unit,
+              opacity: unit ? 1 : 0.45,
+            });
+            const mesh = new THREE.Mesh(geo, mat);
+            mesh.position.set(x, yBase + FLOOR_H / 2 + UNIT_H / 2, z);
+            mesh.userData = unit
+              ? { kind: "unit", unitId: unit.id, floor: group.floor }
+              : { kind: "floor", floor: group.floor };
+            root.add(mesh);
+            pickables.push(mesh);
+
+            const edge = new THREE.EdgesGeometry(geo);
+            const line = new THREE.LineSegments(edge, new THREE.LineBasicMaterial({ color: 0x14213d, transparent: true, opacity: 0.22 }));
+            mesh.add(line);
+          }
+
+          const canvas = document.createElement("canvas");
+          canvas.width = 256;
+          canvas.height = 64;
+          const ctx = canvas.getContext("2d");
+          ctx.clearRect(0, 0, 256, 64);
+          ctx.fillStyle = "rgba(20, 33, 61, 0.88)";
+          if (typeof ctx.roundRect === "function") {
+            ctx.beginPath();
+            ctx.roundRect(8, 8, 240, 48, 10);
+            ctx.fill();
+          } else {
+            ctx.fillRect(8, 8, 240, 48);
+          }
+          ctx.fillStyle = "#ffffff";
+          ctx.font = "bold 22px Vazirmatn, Tahoma, sans-serif";
+          ctx.textAlign = "center";
+          ctx.textBaseline = "middle";
+          const shownCount = group.units.length || Number(group.declaredCount) || 0;
+          const labelText = `${lang === "fa" ? "طبقه" : "Floor"} ${group.floor} · ${shownCount}`;
+          ctx.fillText(labelText, 128, 32);
+          const tex = new THREE.CanvasTexture(canvas);
+          tex.needsUpdate = true;
+          const spriteMat = new THREE.SpriteMaterial({ map: tex, transparent: true, depthTest: false });
+          const sprite = new THREE.Sprite(spriteMat);
+          sprite.scale.set(4.2, 1.05, 1);
+          sprite.position.set(gridW / 2 + 2.2, yBase + UNIT_H * 0.7, 0);
+          sprite.userData = { kind: "label" };
+          root.add(sprite);
+          labelSprites.push({ sprite, tex, mat: spriteMat, canvas });
+        });
+
+        const box = new THREE.Box3().setFromObject(root);
+        const center = box.getCenter(new THREE.Vector3());
+        const size = box.getSize(new THREE.Vector3());
+        root.position.sub(center);
+        const maxDim = Math.max(size.x, size.y, size.z, 4);
+        const dist = maxDim * 1.55;
+        const defaultCamPos = new THREE.Vector3(dist * 0.85, dist * 0.55, dist * 0.95);
+        const defaultTarget = new THREE.Vector3(0, 0, 0);
+
+        function resetCamera() {
+          camera.position.copy(defaultCamPos);
+          controls.target.copy(defaultTarget);
+          controls.syncFromCamera();
+          controls.apply();
+        }
+        resetCamera();
+
+        const raycaster = new THREE.Raycaster();
+        const pointer = new THREE.Vector2();
+        let highlightedFloor = null;
+        const originalSlabColors = new Map();
+        floorMeshes.forEach((m) => originalSlabColors.set(m, m.material.color.getHex()));
+
+        function setFloorHighlight(floorKey) {
+          highlightedFloor = floorKey;
+          floorMeshes.forEach((m) => {
+            const active = floorKey != null && String(m.userData.floor) === String(floorKey);
+            m.material.color.setHex(active ? 0xc9a227 : originalSlabColors.get(m));
+            if (m.material.emissive) m.material.emissive.setHex(active ? 0x3b2f0b : 0x000000);
+            m.material.emissiveIntensity = active ? 0.18 : 0;
+          });
+          setHoverFloor(floorKey);
+        }
+
+        function ndcFromEvent(ev) {
+          const rect = renderer.domElement.getBoundingClientRect();
+          const clientX = ev.clientX ?? ev.touches?.[0]?.clientX ?? 0;
+          const clientY = ev.clientY ?? ev.touches?.[0]?.clientY ?? 0;
+          pointer.x = ((clientX - rect.left) / rect.width) * 2 - 1;
+          pointer.y = -((clientY - rect.top) / rect.height) * 2 + 1;
+        }
+
+        function pick(ev) {
+          ndcFromEvent(ev);
+          raycaster.setFromCamera(pointer, camera);
+          const hits = raycaster.intersectObjects(pickables, false);
+          return hits[0] || null;
+        }
+
+        let pointerDown = null;
+        function onPointerDown(ev) {
+          pointerDown = { x: ev.clientX, y: ev.clientY, t: Date.now() };
+        }
+        function onPointerUp(ev) {
+          if (!pointerDown) return;
+          const dx = Math.abs(ev.clientX - pointerDown.x);
+          const dy = Math.abs(ev.clientY - pointerDown.y);
+          const dt = Date.now() - pointerDown.t;
+          pointerDown = null;
+          if (dx > 8 || dy > 8 || dt > 500) return;
+          const hit = pick(ev);
+          if (!hit) {
+            setFloorHighlight(null);
+            return;
+          }
+          const data = hit.object.userData || {};
+          if (data.kind === "unit" && data.unitId) {
+            setFloorHighlight(data.floor);
+            setSelectedUnitId(data.unitId);
+          } else if (data.kind === "floor") {
+            setFloorHighlight(data.floor);
+          }
+        }
+        function onPointerMove(ev) {
+          if (ev.pointerType === "touch" && !ev.buttons) return;
+          const hit = pick(ev);
+          if (!hit) {
+            if (highlightedFloor != null && !selectedUnitId) {
+              /* keep last floor highlight until another pick */
+            }
+            return;
+          }
+          const data = hit.object.userData || {};
+          if (data.floor != null) setFloorHighlight(data.floor);
+        }
+
+        renderer.domElement.addEventListener("pointerdown", onPointerDown);
+        renderer.domElement.addEventListener("pointerup", onPointerUp);
+        renderer.domElement.addEventListener("pointermove", onPointerMove);
+
+        function onResize() {
+          if (!mountRef.current) return;
+          const w = mountRef.current.clientWidth || width;
+          const h = Math.max(280, mountRef.current.clientHeight || height);
+          camera.aspect = w / h;
+          camera.updateProjectionMatrix();
+          renderer.setSize(w, h, false);
+        }
+        window.addEventListener("resize", onResize);
+
+        function animate() {
+          rafId = requestAnimationFrame(animate);
+          controls.update();
+          renderer.render(scene, camera);
+        }
+        animate();
+        const initialFloor = floorGroups[floorGroups.length - 1]?.floor ?? null;
+        if (initialFloor != null) setFloorHighlight(initialFloor);
+        setLoadState("ready");
+
+        apiRef.current = {
+          resetCamera,
+          dispose() {
+            cancelAnimationFrame(rafId);
+            window.removeEventListener("resize", onResize);
+            renderer.domElement.removeEventListener("pointerdown", onPointerDown);
+            renderer.domElement.removeEventListener("pointerup", onPointerUp);
+            renderer.domElement.removeEventListener("pointermove", onPointerMove);
+            controls.dispose();
+            root.traverse((obj) => {
+              if (obj.geometry) obj.geometry.dispose();
+              if (obj.material) {
+                if (Array.isArray(obj.material)) obj.material.forEach((m) => m.dispose());
+                else obj.material.dispose();
+              }
+            });
+            labelSprites.forEach(({ tex, mat }) => {
+              tex.dispose();
+              mat.dispose();
+            });
+            renderer.dispose();
+            if (renderer.domElement.parentNode) renderer.domElement.parentNode.removeChild(renderer.domElement);
+            scene.clear();
+          },
+        };
+      })
+      .catch(() => {
+        if (!disposed) setLoadState("error");
+      });
+
+    return () => {
+      disposed = true;
+      if (apiRef.current) {
+        apiRef.current.dispose();
+        apiRef.current = null;
+      }
+      if (mountRef.current) mountRef.current.innerHTML = "";
+    };
+  }, [project?.id, floorGroups, lang]);
+
+  if (!floorGroups.length) {
+    return (
+      <div className="text-center py-12 bg-[#F4F6F5] rounded-2xl border border-black/10 text-sm text-[#6B7280]">
+        {t("این پروژه واحد یا طبقه‌ای ندارد.")}
+      </div>
+    );
+  }
+
+  return (
+    <div className="flex flex-col gap-3">
+      <div className="flex flex-wrap items-center gap-2 justify-between">
+        <div className="text-[11px] text-[#6B7280]">{t("چرخش و بزرگ‌نمایی با انگشت یا ماوس")}</div>
+        <button
+          type="button"
+          onClick={() => apiRef.current?.resetCamera?.()}
+          className="text-[11px] font-semibold px-3 py-1.5 rounded-xl bg-[#14213D] text-white"
+        >
+          {t("بازنشانی نما")}
+        </button>
+      </div>
+
+      <div className="relative rounded-2xl overflow-hidden border border-black/10 bg-[#F4F6F5]" style={{ height: "min(55vh, 420px)", minHeight: 280 }}>
+        <div ref={mountRef} className="absolute inset-0" />
+        {loadState === "loading" && (
+          <div className="absolute inset-0 flex items-center justify-center text-sm text-[#6B7280] bg-[#F4F6F5]/90 z-10">
+            {t("بارگذاری موتور سه‌بعدی…")}
+          </div>
+        )}
+        {loadState === "error" && (
+          <div className="absolute inset-0 flex items-center justify-center text-sm text-[#B91C1C] px-6 text-center bg-[#F4F6F5] z-10">
+            {t("بارگذاری موتور سه‌بعدی ناموفق بود. اتصال اینترنت را بررسی کنید.")}
+          </div>
+        )}
+      </div>
+
+      <div className="flex flex-wrap gap-1.5 text-[9px]" aria-label={t("راهنمای رنگ وضعیت")}>
+        <span className="px-1.5 py-0.5 rounded-full" style={{ background: STATUS.sold.bg, color: STATUS.sold.text }}>{t("فروخته‌شده")}</span>
+        <span className="px-1.5 py-0.5 rounded-full" style={{ background: STATUS.reserved.bg, color: STATUS.reserved.text }}>{t("رزرو")}</span>
+        <span className="px-1.5 py-0.5 rounded-full" style={{ background: STATUS.vacant.bg, color: STATUS.vacant.text }}>{t("خالی")}</span>
+      </div>
+
+      {hoverGroup && (
+        <div className="m-card p-3">
+          <div className="text-xs font-bold text-[#14213D] mb-2">
+            {t("واحدهای طبقه")} {hoverGroup.floor}
+            <span className="text-[#9CA3AF] font-medium"> · {hoverGroup.units.length || hoverGroup.declaredCount || 0}</span>
+          </div>
+          <div className="flex flex-col gap-1.5 max-h-40 overflow-y-auto">
+            {hoverGroup.units.length === 0 ? (
+              <div className="text-[11px] text-[#9CA3AF] px-1 py-2">{t("هنوز واحدی در این طبقه ثبت نشده.")}</div>
+            ) : hoverGroup.units.map((u) => {
+              const s = STATUS[u.status] || STATUS.vacant;
+              const name = u.status === "vacant"
+                ? t("خالی — بدون خریدار")
+                : (u.buyerName || t("بدون خریدار"));
+              return (
+                <button
+                  key={u.id}
+                  type="button"
+                  onClick={() => setSelectedUnitId(u.id)}
+                  className="w-full flex items-center gap-2 text-right px-2.5 py-2 rounded-xl border border-black/5 hover:bg-[#F8FAFC]"
+                  style={{ background: s.bg }}
+                >
+                  <span className="text-[11px] font-bold" style={{ color: s.text }}>{u.unitNumber}</span>
+                  <span className="flex-1 text-[11px] truncate" style={{ color: s.text }}>{name}</span>
+                  <span className="text-[9px] font-semibold px-1.5 py-0.5 rounded-full bg-white/70" style={{ color: s.text }}>{t(s.label)}</span>
+                </button>
+              );
+            })}
+          </div>
+          <div className="text-[10px] text-[#9CA3AF] mt-2">{t("انتخاب واحد برای جزئیات")}</div>
+        </div>
+      )}
+
+      <div className="text-[10px] text-[#9CA3AF] leading-relaxed">
+        {t("مدل شماتیک بر اساس طبقات و واحدها — پلان واقعی فایل سه‌بعدی نیست.")}
+      </div>
+
+      {selectedUnit && (
+        <Building3DUnitDetailSheet
+          unit={selectedUnit}
+          project={project}
+          onClose={() => setSelectedUnitId(null)}
+        />
+      )}
+    </div>
+  );
+}
+
+function Building3DPlanScreen({ projects, initialProjectId, onBack }) {
   const { lang, t } = useContext(LanguageContext);
   const screenDir = lang === "fa" ? "rtl" : "ltr";
-  const [tab, setTab] = useState("cad");
+  const [projectId, setProjectId] = useState(() => {
+    if (initialProjectId && projects.some((p) => String(p.id) === String(initialProjectId))) return String(initialProjectId);
+    return projects.length === 1 ? String(projects[0].id) : "";
+  });
+  const projectIdsKey = useMemo(() => projects.map((p) => p.id).join("\u0001"), [projects]);
+
+  useEffect(() => {
+    if (!projects.length) { setProjectId(""); return; }
+    if (projects.length === 1) { setProjectId(String(projects[0].id)); return; }
+    setProjectId((prev) => {
+      const prevStr = String(prev || "");
+      if (prevStr && projects.some((p) => String(p.id) === prevStr)) return prev;
+      if (initialProjectId && projects.some((p) => String(p.id) === String(initialProjectId))) return String(initialProjectId);
+      return "";
+    });
+  }, [projectIdsKey, initialProjectId]);
+
+  const project = useMemo(
+    () => projects.find((p) => String(p.id) === String(projectId)) ?? null,
+    [projects, projectId]
+  );
+
+  return (
+    <div className="px-4 pt-5 pb-10" dir={screenDir} style={{ background: "#F8F9FB", minHeight: "100%" }}>
+      <div className="flex items-center gap-3 mb-4">
+        <button type="button" onClick={onBack} className="p-1"><ChevronLeft size={20} className={lang === "en" ? "rotate-180" : ""} /></button>
+        <div className="m-screen-title flex-1">{t("پلان سه‌بعدی")}</div>
+      </div>
+
+      {projects.length === 0 ? (
+        <div className="text-center text-[#9CA3AF] text-sm mt-16 px-6">
+          {t("ابتدا یک پروژه بسازید تا پلان سه‌بعدی در دسترس باشد.")}
+        </div>
+      ) : (
+        <>
+          <div className="m-card p-4 mb-4">
+            <label className="text-xs font-semibold text-[#6B7280] mb-2 block">{t("انتخاب پروژه")}</label>
+            <select
+              value={projectId || ""}
+              onChange={(e) => setProjectId(e.target.value)}
+              className="w-full m-input-field px-3 py-2.5 text-sm outline-none"
+            >
+              <option value="">{t("یک پروژه را برای پلان سه‌بعدی انتخاب کنید")}</option>
+              {projects.map((p) => (
+                <option key={p.id} value={String(p.id)}>{p.name}</option>
+              ))}
+            </select>
+          </div>
+          {!project ? (
+            <div className="m-card p-8 text-center text-sm text-[#9CA3AF]">
+              {t("یک پروژه را برای پلان سه‌بعدی انتخاب کنید")}
+            </div>
+          ) : (
+            <Building3DView project={project} />
+          )}
+        </>
+      )}
+    </div>
+  );
+}
+
+function ProjectMapsScreen({ project, embedded, onBack, onOpenUploadSettings, initialTab }) {
+  const { lang, t } = useContext(LanguageContext);
+  const screenDir = lang === "fa" ? "rtl" : "ltr";
+  const [tab, setTab] = useState(initialTab === "3d" || initialTab === "bim" || initialTab === "cad" ? initialTab : "cad");
   const cadFiles = normalizeProjectCadFiles(project);
   const bimFiles = normalizeProjectBimFiles(project);
   const model3dFiles = normalizeProjectModel3dFiles(project);
@@ -7544,15 +8272,17 @@ function ProjectMapsScreen({ project, embedded, onBack, onOpenUploadSettings }) 
       )}
 
       {tab === "3d" && (
-        <div className="text-center py-12 bg-[#F4F6F5] rounded-2xl border border-black/10">
-          <LucideBox size={28} className="mx-auto text-[#CBD5E1] mb-2" />
-          <div className="text-sm font-semibold text-[#374151] mb-1">{t("پلان سه‌بعدی")}</div>
-          <div className="text-xs text-[#9CA3AF] mb-2">{t("به‌زودی فعال می‌شود")}</div>
+        <div className="flex flex-col gap-3">
+          <Building3DView project={project} />
           {model3dFiles.length > 0 && (
-            <div className="text-[11px] text-[#6B7280]">{model3dFiles.length}{t(" فایل سه‌بعدی بارگذاری شده")}</div>
+            <div className="text-[11px] text-[#6B7280] text-center">
+              {model3dFiles.length}{t(" فایل سه‌بعدی بارگذاری شده")}
+            </div>
           )}
-          {model3dFiles.length === 0 && onOpenUploadSettings && (
-            <button type="button" onClick={onOpenUploadSettings} className="mt-3 text-xs font-semibold text-[#128C7E]">{t("آپلود فایل سه‌بعدی")}</button>
+          {onOpenUploadSettings && (
+            <button type="button" onClick={onOpenUploadSettings} className="text-xs font-semibold text-[#128C7E] self-center">
+              {t("آپلود فایل سه‌بعدی")}
+            </button>
           )}
         </div>
       )}
@@ -9819,6 +10549,13 @@ function AppContent() {
             ensurePdfExport={ensurePdfExport}
           />
         )}
+        {screen === "building_3d" && (
+          <Building3DPlanScreen
+            projects={projects}
+            initialProjectId={activeTab || activeProject?.id}
+            onBack={() => setScreen("dashboard")}
+          />
+        )}
         {screen === "takeoff" && (
           <TakeoffScreen
             onBack={() => setScreen("dashboard")}
@@ -9959,6 +10696,7 @@ function AppContent() {
               onOpenSettings={() => { setProjectSheetView("settings"); setShowProjectSettings(true); }}
               onOpenGallery={() => { setProjectSheetView("gallery"); setShowProjectSettings(true); }}
               onOpenMaps={() => requirePlan("project_maps", () => setScreen("project_maps"))}
+              onOpenBuilding3d={() => setScreen("building_3d")}
               onOpenExpenses={() => setShowExpenses(true)}
               onOpenFinance={() => requirePlan("accounting", () => setScreen("finance"))}
               onPrint={() => openReport("project")}
@@ -9996,6 +10734,7 @@ function AppContent() {
           onOpenPrivacy={() => { setScreen("privacy"); setShowMenu(false); }}
           onOpenContacts={() => { setScreen("contacts"); setShowMenu(false); }}
           onOpenDataAnalysis={() => { setScreen("data_analysis"); setShowMenu(false); }}
+          onOpenBuilding3d={() => { setScreen("building_3d"); setShowMenu(false); }}
           onOpenNotes={() => { setScreen("notes"); setShowMenu(false); }}
           onOpenReminders={() => { setScreen("reminders"); setShowMenu(false); }}
           onOpenMap={() => requirePlan("map", () => { setScreen("map"); setShowMenu(false); })}
@@ -10831,7 +11570,7 @@ function ContractsScreen({ company, projects, activeProjectId, contacts, isReadO
   );
 }
 
-function SideMenu({ company, projects, activeTab, currentScreen, isReadOnly, effectivePlan, planExpiresAt, isSuperAdmin, onOpenDashboard, onSelectProject, onNewProject, onClose, onOpenPlan, onOpenAdminMembers, onOpenBackup, onOpenAbout, onOpenGuide, onOpenPrivacy, onOpenTax, onOpenContacts, onOpenNotes, onOpenReminders, onOpenMap, onOpenEnergy, onOpenTakeoff, onOpenInventory, onOpenContracts, onOpenDataAnalysis, onLogout }) {
+function SideMenu({ company, projects, activeTab, currentScreen, isReadOnly, effectivePlan, planExpiresAt, isSuperAdmin, onOpenDashboard, onSelectProject, onNewProject, onClose, onOpenPlan, onOpenAdminMembers, onOpenBackup, onOpenAbout, onOpenGuide, onOpenPrivacy, onOpenTax, onOpenContacts, onOpenNotes, onOpenReminders, onOpenMap, onOpenEnergy, onOpenTakeoff, onOpenInventory, onOpenContracts, onOpenDataAnalysis, onOpenBuilding3d, onLogout }) {
   const { lang, t } = useContext(LanguageContext);
   const menuDir = lang === "fa" ? "rtl" : "ltr";
   const [confirmLogout, setConfirmLogout] = useState(false);
@@ -11026,6 +11765,7 @@ function SideMenu({ company, projects, activeTab, currentScreen, isReadOnly, eff
             )}
             <MenuItem onClick={onOpenContacts} icon={<Users size={15} />} label={t("دفترچه مخاطبین")} />
             <MenuItem onClick={onOpenDataAnalysis} icon={<LucideFileBarChart size={15} />} label={t("تحلیل داده‌ها")} active={currentScreen === "data_analysis"} />
+            <MenuItem onClick={onOpenBuilding3d} icon={<LucideBox size={15} />} label={t("پلان سه‌بعدی")} active={currentScreen === "building_3d"} />
             <MenuItem onClick={onOpenNotes} icon={<LucideStickyNote size={15} />} label={t("یادداشت‌ها")} />
             <MenuItem onClick={onOpenReminders} icon={<Bell size={15} />} label={t("یادآوری‌ها")} />
             <MenuItem onClick={onOpenMap} icon={<MapPinIcon size={15} />} label={t("موقعیت مکانی پروژه‌ها")} featureKey="map" />
@@ -16055,7 +16795,7 @@ function ProjectSettingsSheet({ project, initialView, initialSettingsTab, contac
   );
 }
 
-function ProjectPanel({ project, onOpenUnit, onOpenSettings, onOpenGallery, onOpenMaps, onOpenExpenses, onOpenFinance, onPrint, onFinancialReport, onBackToDashboard, onRemoveNote }) {
+function ProjectPanel({ project, onOpenUnit, onOpenSettings, onOpenGallery, onOpenMaps, onOpenBuilding3d, onOpenExpenses, onOpenFinance, onPrint, onFinancialReport, onBackToDashboard, onRemoveNote }) {
   const { lang, t } = useContext(LanguageContext);
   const panelDir = lang === "fa" ? "rtl" : "ltr";
   const panelAlign = lang === "fa" ? "text-right" : "text-left";
@@ -16126,6 +16866,11 @@ function ProjectPanel({ project, onOpenUnit, onOpenSettings, onOpenGallery, onOp
         <button onClick={onOpenMaps} className="m-chip m-chip-accent-blue">
           <LucideBlueprint size={13} /> {t("نقشه‌ها")}
         </button>
+        {onOpenBuilding3d && (
+          <button onClick={onOpenBuilding3d} className="m-chip">
+            <LucideBox size={13} /> {t("پلان سه‌بعدی")}
+          </button>
+        )}
       </div>
 
       <ProjectLandBuiltStats
