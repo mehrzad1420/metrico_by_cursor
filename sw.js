@@ -1,4 +1,4 @@
-const CACHE_NAME = "metrico-cache-v2.55.1";
+const CACHE_NAME = "metrico-cache-v2.56.0";
 const ASSETS = [
   "./", "./index.html", "./privacy-en.html", "./manifest.json", "./icons/icon-192.png", "./icons/icon-512.png",
   "./lib/react.production.min.js", "./lib/react-dom.production.min.js",
@@ -7,6 +7,7 @@ const ASSETS = [
   "./lib/cad/bootstrap.mjs", "./lib/cad/libredwg-web.js",
   "./lib/wasm/libredwg-web.js", "./lib/wasm/libredwg-web.wasm",
   "./fonts/Vazirmatn.woff2", "./logo.png",
+  "./guide/unit-orientation-legend.png", "./guide/unit-orientation-legend.pdf",
 ];
 
 self.addEventListener("install", (event) => {
