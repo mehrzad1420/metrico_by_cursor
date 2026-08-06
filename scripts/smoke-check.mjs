@@ -37,7 +37,8 @@ async function sleep(ms) {
   const isUrl = /^https?:\/\//i.test(target);
 
   if (isUrl && expectVersion) {
-    const maxAttempts = 12;
+    // GitHub Pages can lag several minutes after push; keep retrying.
+    const maxAttempts = 24;
     for (let attempt = 1; attempt <= maxAttempts; attempt++) {
       const html = await loadHtml(target);
       const ver = parseVersion(html, target);
@@ -46,7 +47,7 @@ async function sleep(ms) {
         return;
       }
       console.log(`Attempt ${attempt}/${maxAttempts}: deployed ${ver}, expected ${expectVersion}`);
-      if (attempt < maxAttempts) await sleep(15000);
+      if (attempt < maxAttempts) await sleep(20000);
     }
     throw new Error(`deployed version never matched ${expectVersion}`);
   }
