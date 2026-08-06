@@ -214,6 +214,44 @@
     background: #14213D;
     color: #fff;
   }
+  .m-da-map-panel {
+    display: grid;
+    grid-template-columns: 1fr;
+    gap: 0.85rem;
+  }
+  @media (min-width: 900px) {
+    .m-da-map-panel { grid-template-columns: 1.35fr 1fr; align-items: stretch; }
+  }
+  .m-da-kpi-icon {
+    width: 2rem;
+    height: 2rem;
+    border-radius: 9999px;
+    background: #F0F3F8;
+    color: #14213D;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    flex-shrink: 0;
+  }
+  @keyframes m-map-blink {
+    0%, 100% { opacity: 1; filter: brightness(1); }
+    50% { opacity: 0.42; filter: brightness(1.15); }
+  }
+  .m-map-active-country {
+    fill: #14213D;
+    stroke: #C9A227;
+    stroke-width: 1.2;
+    animation: m-map-blink 1.35s ease-in-out infinite;
+  }
+  .m-map-region-idle {
+    fill: #D5DEE9;
+    stroke: #fff;
+    stroke-width: 0.8;
+  }
+  .m-map-region-tier {
+    stroke: #fff;
+    stroke-width: 0.8;
+  }
   .m-summary-card {
     background: var(--m-surface);
     border: 1px solid var(--m-border);
@@ -710,6 +748,7 @@ const LucideLink2 = (p) => (<LucideSvg {...p}><path d="M9 17H7A5 5 0 0 1 7 7h2" 
 const LucideBlueprint = (p) => (<LucideSvg {...p}><path d="M14.5 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V7.5L14.5 2z" /><polyline points="14 2 14 8 20 8" /><path d="M8 13h2" /><path d="M8 17h2" /><path d="M14 13h2" /><path d="M14 17h2" /></LucideSvg>);
 const LucideBox = (p) => (<LucideSvg {...p}><path d="M21 8a2 2 0 0 0-1-1.73l-7-4a2 2 0 0 0-2 0l-7 4A2 2 0 0 0 3 8v8a2 2 0 0 0 1 1.73l7 4a2 2 0 0 0 2 0l7-4A2 2 0 0 0 21 16Z" /><path d="m3.3 7 8.7 5 8.7-5" /><path d="M12 22V12" /></LucideSvg>);
 const LucideHelpCircle = (p) => (<LucideSvg {...p}><circle cx="12" cy="12" r="10" /><path d="M9.09 9a3 3 0 0 1 5.83 1c0 2-3 3-3 3" /><path d="M12 17h.01" /></LucideSvg>);
+const LucideTag = (p) => (<LucideSvg {...p}><path d="M12.586 2.586A2 2 0 0 0 11.172 2H4a2 2 0 0 0-2 2v7.172a2 2 0 0 0 .586 1.414l8.704 8.704a2.426 2.426 0 0 0 3.42 0l6.58-6.58a2.426 2.426 0 0 0 0-3.42z" /><circle cx="7.5" cy="7.5" r=".5" fill="currentColor" /></LucideSvg>);
 
 const Plus = (p) => <LucidePlus {...p} />;
 const X = (p) => <LucideX {...p} />;
@@ -1303,7 +1342,7 @@ function projectCardTheme(projectId) {
   return PROJECT_CARD_PALETTE[Math.abs(h) % PROJECT_CARD_PALETTE.length];
 }
 const APP_NAME = "Metrico";
-const APP_VERSION = "2.56.0";
+const APP_VERSION = "2.56.1";
 
 const METRICO_PLAN_ORDER = ["start", "plus", "pro", "ark"];
 const METRICO_PLANS = {
@@ -2556,6 +2595,17 @@ const DICT = {
   "پیشرفت در زمان": "Progress over time",
   "سرعت فروش": "Sales velocity",
   "نمای قیمت": "Pricing overview",
+  "نمای قیمت منطقه‌ای": "Regional pricing overview",
+  "قیمت منطقه‌ای": "Regional pricing",
+  "میانگین قیمت فروش": "Average selling price",
+  "منطقه": "Region",
+  "پروژه‌ها": "Projects",
+  "قیمت کمتر": "Lower price",
+  "قیمت بالاتر": "Higher price",
+  "کشورهای دارای پروژه فعال با رنگ سرمه‌ای چشمک می‌زنند.": "Countries with active projects blink in navy.",
+  "نقشه جهانی بر اساس موقعیت ثبت‌شده پروژه‌ها؛ رنگ سرمه‌ای چشمک‌زن = کشور فعال.": "World map from saved project locations; blinking navy = active country.",
+  "داده اولیه پروژه انتخاب‌شده": "Baseline metrics for the selected project",
+  "شماره واحد قابل ویرایش است؛ اگر چیدمان طبقات با پیش‌فرض برنامه یکی نیست، شماره دلخواه خود را وارد کنید.": "Unit numbers are editable; if floor numbering differs from the app default, enter your own numbers.",
   "توزیع قیمت هر متر بر اساس طبقه و وضعیت": "Price per m² by floor and unit status",
   "میانگین تومان/م²": "Avg Toman/m²",
   "تعداد واحد": "Unit count",
@@ -5715,10 +5765,10 @@ function AnalysisLineChart({ series, height = 180, unitMax }) {
   );
 }
 
-function AnalysisBarChart({ series, valueKey = "revenue", height = 160, color = "#14213D" }) {
+function AnalysisBarChart({ series, valueKey = "revenue", height = 160, color = "#14213D", showValues = false }) {
   const w = 320;
   const h = height;
-  const pad = { t: 18, r: 8, b: 28, l: 8 };
+  const pad = { t: showValues ? 22 : 18, r: 8, b: 28, l: 8 };
   const values = series.map((s) => Number(s[valueKey]) || 0);
   const maxY = Math.max(...values, 1);
   const n = Math.max(series.length, 1);
@@ -5739,6 +5789,11 @@ function AnalysisBarChart({ series, valueKey = "revenue", height = 160, color = 
         return (
           <g key={s.key}>
             <rect x={x} y={y} width={barW} height={Math.max(bh, 1)} rx="4" fill={color} />
+            {showValues && n <= 10 && (
+              <text x={x + barW / 2} y={Math.max(10, y - 4)} textAnchor="middle" fontSize="7.5" fill="#14213D" fontWeight="700">
+                {v >= 1e6 ? `${(v / 1e6).toFixed(1)}M` : v >= 1000 ? `${Math.round(v / 1000)}k` : String(Math.round(v))}
+              </text>
+            )}
             {n <= 8 && (
               <text x={x + barW / 2} y={h - 8} textAnchor="middle" fontSize="8" fill="#9CA3AF">
                 {String(s.key).length > 7 ? String(s.key).slice(2) : s.key}
@@ -5773,6 +5828,216 @@ function AnalysisHBarList({ items, total, maxItems = 6 }) {
           </div>
         );
       })}
+    </div>
+  );
+}
+
+/** Rough country/region from project lat/lng (equirectangular helpers for analytics map). */
+const GEO_REGION_DEFS = [
+  { id: "na", fa: "آمریکای شمالی", en: "North America", path: "M78,95 L210,70 L250,95 L255,160 L230,210 L175,220 L95,185 Z" },
+  { id: "sa", fa: "آمریکای لاتین", en: "Latin America", path: "M210,230 L255,220 L275,310 L245,390 L210,360 L195,280 Z" },
+  { id: "eu", fa: "اروپا", en: "Europe", path: "M470,85 L545,75 L560,130 L520,155 L470,145 Z" },
+  { id: "af", fa: "خاورمیانه و آفریقا", en: "Middle East & Africa", path: "M480,165 L575,155 L600,230 L560,340 L490,310 L470,220 Z" },
+  { id: "as", fa: "آسیا و اقیانوسیه", en: "Asia Pacific", path: "M580,90 L780,80 L850,150 L820,250 L700,270 L590,200 Z" },
+];
+
+const GEO_COUNTRY_MARKERS = [
+  { code: "IR", region: "af", cx: 605, cy: 195, r: 16, fa: "ایران", en: "Iran" },
+  { code: "AE", region: "af", cx: 625, cy: 225, r: 9, fa: "امارات", en: "UAE" },
+  { code: "SA", region: "af", cx: 585, cy: 230, r: 12, fa: "عربستان", en: "Saudi Arabia" },
+  { code: "TR", region: "af", cx: 555, cy: 165, r: 11, fa: "ترکیه", en: "Turkey" },
+  { code: "IQ", region: "af", cx: 585, cy: 185, r: 9, fa: "عراق", en: "Iraq" },
+  { code: "US", region: "na", cx: 165, cy: 140, r: 18, fa: "آمریکا", en: "United States" },
+  { code: "CA", region: "na", cx: 155, cy: 85, r: 14, fa: "کانادا", en: "Canada" },
+  { code: "MX", region: "na", cx: 140, cy: 195, r: 10, fa: "مکزیک", en: "Mexico" },
+  { code: "BR", region: "sa", cx: 240, cy: 300, r: 16, fa: "برزیل", en: "Brazil" },
+  { code: "DE", region: "eu", cx: 505, cy: 115, r: 9, fa: "آلمان", en: "Germany" },
+  { code: "GB", region: "eu", cx: 475, cy: 105, r: 8, fa: "بریتانیا", en: "United Kingdom" },
+  { code: "CN", region: "as", cx: 720, cy: 160, r: 16, fa: "چین", en: "China" },
+  { code: "IN", region: "as", cx: 665, cy: 220, r: 14, fa: "هند", en: "India" },
+  { code: "AU", region: "as", cx: 800, cy: 330, r: 14, fa: "استرالیا", en: "Australia" },
+];
+
+function latLngToCountryCode(lat, lng) {
+  if (!Number.isFinite(lat) || !Number.isFinite(lng)) return null;
+  if (lat >= 24.5 && lat <= 40 && lng >= 44 && lng <= 63.5) return "IR";
+  if (lat >= 22.5 && lat <= 26.5 && lng >= 51 && lng <= 56.5) return "AE";
+  if (lat >= 16 && lat <= 32.5 && lng >= 34.5 && lng <= 55.5 && lng < 51) return "SA";
+  if (lat >= 16 && lat <= 32.5 && lng >= 51 && lng <= 55.5 && lat < 22.5) return "SA";
+  if (lat >= 35.8 && lat <= 42.5 && lng >= 26 && lng <= 45) return "TR";
+  if (lat >= 29 && lat <= 37.5 && lng >= 38.5 && lng <= 49) return "IQ";
+  if (lat >= 24 && lat <= 49.5 && lng >= -125 && lng <= -66) return "US";
+  if (lat >= 49 && lat <= 72 && lng >= -141 && lng <= -52) return "CA";
+  if (lat >= 14 && lat <= 33 && lng >= -118 && lng <= -86) return "MX";
+  if (lat >= -34 && lat <= 5.5 && lng >= -74 && lng <= -34) return "BR";
+  if (lat >= 47 && lat <= 55.2 && lng >= 5.5 && lng <= 15.5) return "DE";
+  if (lat >= 49.5 && lat <= 59 && lng >= -8.5 && lng <= 2) return "GB";
+  if (lat >= 18 && lat <= 54 && lng >= 73 && lng <= 135) return "CN";
+  if (lat >= 7 && lat <= 36 && lng >= 68 && lng <= 97) return "IN";
+  if (lat >= -44 && lat <= -10 && lng >= 112 && lng <= 154) return "AU";
+  return null;
+}
+
+function countryToRegionId(code) {
+  const m = GEO_COUNTRY_MARKERS.find((c) => c.code === code);
+  return m ? m.region : null;
+}
+
+function priceTierColor(ppm, maxPpm) {
+  if (!(ppm > 0) || !(maxPpm > 0)) return "#D5DEE9";
+  const r = ppm / maxPpm;
+  if (r >= 0.85) return "#0B1424";
+  if (r >= 0.65) return "#14213D";
+  if (r >= 0.45) return "#2A3F66";
+  if (r >= 0.25) return "#5B7399";
+  return "#A8B8D0";
+}
+
+function buildRegionalPricingOverview(projectsList) {
+  const byCountry = {};
+  const byRegion = {};
+  GEO_REGION_DEFS.forEach((r) => {
+    byRegion[r.id] = { id: r.id, fa: r.fa, en: r.en, avgPpm: 0, sumPpm: 0, count: 0, projects: 0, spark: [] };
+  });
+  (projectsList || []).forEach((p) => {
+    const lat = Number(p.lat);
+    const lng = Number(p.lng);
+    const code = latLngToCountryCode(lat, lng);
+    const ppm = avgSoldPricePerSqm(p) || 0;
+    const regionId = code ? countryToRegionId(code) : null;
+    if (code) {
+      if (!byCountry[code]) byCountry[code] = { code, sumPpm: 0, count: 0, projects: 0 };
+      byCountry[code].projects += 1;
+      if (ppm > 0) {
+        byCountry[code].sumPpm += ppm;
+        byCountry[code].count += 1;
+      }
+    }
+    if (regionId && byRegion[regionId]) {
+      byRegion[regionId].projects += 1;
+      if (ppm > 0) {
+        byRegion[regionId].sumPpm += ppm;
+        byRegion[regionId].count += 1;
+        byRegion[regionId].spark.push(ppm);
+      }
+    }
+  });
+  Object.values(byCountry).forEach((c) => {
+    c.avgPpm = c.count ? c.sumPpm / c.count : 0;
+  });
+  Object.values(byRegion).forEach((r) => {
+    r.avgPpm = r.count ? r.sumPpm / r.count : 0;
+  });
+  const regionRows = GEO_REGION_DEFS.map((d) => byRegion[d.id]).filter((r) => r.projects > 0 || r.avgPpm > 0);
+  const activeCodes = new Set(Object.keys(byCountry));
+  const maxPpm = Math.max(0, ...Object.values(byCountry).map((c) => c.avgPpm), ...regionRows.map((r) => r.avgPpm), 1);
+  return { byCountry, regionRows, activeCodes, maxPpm };
+}
+
+function MiniSparkBar({ values, max }) {
+  const vals = (values || []).slice(-6);
+  const m = max || Math.max(...vals, 1);
+  if (!vals.length) return <span className="text-[9px] text-[#D1D5DB]">—</span>;
+  return (
+    <svg width="56" height="18" viewBox="0 0 56 18" className="shrink-0">
+      {vals.map((v, i) => {
+        const h = Math.max(2, (v / m) * 16);
+        return <rect key={i} x={i * 9 + 1} y={18 - h} width="6" height={h} rx="1.5" fill="#14213D" />;
+      })}
+    </svg>
+  );
+}
+
+function RegionalPricingOverview({ projects, lang, t }) {
+  const overview = useMemo(() => buildRegionalPricingOverview(projects), [projects]);
+  const { byCountry, regionRows, activeCodes, maxPpm } = overview;
+  const hasGeo = activeCodes.size > 0;
+
+  return (
+    <div className="m-da-map-panel">
+      <div className="rounded-xl border border-black/5 bg-[#F4F6F9] p-2 overflow-hidden">
+        <svg viewBox="0 0 900 420" className="w-full h-auto max-h-[220px]" role="img" aria-label={t("نمای قیمت منطقه‌ای")}>
+          <rect x="0" y="0" width="900" height="420" fill="#E8EEF5" rx="8" />
+          {GEO_REGION_DEFS.map((reg) => {
+            const row = overview.regionRows.find((r) => r.id === reg.id);
+            const fill = row && row.avgPpm > 0 ? priceTierColor(row.avgPpm, maxPpm) : undefined;
+            return (
+              <path
+                key={reg.id}
+                d={reg.path}
+                className={fill ? "m-map-region-tier" : "m-map-region-idle"}
+                style={fill ? { fill } : undefined}
+              />
+            );
+          })}
+          {GEO_COUNTRY_MARKERS.map((c) => {
+            const active = activeCodes.has(c.code);
+            const avg = byCountry[c.code]?.avgPpm || 0;
+            return (
+              <g key={c.code}>
+                <circle
+                  cx={c.cx}
+                  cy={c.cy}
+                  r={c.r}
+                  className={active ? "m-map-active-country" : "m-map-region-idle"}
+                  style={!active && avg > 0 ? { fill: priceTierColor(avg, maxPpm) } : undefined}
+                />
+                {active && (
+                  <text x={c.cx} y={c.cy + 3} textAnchor="middle" fontSize="8" fill="#C9A227" fontWeight="700">
+                    {lang === "fa" ? "●" : "●"}
+                  </text>
+                )}
+              </g>
+            );
+          })}
+          <g transform="translate(24, 360)">
+            {[0.15, 0.35, 0.55, 0.75, 0.95].map((r, i) => (
+              <rect key={i} x={i * 34} y="0" width="28" height="10" rx="2" fill={priceTierColor(r * maxPpm, maxPpm)} />
+            ))}
+            <text x="0" y="24" fontSize="9" fill="#6B7280">{t("قیمت کمتر")}</text>
+            <text x="140" y="24" fontSize="9" fill="#6B7280">{t("قیمت بالاتر")}</text>
+          </g>
+        </svg>
+        {!hasGeo && (
+          <div className="text-[10px] text-[#9CA3AF] text-center px-3 pb-2 leading-5">
+            {t("هنوز هیچ پروژه‌ای موقعیت مکانی ثبت‌شده نداره. از «تنظیمات پروژه» موقعیت هر پروژه رو مشخص کن.")}
+          </div>
+        )}
+      </div>
+      <div className="min-w-0">
+        <div className="text-[11px] font-bold text-[#14213D] mb-2">{t("قیمت منطقه‌ای")}</div>
+        {regionRows.length === 0 ? (
+          <div className="text-xs text-[#9CA3AF] py-4">{t("داده‌ای برای نمایش نیست")}</div>
+        ) : (
+          <div className="overflow-x-auto">
+            <table className="w-full text-[11px]">
+              <thead>
+                <tr className="text-[#9CA3AF] border-b border-black/5">
+                  <th className={`py-1.5 font-semibold ${lang === "fa" ? "text-right" : "text-left"}`}>{t("منطقه")}</th>
+                  <th className={`py-1.5 font-semibold ${lang === "fa" ? "text-right" : "text-left"}`}>{t("میانگین قیمت فروش")}</th>
+                  <th className={`py-1.5 font-semibold ${lang === "fa" ? "text-right" : "text-left"}`}>{t("پروژه‌ها")}</th>
+                  <th className="py-1.5 font-semibold" />
+                </tr>
+              </thead>
+              <tbody>
+                {regionRows.map((r) => (
+                  <tr key={r.id} className="border-b border-black/5">
+                    <td className="py-2 font-semibold text-[#14213D]">{lang === "fa" ? r.fa : r.en}</td>
+                    <td className="py-2 text-[#14213D]">{r.avgPpm > 0 ? fmt(Math.round(r.avgPpm)) : "—"}</td>
+                    <td className="py-2 text-[#6B7280]">{r.projects}</td>
+                    <td className="py-2"><MiniSparkBar values={r.spark} max={maxPpm} /></td>
+                  </tr>
+                ))}
+              </tbody>
+            </table>
+          </div>
+        )}
+        {hasGeo && (
+          <div className="mt-2 text-[10px] text-[#6B7280] leading-5">
+            {t("کشورهای دارای پروژه فعال با رنگ سرمه‌ای چشمک می‌زنند.")}
+          </div>
+        )}
+      </div>
     </div>
   );
 }
@@ -8055,34 +8320,51 @@ function Building3DView({ project, onOpenGuide }) {
           labelSprites.push({ sprite, tex, mat: spriteMat, canvas });
         });
 
-        // North indicator (+Z)
+        // North indicator: flat on ground (XZ), tip always toward +Z (north) — not facing sky
         {
+          const northMat = new THREE.MeshStandardMaterial({ color: 0x14213d, roughness: 0.55, metalness: 0.12 });
+          const tipMat = new THREE.MeshStandardMaterial({ color: 0xc9a227, roughness: 0.5, metalness: 0.15 });
+          const northGroup = new THREE.Group();
+          northGroup.name = "northArrow";
+          // Cylinder default axis = Y; rotate onto +Z (north on floor plate)
+          const shaft = new THREE.Mesh(new THREE.CylinderGeometry(0.07, 0.07, 1.35, 10), northMat);
+          shaft.rotation.x = Math.PI / 2;
+          shaft.position.set(0, 0.06, 0.35);
+          northGroup.add(shaft);
+          const tip = new THREE.Mesh(new THREE.ConeGeometry(0.22, 0.55, 14), tipMat);
+          tip.rotation.x = Math.PI / 2;
+          tip.position.set(0, 0.06, 1.2);
+          northGroup.add(tip);
+          const pad = new THREE.Mesh(
+            new THREE.CircleGeometry(0.55, 24),
+            new THREE.MeshStandardMaterial({ color: 0xe8edf2, roughness: 0.95, transparent: true, opacity: 0.92 })
+          );
+          pad.rotation.x = -Math.PI / 2;
+          pad.position.y = 0.02;
+          northGroup.add(pad);
           const nCanvas = document.createElement("canvas");
-          nCanvas.width = 128;
-          nCanvas.height = 128;
+          nCanvas.width = 64;
+          nCanvas.height = 64;
           const nctx = nCanvas.getContext("2d");
-          nctx.clearRect(0, 0, 128, 128);
-          nctx.fillStyle = "#14213D";
-          nctx.beginPath();
-          nctx.moveTo(64, 12);
-          nctx.lineTo(88, 56);
-          nctx.lineTo(72, 56);
-          nctx.lineTo(72, 110);
-          nctx.lineTo(56, 110);
-          nctx.lineTo(56, 56);
-          nctx.lineTo(40, 56);
-          nctx.closePath();
-          nctx.fill();
+          nctx.clearRect(0, 0, 64, 64);
           nctx.fillStyle = "#C9A227";
-          nctx.font = "bold 28px Vazirmatn, Tahoma, sans-serif";
+          nctx.font = "bold 36px Vazirmatn, Tahoma, sans-serif";
           nctx.textAlign = "center";
-          nctx.fillText(lang === "fa" ? "ش" : "N", 64, 100);
+          nctx.textBaseline = "middle";
+          nctx.fillText(lang === "fa" ? "ش" : "N", 32, 34);
           const nTex = new THREE.CanvasTexture(nCanvas);
-          const nSprite = new THREE.Sprite(new THREE.SpriteMaterial({ map: nTex, transparent: true, depthTest: false }));
-          nSprite.scale.set(1.6, 1.6, 1);
-          nSprite.position.set(0, FLOOR_H + 0.15, PLATE / 2 + 1.4);
-          root.add(nSprite);
-          labelSprites.push({ sprite: nSprite, tex: nTex, mat: nSprite.material, canvas: nCanvas });
+          nTex.needsUpdate = true;
+          // Label sits flat on the ground next to the arrow (not billboard-to-sky)
+          const nLabel = new THREE.Mesh(
+            new THREE.PlaneGeometry(0.7, 0.7),
+            new THREE.MeshBasicMaterial({ map: nTex, transparent: true, depthTest: true, side: THREE.DoubleSide })
+          );
+          nLabel.rotation.x = -Math.PI / 2;
+          nLabel.position.set(0.85, 0.03, 0.2);
+          northGroup.add(nLabel);
+          northGroup.position.set(0, 0, PLATE / 2 + 2.0);
+          root.add(northGroup);
+          labelSprites.push({ sprite: nLabel, tex: nTex, mat: nLabel.material, canvas: nCanvas });
         }
 
         const box = new THREE.Box3().setFromObject(root);
@@ -14582,13 +14864,14 @@ function DataAnalysisScreen({ company, projects, contacts, onBack, ensurePdfExpo
     ];
   }, [analytical, project, t]);
 
-  function KpiCard({ label, value, sub, tone }) {
+  function KpiCard({ label, value, sub, tone, icon }) {
     const valueCls = tone === "pos" ? "text-[#166534]" : tone === "neg" ? "text-[#B91C1C]" : "text-[#14213D]";
     return (
-      <div className="m-card p-3 min-w-0">
-        <div className="text-[10px] text-[#6B7280] leading-snug mb-1">{label}</div>
-        <div className={`text-sm font-extrabold leading-tight truncate ${valueCls}`}>{value}</div>
-        {sub ? <div className="text-[9px] text-[#9CA3AF] mt-1 leading-4">{sub}</div> : null}
+      <div className="m-card p-3.5 min-w-0 relative">
+        {icon ? <div className="absolute top-3 end-3 m-da-kpi-icon">{icon}</div> : null}
+        <div className={`text-[10px] text-[#6B7280] leading-snug mb-1 ${icon ? "pe-9" : ""}`}>{label}</div>
+        <div className={`text-base font-extrabold leading-tight truncate ${valueCls}`}>{value}</div>
+        {sub ? <div className="text-[9px] text-[#9CA3AF] mt-1.5 leading-4">{sub}</div> : null}
       </div>
     );
   }
@@ -14813,13 +15096,31 @@ function DataAnalysisScreen({ company, projects, contacts, onBack, ensurePdfExpo
                     />
                   </div>
                   <div className="m-da-kpi-grid m-da-kpi-4">
-                    <KpiCard label={t("درآمد کل فروش")} value={fmt(analytical.revenueDisplay)} tone="pos" />
-                    <KpiCard label={t("واحدهای فروخته‌شده")} value={String(analytical.soldUnits)} />
-                    <KpiCard label={t("میانگین قیمت فروش هر متر")} value={fmt(Math.round(analytical.avgPpm))} />
+                    <KpiCard
+                      label={t("درآمد کل فروش")}
+                      value={fmt(analytical.revenueDisplay)}
+                      tone="pos"
+                      icon={<LucideWallet size={14} />}
+                      sub={t("داده اولیه پروژه انتخاب‌شده")}
+                    />
+                    <KpiCard
+                      label={t("واحدهای فروخته‌شده")}
+                      value={String(analytical.soldUnits)}
+                      icon={<LucidePackage size={14} />}
+                      sub={t("داده اولیه پروژه انتخاب‌شده")}
+                    />
+                    <KpiCard
+                      label={t("میانگین قیمت فروش هر متر")}
+                      value={fmt(Math.round(analytical.avgPpm))}
+                      icon={<LucideTag size={14} />}
+                      sub={t("داده اولیه پروژه انتخاب‌شده")}
+                    />
                     <KpiCard
                       label={t("حاشیه سود ناخالص")}
                       value={analytical.margin == null ? "—" : `${analytical.margin.toFixed(1)}٪`}
                       tone={analytical.margin == null ? null : analytical.margin >= 0 ? "pos" : "neg"}
+                      icon={<LucideTrendingUp size={14} />}
+                      sub={t("داده اولیه پروژه انتخاب‌شده")}
                     />
                   </div>
 
@@ -14845,7 +15146,7 @@ function DataAnalysisScreen({ company, projects, contacts, onBack, ensurePdfExpo
                             <span className="flex items-center gap-1"><span className="w-2.5 h-0.5 bg-[#14213D]" /> {t("درآمد")}</span>
                             <span className="flex items-center gap-1"><span className="w-2.5 h-0.5 bg-[#A5C5E8]" style={{ borderTop: "2px dashed #A5C5E8" }} /> {t("واحد")}</span>
                           </div>
-                          <AnalysisLineChart series={analytical.progress} />
+                          <AnalysisLineChart series={analytical.progress} height={150} />
                         </>
                       )}
                     </ChartCard>
@@ -14866,36 +15167,36 @@ function DataAnalysisScreen({ company, projects, contacts, onBack, ensurePdfExpo
                       {analytical.velocity.length === 0 ? (
                         <div className="text-xs text-[#9CA3AF] text-center py-8">{t("داده‌ای برای نمایش نیست")}</div>
                       ) : (
-                        <AnalysisBarChart series={analytical.velocity} valueKey="revenue" />
+                        <AnalysisBarChart series={analytical.velocity} valueKey="revenue" height={150} showValues />
                       )}
                     </ChartCard>
                   </div>
 
                   <ChartCard
-                    title={t("نمای قیمت")}
+                    title={t("نمای قیمت منطقه‌ای")}
                     printProps={{
                       company,
-                      title: `${t("نمای قیمت")} — ${project.name}`,
-                      subtitle: t("توزیع قیمت هر متر بر اساس طبقه و وضعیت"),
+                      title: `${t("نمای قیمت منطقه‌ای")} — ${company?.name || APP_NAME}`,
+                      subtitle: t("کشورهای دارای پروژه فعال با رنگ سرمه‌ای چشمک می‌زنند."),
                       columns: [
-                        { key: "floor", label: t("طبقه") },
-                        { key: "status", label: t("وضعیت") },
-                        { key: "avg", label: t("میانگین تومان/م²") },
-                        { key: "count", label: t("تعداد واحد") },
+                        { key: "region", label: t("منطقه") },
+                        { key: "avg", label: t("میانگین قیمت فروش") },
+                        { key: "projects", label: t("پروژه‌ها") },
                       ],
-                      rows: analytical.priceRows.map((r) => ({
-                        floor: r.floor,
-                        status: t(STATUS[r.status]?.label || r.status),
-                        avg: fmt(Math.round(r.avgPpm)),
-                        count: String(r.count),
+                      rows: buildRegionalPricingOverview(projects).regionRows.map((r) => ({
+                        region: lang === "fa" ? r.fa : r.en,
+                        avg: r.avgPpm > 0 ? fmt(Math.round(r.avgPpm)) : "—",
+                        projects: String(r.projects),
                       })),
                     }}
                   >
-                    <div className="text-[11px] text-[#6B7280] mb-3">{t("توزیع قیمت هر متر بر اساس طبقه و وضعیت")}</div>
-                    {analytical.priceRows.length === 0 ? (
-                      <div className="text-xs text-[#9CA3AF] text-center py-6">{t("داده‌ای برای نمایش نیست")}</div>
-                    ) : (
-                      <>
+                    <div className="text-[11px] text-[#6B7280] mb-3 leading-5">
+                      {t("نقشه جهانی بر اساس موقعیت ثبت‌شده پروژه‌ها؛ رنگ سرمه‌ای چشمک‌زن = کشور فعال.")}
+                    </div>
+                    <RegionalPricingOverview projects={projects} lang={lang} t={t} />
+                    {analytical.priceRows.length > 0 && (
+                      <div className="mt-4 pt-3 border-t border-black/5">
+                        <div className="text-[11px] font-bold text-[#14213D] mb-2">{t("توزیع قیمت هر متر بر اساس طبقه و وضعیت")}</div>
                         <AnalysisBarChart
                           series={analytical.priceRows.map((r) => ({
                             key: `${r.floor}-${r.status}`,
@@ -14903,30 +15204,9 @@ function DataAnalysisScreen({ company, projects, contacts, onBack, ensurePdfExpo
                           }))}
                           valueKey="revenue"
                           color="#1A2B4B"
+                          height={100}
                         />
-                        <div className="mt-3 overflow-x-auto">
-                          <table className="w-full text-[11px]">
-                            <thead>
-                              <tr className="text-[#9CA3AF] border-b border-black/5">
-                                <th className={`py-2 font-semibold ${lang === "fa" ? "text-right" : "text-left"}`}>{t("طبقه")}</th>
-                                <th className={`py-2 font-semibold ${lang === "fa" ? "text-right" : "text-left"}`}>{t("وضعیت")}</th>
-                                <th className={`py-2 font-semibold ${lang === "fa" ? "text-right" : "text-left"}`}>{t("میانگین تومان/م²")}</th>
-                                <th className={`py-2 font-semibold ${lang === "fa" ? "text-right" : "text-left"}`}>{t("تعداد واحد")}</th>
-                              </tr>
-                            </thead>
-                            <tbody>
-                              {analytical.priceRows.map((r) => (
-                                <tr key={`${r.floor}-${r.status}`} className="border-b border-black/5">
-                                  <td className="py-2 font-semibold text-[#14213D]">{r.floor}</td>
-                                  <td className="py-2 text-[#374151]">{t(STATUS[r.status]?.label || r.status)}</td>
-                                  <td className="py-2 text-[#14213D]">{fmt(Math.round(r.avgPpm))}</td>
-                                  <td className="py-2 text-[#6B7280]">{r.count}</td>
-                                </tr>
-                              ))}
-                            </tbody>
-                          </table>
-                        </div>
-                      </>
+                      </div>
                     )}
                   </ChartCard>
                 </div>
@@ -19210,9 +19490,18 @@ function UnitModal({ unit, project, company, user, canUseOwnerPortal, onRequireO
           </div>
 
           <div className="grid grid-cols-2 gap-3">
+            <Field
+              label={t("شماره واحد")}
+              value={unit.unitNumber ?? ""}
+              onChange={(v) => set("unitNumber", v)}
+              type="text"
+            />
             <Field label={t("متراژ (متر مربع)")} value={unit.area} onChange={(v) => set("area", v)} type="number" />
-            <Field label={t("قیمت هر متر مربع (تومان)")} value={unit.pricePerMeter} onChange={(v) => set("pricePerMeter", v)} type="number" />
           </div>
+          <p className="text-[10px] text-[#9CA3AF] leading-5 -mt-2">
+            {t("شماره واحد قابل ویرایش است؛ اگر چیدمان طبقات با پیش‌فرض برنامه یکی نیست، شماره دلخواه خود را وارد کنید.")}
+          </p>
+          <Field label={t("قیمت هر متر مربع (تومان)")} value={unit.pricePerMeter} onChange={(v) => set("pricePerMeter", v)} type="number" />
 
           <div>
             <div className="flex items-center gap-2 mb-1">
