@@ -19,6 +19,7 @@ const PLAN_TOMAN: Record<string, number> = {
   plus: 4_000_000,
   pro: 10_000_000,
   ark: 16_000_000,
+  team: 28_000_000,
 };
 
 Deno.serve(async (req) => {
@@ -32,7 +33,7 @@ Deno.serve(async (req) => {
     const discountCode = body.discount_code ? String(body.discount_code).trim() : null;
     const email = body.email ? String(body.email) : null;
 
-    if (!["plus", "pro", "ark"].includes(plan)) {
+    if (!["plus", "pro", "ark", "team"].includes(plan)) {
       return json({ status: "error", message: "invalid_plan" }, 400);
     }
 

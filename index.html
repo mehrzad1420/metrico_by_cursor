@@ -31,6 +31,61 @@
     font-display: swap;
   }
   body { font-family: 'Vazirmatn', Tahoma, 'Segoe UI', Arial, sans-serif; margin: 0; }
+  html.metrico-team-theme {
+    --m-team-accent: #0F766E;
+    --m-team-deep: #134E4A;
+    --m-team-soft: #F0FDFA;
+    --m-team-line: #99F6E4;
+  }
+  html.metrico-team-theme body {
+    background:
+      radial-gradient(1200px 500px at 100% -10%, rgba(15, 118, 110, 0.12), transparent 55%),
+      radial-gradient(900px 400px at 0% 100%, rgba(20, 33, 61, 0.06), transparent 50%),
+      #F7FAF9;
+  }
+  html.metrico-team-theme .m-header,
+  html.metrico-team-theme header.m-app-header {
+    background: linear-gradient(120deg, #134E4A 0%, #0F766E 55%, #14213D 100%) !important;
+  }
+  html.metrico-team-theme .m-da-tab.active,
+  html.metrico-team-theme .m-team-chip {
+    background: #0F766E !important;
+  }
+  .m-team-banner {
+    border: 1px solid #99F6E4;
+    background: linear-gradient(105deg, #F0FDFA, #ECFDF5 60%, #F8FAFC);
+    border-radius: 14px;
+    padding: 12px 14px;
+  }
+  .m-team-role-card {
+    border: 1px solid rgba(15, 118, 110, 0.18);
+    background: #fff;
+    border-radius: 12px;
+    padding: 10px 12px;
+  }
+  .m-progress-gantt {
+    display: flex;
+    flex-direction: column;
+    gap: 8px;
+  }
+  .m-progress-gantt-row {
+    display: grid;
+    grid-template-columns: 110px 1fr 52px;
+    gap: 8px;
+    align-items: center;
+    font-size: 11px;
+  }
+  .m-progress-gantt-track {
+    height: 10px;
+    border-radius: 999px;
+    background: #E5E7EB;
+    overflow: hidden;
+  }
+  .m-progress-gantt-fill {
+    height: 100%;
+    border-radius: 999px;
+    background: linear-gradient(90deg, #0F766E, #14B8A6);
+  }
   html, body, #root { height: 100%; }
   #root { min-height: 0; }
   * { font-feature-settings: "tnum" 1; }
@@ -828,11 +883,24 @@ const GUIDE_SECTIONS = [
     label: "پلن‌های اشتراک",
     icon: LucideCrown,
     steps: [
-      { title: "چهار سطح اشتراک", body: "متریکو در چهار سطح ارائه می‌شود: آغاز (رایگان)، پلاس، پرو و ارک. هر پلن بالاتر، تمام امکانات پلن‌های پایین‌تر را هم شامل می‌شود. از منو → «پلن اشتراک» وضعیت فعلی و جدول مقایسه را ببینید.", img: "صفحه پلن اشتراک" },
-      { title: "آغاز و پلاس", body: "آغاز: یک پروژه، فروش واحد و ثبت هزینه. پلاس: تا ۳ پروژه، گزارش PDF، چت هوشمند، نقشه مکان‌یابی، پنل اختصاصی مالک، گالری تصاویر، نقشه‌های اتوکد/BIM/سه‌بعدی پروژه، پشتیبان‌گیری و مخاطبین نامحدود.", img: "مقایسه آغاز و پلاس" },
-      { title: "پرو — حسابداری و انبار", body: "پلن پرو تا ۱۰ پروژه، حسابداری کامل پروژه، انبارگردانی و موجودی مصالح، سامانه‌های مالیاتی و خروجی KML را فعال می‌کند.", img: "امکانات پرو" },
-      { title: "ارک — انرژی و متره", body: "بالاترین سطح: پروژه نامحدود، محاسبات انرژی ساختمان و ابزار متره و برآورد. انرژی و متره فقط در پلن ارک در دسترس است.", img: "امکانات ارک" },
-      { title: "ارتقا با کد", body: "پس از پرداخت یا دریافت کد آزمایشی از مدیر، در صفحه «پلن اشتراک» کد را وارد کنید. پرداخت آنلاین مستقیم به‌زودی از همین صفحه فعال می‌شود.", img: "کد ارتقا" },
+      { title: "پنج سطح اشتراک", body: "متریکو در پنج سطح ارائه می‌شود: آغاز (رایگان)، پلاس، پرو، ارک و تیم. هر پلن بالاتر، تمام امکانات پلن‌های پایین‌تر را هم شامل می‌شود. پلن تیم علاوه بر همه امکانات، فضای کاری چندنفره با نقش‌ها را فعال می‌کند.", img: "صفحه پلن اشتراک" },
+      { title: "آغاز و پلاس", body: "آغاز: یک پروژه، فروش واحد و ثبت هزینه. پلاس: تا ۳ پروژه، گزارش PDF، چت هوشمند، نقشه، پنل مالک، پنل سرمایه‌گذار، رزرو با مهلت، فاکتور/رسید، گالری و نقشه‌های فنی.", img: "مقایسه آغاز و پلاس" },
+      { title: "پرو — حسابداری و پیشرفت", body: "پلن پرو تا ۱۰ پروژه، حسابداری، خروجی CSV حسابداری، صورت‌وضعیت و پیشرفت ساخت، انبار، مالیات و KML را فعال می‌کند.", img: "امکانات پرو" },
+      { title: "ارک و تیم", body: "ارک: پروژه نامحدود + انرژی + متره. تیم: همه امکانات ارک به‌همراه پنل اعضای تیم، تعریف نقش و دسترسی تفکیک‌شده برای فروش، حسابداری، کارگاه و ناظر.", img: "امکانات ارک و تیم" },
+      { title: "ارتقا با کد", body: "پس از پرداخت یا دریافت کد آزمایشی از مدیر، در صفحه «پلن اشتراک» کد را وارد کنید. برای پلن تیم کد با پیشوند تیم صادر می‌شود.", img: "کد ارتقا" },
+    ],
+  },
+  {
+    id: "team_roles",
+    label: "نقش‌ها و نسخه تیمی",
+    icon: LucideUsers,
+    steps: [
+      { title: "چرا نسخه تیمی؟", body: "وقتی بیش از یک نفر روی همان پروژه‌ها کار می‌کند، مدیر تیم پلن تیم را فعال می‌کند و برای هر عضو ایمیل، رمز و نقش تعریف می‌کند. عضو فقط بخش‌های مرتبط با نقش خودش را می‌بیند.", img: "پنل تیم" },
+      { title: "نقش مدیر تیم", body: "مالک اشتراک تیم است. همه امکانات فعال است و می‌تواند اعضا را اضافه/حذف کند، نقش‌ها را عوض کند و پروژه‌ها را مدیریت کند. از منو → «مدیریت تیم» وارد شوید.", img: "مدیر تیم" },
+      { title: "کارشناس فروش", body: "تمرکز روی واحدها، مخاطبین، فروش و رزرو (با مهلت)، پنل مالک، نقشه و گزارش‌های فروش. به حسابداری کامل یا انبار دسترسی ندارد.", img: "نقش فروش" },
+      { title: "حسابدار", body: "هزینه‌ها، حسابداری پروژه، اقساط، فاکتور/رسید، مالیات، خروجی CSV حسابداری و پنل سرمایه‌گذار. به متره/انرژی یا ویرایش کامل واحدها محدود است.", img: "نقش حسابدار" },
+      { title: "مدیر کارگاه", body: "صورت‌وضعیت، پیشرفت ساخت، انبار مصالح، نقشه‌های فنی، گالری و در صورت پلن سازمانی انرژی/متره. برای فروش مالی واحد طراحی نشده است.", img: "نقش کارگاه" },
+      { title: "ناظر (فقط‌خواندنی)", body: "داشبورد، تحلیل داده‌ها و پلان سه‌بعدی را می‌بیند ولی نمی‌تواند داده را تغییر دهد — مناسب سرمایه‌گذار داخلی یا ناظر کیفیت.", img: "نقش ناظر" },
     ],
   },
   {
@@ -840,10 +908,10 @@ const GUIDE_SECTIONS = [
     label: "شروع به کار",
     icon: LucideRocket,
     steps: [
-      { title: "ورود و فعال‌سازی حساب", body: "با ایمیل و رمز عبور وارد شوید. در صفحه ورود، دکمه FA/EN بالا سمت راست برای تغییر زبان بین فارسی و انگلیسی وجود دارد. پس از ثبت‌نام، کد فعال‌سازی را از مدیر سیستم دریافت کرده و در صفحه فعال‌سازی وارد کنید.", img: "صفحه ورود و فعال‌سازی" },
+      { title: "ورود و فعال‌سازی حساب", body: "با ایمیل و رمز عبور وارد شوید. در صفحه ورود، دکمه FA/EN بالا سمت راست برای تغییر زبان بین فارسی و انگلیسی وجود دارد. پس از ثبت‌نام، کد فعال‌سازی را از مدیر سیستم دریافت کرده و در صفحه فعال‌سازی وارد کنید. اعضای تیم توسط مدیر تیم ساخته می‌شوند و معمولاً از قبل فعال هستند.", img: "صفحه ورود و فعال‌سازی" },
       { title: "تنظیم اطلاعات شرکت", body: "از آیکون تنظیمات بالای صفحه، نام و لوگوی شرکت خود را ثبت کنید. این اطلاعات در هدر اپ و گزارش‌های PDF نمایش داده می‌شود.", img: "تنظیمات شرکت" },
       { title: "ساخت اولین پروژه", body: "از منوی کناری گزینه «پروژه جدید» را بزنید، یا در هر صفحه دکمه + پایین صفحه → «تعریف پروژه» را انتخاب کنید. نام پروژه، آدرس و تعداد طبقات/واحدها را تعریف کنید. بعداً از تنظیمات پروژه → تب «طبقات» می‌توانید تعداد واحد هر طبقه را ویرایش کنید.", img: "فرم پروژه جدید" },
-      { title: "مدیریت واحدها", body: "پس از ساخت پروژه، روی هر واحد در گرافیک ساختمان بزنید. متراژ، جهت‌گیری (۹ مقدار طبق راهنمای جهت)، وضعیت و اطلاعات خریدار را ثبت کنید. برای پلان سه‌بعدی، جهت همه واحدها الزامی است. مخاطب جدید از بخش خریدار با نقش «خریدار» ذخیره می‌شود.", img: "پنجره اطلاعات واحد" },
+      { title: "مدیریت واحدها", body: "پس از ساخت پروژه، روی هر واحد در گرافیک ساختمان بزنید. متراژ، جهت‌گیری (۹ مقدار طبق راهنمای جهت)، وضعیت و اطلاعات خریدار را ثبت کنید. برای رزرو می‌توانید مهلت انقضا بگذارید تا پس از پایان خودکار خالی شود. برای پلان سه‌بعدی، جهت همه واحدها الزامی است.", img: "پنجره اطلاعات واحد" },
       { title: "داشبورد، گالری و نقشه‌ها", body: "در داشبورد، کارت هر پروژه را با کشیدن انگشت جابه‌جا کنید. آیکن گالری روی کارت یا دکمه «گالری تصاویر» داخل پروژه برای عکس‌های پیشرفت است. دکمه «نقشه‌ها» کنار گالری، نقشه اتوکد (PDF/DXF) را داخل اپ نمایش می‌دهد.", img: "داشبورد پروژه‌ها" },
     ],
   },
@@ -866,6 +934,7 @@ const GUIDE_SECTIONS = [
       { title: "منوی + و امور مالی", body: "دکمه + پایین صفحه در همه بخش‌های اپ در دسترس است. پره «امور مالی» شامل «پرداخت هزینه» (ثبت هزینه با مستندات) و «جابجایی» (انتقال بین حساب‌های بانکی پروژه) است.", img: "منوی + امور مالی" },
       { title: "گزارش‌ها در popup", body: "از پره «گزارش‌ها» سه گزارش باز می‌شود: موجودی حساب‌ها، گردش مالی و گزارش چک‌ها. هر کدام در پنجره popup از پایین صفحه باز می‌شود و با ✕ بسته می‌شود.", img: "popup گزارش‌ها" },
       { title: "حسابداری داخل پروژه", body: "با ورود به پروژه و انتخاب «حسابداری»، تراز حساب‌ها، سرمایه‌گذاران، دفتر تراکنش‌ها و انتقال/سرمایه را مدیریت کنید. نیاز به پلن پرو. ابتدا از تنظیمات پروژه → تب مالی، حساب بانکی تعریف کنید.", img: "صفحه حسابداری پروژه" },
+      { title: "خروجی حسابداری و پنل سرمایه‌گذار", body: "از بالای صفحه حسابداری، «خروجی CSV» فایل استاندارد برای نرم‌افزار حسابداری می‌سازد. در تب سرمایه‌گذاران، «چاپ پنل سرمایه‌گذار» گزارش سهم و سرمایه را برای اشتراک با سرمایه‌گذاران باز می‌کند.", img: "خروجی CSV و سرمایه‌گذار" },
       { title: "خروجی PDF گزارش‌ها", body: "در هر لیست و گزارش (هزینه‌ها، مخاطبین، موجودی حساب، گردش مالی، چک‌ها و ...) دکمه «چاپ / PDF» وجود دارد. گزارش در تب جدید باز می‌شود و با «ذخیره PDF» مرورگر قابل دانلود است.", img: "دکمه چاپ PDF" },
     ],
   },
@@ -1381,14 +1450,15 @@ function projectCardTheme(projectId) {
   return PROJECT_CARD_PALETTE[Math.abs(h) % PROJECT_CARD_PALETTE.length];
 }
 const APP_NAME = "Metrico";
-const APP_VERSION = "2.56.2";
+const APP_VERSION = "2.57.0";
 
-const METRICO_PLAN_ORDER = ["start", "plus", "pro", "ark"];
+const METRICO_PLAN_ORDER = ["start", "plus", "pro", "ark", "team"];
 const METRICO_PLANS = {
   start: { id: "start", name: "متریکو آغاز", tagline: "شروع رایگان — یک پروژه، مدیریت پایه", rank: 0, maxProjects: 1, maxContacts: 15, maxReminders: 10, priceYearToman: 0, priceYearEur: 0 },
   plus: { id: "plus", name: "متریکو پلاس", tagline: "فروش و هزینه حرفه‌ای + گزارش و چت", rank: 1, maxProjects: 3, maxContacts: 9999, maxReminders: 9999, priceYearToman: 4000000, priceYearEur: 50 },
   pro: { id: "pro", name: "متریکو پرو", tagline: "حسابداری کامل + انبار مصالح + مالیات", rank: 2, maxProjects: 10, maxContacts: 9999, maxReminders: 9999, priceYearToman: 10000000, priceYearEur: 100 },
   ark: { id: "ark", name: "متریکو ارک", tagline: "نامحدود + انرژی + متره + سازمانی", rank: 3, maxProjects: 999, maxContacts: 9999, maxReminders: 9999, priceYearToman: 16000000, priceYearEur: 150 },
+  team: { id: "team", name: "متریکو تیم", tagline: "همه امکانات + نقش‌ها و اعضای تیم", rank: 4, maxProjects: 999, maxContacts: 9999, maxReminders: 9999, priceYearToman: 28000000, priceYearEur: 250 },
 };
 const METRICO_LOCAL_DISCOUNTS = {
   METRICO10: { percent: 10, kinds: ["purchase", "renewal"] },
@@ -1411,34 +1481,208 @@ function payablePlanToman(planId, discountPercent) {
 }
 const FEATURE_MIN_PLAN = {
   backup_restore: "plus", pdf_export: "plus", finance_transfer: "plus", fab_accounts: "plus",
-  chat: "plus", map: "plus", owner_portal: "plus", project_maps: "plus", accounting: "pro", fab_flow: "pro", fab_checks: "pro",
-  kml_export: "pro", inventory: "pro", tax: "pro", contracts: "pro", energy: "ark", takeoff: "ark",
+  chat: "plus", map: "plus", owner_portal: "plus", project_maps: "plus",
+  investor_portal: "plus", unit_reservation_expiry: "plus", invoice_receipt: "plus",
+  accounting: "pro", fab_flow: "pro", fab_checks: "pro",
+  kml_export: "pro", inventory: "pro", tax: "pro", contracts: "pro",
+  accounting_export: "pro", construction_progress: "pro",
+  energy: "ark", takeoff: "ark",
+  team_workspace: "team",
 };
 const PLAN_THEME = {
   start: { accent: "#9CA3AF", bg: "#F3F4F6", label: "آغاز" },
   plus: { accent: "#2563EB", bg: "#EFF6FF", label: "پلاس" },
   pro: { accent: "#9333EA", bg: "#FAF5FF", label: "پرو" },
   ark: { accent: "#C9A227", bg: "#FFFBEB", label: "ارک" },
+  team: { accent: "#0F766E", bg: "#F0FDFA", label: "تیم" },
 };
 const PLAN_COMPARE_ROWS = [
-  { label: "تعداد پروژه", type: "text", values: { start: "۱", plus: "۳", pro: "۱۰", ark: "∞" } },
+  { label: "تعداد پروژه", type: "text", values: { start: "۱", plus: "۳", pro: "۱۰", ark: "∞", team: "∞" } },
   { label: "فروش واحد و ثبت هزینه", minPlan: "start" },
-  { label: "دفترچه مخاطبین", type: "text", values: { start: "۱۵", plus: "∞", pro: "∞", ark: "∞" } },
+  { label: "دفترچه مخاطبین", type: "text", values: { start: "۱۵", plus: "∞", pro: "∞", ark: "∞", team: "∞" } },
   { label: "گزارش PDF", minPlan: "plus" },
   { label: "چت هوشمند", minPlan: "plus" },
   { label: "نقشه پروژه‌ها", minPlan: "plus" },
   { label: "پشتیبان‌گیری و بازیابی", minPlan: "plus" },
   { label: "پنل اختصاصی مالک", minPlan: "plus" },
+  { label: "پنل سرمایه‌گذار", minPlan: "plus" },
+  { label: "رزرو واحد با مهلت", minPlan: "plus" },
+  { label: "فاکتور و رسید رسمی", minPlan: "plus" },
   { label: "گالری تصاویر پروژه", minPlan: "plus" },
   { label: "نقشه‌های فنی پروژه (اتوکد/BIM/۳D)", minPlan: "plus" },
   { label: "حسابداری پروژه", minPlan: "pro" },
+  { label: "خروجی حسابداری (CSV)", minPlan: "pro" },
+  { label: "پیشرفت ساخت / صورت‌وضعیت", minPlan: "pro" },
   { label: "مدیریت قراردادها", minPlan: "pro" },
   { label: "انبار مصالح", minPlan: "pro" },
   { label: "سامانه‌های مالیاتی", minPlan: "pro" },
   { label: "خروجی KML", minPlan: "pro" },
   { label: "محاسبات انرژی", minPlan: "ark" },
   { label: "متره و برآورد", minPlan: "ark" },
+  { label: "فضای کاری تیمی و نقش‌ها", minPlan: "team" },
 ];
+
+/** نقش‌های نسخه تیمی — دسترسی صفحه‌ها و قابلیت‌ها */
+const TEAM_ROLES = {
+  manager: {
+    id: "manager", fa: "مدیر تیم", en: "Team manager",
+    descFa: "دسترسی کامل به همه بخش‌ها، تعریف اعضا و نقش‌ها.",
+    descEn: "Full access; manage members and roles.",
+    screens: "*", features: "*", readOnly: false,
+  },
+  sales: {
+    id: "sales", fa: "کارشناس فروش", en: "Sales",
+    descFa: "واحدها، مخاطبین، فروش/رزرو، پنل مالک، نقشه و گزارش فروش.",
+    descEn: "Units, contacts, sales/reservations, owner portal, map.",
+    screens: ["dashboard", "app", "contacts", "notes", "reminders", "building_3d", "data_analysis", "map", "guide", "plan"],
+    features: ["owner_portal", "map", "pdf_export", "chat", "unit_reservation_expiry", "invoice_receipt", "project_maps"],
+    readOnly: false,
+  },
+  accountant: {
+    id: "accountant", fa: "حسابدار", en: "Accountant",
+    descFa: "هزینه، حسابداری، اقساط، فاکتور، مالیات و خروجی حسابداری.",
+    descEn: "Expenses, accounting, installments, invoices, tax export.",
+    screens: ["dashboard", "app", "finance", "reports", "data_analysis", "contacts", "tax", "backup", "guide", "plan"],
+    features: ["accounting", "fab_flow", "fab_checks", "fab_accounts", "finance_transfer", "pdf_export", "backup_restore", "tax", "accounting_export", "invoice_receipt", "investor_portal"],
+    readOnly: false,
+  },
+  site: {
+    id: "site", fa: "مدیر کارگاه", en: "Site manager",
+    descFa: "صورت‌وضعیت، پیشرفت ساخت، انبار، نقشه‌ها و گالری.",
+    descEn: "Progress statements, inventory, maps, gallery.",
+    screens: ["dashboard", "app", "contracts", "inventory", "project_maps", "building_3d", "map", "energy", "takeoff", "guide", "plan"],
+    features: ["contracts", "construction_progress", "inventory", "project_maps", "map", "energy", "takeoff", "pdf_export"],
+    readOnly: false,
+  },
+  viewer: {
+    id: "viewer", fa: "ناظر / فقط‌خواندنی", en: "Viewer",
+    descFa: "مشاهده داشبورد، تحلیل و پلان سه‌بعدی بدون ویرایش.",
+    descEn: "View dashboard, analytics and 3D plan; no edits.",
+    screens: ["dashboard", "data_analysis", "building_3d", "guide"],
+    features: [],
+    readOnly: true,
+  },
+};
+
+function roleAllowsScreen(memberRole, screenId) {
+  const role = TEAM_ROLES[memberRole] || TEAM_ROLES.manager;
+  if (role.screens === "*") return true;
+  return (role.screens || []).includes(screenId);
+}
+
+function roleAllowsFeature(memberRole, featureKey) {
+  const role = TEAM_ROLES[memberRole] || TEAM_ROLES.manager;
+  if (role.features === "*") return true;
+  if (!featureKey) return true;
+  return (role.features || []).includes(featureKey);
+}
+
+function expireStaleReservations(project) {
+  if (!project || !Array.isArray(project.units)) return project;
+  const now = Date.now();
+  let changed = false;
+  const units = project.units.map((u) => {
+    if (u.status !== "reserved" || !u.reservedUntil) return u;
+    const until = new Date(u.reservedUntil).getTime();
+    if (!Number.isFinite(until) || until >= now) return u;
+    changed = true;
+    return { ...u, status: "vacant", reservedUntil: "", buyerName: u.buyerName, buyerPhone: u.buyerPhone };
+  });
+  return changed ? { ...project, units } : project;
+}
+
+function downloadTextFile(filename, text, mime = "text/csv;charset=utf-8") {
+  const blob = new Blob(["\ufeff" + text], { type: mime });
+  const url = URL.createObjectURL(blob);
+  const a = document.createElement("a");
+  a.href = url;
+  a.download = filename;
+  a.click();
+  setTimeout(() => URL.revokeObjectURL(url), 1500);
+}
+
+function buildAccountingExportCsv(project) {
+  const rows = [["type", "date", "title", "amount", "account", "contact", "note"]];
+  (project.expenses || []).forEach((e) => {
+    rows.push(["expense", e.date || "", e.title || e.category || "", String(e.amount || 0), e.method || "", e.contactName || "", e.notes || ""]);
+  });
+  (project.financeTransactions || []).forEach((tx) => {
+    rows.push([tx.kind || "finance", tx.date || "", tx.title || tx.note || "", String(tx.amount || 0), tx.accountName || tx.fromAccountId || "", tx.investorName || "", tx.note || ""]);
+  });
+  (project.units || []).forEach((u) => {
+    (u.installments || []).forEach((i) => {
+      rows.push(["installment", i.date || "", `unit ${u.unitNumber}`, String(i.amount || 0), i.paid ? "paid" : "due", u.buyerName || "", ""]);
+    });
+  });
+  return rows.map((r) => r.map((c) => `"${String(c).replace(/"/g, '""')}"`).join(",")).join("\n");
+}
+
+function openInvestorPortalPrint({ company, project, profitRows, profit }) {
+  const title = "گزارش پنل سرمایه‌گذار";
+  const rowsHtml = (profitRows || []).map((row) => `
+    <tr>
+      <td>${escReportHtml(row.name)}</td>
+      <td>${escReportHtml(String(row.sharePercent))}٪</td>
+      <td>${escReportHtml(fmt(Math.abs(row.profitShare)))}</td>
+      <td>${escReportHtml(fmt(row.netCapital))}</td>
+    </tr>`).join("");
+  const html = `<!DOCTYPE html><html lang="fa" dir="rtl"><head><meta charset="UTF-8"/><title>${title}</title>
+  <style>
+    body{font-family:Tahoma,Arial,sans-serif;padding:28px;color:#14213D;background:#fff}
+    .box{border:2px solid #0F766E;border-radius:12px;padding:24px;max-width:820px;margin:0 auto}
+    h1{font-size:18px;margin:0 0 8px;color:#0F766E}
+    .meta{font-size:12px;color:#6B7280;margin-bottom:16px}
+    table{width:100%;border-collapse:collapse;font-size:13px}
+    td,th{border:1px solid #E5E7EB;padding:8px;text-align:right}
+    th{background:#F0FDFA}
+    .foot{margin-top:20px;font-size:11px;color:#9CA3AF}
+    @media print{button{display:none}}
+  </style></head><body>
+  <div class="box">
+    <h1>${title}</h1>
+    <div class="meta">${escReportHtml(company?.name || APP_NAME)} · ${escReportHtml(project?.name || "")} · سود/زیان پروژه: ${escReportHtml(fmt(Math.abs(profit || 0)))}</div>
+    <table>
+      <tr><th>نام</th><th>سهم</th><th>سهم سود/زیان</th><th>سرمایه خالص</th></tr>
+      ${rowsHtml || "<tr><td colspan='4'>—</td></tr>"}
+    </table>
+    <div class="foot">صادر شده توسط ${APP_NAME} — مناسب اشتراک با سرمایه‌گذاران پروژه.</div>
+    <p style="margin-top:16px"><button onclick="window.print()">چاپ / PDF</button></p>
+  </div></body></html>`;
+  const w = window.open("", "_blank");
+  if (w) { w.document.write(html); w.document.close(); }
+}
+
+function openInvoiceReceiptPrint({ company, project, unit, installment, receiptNo }) {
+  const title = "رسید دریافت وجه / فاکتور";
+  const html = `<!DOCTYPE html><html lang="fa" dir="rtl"><head><meta charset="UTF-8"/><title>${title}</title>
+  <style>
+    body{font-family:Tahoma,Arial,sans-serif;padding:28px;color:#14213D;background:#fff}
+    .box{border:2px solid #0F766E;border-radius:12px;padding:24px;max-width:720px;margin:0 auto}
+    h1{font-size:18px;margin:0 0 8px;color:#0F766E}
+    .meta{font-size:12px;color:#6B7280;margin-bottom:16px}
+    table{width:100%;border-collapse:collapse;font-size:13px}
+    td,th{border:1px solid #E5E7EB;padding:8px;text-align:right}
+    th{background:#F0FDFA}
+    .foot{margin-top:20px;font-size:11px;color:#9CA3AF}
+    @media print{button{display:none}}
+  </style></head><body>
+  <div class="box">
+    <h1>${title}</h1>
+    <div class="meta">${company?.name || APP_NAME} · ${project?.name || ""} · شماره: ${receiptNo || "—"}</div>
+    <table>
+      <tr><th>خریدار</th><td>${unit?.buyerName || "—"}</td></tr>
+      <tr><th>واحد</th><td>${unit?.unitNumber ?? "—"} · طبقه ${unit?.floor ?? "—"}</td></tr>
+      <tr><th>تاریخ</th><td>${installment?.date || "—"}</td></tr>
+      <tr><th>مبلغ</th><td>${fmt(Number(installment?.amount) || 0)}</td></tr>
+      <tr><th>وضعیت</th><td>${installment?.paid ? "پرداخت‌شده" : "در انتظار"}</td></tr>
+      <tr><th>شرح</th><td>${installment?.note || "قسط / دریافت وجه"}</td></tr>
+    </table>
+    <div class="foot">صادر شده توسط ${APP_NAME} — این سند برای بایگانی داخلی است.</div>
+    <p style="margin-top:16px"><button onclick="window.print()">چاپ / PDF</button></p>
+  </div></body></html>`;
+  const w = window.open("", "_blank");
+  if (w) { w.document.write(html); w.document.close(); }
+}
 function planCellIncluded(planId, row) {
   if (row.type === "text" && row.values) return row.values[planId] ?? "—";
   const min = row.minPlan || "start";
@@ -2912,6 +3156,31 @@ const DICT = {
   "تراز حساب‌ها": "Account balances", "دفتر تراکنش": "Transaction ledger",
   "انتقال / سرمایه": "Transfer / capital",
   "حسابداری پروژه": "Project accounting",
+  "مدیریت تیم": "Team management",
+  "پلن تیم": "Team plan",
+  "فضای کاری تیمی": "Team workspace",
+  "اعضای تیم را با ایمیل و رمز بسازید و برای هر نفر نقش مشخص کنید. هر نقش فقط به بخش‌های حوزه کاری خودش دسترسی دارد.": "Create team members with email and password and assign a role. Each role only reaches its own work area.",
+  "مشاهده راهنمای نقش‌ها": "View roles guide",
+  "افزودن عضو جدید": "Add new member",
+  "نام نمایشی": "Display name",
+  "ایجاد عضو تیم": "Create team member",
+  "اعضای فعلی": "Current members",
+  "هنوز عضوی تعریف نشده است.": "No members defined yet.",
+  "این عضو از تیم حذف شود؟": "Remove this member from the team?",
+  "عضو تیم با موفقیت اضافه شد": "Team member added successfully",
+  "نسخه تیمی متریکو": "Metrico Team edition",
+  "نقش شما به این بخش دسترسی ندارد.": "Your role cannot access this section.",
+  "نقش شما به این امکان دسترسی ندارد.": "Your role cannot use this feature.",
+  "نقش ناظر فقط‌خواندنی است — امکان ذخیره تغییرات وجود ندارد.": "Viewer role is read-only — changes cannot be saved.",
+  "فقط مدیر تیم می‌تواند پروژه جدید بسازد.": "Only the team manager can create a new project.",
+  "نمای پیشرفت ساخت": "Construction progress view",
+  "هنوز صورت‌وضعیت یا پیشرفت ساختی ثبت نشده است.": "No progress statements recorded yet.",
+  "خروجی CSV": "CSV export",
+  "خروجی حسابداری CSV": "Accounting CSV export",
+  "چاپ پنل سرمایه‌گذار": "Print investor portal",
+  "بارگذاری اعضا ناموفق بود": "Failed to load members",
+  "در حال ذخیره...": "Saving...",
+  "مدیر تیم": "Team manager",
   "تراز حساب‌های پروژه": "Project account balances",
   "موجودی اولیه": "Opening balance", "سهم": "Share",
   "سهم سود/زیان": "Profit/loss share", "سرمایه خالص": "Net capital",
@@ -4222,7 +4491,7 @@ function emptyUnit(floor, unitNumber) {
     id: uid(), floor, unitNumber, area: "", status: "vacant", direction: "none",
     buyerName: "", buyerPhone: "", postalCode: "",
     pricePerMeter: "", downPayment: "",
-    installments: [], contractDocs: [], checkDocs: [], notes: "",
+    installments: [], contractDocs: [], checkDocs: [], notes: "", reservedUntil: "",
   };
 }
 function totalPriceOf(u) { return (Number(u.area) || 0) * (Number(u.pricePerMeter) || 0); }
@@ -9285,6 +9554,9 @@ function AppContent() {
   const [userPlan, setUserPlan] = useState("start");
   const [planExpiresAt, setPlanExpiresAt] = useState(null);
   const [userRole, setUserRole] = useState("user");
+  const [memberRole, setMemberRole] = useState("manager");
+  const [teamContext, setTeamContext] = useState(null);
+  const [isTeamMember, setIsTeamMember] = useState(false);
   const [company, setCompany] = useState(null);
   const [contacts, setContacts] = useState([]);
   const [reminders, setReminders] = useState([]);
@@ -9337,13 +9609,49 @@ function AppContent() {
     screen, showSearch, showChat, showMenu, showTransfer, showExpenses, reportPopup, showFab,
     openUnitId, showProjectSettings, showNewProject, showCompanySettings, ownerMessagesProjectId, showDueEvents, showProductFeedbackInbox,
   };
-  const isReadOnly = isDemoUser(user);
+  const roleDef = TEAM_ROLES[memberRole] || TEAM_ROLES.manager;
+  const isReadOnly = isDemoUser(user) || !!roleDef.readOnly;
   const isSuperAdmin = userRole === "super_admin";
-  const effectivePlan = useMemo(
-    () => (isDemoUser(user) ? "ark" : getEffectivePlan(userPlan, planExpiresAt)),
-    [user, userPlan, planExpiresAt]
-  );
+  const isTeamOwner = !!(teamContext && teamContext.is_team_owner);
+  const projectsOwnerId = (teamContext && teamContext.team_owner_id) || user?.id || null;
+  const effectivePlan = useMemo(() => {
+    if (isDemoUser(user)) return "ark";
+    if (teamContext?.effective_plan) return normalizePlanId(teamContext.effective_plan);
+    return getEffectivePlan(userPlan, planExpiresAt);
+  }, [user, userPlan, planExpiresAt, teamContext]);
   const planLimits = METRICO_PLANS[effectivePlan];
+
+  useEffect(() => {
+    const on = effectivePlan === "team";
+    document.documentElement.classList.toggle("metrico-team-theme", on);
+    return () => document.documentElement.classList.remove("metrico-team-theme");
+  }, [effectivePlan]);
+
+  function refreshTeamContext() {
+    if (!user || isDemoUser(user)) {
+      setTeamContext(null);
+      setMemberRole("manager");
+      setIsTeamMember(false);
+      return Promise.resolve(null);
+    }
+    return window.sb.rpc("get_team_context").then(({ data }) => {
+      if (!data) {
+        setTeamContext(null);
+        setMemberRole("manager");
+        setIsTeamMember(false);
+        return null;
+      }
+      setTeamContext(data);
+      setMemberRole(data.member_role || "manager");
+      setIsTeamMember(!!data.is_member);
+      return data;
+    }).catch(() => {
+      setTeamContext(null);
+      setMemberRole("manager");
+      setIsTeamMember(false);
+      return null;
+    });
+  }
 
   function refreshUserPlan() {
     if (!user || isDemoUser(user)) return Promise.resolve();
@@ -9352,10 +9660,23 @@ function AppContent() {
         if (err) return;
         setUserPlan(normalizePlanId(data?.plan));
         setPlanExpiresAt(data?.plan_expires_at || null);
-      });
+      })
+      .then(() => refreshTeamContext());
+  }
+
+  function requireRoleScreen(screenId) {
+    if (roleAllowsScreen(memberRole, screenId)) return true;
+    setError(t("نقش شما به این بخش دسترسی ندارد."));
+    setShowMenu(false);
+    return false;
   }
 
   function requirePlan(featureKey, onAllowed) {
+    if (featureKey && !roleAllowsFeature(memberRole, featureKey)) {
+      setError(t("نقش شما به این امکان دسترسی ندارد."));
+      setShowMenu(false);
+      return false;
+    }
     if (!hasPlanFeature(effectivePlan, featureKey, planExpiresAt)) {
       setError(`${t("این امکان در پلن")} ${planRequiredLabel(featureKey)} ${t("است. از منو → «پلن اشتراک» ارتقا دهید.")}`);
       setShowMenu(false);
@@ -9448,7 +9769,9 @@ function AppContent() {
 
   function guardWrite(msg) {
     if (!isReadOnly) return true;
-    setError(msg || t("حساب دمو فقط برای مشاهده است — امکان ذخیره تغییرات وجود ندارد."));
+    setError(msg || (roleDef.readOnly
+      ? t("نقش ناظر فقط‌خواندنی است — امکان ذخیره تغییرات وجود ندارد.")
+      : t("حساب دمو فقط برای مشاهده است — امکان ذخیره تغییرات وجود ندارد.")));
     return false;
   }
 
@@ -9525,50 +9848,89 @@ function AppContent() {
     setActivated(null);
     if (isDemoUser(user)) {
       setActivated(true);
+      setMemberRole("manager");
+      setTeamContext(null);
+      setIsTeamMember(false);
       return;
     }
-    window.sb.from("profiles").select("activated, plan, plan_expires_at, role").eq("user_id", user.id).maybeSingle()
+    window.sb.from("profiles").select("activated, plan, plan_expires_at, role, member_role, team_owner_id").eq("user_id", user.id).maybeSingle()
       .then(({ data, error: err }) => {
         if (err) { setError(t("خطا در بررسی وضعیت فعال‌سازی: ") + err.message); setActivated(false); return; }
         setActivated(!!(data && data.activated));
         setUserPlan(normalizePlanId(data?.plan));
         setPlanExpiresAt(data?.plan_expires_at || null);
         setUserRole(data?.role === "super_admin" ? "super_admin" : "user");
+        if (data?.member_role && TEAM_ROLES[data.member_role]) setMemberRole(data.member_role);
+        refreshTeamContext();
       });
   }, [user]);
 
-  // Load this user's projects + company from Supabase once authenticated and activated
+  // Load this user's (or team owner's) projects + company once authenticated and activated
   useEffect(() => {
     if (!user || !activated) return;
+    let cancelled = false;
     setLoaded(false);
     setCompany(user.user_metadata?.company || null);
     setContacts(user.user_metadata?.contacts || []);
     setReminders(user.user_metadata?.reminders || []);
     const inv = user.user_metadata?.inventory;
     setInventory(Array.isArray(inv) && inv.length ? inv : buildDefaultInventory());
-    window.sb.from("projects").select("*").eq("user_id", user.id).order("created_at", { ascending: true })
-      .then(({ data, error: err }) => {
-        if (err) {
-          const cached = readLocalProjectsCache(user.id);
-          if (cached?.length) {
-            const list = cached.map((row) => (row && row.data && !row.units ? normalizeProjectRow(row) : row));
-            setProjects(list);
-            if (list.length) setActiveTab(list[0].id);
-            setOfflineBanner(t("اتصال اینترنت قطع است — تغییرات روی دستگاه ذخیره می‌شود و پس از اتصال همگام‌سازی می‌شود."));
-            setPendingOfflineCount(readOfflineQueue(user.id).length);
-          } else {
-            setError(t("خطا در دریافت اطلاعات از سرور: ") + err.message);
+
+    (async () => {
+      let ctx = teamContext;
+      if (!isDemoUser(user)) {
+        try {
+          const { data } = await window.sb.rpc("get_team_context");
+          if (!cancelled && data) {
+            ctx = data;
+            setTeamContext(data);
+            setMemberRole(data.member_role || "manager");
+            setIsTeamMember(!!data.is_member);
           }
-          setLoaded(true);
-          return;
+        } catch (e) { /* ignore — RPC may not be deployed yet */ }
+      }
+      if (cancelled) return;
+      const ownerId = (ctx && ctx.team_owner_id) || user.id;
+      const { data, error: err } = await window.sb.from("projects").select("*").eq("user_id", ownerId).order("created_at", { ascending: true });
+      if (cancelled) return;
+      if (err) {
+        const cached = readLocalProjectsCache(user.id);
+        if (cached?.length) {
+          const list = cached.map((row) => {
+            const p = (row && row.data && !row.units ? normalizeProjectRow(row) : row);
+            return expireStaleReservations(p);
+          });
+          setProjects(list);
+          if (list.length) setActiveTab(list[0].id);
+          setOfflineBanner(t("اتصال اینترنت قطع است — تغییرات روی دستگاه ذخیره می‌شود و پس از اتصال همگام‌سازی می‌شود."));
+          setPendingOfflineCount(readOfflineQueue(user.id).length);
+        } else {
+          setError(t("خطا در دریافت اطلاعات از سرور: ") + err.message);
         }
-        const list = (data || []).map((row) => normalizeProjectRow(row));
-        setProjects(list);
-        writeLocalProjectsCache(user.id, list);
-        if (list.length) setActiveTab(list[0].id);
-        setPendingOfflineCount(readOfflineQueue(user.id).length);
         setLoaded(true);
-      });
+        return;
+      }
+      const list = (data || []).map((row) => expireStaleReservations(normalizeProjectRow(row)));
+      setProjects(list);
+      writeLocalProjectsCache(user.id, list);
+      if (list.length) setActiveTab(list[0].id);
+      setPendingOfflineCount(readOfflineQueue(user.id).length);
+      setLoaded(true);
+      // Persist auto-expired reservations for non-viewer roles
+      const role = (ctx && ctx.member_role) || "manager";
+      const canWrite = !(TEAM_ROLES[role]?.readOnly) && !isDemoUser(user);
+      if (canWrite) {
+        list.forEach((p, i) => {
+          const raw = normalizeProjectRow((data || [])[i]);
+          if (raw && expireStaleReservations(raw) !== raw) {
+            const { id: _id, name, ...rest } = p;
+            persistProjectUpdateRemote(user.id, p.id, name, rest);
+          }
+        });
+      }
+    })();
+
+    return () => { cancelled = true; };
   }, [user, activated]);
 
   const flushOfflineQueue = useCallback(async () => {
@@ -9829,6 +10191,10 @@ function AppContent() {
 
   async function createProject(name, floors, meta = {}) {
     if (!guardWrite()) return;
+    if (isTeamMember) {
+      setError(t("فقط مدیر تیم می‌تواند پروژه جدید بسازد."));
+      return;
+    }
     if (projects.length >= planLimits.maxProjects) {
       setError(`${t("در پلن ")}${planLabel(effectivePlan)} ${t("حداکثر")} ${planLimits.maxProjects}${t(" پروژه مجاز است. برای پروژه بیشتر، پلن را ارتقا دهید.")}`);
       setScreen("plan");
@@ -11307,6 +11673,15 @@ function AppContent() {
             onError={(msg) => setError(msg)}
           />
         )}
+        {screen === "team" && isTeamOwner && (
+          <TeamScreen
+            onBack={() => setScreen("dashboard")}
+            company={company}
+            teamContext={teamContext}
+            onRefreshTeam={refreshTeamContext}
+            onOpenGuide={openGuideSection}
+          />
+        )}
         {screen === "dashboard" && (
           <DashboardScreen
             projects={projects}
@@ -11360,6 +11735,10 @@ function AppContent() {
             onAddTransaction={(tx) => addFinanceTransaction(activeProject.id, tx)}
             onUpdateProjectMeta={(meta) => updateProjectMeta(activeProject.id, meta)}
             ensurePdfExport={ensurePdfExport}
+            canExportAccounting={hasPlanFeature(effectivePlan, "accounting_export", planExpiresAt) && roleAllowsFeature(memberRole, "accounting_export")}
+            canInvestorPortal={hasPlanFeature(effectivePlan, "investor_portal", planExpiresAt) && roleAllowsFeature(memberRole, "investor_portal")}
+            onRequireAccountingExport={() => requirePlan("accounting_export", () => {})}
+            onRequireInvestorPortal={() => requirePlan("investor_portal", () => {})}
           />
         )}
         {screen === "project_maps" && activeProject && (
@@ -11409,27 +11788,31 @@ function AppContent() {
           effectivePlan={effectivePlan}
           planExpiresAt={planExpiresAt}
           isSuperAdmin={isSuperAdmin}
-          onOpenDashboard={() => { setScreen("dashboard"); setShowMenu(false); }}
-          onSelectProject={(id) => { setActiveTab(id); setScreen("app"); setShowMenu(false); }}
-          onNewProject={() => { setShowNewProject(true); setShowMenu(false); }}
+          isTeamOwner={isTeamOwner}
+          memberRole={memberRole}
+          teamBanner={effectivePlan === "team"}
+          onOpenDashboard={() => { if (!requireRoleScreen("dashboard")) return; setScreen("dashboard"); setShowMenu(false); }}
+          onSelectProject={(id) => { if (!requireRoleScreen("app")) return; setActiveTab(id); setScreen("app"); setShowMenu(false); }}
+          onNewProject={() => { if (isTeamMember || isReadOnly) return; setShowNewProject(true); setShowMenu(false); }}
           onClose={() => setShowMenu(false)}
           onOpenPlan={() => { setScreen("plan"); setShowMenu(false); }}
+          onOpenTeam={() => requirePlan("team_workspace", () => { setScreen("team"); setShowMenu(false); })}
           onOpenAdminMembers={() => { setScreen("admin_members"); setShowMenu(false); }}
-          onOpenBackup={() => { setScreen("backup"); setShowMenu(false); }}
+          onOpenBackup={() => { if (!requireRoleScreen("backup")) return; setScreen("backup"); setShowMenu(false); }}
           onOpenAbout={() => { setScreen("about"); setShowMenu(false); }}
           onOpenGuide={() => { setGuideTab("start"); setScreen("guide"); setShowMenu(false); }}
           onOpenPrivacy={() => { setScreen("privacy"); setShowMenu(false); }}
-          onOpenContacts={() => { setScreen("contacts"); setShowMenu(false); }}
-          onOpenDataAnalysis={() => { setScreen("data_analysis"); setShowMenu(false); }}
-          onOpenBuilding3d={() => { setScreen("building_3d"); setShowMenu(false); }}
-          onOpenNotes={() => { setScreen("notes"); setShowMenu(false); }}
-          onOpenReminders={() => { setScreen("reminders"); setShowMenu(false); }}
-          onOpenMap={() => requirePlan("map", () => { setScreen("map"); setShowMenu(false); })}
-          onOpenEnergy={() => requirePlan("energy", () => { setScreen("energy"); setShowMenu(false); })}
-          onOpenTakeoff={() => requirePlan("takeoff", () => { setScreen("takeoff"); setShowMenu(false); })}
-          onOpenInventory={() => requirePlan("inventory", () => { setScreen("inventory"); setShowMenu(false); })}
-          onOpenTax={() => requirePlan("tax", () => { setScreen("tax"); setShowMenu(false); })}
-          onOpenContracts={() => requirePlan("contracts", () => { setScreen("contracts"); setShowMenu(false); })}
+          onOpenContacts={() => { if (!requireRoleScreen("contacts")) return; setScreen("contacts"); setShowMenu(false); }}
+          onOpenDataAnalysis={() => { if (!requireRoleScreen("data_analysis")) return; setScreen("data_analysis"); setShowMenu(false); }}
+          onOpenBuilding3d={() => { if (!requireRoleScreen("building_3d")) return; setScreen("building_3d"); setShowMenu(false); }}
+          onOpenNotes={() => { if (!requireRoleScreen("notes")) return; setScreen("notes"); setShowMenu(false); }}
+          onOpenReminders={() => { if (!requireRoleScreen("reminders")) return; setScreen("reminders"); setShowMenu(false); }}
+          onOpenMap={() => { if (!requireRoleScreen("map")) return; requirePlan("map", () => { setScreen("map"); setShowMenu(false); }); }}
+          onOpenEnergy={() => { if (!requireRoleScreen("energy")) return; requirePlan("energy", () => { setScreen("energy"); setShowMenu(false); }); }}
+          onOpenTakeoff={() => { if (!requireRoleScreen("takeoff")) return; requirePlan("takeoff", () => { setScreen("takeoff"); setShowMenu(false); }); }}
+          onOpenInventory={() => { if (!requireRoleScreen("inventory")) return; requirePlan("inventory", () => { setScreen("inventory"); setShowMenu(false); }); }}
+          onOpenTax={() => { if (!requireRoleScreen("tax")) return; requirePlan("tax", () => { setScreen("tax"); setShowMenu(false); }); }}
+          onOpenContracts={() => { if (!requireRoleScreen("contracts")) return; requirePlan("contracts", () => { setScreen("contracts"); setShowMenu(false); }); }}
           onLogout={logout}
         />,
         document.body
@@ -12099,6 +12482,12 @@ function ContractsScreen({ company, projects, activeProjectId, contacts, isReadO
       {tab === "progress" && (
         <div className={`space-y-4 rounded-2xl border p-4 ${tabThemes.progress.panel}`}>
           <div className={`text-xs font-bold px-2 py-1 rounded-lg inline-block ${tabThemes.progress.badge}`}>{t("بخش صورت‌وضعیت و کارکرد")}</div>
+          {project && (
+            <div className="bg-white/80 rounded-xl border border-amber-100 p-3">
+              <div className="text-xs font-bold text-[#B45309] mb-2">{t("نمای پیشرفت ساخت")}</div>
+              <ConstructionProgressPanel project={project} t={t} />
+            </div>
+          )}
           <div>
             <label className={labelCls}>{t("قرارداد *")}</label>
             <select className={inputCls} value={stmtContractId} onChange={(e) => setStmtContractId(e.target.value)}>
@@ -12258,7 +12647,7 @@ function ContractsScreen({ company, projects, activeProjectId, contacts, isReadO
   );
 }
 
-function SideMenu({ company, projects, activeTab, currentScreen, isReadOnly, effectivePlan, planExpiresAt, isSuperAdmin, onOpenDashboard, onSelectProject, onNewProject, onClose, onOpenPlan, onOpenAdminMembers, onOpenBackup, onOpenAbout, onOpenGuide, onOpenPrivacy, onOpenTax, onOpenContacts, onOpenNotes, onOpenReminders, onOpenMap, onOpenEnergy, onOpenTakeoff, onOpenInventory, onOpenContracts, onOpenDataAnalysis, onOpenBuilding3d, onLogout }) {
+function SideMenu({ company, projects, activeTab, currentScreen, isReadOnly, effectivePlan, planExpiresAt, isSuperAdmin, isTeamOwner, memberRole, teamBanner, onOpenDashboard, onSelectProject, onNewProject, onClose, onOpenPlan, onOpenTeam, onOpenAdminMembers, onOpenBackup, onOpenAbout, onOpenGuide, onOpenPrivacy, onOpenTax, onOpenContacts, onOpenNotes, onOpenReminders, onOpenMap, onOpenEnergy, onOpenTakeoff, onOpenInventory, onOpenContracts, onOpenDataAnalysis, onOpenBuilding3d, onLogout }) {
   const { lang, t } = useContext(LanguageContext);
   const menuDir = lang === "fa" ? "rtl" : "ltr";
   const [confirmLogout, setConfirmLogout] = useState(false);
@@ -12266,12 +12655,15 @@ function SideMenu({ company, projects, activeTab, currentScreen, isReadOnly, eff
   const projectsBtnRef = useRef(null);
   const [flyoutPos, setFlyoutPos] = useState({ top: 0, left: null, right: null });
   const menuAlign = menuDir === "fa" ? "text-right" : "text-left";
+  const roleMeta = TEAM_ROLES[memberRole] || TEAM_ROLES.manager;
 
   function locked(featureKey) {
     return !hasPlanFeature(effectivePlan, featureKey, planExpiresAt);
   }
 
-  function MenuItem({ onClick, icon, label, featureKey, active }) {
+  function MenuItem({ onClick, icon, label, featureKey, screenKey, active }) {
+    if (screenKey && !roleAllowsScreen(memberRole || "manager", screenKey)) return null;
+    if (featureKey && !roleAllowsFeature(memberRole || "manager", featureKey)) return null;
     const isLocked = featureKey ? locked(featureKey) : false;
     return (
       <button
@@ -12332,6 +12724,9 @@ function SideMenu({ company, projects, activeTab, currentScreen, isReadOnly, eff
           <div className="flex-1">
             <div className="font-bold text-sm leading-tight">{company?.name}</div>
             <div className="text-[10px] text-white/60 mt-0.5">{t(planLabel(effectivePlan))}</div>
+            {teamBanner && (
+              <div className="text-[10px] text-teal-100/90 mt-0.5">{lang === "fa" ? roleMeta.fa : roleMeta.en}</div>
+            )}
           </div>
           <button onClick={onClose} className="p-1 text-white/70"><X size={20} /></button>
         </div>
@@ -12437,6 +12832,20 @@ function SideMenu({ company, projects, activeTab, currentScreen, isReadOnly, eff
               <LucideCrown size={15} /> {t("پلن اشتراک")}
               <span className="mr-auto text-[10px] font-bold text-[#6B7280]">{t(METRICO_PLANS[effectivePlan].name).replace(/^(Metrico|متریکو) /, "")}</span>
             </button>
+            {isTeamOwner && (
+              <button
+                type="button"
+                onClick={onOpenTeam}
+                className={`text-right px-3 py-2.5 rounded-xl text-sm font-semibold flex items-center gap-2 mb-2 border ${
+                  currentScreen === "team"
+                    ? "bg-[#0F766E] text-white border-[#0F766E]"
+                    : "bg-[#F0FDFA] text-[#134E4A] border-teal-200"
+                }`}
+              >
+                <Users size={15} /> {t("مدیریت تیم")}
+                <span className="mr-auto text-[9px] font-bold opacity-70">{t("پلن تیم")}</span>
+              </button>
+            )}
             {isSuperAdmin && (
               <button
                 type="button"
@@ -12451,21 +12860,21 @@ function SideMenu({ company, projects, activeTab, currentScreen, isReadOnly, eff
                 <span className="mr-auto text-[9px] font-bold opacity-70">{t("مدیر کل")}</span>
               </button>
             )}
-            <MenuItem onClick={onOpenContacts} icon={<Users size={15} />} label={t("دفترچه مخاطبین")} />
-            <MenuItem onClick={onOpenDataAnalysis} icon={<LucideFileBarChart size={15} />} label={t("تحلیل داده‌ها")} active={currentScreen === "data_analysis"} />
-            <MenuItem onClick={onOpenBuilding3d} icon={<LucideBox size={15} />} label={t("پلان سه‌بعدی")} active={currentScreen === "building_3d"} />
-            <MenuItem onClick={onOpenNotes} icon={<LucideStickyNote size={15} />} label={t("یادداشت‌ها")} />
-            <MenuItem onClick={onOpenReminders} icon={<Bell size={15} />} label={t("یادآوری‌ها")} />
-            <MenuItem onClick={onOpenMap} icon={<MapPinIcon size={15} />} label={t("موقعیت مکانی پروژه‌ها")} featureKey="map" />
-            <MenuItem onClick={onOpenEnergy} icon={<LucideZap size={15} />} label={t("محاسبات انرژی")} featureKey="energy" active={currentScreen === "energy"} />
-            <MenuItem onClick={onOpenTakeoff} icon={<LucideRuler size={15} />} label={t("متره و برآورد")} featureKey="takeoff" />
-            <MenuItem onClick={onOpenInventory} icon={<LucidePackage size={15} />} label={t("انبارگردانی و موجودی مصالح")} featureKey="inventory" />
-            <MenuItem onClick={onOpenTax} icon={<Receipt size={15} />} label={t("سامانه‌های مالیاتی")} featureKey="tax" active={currentScreen === "tax"} />
+            <MenuItem onClick={onOpenContacts} icon={<Users size={15} />} label={t("دفترچه مخاطبین")} screenKey="contacts" />
+            <MenuItem onClick={onOpenDataAnalysis} icon={<LucideFileBarChart size={15} />} label={t("تحلیل داده‌ها")} screenKey="data_analysis" active={currentScreen === "data_analysis"} />
+            <MenuItem onClick={onOpenBuilding3d} icon={<LucideBox size={15} />} label={t("پلان سه‌بعدی")} screenKey="building_3d" active={currentScreen === "building_3d"} />
+            <MenuItem onClick={onOpenNotes} icon={<LucideStickyNote size={15} />} label={t("یادداشت‌ها")} screenKey="notes" />
+            <MenuItem onClick={onOpenReminders} icon={<Bell size={15} />} label={t("یادآوری‌ها")} screenKey="reminders" />
+            <MenuItem onClick={onOpenMap} icon={<MapPinIcon size={15} />} label={t("موقعیت مکانی پروژه‌ها")} featureKey="map" screenKey="map" />
+            <MenuItem onClick={onOpenEnergy} icon={<LucideZap size={15} />} label={t("محاسبات انرژی")} featureKey="energy" screenKey="energy" active={currentScreen === "energy"} />
+            <MenuItem onClick={onOpenTakeoff} icon={<LucideRuler size={15} />} label={t("متره و برآورد")} featureKey="takeoff" screenKey="takeoff" />
+            <MenuItem onClick={onOpenInventory} icon={<LucidePackage size={15} />} label={t("انبارگردانی و موجودی مصالح")} featureKey="inventory" screenKey="inventory" />
+            <MenuItem onClick={onOpenTax} icon={<Receipt size={15} />} label={t("سامانه‌های مالیاتی")} featureKey="tax" screenKey="tax" active={currentScreen === "tax"} />
             {projects.length > 0 && (
-              <MenuItem onClick={onOpenContracts} icon={<LucideFileSignature size={15} />} label={t("مدیریت قراردادها")} featureKey="contracts" active={currentScreen === "contracts"} />
+              <MenuItem onClick={onOpenContracts} icon={<LucideFileSignature size={15} />} label={t("مدیریت قراردادها")} featureKey="contracts" screenKey="contracts" active={currentScreen === "contracts"} />
             )}
-            <MenuItem onClick={onOpenBackup} icon={<Download size={15} />} label={t("پشتیبان‌گیری و بازیابی")} />
-            <MenuItem onClick={onOpenGuide} icon={<LucideBookOpen size={15} />} label={t("راهنما")} active={currentScreen === "guide"} />
+            <MenuItem onClick={onOpenBackup} icon={<Download size={15} />} label={t("پشتیبان‌گیری و بازیابی")} screenKey="backup" featureKey="backup_restore" />
+            <MenuItem onClick={onOpenGuide} icon={<LucideBookOpen size={15} />} label={t("راهنما")} screenKey="guide" active={currentScreen === "guide"} />
             <MenuItem onClick={onOpenAbout} icon={<Info size={15} />} label={t("درباره")} active={currentScreen === "about"} />
             <MenuItem onClick={onOpenPrivacy} icon={<FileText size={15} />} label={t("سیاست حفظ حریم خصوصی")} active={currentScreen === "privacy"} />
           </div>
@@ -15975,6 +16384,209 @@ function PlanCompareTable({ effectivePlanId, company, ensurePdfExport }) {
   );
 }
 
+function ConstructionProgressPanel({ project, t }) {
+  const rows = (project?.progressStatements || []).slice().sort((a, b) => String(a.date || "").localeCompare(String(b.date || "")));
+  const contracts = project?.contracts || [];
+  const byContract = {};
+  rows.forEach((r) => {
+    const id = r.contractId || "general";
+    if (!byContract[id]) byContract[id] = [];
+    byContract[id].push(r);
+  });
+  const items = Object.keys(byContract).length
+    ? Object.entries(byContract).map(([cid, list]) => {
+        const c = contracts.find((x) => String(x.id) === String(cid));
+        const last = list[list.length - 1];
+        const pct = Math.min(100, Math.max(0, Number(last?.progressPercent ?? last?.percent ?? last?.progress ?? 0) || 0));
+        return { id: cid, title: c?.activityName || c?.activity || c?.title || last?.title || t("پیشرفت ساخت"), pct, date: last?.date || "" };
+      })
+    : [];
+  if (!items.length) {
+    return <div className="text-xs text-[#9CA3AF] py-3">{t("هنوز صورت‌وضعیت یا پیشرفت ساختی ثبت نشده است.")}</div>;
+  }
+  return (
+    <div className="m-progress-gantt">
+      {items.map((it) => (
+        <div key={it.id} className="m-progress-gantt-row">
+          <div className="font-semibold text-[#134E4A] truncate" title={it.title}>{it.title}</div>
+          <div className="m-progress-gantt-track" title={it.date || ""}>
+            <div className="m-progress-gantt-fill" style={{ width: `${it.pct}%` }} />
+          </div>
+          <div className="text-[#0F766E] font-bold text-left">{it.pct}٪</div>
+        </div>
+      ))}
+    </div>
+  );
+}
+
+function TeamScreen({ onBack, company, teamContext, onRefreshTeam, onOpenGuide }) {
+  const { lang, t } = useContext(LanguageContext);
+  const screenDir = lang === "fa" ? "rtl" : "ltr";
+  const [members, setMembers] = useState([]);
+  const [busy, setBusy] = useState(false);
+  const [error, setError] = useState("");
+  const [ok, setOk] = useState("");
+  const [form, setForm] = useState({ email: "", password: "", display_name: "", member_role: "sales" });
+
+  async function loadMembers() {
+    setError("");
+    const { data, error: err } = await window.sb.rpc("list_team_members");
+    if (err) {
+      setError(err.message || t("بارگذاری اعضا ناموفق بود"));
+      return;
+    }
+    setMembers(data || []);
+  }
+
+  useEffect(() => { loadMembers(); }, []);
+
+  async function createMember(e) {
+    e.preventDefault();
+    setBusy(true); setError(""); setOk("");
+    try {
+      const { data, error: err } = await window.sb.functions.invoke("team-manage-member", {
+        body: { action: "create", ...form },
+      });
+      if (err || data?.status === "error") throw new Error(data?.message || err?.message || "failed");
+      setOk(t("عضو تیم با موفقیت اضافه شد"));
+      setForm({ email: "", password: "", display_name: "", member_role: "sales" });
+      await loadMembers();
+      if (onRefreshTeam) onRefreshTeam();
+    } catch (ex) {
+      setError(String(ex.message || ex));
+    } finally {
+      setBusy(false);
+    }
+  }
+
+  async function removeMember(userId) {
+    if (!confirm(t("این عضو از تیم حذف شود؟"))) return;
+    setBusy(true); setError("");
+    try {
+      const { data, error: err } = await window.sb.functions.invoke("team-manage-member", {
+        body: { action: "remove", target_user_id: userId },
+      });
+      if (err || data?.status === "error") throw new Error(data?.message || err?.message || "failed");
+      await loadMembers();
+    } catch (ex) {
+      setError(String(ex.message || ex));
+    } finally {
+      setBusy(false);
+    }
+  }
+
+  async function changeRole(userId, role) {
+    setBusy(true); setError("");
+    try {
+      const { data, error: err } = await window.sb.functions.invoke("team-manage-member", {
+        body: { action: "update", target_user_id: userId, member_role: role },
+      });
+      if (err || data?.status === "error") throw new Error(data?.message || err?.message || "failed");
+      await loadMembers();
+    } catch (ex) {
+      setError(String(ex.message || ex));
+    } finally {
+      setBusy(false);
+    }
+  }
+
+  return (
+    <div className="min-h-full bg-transparent" dir={screenDir}>
+      <div className="sticky top-0 z-20 bg-gradient-to-l from-[#134E4A] to-[#0F766E] text-white px-4 py-3 flex items-center gap-3">
+        <button type="button" onClick={onBack} className="p-1"><ChevronLeft size={20} className={screenDir === "ltr" ? "rotate-180" : ""} /></button>
+        <div className="flex-1">
+          <div className="font-bold text-sm">{t("مدیریت تیم")}</div>
+          <div className="text-[11px] text-white/80">{teamContext?.team_name || company?.name || t("نسخه تیمی متریکو")}</div>
+        </div>
+        <span className="m-team-chip text-[10px] px-2 py-1 rounded-full font-bold">{t("پلن تیم")}</span>
+      </div>
+
+      <div className="p-4 flex flex-col gap-4 max-w-2xl mx-auto">
+        <div className="m-team-banner">
+          <div className="text-sm font-bold text-[#134E4A]">{t("فضای کاری تیمی")}</div>
+          <p className="text-[11px] text-[#0F766E] mt-1 leading-5">
+            {t("اعضای تیم را با ایمیل و رمز بسازید و برای هر نفر نقش مشخص کنید. هر نقش فقط به بخش‌های حوزه کاری خودش دسترسی دارد.")}
+          </p>
+          <button type="button" onClick={() => onOpenGuide && onOpenGuide("team_roles")}
+            className="mt-2 text-[11px] font-semibold text-[#0F766E] underline">
+            {t("مشاهده راهنمای نقش‌ها")}
+          </button>
+        </div>
+
+        <div className="grid sm:grid-cols-2 gap-2">
+          {Object.values(TEAM_ROLES).filter((r) => r.id !== "manager").map((r) => (
+            <div key={r.id} className="m-team-role-card">
+              <div className="text-xs font-bold text-[#134E4A]">{lang === "fa" ? r.fa : r.en}</div>
+              <div className="text-[10px] text-[#6B7280] mt-1 leading-4">{lang === "fa" ? r.descFa : r.descEn}</div>
+            </div>
+          ))}
+        </div>
+
+        <form onSubmit={createMember} className="bg-white rounded-2xl border border-teal-100 shadow-sm p-4 flex flex-col gap-3">
+          <div className="text-sm font-bold text-[#14213D]">{t("افزودن عضو جدید")}</div>
+          <Field label={t("نام نمایشی")} value={form.display_name} onChange={(v) => setForm((f) => ({ ...f, display_name: v }))} />
+          <Field label={t("ایمیل")} value={form.email} onChange={(v) => setForm((f) => ({ ...f, email: v }))} type="email" />
+          <Field label={t("رمز عبور")} value={form.password} onChange={(v) => setForm((f) => ({ ...f, password: v }))} type="password" />
+          <div>
+            <label className="text-xs text-[#6B7280] font-medium">{t("نقش")}</label>
+            <select
+              value={form.member_role}
+              onChange={(e) => setForm((f) => ({ ...f, member_role: e.target.value }))}
+              className="w-full mt-1 bg-[#F4F6F5] border border-black/10 rounded-xl px-3 py-2.5 text-sm outline-none"
+            >
+              {Object.values(TEAM_ROLES).filter((r) => r.id !== "manager").map((r) => (
+                <option key={r.id} value={r.id}>{lang === "fa" ? r.fa : r.en}</option>
+              ))}
+            </select>
+          </div>
+          {error && <div className="text-xs text-[#B91C1C] bg-red-50 rounded-lg px-3 py-2">{error}</div>}
+          {ok && <div className="text-xs text-[#166534] bg-emerald-50 rounded-lg px-3 py-2">{ok}</div>}
+          <button type="submit" disabled={busy} className="rounded-xl bg-[#0F766E] text-white py-2.5 text-sm font-bold disabled:opacity-50">
+            {busy ? t("در حال ذخیره...") : t("ایجاد عضو تیم")}
+          </button>
+        </form>
+
+        <div className="bg-white rounded-2xl border border-black/5 overflow-hidden">
+          <div className="px-4 py-3 border-b border-black/5 text-sm font-bold text-[#14213D]">{t("اعضای فعلی")}</div>
+          {(members || []).length === 0 ? (
+            <div className="p-4 text-xs text-[#9CA3AF]">{t("هنوز عضوی تعریف نشده است.")}</div>
+          ) : (
+            <div className="divide-y divide-black/5">
+              {members.map((m) => (
+                <div key={m.user_id} className="px-4 py-3 flex flex-col sm:flex-row sm:items-center gap-2">
+                  <div className="flex-1 min-w-0">
+                    <div className="text-sm font-semibold text-[#14213D] truncate">{m.display_name || m.email}</div>
+                    <div className="text-[11px] text-[#9CA3AF] truncate">{m.email}</div>
+                  </div>
+                  {m.is_owner ? (
+                    <span className="text-[10px] font-bold text-[#0F766E] bg-[#F0FDFA] px-2 py-1 rounded-full">{t("مدیر تیم")}</span>
+                  ) : (
+                    <>
+                      <select
+                        value={m.member_role}
+                        disabled={busy}
+                        onChange={(e) => changeRole(m.user_id, e.target.value)}
+                        className="text-xs border border-black/10 rounded-lg px-2 py-1.5 bg-[#F8FAFC]"
+                      >
+                        {Object.values(TEAM_ROLES).filter((r) => r.id !== "manager").map((r) => (
+                          <option key={r.id} value={r.id}>{lang === "fa" ? r.fa : r.en}</option>
+                        ))}
+                      </select>
+                      <button type="button" disabled={busy} onClick={() => removeMember(m.user_id)} className="text-xs text-[#B91C1C] font-semibold">
+                        {t("حذف")}
+                      </button>
+                    </>
+                  )}
+                </div>
+              ))}
+            </div>
+          )}
+        </div>
+      </div>
+    </div>
+  );
+}
+
 function PlanScreen({ onBack, userPlan, planExpiresAt, onRedeemed, company, ensurePdfExport }) {
   const { lang, t } = useContext(LanguageContext);
   const screenDir = lang === "fa" ? "rtl" : "ltr";
@@ -17982,7 +18594,7 @@ function ReportsScreen({ company, project, projects, contacts, initialView, onBa
   );
 }
 
-function FinanceScreen({ company, onBack, project, contacts, isReadOnly, onAddTransaction, onUpdateProjectMeta, ensurePdfExport }) {
+function FinanceScreen({ company, onBack, project, contacts, isReadOnly, onAddTransaction, onUpdateProjectMeta, ensurePdfExport, canExportAccounting, canInvestorPortal, onRequireAccountingExport, onRequireInvestorPortal }) {
   const { lang, t } = useContext(LanguageContext);
   const screenDir = lang === "fa" ? "rtl" : "ltr";
   const thAlign = lang === "fa" ? "text-right" : "text-left";
@@ -18159,6 +18771,17 @@ function FinanceScreen({ company, onBack, project, contacts, isReadOnly, onAddTr
           <div className={`font-bold text-lg truncate ${thAlign}`}>{t("حسابداری پروژه")}</div>
           <div className={`text-xs text-[#6B7280] truncate ${thAlign}`}>{project.name}</div>
         </div>
+        <button
+          type="button"
+          onClick={() => {
+            if (!canExportAccounting) { onRequireAccountingExport?.(); return; }
+            downloadTextFile(`metrico-accounting-${project.name || "project"}.csv`, buildAccountingExportCsv(project));
+          }}
+          className="text-[10px] font-bold px-2.5 py-1.5 rounded-lg border border-teal-200 text-[#0F766E] bg-[#F0FDFA] shrink-0"
+          title={t("خروجی حسابداری CSV")}
+        >
+          {t("خروجی CSV")}
+        </button>
         {financePrintConfig && (
           <PrintExportButton
             company={company}
@@ -18246,6 +18869,18 @@ function FinanceScreen({ company, onBack, project, contacts, isReadOnly, onAddTr
 
       {view === "investors" && (
         <>
+          <div className="mb-3 flex justify-end">
+            <button
+              type="button"
+              onClick={() => {
+                if (!canInvestorPortal) { onRequireInvestorPortal?.(); return; }
+                openInvestorPortalPrint({ company, project, profitRows, profit });
+              }}
+              className="text-[11px] font-bold px-3 py-2 rounded-xl bg-[#0F766E] text-white"
+            >
+              {t("چاپ پنل سرمایه‌گذار")}
+            </button>
+          </div>
           {investors.length === 0 ? (
             <div className="text-center text-sm text-[#9CA3AF] py-8 bg-[#F4F6F5] rounded-2xl mb-3">
               {t("سرمایه‌گذاری ثبت نشده. از تنظیمات پروژه → مالی، سرمایه‌گذار انتخاب کنید.")}
@@ -19514,6 +20149,13 @@ function UnitModal({ unit, project, company, user, canUseOwnerPortal, onRequireO
       note: incomeNote.trim(),
       docs: incomeDocs,
     });
+    openInvoiceReceiptPrint({
+      company,
+      project,
+      unit,
+      installment: { ...inst, paid: true, note: incomeNote.trim() },
+      receiptNo: `R-${String(Date.now()).slice(-8)}`,
+    });
     setIncomeDocs([]);
   }
 
@@ -19573,6 +20215,19 @@ function UnitModal({ unit, project, company, user, canUseOwnerPortal, onRequireO
               >{t(val.label)}</button>
             ))}
           </div>
+          {unit.status === "reserved" && (
+            <div className="rounded-xl border border-[#FCD34D] bg-[#FFFBEB] p-3">
+              <Field
+                label={t("مهلت رزرو (تاریخ انقضا)")}
+                value={unit.reservedUntil || ""}
+                onChange={(v) => set("reservedUntil", v)}
+                type="date"
+              />
+              <p className="text-[10px] text-[#92400E] mt-2 leading-5">
+                {t("پس از این تاریخ، واحد به‌صورت خودکار به وضعیت خالی برمی‌گردد.")}
+              </p>
+            </div>
+          )}
 
           <div className="grid grid-cols-2 gap-3">
             <Field
@@ -19730,6 +20385,18 @@ function UnitModal({ unit, project, company, user, canUseOwnerPortal, onRequireO
                       className="text-xs outline-none w-24 text-left bg-transparent disabled:opacity-60" />
                     {!isReadOnly && (
                       <button onClick={() => removeInstallment(i.id)} className="text-[#B91C1C] p-1"><Trash2 size={14} /></button>
+                    )}
+                    {i.paid && (
+                      <button
+                        type="button"
+                        title={t("چاپ رسید")}
+                        onClick={() => openInvoiceReceiptPrint({
+                          company, project, unit,
+                          installment: i,
+                          receiptNo: `R-${String(i.id).slice(-6) || "000"}`,
+                        })}
+                        className="text-[#0F766E] p-1"
+                      ><Printer size={14} /></button>
                     )}
                   </div>
                   {bankAccounts.length > 0 && (

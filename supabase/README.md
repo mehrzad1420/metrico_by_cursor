@@ -15,6 +15,7 @@ Run these SQL scripts **in order** in Supabase Dashboard → SQL Editor.
 | 9 | `plan-enforcement.sql` | Project count limits + `ensure_demo_project_seed` RPC (explicit `gen_random_uuid()`) |
 | 9b | `fix-projects-id-default.sql` | Repair broken `projects.id` DEFAULT (sequence→uuid 22P02) + reinstall demo seed RPC |
 | 10 | `plan-features-enforcement.sql` | Plan feature RPC + owner portal upsert gate (run after 9 + demo-readonly) |
+| 10b | `team.sql` | **Team plan** + RBAC members (`teams`, `get_team_context`, `list_team_members`, project RLS for members) |
 | 11 | `account-deletion.sql` | Self-service GDPR erasure → `delete_my_account()` |
 | 12 | `profiles-hardening.sql` | Block client updates to plan/role/activated on `profiles` |
 | 13 | `account-deletion-server.sql` | Deletion gate: OTP mark + JWT freshness (fallback path) |

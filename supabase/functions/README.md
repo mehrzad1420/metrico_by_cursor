@@ -27,6 +27,24 @@ Without `ZARINPAL_MERCHANT_ID`, the function still creates a `payment_orders` ro
 
 ---
 
+## team-manage-member
+
+Creates / updates / removes Team-plan members (Auth user + `profiles.team_owner_id` + `member_role`). Requires service role.
+
+### SQL first
+
+Run `supabase/team.sql` after `plan-features-enforcement.sql`.
+
+### Deploy
+
+```bash
+supabase functions deploy team-manage-member --no-verify-jwt
+```
+
+Owner must have `plan = team`. Client: menu → «مدیریت تیم».
+
+---
+
 ## secure-delete-account
 
 Verifies email OTP **on the server**, then deletes the user with the service role (cascade via Auth).
