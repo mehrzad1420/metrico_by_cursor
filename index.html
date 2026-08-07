@@ -1450,7 +1450,7 @@ function projectCardTheme(projectId) {
   return PROJECT_CARD_PALETTE[Math.abs(h) % PROJECT_CARD_PALETTE.length];
 }
 const APP_NAME = "Metrico";
-const APP_VERSION = "2.57.0";
+const APP_VERSION = "2.57.1";
 
 const METRICO_PLAN_ORDER = ["start", "plus", "pro", "ark", "team"];
 const METRICO_PLANS = {
@@ -9619,6 +9619,7 @@ function AppContent() {
     if (teamContext?.effective_plan) return normalizePlanId(teamContext.effective_plan);
     return getEffectivePlan(userPlan, planExpiresAt);
   }, [user, userPlan, planExpiresAt, teamContext]);
+  const canManageTeam = (isTeamOwner || (effectivePlan === "team" && !isTeamMember)) && !isDemoUser(user);
   const planLimits = METRICO_PLANS[effectivePlan];
 
   useEffect(() => {
@@ -9627,6 +9628,12 @@ function AppContent() {
     return () => document.documentElement.classList.remove("metrico-team-theme");
   }, [effectivePlan]);
 
+  useEffect(() => {
+    if (user && activated && (userPlan === "team" || effectivePlan === "team")) {
+      refreshTeamContext();
+    }
+  }, [user, activated, userPlan, effectivePlan]);
+
   function refreshTeamContext() {
     if (!user || isDemoUser(user)) {
       setTeamContext(null);
@@ -9634,7 +9641,14 @@ function AppContent() {
       setIsTeamMember(false);
       return Promise.resolve(null);
     }
-    return window.sb.rpc("get_team_context").then(({ data }) => {
+    return window.sb.rpc("get_team_context").then(({ data, error: rpcErr }) => {
+      if (rpcErr) {
+        console.warn("get_team_context", rpcErr);
+        setTeamContext(null);
+        setMemberRole("manager");
+        setIsTeamMember(false);
+        return null;
+      }
       if (!data) {
         setTeamContext(null);
         setMemberRole("manager");
@@ -9645,7 +9659,8 @@ function AppContent() {
       setMemberRole(data.member_role || "manager");
       setIsTeamMember(!!data.is_member);
       return data;
-    }).catch(() => {
+    }).catch((e) => {
+      console.warn("get_team_context", e);
       setTeamContext(null);
       setMemberRole("manager");
       setIsTeamMember(false);
@@ -11673,7 +11688,7 @@ function AppContent() {
             onError={(msg) => setError(msg)}
           />
         )}
-        {screen === "team" && isTeamOwner && (
+        {screen === "team" && canManageTeam && (
           <TeamScreen
             onBack={() => setScreen("dashboard")}
             company={company}
@@ -11788,7 +11803,7 @@ function AppContent() {
           effectivePlan={effectivePlan}
           planExpiresAt={planExpiresAt}
           isSuperAdmin={isSuperAdmin}
-          isTeamOwner={isTeamOwner}
+          isTeamOwner={canManageTeam}
           memberRole={memberRole}
           teamBanner={effectivePlan === "team"}
           onOpenDashboard={() => { if (!requireRoleScreen("dashboard")) return; setScreen("dashboard"); setShowMenu(false); }}
@@ -11796,7 +11811,11 @@ function AppContent() {
           onNewProject={() => { if (isTeamMember || isReadOnly) return; setShowNewProject(true); setShowMenu(false); }}
           onClose={() => setShowMenu(false)}
           onOpenPlan={() => { setScreen("plan"); setShowMenu(false); }}
-          onOpenTeam={() => requirePlan("team_workspace", () => { setScreen("team"); setShowMenu(false); })}
+          onOpenTeam={() => {
+            refreshTeamContext().then(() => {
+              requirePlan("team_workspace", () => { setScreen("team"); setShowMenu(false); });
+            });
+          }}
           onOpenAdminMembers={() => { setScreen("admin_members"); setShowMenu(false); }}
           onOpenBackup={() => { if (!requireRoleScreen("backup")) return; setScreen("backup"); setShowMenu(false); }}
           onOpenAbout={() => { setScreen("about"); setShowMenu(false); }}
