@@ -131,7 +131,10 @@ end;
 $$;
 
 -- Effective plan: members inherit owner's team plan
-create or replace function public.effective_user_plan(p_uid uuid)
+-- Existing fn has DEFAULT auth.uid(); CREATE OR REPLACE cannot remove defaults.
+drop function if exists public.effective_user_plan(uuid);
+
+create or replace function public.effective_user_plan(p_uid uuid default auth.uid())
 returns text
 language plpgsql
 stable
@@ -165,6 +168,22 @@ begin
   end if;
   return v_plan;
 end;
+$$;
+
+-- Team plan shares ark-level project capacity on the server
+create or replace function public.max_projects_for_plan(p_plan text)
+returns int
+language sql
+immutable
+as $$
+  select case lower(trim(coalesce(p_plan, 'start')))
+    when 'start' then 1
+    when 'plus' then 3
+    when 'pro' then 10
+    when 'ark' then 999
+    when 'team' then 999
+    else 1
+  end;
 $$;
 
 create or replace function public.plan_rank(p_plan text)
