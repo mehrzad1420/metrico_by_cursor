@@ -217,10 +217,24 @@
   .m-da-map-panel {
     display: grid;
     grid-template-columns: 1fr;
-    gap: 0.85rem;
+    gap: 0.75rem;
   }
   @media (min-width: 900px) {
-    .m-da-map-panel { grid-template-columns: 1.35fr 1fr; align-items: stretch; }
+    .m-da-map-panel { grid-template-columns: 1.15fr 1fr; align-items: start; }
+  }
+  .m-da-world-map {
+    height: 168px;
+    width: 100%;
+    border-radius: 12px;
+    overflow: hidden;
+    border: 1px solid rgba(0,0,0,0.06);
+    background: #dce6f0;
+  }
+  .m-da-world-map .leaflet-container {
+    height: 100%;
+    width: 100%;
+    background: #dce6f0;
+    font: inherit;
   }
   .m-da-kpi-icon {
     width: 2rem;
@@ -234,23 +248,48 @@
     flex-shrink: 0;
   }
   @keyframes m-map-blink {
-    0%, 100% { opacity: 1; filter: brightness(1); }
-    50% { opacity: 0.42; filter: brightness(1.15); }
+    0%, 100% { opacity: 1; transform: scale(1); }
+    50% { opacity: 0.45; transform: scale(1.12); }
   }
-  .m-map-active-country {
-    fill: #14213D;
-    stroke: #C9A227;
-    stroke-width: 1.2;
+  .m-map-blink-dot {
+    background: transparent !important;
+    border: none !important;
+  }
+  .m-map-blink-dot span {
+    display: block;
+    width: 14px;
+    height: 14px;
+    border-radius: 9999px;
+    background: #14213D;
+    border: 2px solid #C9A227;
+    box-shadow: 0 0 0 3px rgba(20, 33, 61, 0.22);
     animation: m-map-blink 1.35s ease-in-out infinite;
   }
-  .m-map-region-idle {
-    fill: #D5DEE9;
-    stroke: #fff;
-    stroke-width: 0.8;
+  .m-map-idle-dot {
+    background: transparent !important;
+    border: none !important;
   }
-  .m-map-region-tier {
-    stroke: #fff;
-    stroke-width: 0.8;
+  .m-map-idle-dot span {
+    display: block;
+    width: 9px;
+    height: 9px;
+    border-radius: 9999px;
+    background: #7B8CA8;
+    border: 1px solid #fff;
+    opacity: 0.85;
+  }
+  .m-map-price-legend {
+    display: flex;
+    align-items: center;
+    gap: 0.35rem;
+    flex-wrap: wrap;
+    margin-top: 0.45rem;
+  }
+  .m-map-price-legend i {
+    display: inline-block;
+    width: 1.15rem;
+    height: 0.55rem;
+    border-radius: 2px;
   }
   .m-summary-card {
     background: var(--m-surface);
@@ -1342,7 +1381,7 @@ function projectCardTheme(projectId) {
   return PROJECT_CARD_PALETTE[Math.abs(h) % PROJECT_CARD_PALETTE.length];
 }
 const APP_NAME = "Metrico";
-const APP_VERSION = "2.56.1";
+const APP_VERSION = "2.56.2";
 
 const METRICO_PLAN_ORDER = ["start", "plus", "pro", "ark"];
 const METRICO_PLANS = {
@@ -5834,28 +5873,28 @@ function AnalysisHBarList({ items, total, maxItems = 6 }) {
 
 /** Rough country/region from project lat/lng (equirectangular helpers for analytics map). */
 const GEO_REGION_DEFS = [
-  { id: "na", fa: "آمریکای شمالی", en: "North America", path: "M78,95 L210,70 L250,95 L255,160 L230,210 L175,220 L95,185 Z" },
-  { id: "sa", fa: "آمریکای لاتین", en: "Latin America", path: "M210,230 L255,220 L275,310 L245,390 L210,360 L195,280 Z" },
-  { id: "eu", fa: "اروپا", en: "Europe", path: "M470,85 L545,75 L560,130 L520,155 L470,145 Z" },
-  { id: "af", fa: "خاورمیانه و آفریقا", en: "Middle East & Africa", path: "M480,165 L575,155 L600,230 L560,340 L490,310 L470,220 Z" },
-  { id: "as", fa: "آسیا و اقیانوسیه", en: "Asia Pacific", path: "M580,90 L780,80 L850,150 L820,250 L700,270 L590,200 Z" },
+  { id: "na", fa: "آمریکای شمالی", en: "North America" },
+  { id: "sa", fa: "آمریکای لاتین", en: "Latin America" },
+  { id: "eu", fa: "اروپا", en: "Europe" },
+  { id: "af", fa: "خاورمیانه و آفریقا", en: "Middle East & Africa" },
+  { id: "as", fa: "آسیا و اقیانوسیه", en: "Asia Pacific" },
 ];
 
 const GEO_COUNTRY_MARKERS = [
-  { code: "IR", region: "af", cx: 605, cy: 195, r: 16, fa: "ایران", en: "Iran" },
-  { code: "AE", region: "af", cx: 625, cy: 225, r: 9, fa: "امارات", en: "UAE" },
-  { code: "SA", region: "af", cx: 585, cy: 230, r: 12, fa: "عربستان", en: "Saudi Arabia" },
-  { code: "TR", region: "af", cx: 555, cy: 165, r: 11, fa: "ترکیه", en: "Turkey" },
-  { code: "IQ", region: "af", cx: 585, cy: 185, r: 9, fa: "عراق", en: "Iraq" },
-  { code: "US", region: "na", cx: 165, cy: 140, r: 18, fa: "آمریکا", en: "United States" },
-  { code: "CA", region: "na", cx: 155, cy: 85, r: 14, fa: "کانادا", en: "Canada" },
-  { code: "MX", region: "na", cx: 140, cy: 195, r: 10, fa: "مکزیک", en: "Mexico" },
-  { code: "BR", region: "sa", cx: 240, cy: 300, r: 16, fa: "برزیل", en: "Brazil" },
-  { code: "DE", region: "eu", cx: 505, cy: 115, r: 9, fa: "آلمان", en: "Germany" },
-  { code: "GB", region: "eu", cx: 475, cy: 105, r: 8, fa: "بریتانیا", en: "United Kingdom" },
-  { code: "CN", region: "as", cx: 720, cy: 160, r: 16, fa: "چین", en: "China" },
-  { code: "IN", region: "as", cx: 665, cy: 220, r: 14, fa: "هند", en: "India" },
-  { code: "AU", region: "as", cx: 800, cy: 330, r: 14, fa: "استرالیا", en: "Australia" },
+  { code: "IR", region: "af", lat: 32.4, lng: 53.7, fa: "ایران", en: "Iran" },
+  { code: "AE", region: "af", lat: 23.4, lng: 53.8, fa: "امارات", en: "UAE" },
+  { code: "SA", region: "af", lat: 23.9, lng: 45.1, fa: "عربستان", en: "Saudi Arabia" },
+  { code: "TR", region: "af", lat: 39.0, lng: 35.2, fa: "ترکیه", en: "Turkey" },
+  { code: "IQ", region: "af", lat: 33.2, lng: 44.4, fa: "عراق", en: "Iraq" },
+  { code: "US", region: "na", lat: 39.8, lng: -98.5, fa: "آمریکا", en: "United States" },
+  { code: "CA", region: "na", lat: 56.1, lng: -106.3, fa: "کانادا", en: "Canada" },
+  { code: "MX", region: "na", lat: 23.6, lng: -102.5, fa: "مکزیک", en: "Mexico" },
+  { code: "BR", region: "sa", lat: -14.2, lng: -51.9, fa: "برزیل", en: "Brazil" },
+  { code: "DE", region: "eu", lat: 51.2, lng: 10.4, fa: "آلمان", en: "Germany" },
+  { code: "GB", region: "eu", lat: 54.0, lng: -2.5, fa: "بریتانیا", en: "United Kingdom" },
+  { code: "CN", region: "as", lat: 35.9, lng: 104.2, fa: "چین", en: "China" },
+  { code: "IN", region: "as", lat: 20.6, lng: 78.9, fa: "هند", en: "India" },
+  { code: "AU", region: "as", lat: -25.3, lng: 133.8, fa: "استرالیا", en: "Australia" },
 ];
 
 function latLngToCountryCode(lat, lng) {
@@ -5899,12 +5938,23 @@ function buildRegionalPricingOverview(projectsList) {
   GEO_REGION_DEFS.forEach((r) => {
     byRegion[r.id] = { id: r.id, fa: r.fa, en: r.en, avgPpm: 0, sumPpm: 0, count: 0, projects: 0, spark: [] };
   });
+  const pins = [];
   (projectsList || []).forEach((p) => {
     const lat = Number(p.lat);
     const lng = Number(p.lng);
     const code = latLngToCountryCode(lat, lng);
     const ppm = avgSoldPricePerSqm(p) || 0;
     const regionId = code ? countryToRegionId(code) : null;
+    if (Number.isFinite(lat) && Number.isFinite(lng)) {
+      pins.push({
+        lat,
+        lng,
+        code: code || null,
+        active: !!code,
+        label: p.name || code || "",
+        avgPpm: ppm,
+      });
+    }
     if (code) {
       if (!byCountry[code]) byCountry[code] = { code, sumPpm: 0, count: 0, projects: 0 };
       byCountry[code].projects += 1;
@@ -5931,7 +5981,7 @@ function buildRegionalPricingOverview(projectsList) {
   const regionRows = GEO_REGION_DEFS.map((d) => byRegion[d.id]).filter((r) => r.projects > 0 || r.avgPpm > 0);
   const activeCodes = new Set(Object.keys(byCountry));
   const maxPpm = Math.max(0, ...Object.values(byCountry).map((c) => c.avgPpm), ...regionRows.map((r) => r.avgPpm), 1);
-  return { byCountry, regionRows, activeCodes, maxPpm };
+  return { byCountry, regionRows, activeCodes, maxPpm, pins };
 }
 
 function MiniSparkBar({ values, max }) {
@@ -5948,58 +5998,93 @@ function MiniSparkBar({ values, max }) {
   );
 }
 
+function RegionalWorldLeaflet({ pins, height = 168 }) {
+  const containerRef = useRef(null);
+  const mapRef = useRef(null);
+  const layersRef = useRef([]);
+  const pinsKey = useMemo(
+    () => (pins || []).map((p) => `${p.lat},${p.lng},${p.active ? 1 : 0}`).join("|"),
+    [pins]
+  );
+
+  useEffect(() => {
+    if (!containerRef.current || mapRef.current || !window.L) return;
+    const map = window.L.map(containerRef.current, {
+      zoomControl: false,
+      attributionControl: true,
+      scrollWheelZoom: false,
+      dragging: true,
+      worldCopyJump: true,
+      minZoom: 1,
+      maxZoom: 6,
+    }).setView([22, 25], 1.4);
+    window.L.tileLayer("https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png", {
+      attribution: "&copy; OpenStreetMap",
+      maxZoom: 6,
+      minZoom: 1,
+    }).addTo(map);
+    mapRef.current = map;
+    const t = setTimeout(() => map.invalidateSize(), 180);
+    return () => {
+      clearTimeout(t);
+      map.remove();
+      mapRef.current = null;
+    };
+  }, []);
+
+  useEffect(() => {
+    const map = mapRef.current;
+    if (!map || !window.L) return;
+    layersRef.current.forEach((layer) => map.removeLayer(layer));
+    layersRef.current = [];
+
+    const list = pins || [];
+    list.forEach((pin) => {
+      const icon = window.L.divIcon({
+        className: pin.active ? "m-map-blink-dot" : "m-map-idle-dot",
+        html: "<span></span>",
+        iconSize: pin.active ? [14, 14] : [9, 9],
+        iconAnchor: pin.active ? [7, 7] : [4.5, 4.5],
+      });
+      const marker = window.L.marker([pin.lat, pin.lng], { icon, keyboard: false });
+      if (pin.label) marker.bindTooltip(String(pin.label), { direction: "top", opacity: 0.92 });
+      marker.addTo(map);
+      layersRef.current.push(marker);
+    });
+
+    if (list.length >= 2) {
+      const bounds = window.L.latLngBounds(list.map((p) => [p.lat, p.lng]));
+      if (bounds.isValid()) map.fitBounds(bounds.pad(0.55), { maxZoom: 4, animate: false });
+    } else if (list.length === 1) {
+      map.setView([list[0].lat, list[0].lng], 3, { animate: false });
+    } else {
+      map.setView([22, 25], 1.4, { animate: false });
+    }
+    setTimeout(() => map.invalidateSize(), 120);
+  }, [pinsKey]);
+
+  return <div ref={containerRef} className="m-da-world-map m-leaflet-host" style={{ height }} aria-label="world map" />;
+}
+
 function RegionalPricingOverview({ projects, lang, t }) {
   const overview = useMemo(() => buildRegionalPricingOverview(projects), [projects]);
-  const { byCountry, regionRows, activeCodes, maxPpm } = overview;
-  const hasGeo = activeCodes.size > 0;
+  const { regionRows, activeCodes, maxPpm, pins } = overview;
+  const hasGeo = activeCodes.size > 0 || (pins && pins.length > 0);
 
   return (
     <div className="m-da-map-panel">
-      <div className="rounded-xl border border-black/5 bg-[#F4F6F9] p-2 overflow-hidden">
-        <svg viewBox="0 0 900 420" className="w-full h-auto max-h-[220px]" role="img" aria-label={t("نمای قیمت منطقه‌ای")}>
-          <rect x="0" y="0" width="900" height="420" fill="#E8EEF5" rx="8" />
-          {GEO_REGION_DEFS.map((reg) => {
-            const row = overview.regionRows.find((r) => r.id === reg.id);
-            const fill = row && row.avgPpm > 0 ? priceTierColor(row.avgPpm, maxPpm) : undefined;
-            return (
-              <path
-                key={reg.id}
-                d={reg.path}
-                className={fill ? "m-map-region-tier" : "m-map-region-idle"}
-                style={fill ? { fill } : undefined}
-              />
-            );
-          })}
-          {GEO_COUNTRY_MARKERS.map((c) => {
-            const active = activeCodes.has(c.code);
-            const avg = byCountry[c.code]?.avgPpm || 0;
-            return (
-              <g key={c.code}>
-                <circle
-                  cx={c.cx}
-                  cy={c.cy}
-                  r={c.r}
-                  className={active ? "m-map-active-country" : "m-map-region-idle"}
-                  style={!active && avg > 0 ? { fill: priceTierColor(avg, maxPpm) } : undefined}
-                />
-                {active && (
-                  <text x={c.cx} y={c.cy + 3} textAnchor="middle" fontSize="8" fill="#C9A227" fontWeight="700">
-                    {lang === "fa" ? "●" : "●"}
-                  </text>
-                )}
-              </g>
-            );
-          })}
-          <g transform="translate(24, 360)">
-            {[0.15, 0.35, 0.55, 0.75, 0.95].map((r, i) => (
-              <rect key={i} x={i * 34} y="0" width="28" height="10" rx="2" fill={priceTierColor(r * maxPpm, maxPpm)} />
-            ))}
-            <text x="0" y="24" fontSize="9" fill="#6B7280">{t("قیمت کمتر")}</text>
-            <text x="140" y="24" fontSize="9" fill="#6B7280">{t("قیمت بالاتر")}</text>
-          </g>
-        </svg>
+      <div className="min-w-0">
+        <RegionalWorldLeaflet pins={pins} height={168} />
+        <div className="m-map-price-legend text-[10px] text-[#6B7280]">
+          {[0.15, 0.35, 0.55, 0.75, 0.95].map((r, i) => (
+            <i key={i} style={{ background: priceTierColor(r * maxPpm, maxPpm) }} />
+          ))}
+          <span>{t("قیمت کمتر")}</span>
+          <span className="mx-1">→</span>
+          <span>{t("قیمت بالاتر")}</span>
+        </div>
         {!hasGeo && (
-          <div className="text-[10px] text-[#9CA3AF] text-center px-3 pb-2 leading-5">
+          <div className="text-[10px] text-[#9CA3AF] text-center px-1 pt-2 leading-5">
             {t("هنوز هیچ پروژه‌ای موقعیت مکانی ثبت‌شده نداره. از «تنظیمات پروژه» موقعیت هر پروژه رو مشخص کن.")}
           </div>
         )}
@@ -6007,7 +6092,7 @@ function RegionalPricingOverview({ projects, lang, t }) {
       <div className="min-w-0">
         <div className="text-[11px] font-bold text-[#14213D] mb-2">{t("قیمت منطقه‌ای")}</div>
         {regionRows.length === 0 ? (
-          <div className="text-xs text-[#9CA3AF] py-4">{t("داده‌ای برای نمایش نیست")}</div>
+          <div className="text-xs text-[#9CA3AF] py-3">{t("داده‌ای برای نمایش نیست")}</div>
         ) : (
           <div className="overflow-x-auto">
             <table className="w-full text-[11px]">
@@ -6022,10 +6107,10 @@ function RegionalPricingOverview({ projects, lang, t }) {
               <tbody>
                 {regionRows.map((r) => (
                   <tr key={r.id} className="border-b border-black/5">
-                    <td className="py-2 font-semibold text-[#14213D]">{lang === "fa" ? r.fa : r.en}</td>
-                    <td className="py-2 text-[#14213D]">{r.avgPpm > 0 ? fmt(Math.round(r.avgPpm)) : "—"}</td>
-                    <td className="py-2 text-[#6B7280]">{r.projects}</td>
-                    <td className="py-2"><MiniSparkBar values={r.spark} max={maxPpm} /></td>
+                    <td className="py-1.5 font-semibold text-[#14213D]">{lang === "fa" ? r.fa : r.en}</td>
+                    <td className="py-1.5 text-[#14213D]">{r.avgPpm > 0 ? fmt(Math.round(r.avgPpm)) : "—"}</td>
+                    <td className="py-1.5 text-[#6B7280]">{r.projects}</td>
+                    <td className="py-1.5"><MiniSparkBar values={r.spark} max={maxPpm} /></td>
                   </tr>
                 ))}
               </tbody>
@@ -15146,7 +15231,7 @@ function DataAnalysisScreen({ company, projects, contacts, onBack, ensurePdfExpo
                             <span className="flex items-center gap-1"><span className="w-2.5 h-0.5 bg-[#14213D]" /> {t("درآمد")}</span>
                             <span className="flex items-center gap-1"><span className="w-2.5 h-0.5 bg-[#A5C5E8]" style={{ borderTop: "2px dashed #A5C5E8" }} /> {t("واحد")}</span>
                           </div>
-                          <AnalysisLineChart series={analytical.progress} height={150} />
+                          <AnalysisLineChart series={analytical.progress} height={120} />
                         </>
                       )}
                     </ChartCard>
@@ -15167,7 +15252,7 @@ function DataAnalysisScreen({ company, projects, contacts, onBack, ensurePdfExpo
                       {analytical.velocity.length === 0 ? (
                         <div className="text-xs text-[#9CA3AF] text-center py-8">{t("داده‌ای برای نمایش نیست")}</div>
                       ) : (
-                        <AnalysisBarChart series={analytical.velocity} valueKey="revenue" height={150} showValues />
+                        <AnalysisBarChart series={analytical.velocity} valueKey="revenue" height={120} showValues />
                       )}
                     </ChartCard>
                   </div>
@@ -15190,13 +15275,13 @@ function DataAnalysisScreen({ company, projects, contacts, onBack, ensurePdfExpo
                       })),
                     }}
                   >
-                    <div className="text-[11px] text-[#6B7280] mb-3 leading-5">
+                    <div className="text-[11px] text-[#6B7280] mb-2 leading-5">
                       {t("نقشه جهانی بر اساس موقعیت ثبت‌شده پروژه‌ها؛ رنگ سرمه‌ای چشمک‌زن = کشور فعال.")}
                     </div>
                     <RegionalPricingOverview projects={projects} lang={lang} t={t} />
                     {analytical.priceRows.length > 0 && (
-                      <div className="mt-4 pt-3 border-t border-black/5">
-                        <div className="text-[11px] font-bold text-[#14213D] mb-2">{t("توزیع قیمت هر متر بر اساس طبقه و وضعیت")}</div>
+                      <div className="mt-3 pt-2 border-t border-black/5">
+                        <div className="text-[11px] font-bold text-[#14213D] mb-1.5">{t("توزیع قیمت هر متر بر اساس طبقه و وضعیت")}</div>
                         <AnalysisBarChart
                           series={analytical.priceRows.map((r) => ({
                             key: `${r.floor}-${r.status}`,
@@ -15204,7 +15289,7 @@ function DataAnalysisScreen({ company, projects, contacts, onBack, ensurePdfExpo
                           }))}
                           valueKey="revenue"
                           color="#1A2B4B"
-                          height={100}
+                          height={72}
                         />
                       </div>
                     )}
