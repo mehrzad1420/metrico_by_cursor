@@ -452,10 +452,44 @@
     padding: 0.25rem 0.65rem;
   }
 
+  /* Solid scrim only — backdrop-filter blur is costly on Windows Chromium/Edge */
   .m-modal-backdrop {
-    background: rgba(10, 18, 36, 0.44);
-    backdrop-filter: blur(5px);
-    -webkit-backdrop-filter: blur(5px);
+    background: rgba(10, 18, 36, 0.5);
+  }
+  .m-menu-backdrop {
+    background: rgba(10, 18, 36, 0.5);
+    opacity: 0;
+    transition: opacity 160ms cubic-bezier(0.4, 0, 0.2, 1);
+  }
+  .m-side-menu-root {
+    pointer-events: none;
+    visibility: hidden;
+    transition: visibility 0s linear 160ms;
+  }
+  .m-side-menu-root.is-open {
+    pointer-events: auto;
+    visibility: visible;
+    transition: visibility 0s;
+  }
+  .m-side-menu-root.is-open .m-menu-backdrop {
+    opacity: 1;
+  }
+  .m-side-menu-root .m-side-drawer {
+    transition: transform 160ms cubic-bezier(0.4, 0, 0.2, 1);
+    will-change: transform;
+  }
+  .m-side-menu-root[dir="rtl"] .m-side-drawer {
+    transform: translate3d(100%, 0, 0);
+  }
+  .m-side-menu-root[dir="ltr"] .m-side-drawer {
+    transform: translate3d(-100%, 0, 0);
+  }
+  .m-side-menu-root.is-open .m-side-drawer {
+    transform: translate3d(0, 0, 0);
+  }
+  .m-side-menu-scroll {
+    overscroll-behavior: contain;
+    -webkit-overflow-scrolling: touch;
   }
   .m-modal-sheet {
     background: var(--m-surface);
@@ -1450,7 +1484,7 @@ function projectCardTheme(projectId) {
   return PROJECT_CARD_PALETTE[Math.abs(h) % PROJECT_CARD_PALETTE.length];
 }
 const APP_NAME = "Metrico";
-const APP_VERSION = "2.57.2";
+const APP_VERSION = "2.57.3";
 
 const METRICO_PLAN_ORDER = ["start", "plus", "pro", "ark", "team"];
 const METRICO_PLANS = {
@@ -11846,8 +11880,9 @@ function AppContent() {
         )}
       </main>
 
-      {showMenu && ReactDOM.createPortal(
+      {ReactDOM.createPortal(
         <SideMenu
+          open={showMenu}
           company={company}
           projects={projects}
           activeTab={activeTab}
@@ -12719,38 +12754,44 @@ function ContractsScreen({ company, projects, activeProjectId, contacts, isReadO
   );
 }
 
-function SideMenu({ company, projects, activeTab, currentScreen, isReadOnly, effectivePlan, planExpiresAt, isSuperAdmin, isTeamOwner, memberRole, teamBanner, onOpenDashboard, onSelectProject, onNewProject, onClose, onOpenPlan, onOpenTeam, onOpenAdminMembers, onOpenBackup, onOpenAbout, onOpenGuide, onOpenPrivacy, onOpenTax, onOpenContacts, onOpenNotes, onOpenReminders, onOpenMap, onOpenEnergy, onOpenTakeoff, onOpenInventory, onOpenContracts, onOpenDataAnalysis, onOpenBuilding3d, onLogout }) {
+function SideMenuItem({ onClick, icon, label, featureKey, screenKey, active, memberRole, menuAlign, isLocked }) {
+  if (screenKey && !roleAllowsScreen(memberRole || "manager", screenKey)) return null;
+  if (featureKey && !roleAllowsFeature(memberRole || "manager", featureKey)) return null;
+  return (
+    <button
+      type="button"
+      onClick={onClick}
+      className={`${menuAlign} px-3 py-2.5 rounded-xl text-sm font-medium flex items-center gap-2 hover:bg-[#F4F6F5] w-full transition-colors ${
+        active ? "m-menu-item-active hover:bg-[#14213D]" : "text-[#374151]"
+      }`}
+    >
+      {icon}
+      <span className="flex-1">{label}</span>
+      {isLocked && <LucideLock size={12} className={active ? "text-white/50" : "text-[#9CA3AF]"} />}
+    </button>
+  );
+}
+
+function SideMenu({ open, company, projects, activeTab, currentScreen, isReadOnly, effectivePlan, planExpiresAt, isSuperAdmin, isTeamOwner, memberRole, teamBanner, onOpenDashboard, onSelectProject, onNewProject, onClose, onOpenPlan, onOpenTeam, onOpenAdminMembers, onOpenBackup, onOpenAbout, onOpenGuide, onOpenPrivacy, onOpenTax, onOpenContacts, onOpenNotes, onOpenReminders, onOpenMap, onOpenEnergy, onOpenTakeoff, onOpenInventory, onOpenContracts, onOpenDataAnalysis, onOpenBuilding3d, onLogout }) {
   const { lang, t } = useContext(LanguageContext);
   const menuDir = lang === "fa" ? "rtl" : "ltr";
   const [confirmLogout, setConfirmLogout] = useState(false);
   const [projectsOpen, setProjectsOpen] = useState(false);
   const projectsBtnRef = useRef(null);
   const [flyoutPos, setFlyoutPos] = useState({ top: 0, left: null, right: null });
-  const menuAlign = menuDir === "fa" ? "text-right" : "text-left";
+  const menuAlign = menuDir === "rtl" ? "text-right" : "text-left";
   const roleMeta = TEAM_ROLES[memberRole] || TEAM_ROLES.manager;
 
   function locked(featureKey) {
     return !hasPlanFeature(effectivePlan, featureKey, planExpiresAt);
   }
 
-  function MenuItem({ onClick, icon, label, featureKey, screenKey, active }) {
-    if (screenKey && !roleAllowsScreen(memberRole || "manager", screenKey)) return null;
-    if (featureKey && !roleAllowsFeature(memberRole || "manager", featureKey)) return null;
-    const isLocked = featureKey ? locked(featureKey) : false;
-    return (
-      <button
-        type="button"
-        onClick={onClick}
-        className={`${menuAlign} px-3 py-2.5 rounded-xl text-sm font-medium flex items-center gap-2 hover:bg-[#F4F6F5] w-full transition-colors ${
-          active ? "m-menu-item-active hover:bg-[#14213D]" : "text-[#374151]"
-        }`}
-      >
-        {icon}
-        <span className="flex-1">{label}</span>
-        {isLocked && <LucideLock size={12} className={active ? "text-white/50" : "text-[#9CA3AF]"} />}
-      </button>
-    );
-  }
+  useEffect(() => {
+    if (!open) {
+      setProjectsOpen(false);
+      setConfirmLogout(false);
+    }
+  }, [open]);
 
   useEffect(() => {
     if (!projectsOpen || !projectsBtnRef.current || menuDir === "rtl") return;
@@ -12784,8 +12825,13 @@ function SideMenu({ company, projects, activeTab, currentScreen, isReadOnly, eff
   }
 
   return (
-    <div className="fixed inset-0 z-[1000]" dir={menuDir}>
-      <button type="button" className="absolute inset-0 m-modal-backdrop border-0 cursor-default" aria-label={t("بستن")} onClick={onClose} />
+    <div
+      className={`m-side-menu-root fixed inset-0 z-[1000]${open ? " is-open" : ""}`}
+      dir={menuDir}
+      aria-hidden={!open}
+      {...(open ? {} : { inert: true })}
+    >
+      <button type="button" tabIndex={open ? 0 : -1} className="absolute inset-0 m-menu-backdrop border-0 cursor-default" aria-label={t("بستن")} onClick={onClose} />
       <div className={`absolute top-0 bottom-0 w-[min(82vw,20rem)] max-w-xs m-side-drawer flex flex-col shadow-2xl ${menuDir === "rtl" ? "right-0" : "left-0"}`}>
         <div className="m-side-drawer-head text-white px-5 pt-6 pb-4 flex items-center gap-3">
           {company?.logo ? (
@@ -12800,12 +12846,14 @@ function SideMenu({ company, projects, activeTab, currentScreen, isReadOnly, eff
               <div className="text-[10px] text-teal-100/90 mt-0.5">{lang === "fa" ? roleMeta.fa : roleMeta.en}</div>
             )}
           </div>
-          <button onClick={onClose} className="p-1 text-white/70"><X size={20} /></button>
+          <button type="button" onClick={onClose} className="p-1 text-white/70" tabIndex={open ? 0 : -1}><X size={20} /></button>
         </div>
 
-        <div className="flex-1 overflow-y-auto px-4 py-4">
+        <div className="flex-1 overflow-y-auto px-4 py-4 m-side-menu-scroll">
           <button
+            type="button"
             onClick={onOpenDashboard}
+            tabIndex={open ? 0 : -1}
             className={`w-full ${menuAlign} px-3 py-2.5 rounded-xl text-sm font-semibold flex items-center gap-2 mb-2 ${
               currentScreen === "dashboard" ? "bg-[#14213D] text-white" : "text-[#14213D] bg-[#F4F6F5]"
             }`}
@@ -12816,6 +12864,7 @@ function SideMenu({ company, projects, activeTab, currentScreen, isReadOnly, eff
               ref={projectsBtnRef}
               type="button"
               onClick={toggleProjects}
+              tabIndex={open ? 0 : -1}
               className={`w-full ${menuAlign} px-3 py-2.5 rounded-xl text-sm font-semibold flex items-center gap-2 ${
                 currentScreen === "app" || projectsOpen ? "bg-[#14213D]/10 text-[#14213D]" : "text-[#374151] hover:bg-[#F4F6F5]"
               }`}
@@ -12828,13 +12877,15 @@ function SideMenu({ company, projects, activeTab, currentScreen, isReadOnly, eff
           </div>
 
           {projectsOpen && menuDir === "rtl" && (
-            <div className="mb-2 rounded-xl border border-black/10 bg-[#F4F6F5] max-h-52 overflow-y-auto py-1">
+            <div className="mb-2 rounded-xl border border-black/10 bg-[#F4F6F5] max-h-52 overflow-y-auto py-1 m-side-menu-scroll">
               {projects.length === 0 ? (
                 <div className={`text-[11px] text-[#9CA3AF] px-4 py-3 ${menuAlign}`}>{t("هنوز پروژه‌ای ثبت نشده")}</div>
               ) : projects.map((p) => (
                 <button
                   key={p.id}
+                  type="button"
                   onClick={() => pickProject(p.id)}
+                  tabIndex={open ? 0 : -1}
                   className={`w-full ${menuAlign} px-4 py-2.5 text-[13px] font-medium flex items-center gap-2 hover:bg-white/80 ${
                     currentScreen === "app" && activeTab === p.id ? "bg-[#14213D] text-white hover:bg-[#14213D]" : "text-[#374151]"
                   }`}
@@ -12845,8 +12896,10 @@ function SideMenu({ company, projects, activeTab, currentScreen, isReadOnly, eff
               ))}
               <div className="border-t border-black/5 mt-1 pt-1 px-2">
                 <button
+                  type="button"
                   onClick={() => { onNewProject(); setProjectsOpen(false); }}
                   disabled={isReadOnly}
+                  tabIndex={open ? 0 : -1}
                   className={`w-full ${menuAlign} px-2 py-2 rounded-lg text-[12px] font-medium text-[#14213D] flex items-center gap-2 border border-dashed border-black/12 ${isReadOnly ? "opacity-40 cursor-not-allowed" : "hover:bg-white/80"}`}
                 >
                   <Plus size={13} /> {t("پروژه جدید")}
@@ -12859,7 +12912,7 @@ function SideMenu({ company, projects, activeTab, currentScreen, isReadOnly, eff
             <>
               <div className="fixed inset-0 z-[76]" onClick={() => setProjectsOpen(false)} aria-hidden="true" />
               <div
-                className="fixed z-[77] w-[min(240px,calc(100vw-5rem))] max-h-[min(300px,55vh)] overflow-y-auto bg-white rounded-xl shadow-2xl border border-black/10 py-2"
+                className="fixed z-[77] w-[min(240px,calc(100vw-5rem))] max-h-[min(300px,55vh)] overflow-y-auto bg-white rounded-xl shadow-2xl border border-black/10 py-2 m-side-menu-scroll"
                 style={{
                   top: flyoutPos.top,
                   ...(flyoutPos.left != null ? { left: flyoutPos.left } : {}),
@@ -12871,7 +12924,9 @@ function SideMenu({ company, projects, activeTab, currentScreen, isReadOnly, eff
                 ) : projects.map((p) => (
                   <button
                     key={p.id}
+                    type="button"
                     onClick={() => pickProject(p.id)}
+                    tabIndex={open ? 0 : -1}
                     className={`w-full ${menuAlign} px-4 py-2.5 text-[13px] font-medium flex items-center gap-2 hover:bg-[#F4F6F5] ${
                       currentScreen === "app" && activeTab === p.id ? "bg-[#14213D] text-white hover:bg-[#14213D]" : "text-[#374151]"
                     }`}
@@ -12882,8 +12937,10 @@ function SideMenu({ company, projects, activeTab, currentScreen, isReadOnly, eff
                 ))}
                 <div className="border-t border-black/5 mt-1 pt-1 px-2">
                   <button
+                    type="button"
                     onClick={() => { onNewProject(); setProjectsOpen(false); }}
                     disabled={isReadOnly}
+                    tabIndex={open ? 0 : -1}
                     className={`w-full ${menuAlign} px-2 py-2 rounded-lg text-[12px] font-medium text-[#14213D] flex items-center gap-2 border border-dashed border-black/12 ${isReadOnly ? "opacity-40 cursor-not-allowed" : "hover:bg-[#F4F6F5]"}`}
                   >
                     <Plus size={13} /> {t("پروژه جدید")}
@@ -12897,7 +12954,8 @@ function SideMenu({ company, projects, activeTab, currentScreen, isReadOnly, eff
             <button
               type="button"
               onClick={onOpenPlan}
-              className={`text-right px-3 py-2.5 rounded-xl text-sm font-semibold flex items-center gap-2 mb-1 ${
+              tabIndex={open ? 0 : -1}
+              className={`${menuAlign} px-3 py-2.5 rounded-xl text-sm font-semibold flex items-center gap-2 mb-1 ${
                 currentScreen === "plan" ? "bg-[#C9A227]/15 text-[#14213D]" : "bg-[#F4F6F5] text-[#14213D]"
               }`}
             >
@@ -12908,7 +12966,8 @@ function SideMenu({ company, projects, activeTab, currentScreen, isReadOnly, eff
               <button
                 type="button"
                 onClick={onOpenTeam}
-                className={`text-right px-3 py-2.5 rounded-xl text-sm font-semibold flex items-center gap-2 mb-2 border ${
+                tabIndex={open ? 0 : -1}
+                className={`${menuAlign} px-3 py-2.5 rounded-xl text-sm font-semibold flex items-center gap-2 mb-2 border ${
                   currentScreen === "team"
                     ? "bg-[#0F766E] text-white border-[#0F766E]"
                     : "bg-[#F0FDFA] text-[#134E4A] border-teal-200"
@@ -12922,7 +12981,8 @@ function SideMenu({ company, projects, activeTab, currentScreen, isReadOnly, eff
               <button
                 type="button"
                 onClick={onOpenAdminMembers}
-                className={`text-right px-3 py-2.5 rounded-xl text-sm font-semibold flex items-center gap-2 mb-2 border ${
+                tabIndex={open ? 0 : -1}
+                className={`${menuAlign} px-3 py-2.5 rounded-xl text-sm font-semibold flex items-center gap-2 mb-2 border ${
                   currentScreen === "admin_members"
                     ? "bg-[#14213D] text-white border-[#14213D]"
                     : "bg-[#C9A227]/10 text-[#14213D] border-[#C9A227]/40"
@@ -12932,43 +12992,42 @@ function SideMenu({ company, projects, activeTab, currentScreen, isReadOnly, eff
                 <span className="mr-auto text-[9px] font-bold opacity-70">{t("مدیر کل")}</span>
               </button>
             )}
-            <MenuItem onClick={onOpenContacts} icon={<Users size={15} />} label={t("دفترچه مخاطبین")} screenKey="contacts" />
-            <MenuItem onClick={onOpenDataAnalysis} icon={<LucideFileBarChart size={15} />} label={t("تحلیل داده‌ها")} screenKey="data_analysis" active={currentScreen === "data_analysis"} />
-            <MenuItem onClick={onOpenBuilding3d} icon={<LucideBox size={15} />} label={t("پلان سه‌بعدی")} screenKey="building_3d" active={currentScreen === "building_3d"} />
-            <MenuItem onClick={onOpenNotes} icon={<LucideStickyNote size={15} />} label={t("یادداشت‌ها")} screenKey="notes" />
-            <MenuItem onClick={onOpenReminders} icon={<Bell size={15} />} label={t("یادآوری‌ها")} screenKey="reminders" />
-            <MenuItem onClick={onOpenMap} icon={<MapPinIcon size={15} />} label={t("موقعیت مکانی پروژه‌ها")} featureKey="map" screenKey="map" />
-            <MenuItem onClick={onOpenEnergy} icon={<LucideZap size={15} />} label={t("محاسبات انرژی")} featureKey="energy" screenKey="energy" active={currentScreen === "energy"} />
-            <MenuItem onClick={onOpenTakeoff} icon={<LucideRuler size={15} />} label={t("متره و برآورد")} featureKey="takeoff" screenKey="takeoff" />
-            <MenuItem onClick={onOpenInventory} icon={<LucidePackage size={15} />} label={t("انبارگردانی و موجودی مصالح")} featureKey="inventory" screenKey="inventory" />
-            <MenuItem onClick={onOpenTax} icon={<Receipt size={15} />} label={t("سامانه‌های مالیاتی")} featureKey="tax" screenKey="tax" active={currentScreen === "tax"} />
+            <SideMenuItem onClick={onOpenContacts} icon={<Users size={15} />} label={t("دفترچه مخاطبین")} screenKey="contacts" memberRole={memberRole} menuAlign={menuAlign} isLocked={false} />
+            <SideMenuItem onClick={onOpenDataAnalysis} icon={<LucideFileBarChart size={15} />} label={t("تحلیل داده‌ها")} screenKey="data_analysis" active={currentScreen === "data_analysis"} memberRole={memberRole} menuAlign={menuAlign} isLocked={false} />
+            <SideMenuItem onClick={onOpenBuilding3d} icon={<LucideBox size={15} />} label={t("پلان سه‌بعدی")} screenKey="building_3d" active={currentScreen === "building_3d"} memberRole={memberRole} menuAlign={menuAlign} isLocked={false} />
+            <SideMenuItem onClick={onOpenNotes} icon={<LucideStickyNote size={15} />} label={t("یادداشت‌ها")} screenKey="notes" memberRole={memberRole} menuAlign={menuAlign} isLocked={false} />
+            <SideMenuItem onClick={onOpenReminders} icon={<Bell size={15} />} label={t("یادآوری‌ها")} screenKey="reminders" memberRole={memberRole} menuAlign={menuAlign} isLocked={false} />
+            <SideMenuItem onClick={onOpenMap} icon={<MapPinIcon size={15} />} label={t("موقعیت مکانی پروژه‌ها")} featureKey="map" screenKey="map" memberRole={memberRole} menuAlign={menuAlign} isLocked={locked("map")} />
+            <SideMenuItem onClick={onOpenEnergy} icon={<LucideZap size={15} />} label={t("محاسبات انرژی")} featureKey="energy" screenKey="energy" active={currentScreen === "energy"} memberRole={memberRole} menuAlign={menuAlign} isLocked={locked("energy")} />
+            <SideMenuItem onClick={onOpenTakeoff} icon={<LucideRuler size={15} />} label={t("متره و برآورد")} featureKey="takeoff" screenKey="takeoff" memberRole={memberRole} menuAlign={menuAlign} isLocked={locked("takeoff")} />
+            <SideMenuItem onClick={onOpenInventory} icon={<LucidePackage size={15} />} label={t("انبارگردانی و موجودی مصالح")} featureKey="inventory" screenKey="inventory" memberRole={memberRole} menuAlign={menuAlign} isLocked={locked("inventory")} />
+            <SideMenuItem onClick={onOpenTax} icon={<Receipt size={15} />} label={t("سامانه‌های مالیاتی")} featureKey="tax" screenKey="tax" active={currentScreen === "tax"} memberRole={memberRole} menuAlign={menuAlign} isLocked={locked("tax")} />
             {projects.length > 0 && (
-              <MenuItem onClick={onOpenContracts} icon={<LucideFileSignature size={15} />} label={t("مدیریت قراردادها")} featureKey="contracts" screenKey="contracts" active={currentScreen === "contracts"} />
+              <SideMenuItem onClick={onOpenContracts} icon={<LucideFileSignature size={15} />} label={t("مدیریت قراردادها")} featureKey="contracts" screenKey="contracts" active={currentScreen === "contracts"} memberRole={memberRole} menuAlign={menuAlign} isLocked={locked("contracts")} />
             )}
-            <MenuItem onClick={onOpenBackup} icon={<Download size={15} />} label={t("پشتیبان‌گیری و بازیابی")} screenKey="backup" featureKey="backup_restore" />
-            <MenuItem onClick={onOpenGuide} icon={<LucideBookOpen size={15} />} label={t("راهنما")} screenKey="guide" active={currentScreen === "guide"} />
-            <MenuItem onClick={onOpenAbout} icon={<Info size={15} />} label={t("درباره")} active={currentScreen === "about"} />
-            <MenuItem onClick={onOpenPrivacy} icon={<FileText size={15} />} label={t("سیاست حفظ حریم خصوصی")} active={currentScreen === "privacy"} />
+            <SideMenuItem onClick={onOpenBackup} icon={<Download size={15} />} label={t("پشتیبان‌گیری و بازیابی")} screenKey="backup" featureKey="backup_restore" memberRole={memberRole} menuAlign={menuAlign} isLocked={locked("backup_restore")} />
+            <SideMenuItem onClick={onOpenGuide} icon={<LucideBookOpen size={15} />} label={t("راهنما")} screenKey="guide" active={currentScreen === "guide"} memberRole={memberRole} menuAlign={menuAlign} isLocked={false} />
+            <SideMenuItem onClick={onOpenAbout} icon={<Info size={15} />} label={t("درباره")} active={currentScreen === "about"} memberRole={memberRole} menuAlign={menuAlign} isLocked={false} />
+            <SideMenuItem onClick={onOpenPrivacy} icon={<FileText size={15} />} label={t("سیاست حفظ حریم خصوصی")} active={currentScreen === "privacy"} memberRole={memberRole} menuAlign={menuAlign} isLocked={false} />
           </div>
         </div>
 
         <div className="p-4 border-t border-black/10">
           {!confirmLogout ? (
-            <button onClick={() => setConfirmLogout(true)} className="w-full flex items-center justify-center gap-2 text-[#B91C1C] border border-[#B91C1C]/30 rounded-xl py-2.5 text-sm font-semibold">
+            <button type="button" onClick={() => setConfirmLogout(true)} tabIndex={open ? 0 : -1} className="w-full flex items-center justify-center gap-2 text-[#B91C1C] border border-[#B91C1C]/30 rounded-xl py-2.5 text-sm font-semibold">
               <LogOut size={15} /> {t("خروج از برنامه")}
             </button>
           ) : (
             <div className="bg-red-50 rounded-xl p-3">
               <div className="text-xs text-[#B91C1C] mb-2">{t("برای ورود مجدد باید رمز عبور را دوباره وارد کنی. مطمئنی؟")}</div>
               <div className="flex gap-2">
-                <button onClick={() => setConfirmLogout(false)} className="flex-1 bg-white border border-black/10 rounded-lg py-2 text-xs font-medium">{t("لغو")}</button>
-                <button onClick={onLogout} className="flex-1 bg-[#B91C1C] text-white rounded-lg py-2 text-xs font-medium">{t("خروج")}</button>
+                <button type="button" onClick={() => setConfirmLogout(false)} tabIndex={open ? 0 : -1} className="flex-1 bg-white border border-black/10 rounded-lg py-2 text-xs font-medium">{t("لغو")}</button>
+                <button type="button" onClick={onLogout} tabIndex={open ? 0 : -1} className="flex-1 bg-[#B91C1C] text-white rounded-lg py-2 text-xs font-medium">{t("خروج")}</button>
               </div>
             </div>
           )}
         </div>
       </div>
-      <div className="flex-1 bg-black/40" onClick={onClose}></div>
     </div>
   );
 }
