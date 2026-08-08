@@ -1450,7 +1450,7 @@ function projectCardTheme(projectId) {
   return PROJECT_CARD_PALETTE[Math.abs(h) % PROJECT_CARD_PALETTE.length];
 }
 const APP_NAME = "Metrico";
-const APP_VERSION = "2.57.1";
+const APP_VERSION = "2.57.2";
 
 const METRICO_PLAN_ORDER = ["start", "plus", "pro", "ark", "team"];
 const METRICO_PLANS = {
@@ -3708,14 +3708,34 @@ Object.assign(DICT, {
   "متریکو پلاس": "Metrico Plus",
   "متریکو پرو": "Metrico Pro",
   "متریکو ارک": "Metrico Arc",
+  "متریکو تیم": "Metrico Team",
   "شروع رایگان — یک پروژه، مدیریت پایه": "Free start — one project, basic management",
   "فروش و هزینه حرفه‌ای + گزارش و چت": "Professional sales & expenses + reports & chat",
   "حسابداری کامل + انبار مصالح + مالیات": "Full accounting + inventory + tax",
   "نامحدود + انرژی + متره + سازمانی": "Unlimited + energy + takeoff + enterprise",
+  "همه امکانات + نقش‌ها و اعضای تیم": "All features + team roles & members",
   "آغاز": "Start",
   "پلاس": "Plus",
   "پرو": "Pro",
   "ارک": "Arc",
+  "تیم": "Team",
+  "پنل سرمایه‌گذار": "Investor portal",
+  "رزرو واحد با مهلت": "Timed unit reservation",
+  "فاکتور و رسید رسمی": "Formal invoice & receipt",
+  "خروجی حسابداری (CSV)": "Accounting export (CSV)",
+  "پیشرفت ساخت / صورت‌وضعیت": "Construction progress / statements",
+  "فضای کاری تیمی و نقش‌ها": "Team workspace & roles",
+  "پنل اختصاصی مالک": "Dedicated owner portal",
+  "گالری تصاویر پروژه": "Project image gallery",
+  "نقشه‌های فنی پروژه (اتوکد/BIM/۳D)": "Technical drawings (CAD/BIM/3D)",
+  "خروجی حسابداری CSV": "Accounting CSV export",
+  "چاپ پنل سرمایه‌گذار": "Print investor portal",
+  "خروجی CSV": "CSV export",
+  "نمای پیشرفت ساخت": "Construction progress view",
+  "هنوز صورت‌وضعیت یا پیشرفت ساختی ثبت نشده است.": "No progress statements recorded yet.",
+  "پیشرفت ساخت": "Construction progress",
+  "پلن تیم": "Team plan",
+  "نسخه تیمی متریکو": "Metrico Team edition",
   "اشتراک منقضی شده — در حال استفاده از آغاز": "Subscription expired — using Start plan",
   "گزارش مالی پروژه:": "Project financial report:",
   "وضعیت واحدها": "Unit status",
@@ -4076,22 +4096,51 @@ const GUIDE_I18N = {
   "نقشه‌های پروژه": "Project Drawings",
   "جهت‌گیری واحد و پلان سه‌بعدی": "Unit Orientation & 3D Plan",
   "نقشه و مکان‌یابی": "Map & Geolocation",
+  "نقش‌ها و نسخه تیمی": "Roles & Team Edition",
+  "پنج سطح اشتراک": "Five Subscription Tiers",
+  "متریکو در پنج سطح ارائه می‌شود: آغاز (رایگان)، پلاس، پرو، ارک و تیم. هر پلن بالاتر، تمام امکانات پلن‌های پایین‌تر را هم شامل می‌شود. پلن تیم علاوه بر همه امکانات، فضای کاری چندنفره با نقش‌ها را فعال می‌کند.": "Metrico is offered in five tiers: Starter (free), Plus, Pro, Arc, and Team. Each higher plan includes all features of the plans below it. Team also unlocks a multi-user workspace with roles.",
   "چهار سطح اشتراک": "Four Subscription Tiers",
   "متریکو در چهار سطح ارائه می‌شود: آغاز (رایگان)، پلاس، پرو و ارک. هر پلن بالاتر، تمام امکانات پلن‌های پایین‌تر را هم شامل می‌شود. از منو → «پلن اشتراک» وضعیت فعلی و جدول مقایسه را ببینید.": "Metrico is offered in four tiers: Starter (free), Plus, Pro, and Arc. Each higher plan includes all features of the plans below it. From the menu → \"Subscription Plan\", view your current status and the comparison table.",
   "صفحه پلن اشتراک": "Subscription plan page",
   "آغاز و پلاس": "Starter & Plus",
+  "آغاز: یک پروژه، فروش واحد و ثبت هزینه. پلاس: تا ۳ پروژه، گزارش PDF، چت هوشمند، نقشه، پنل مالک، پنل سرمایه‌گذار، رزرو با مهلت، فاکتور/رسید، گالری و نقشه‌های فنی.": "Starter: one project, unit sales, and expense tracking. Plus: up to 3 projects, PDF reports, smart chat, map, owner portal, investor portal, timed reservations, invoices/receipts, gallery, and technical drawings.",
   "آغاز: یک پروژه، فروش واحد و ثبت هزینه. پلاس: تا ۳ پروژه، گزارش PDF، چت هوشمند، نقشه مکان‌یابی، پنل اختصاصی مالک، گالری تصاویر، نقشه‌های اتوکد/BIM/سه‌بعدی پروژه، پشتیبان‌گیری و مخاطبین نامحدود.": "Starter: one project, unit sales, and expense tracking. Plus: up to 3 projects, PDF reports, smart chat, geolocation map, dedicated owner portal, image gallery, AutoCAD/BIM/3D project drawings, backups, and unlimited contacts.",
   "مقایسه آغاز و پلاس": "Starter vs. Plus comparison",
+  "پرو — حسابداری و پیشرفت": "Pro — Accounting & Progress",
+  "پلن پرو تا ۱۰ پروژه، حسابداری، خروجی CSV حسابداری، صورت‌وضعیت و پیشرفت ساخت، انبار، مالیات و KML را فعال می‌کند.": "The Pro plan enables up to 10 projects, accounting, accounting CSV export, progress statements, inventory, tax systems, and KML export.",
   "پرو — حسابداری و انبار": "Pro — Accounting & Inventory",
   "پلن پرو تا ۱۰ پروژه، حسابداری کامل پروژه، انبارگردانی و موجودی مصالح، سامانه‌های مالیاتی و خروجی KML را فعال می‌کند.": "The Pro plan enables up to 10 projects, full project accounting, materials inventory and stocktaking, tax systems, and KML export.",
   "امکانات پرو": "Pro features",
+  "ارک و تیم": "Arc & Team",
+  "ارک: پروژه نامحدود + انرژی + متره. تیم: همه امکانات ارک به‌همراه پنل اعضای تیم، تعریف نقش و دسترسی تفکیک‌شده برای فروش، حسابداری، کارگاه و ناظر.": "Arc: unlimited projects + energy + takeoff. Team: all Arc features plus a member panel, role assignment, and separated access for sales, accounting, site, and viewers.",
+  "امکانات ارک و تیم": "Arc & Team features",
   "ارک — انرژی و متره": "Arc — Energy & Takeoff",
   "بالاترین سطح: پروژه نامحدود، محاسبات انرژی ساختمان و ابزار متره و برآورد. انرژی و متره فقط در پلن ارک در دسترس است.": "Top tier: unlimited projects, building energy calculations, and quantity takeoff & estimation tools. Energy and takeoff are available only on the Arc plan.",
   "امکانات ارک": "Arc features",
   "ارتقا با کد": "Upgrade with Code",
+  "پس از پرداخت یا دریافت کد آزمایشی از مدیر، در صفحه «پلن اشتراک» کد را وارد کنید. برای پلن تیم کد با پیشوند تیم صادر می‌شود.": "After payment or receiving a trial code from your administrator, enter the code on the \"Subscription Plan\" page. Team plan codes are issued with a team prefix.",
   "پس از پرداخت یا دریافت کد آزمایشی از مدیر، در صفحه «پلن اشتراک» کد را وارد کنید. پرداخت آنلاین مستقیم به‌زودی از همین صفحه فعال می‌شود.": "After payment or receiving a trial code from your administrator, enter the code on the \"Subscription Plan\" page. Direct online payment from this page will be enabled soon.",
   "کد ارتقا": "Upgrade code",
+  "چرا نسخه تیمی؟": "Why Team Edition?",
+  "وقتی بیش از یک نفر روی همان پروژه‌ها کار می‌کند، مدیر تیم پلن تیم را فعال می‌کند و برای هر عضو ایمیل، رمز و نقش تعریف می‌کند. عضو فقط بخش‌های مرتبط با نقش خودش را می‌بیند.": "When more than one person works on the same projects, the team manager activates the Team plan and defines email, password, and role for each member. Each member only sees areas related to their role.",
+  "پنل تیم": "Team panel",
+  "نقش مدیر تیم": "Team Manager Role",
+  "مالک اشتراک تیم است. همه امکانات فعال است و می‌تواند اعضا را اضافه/حذف کند، نقش‌ها را عوض کند و پروژه‌ها را مدیریت کند. از منو → «مدیریت تیم» وارد شوید.": "Owns the Team subscription. All features are available; they can add/remove members, change roles, and manage projects. Open menu → \"Team management\".",
+  "مدیر تیم": "Team manager",
+  "کارشناس فروش": "Sales Specialist",
+  "تمرکز روی واحدها، مخاطبین، فروش و رزرو (با مهلت)، پنل مالک، نقشه و گزارش‌های فروش. به حسابداری کامل یا انبار دسترسی ندارد.": "Focuses on units, contacts, sales and timed reservations, owner portal, map, and sales reports. No full accounting or inventory access.",
+  "نقش فروش": "Sales role",
+  "حسابدار": "Accountant",
+  "هزینه‌ها، حسابداری پروژه، اقساط، فاکتور/رسید، مالیات، خروجی CSV حسابداری و پنل سرمایه‌گذار. به متره/انرژی یا ویرایش کامل واحدها محدود است.": "Expenses, project accounting, installments, invoices/receipts, tax, accounting CSV export, and investor portal. Limited for takeoff/energy or full unit editing.",
+  "نقش حسابدار": "Accountant role",
+  "مدیر کارگاه": "Site Manager",
+  "صورت‌وضعیت، پیشرفت ساخت، انبار مصالح، نقشه‌های فنی، گالری و در صورت پلن سازمانی انرژی/متره. برای فروش مالی واحد طراحی نشده است.": "Progress statements, construction progress, materials inventory, technical drawings, gallery, and energy/takeoff when available. Not designed for unit sales finance.",
+  "نقش کارگاه": "Site role",
+  "ناظر (فقط‌خواندنی)": "Viewer (Read-only)",
+  "داشبورد، تحلیل داده‌ها و پلان سه‌بعدی را می‌بیند ولی نمی‌تواند داده را تغییر دهد — مناسب سرمایه‌گذار داخلی یا ناظر کیفیت.": "Can view the dashboard, analytics, and 3D plan but cannot edit data — suitable for an internal investor or quality observer.",
+  "نقش ناظر": "Viewer role",
   "ورود و فعال‌سازی حساب": "Sign In & Account Activation",
+  "با ایمیل و رمز عبور وارد شوید. در صفحه ورود، دکمه FA/EN بالا سمت راست برای تغییر زبان بین فارسی و انگلیسی وجود دارد. پس از ثبت‌نام، کد فعال‌سازی را از مدیر سیستم دریافت کرده و در صفحه فعال‌سازی وارد کنید. اعضای تیم توسط مدیر تیم ساخته می‌شوند و معمولاً از قبل فعال هستند.": "Sign in with your email and password. On the login page, use the FA/EN button in the top-right corner to switch between Persian and English. After registration, obtain an activation code from your system administrator and enter it on the activation page. Team members are created by the team manager and are usually already activated.",
   "با ایمیل و رمز عبور وارد شوید. در صفحه ورود، دکمه FA/EN بالا سمت راست برای تغییر زبان بین فارسی و انگلیسی وجود دارد. پس از ثبت‌نام، کد فعال‌سازی را از مدیر سیستم دریافت کرده و در صفحه فعال‌سازی وارد کنید.": "Sign in with your email and password. On the login page, use the FA/EN button in the top-right corner to switch between Persian and English. After registration, obtain an activation code from your system administrator and enter it on the activation page.",
   "صفحه ورود و فعال‌سازی": "Login and activation page",
   "تنظیم اطلاعات شرکت": "Set Up Company Information",
@@ -4101,9 +4150,13 @@ const GUIDE_I18N = {
   "از منوی کناری گزینه «پروژه جدید» را بزنید، یا در هر صفحه دکمه + پایین صفحه → «تعریف پروژه» را انتخاب کنید. نام پروژه، آدرس و تعداد طبقات/واحدها را تعریف کنید. بعداً از تنظیمات پروژه → تب «طبقات» می‌توانید تعداد واحد هر طبقه را ویرایش کنید.": "From the sidebar menu, tap \"New Project\", or on any page use the + button at the bottom → \"Define Project\". Enter the project name, address, and number of floors/units. Later, from project settings → \"Floors\" tab, you can edit the unit count for each floor.",
   "فرم پروژه جدید": "New project form",
   "مدیریت واحدها": "Manage Units",
+  "پس از ساخت پروژه، روی هر واحد در گرافیک ساختمان بزنید. متراژ، جهت‌گیری (۹ مقدار طبق راهنمای جهت)، وضعیت و اطلاعات خریدار را ثبت کنید. برای رزرو می‌توانید مهلت انقضا بگذارید تا پس از پایان خودکار خالی شود. برای پلان سه‌بعدی، جهت همه واحدها الزامی است.": "After creating a project, tap any unit on the building graphic. Record area, orientation (9 values per the orientation guide), status, and buyer information. For reservations you can set an expiry so the unit returns to vacant automatically. For the 3D plan, every unit must have an orientation.",
   "پس از ساخت پروژه، روی هر واحد در گرافیک ساختمان بزنید. متراژ، جهت‌گیری (۹ مقدار طبق راهنمای جهت)، وضعیت و اطلاعات خریدار را ثبت کنید. برای پلان سه‌بعدی، جهت همه واحدها الزامی است. مخاطب جدید از بخش خریدار با نقش «خریدار» ذخیره می‌شود.": "After creating a project, tap any unit on the building graphic. Record area, orientation (9 values per the orientation guide), status, and buyer information. For the 3D plan, every unit must have an orientation. A new contact is saved from the buyer section with the \"Buyer\" role.",
   "پس از ساخت پروژه، روی هر واحد در گرافیک ساختمان بزنید. متراژ، جهت (شمالی/جنوبی)، وضعیت و اطلاعات خریدار را ثبت کنید. مخاطب جدید از بخش خریدار با نقش «خریدار» ذخیره می‌شود.": "After creating a project, tap any unit on the building graphic. Record area, orientation (north/south), status, and buyer information. A new contact is saved from the buyer section with the \"Buyer\" role.",
   "پنجره اطلاعات واحد": "Unit information window",
+  "خروجی حسابداری و پنل سرمایه‌گذار": "Accounting Export & Investor Portal",
+  "از بالای صفحه حسابداری، «خروجی CSV» فایل استاندارد برای نرم‌افزار حسابداری می‌سازد. در تب سرمایه‌گذاران، «چاپ پنل سرمایه‌گذار» گزارش سهم و سرمایه را برای اشتراک با سرمایه‌گذاران باز می‌کند.": "From the top of Accounting, \"CSV export\" builds a standard file for accounting software. In the Investors tab, \"Print investor portal\" opens a share/capital report for investors.",
+  "خروجی CSV و سرمایه‌گذار": "CSV export & investor",
   "نه جهت روی پلان طبقه": "Nine Orientations on the Floor Plate",
   "هر واحد باید یکی از این جهت‌ها را داشته باشد: غربی (نیمه چپ)، شرقی (نیمه راست)، شمالی (نیمه بالا)، جنوبی (نیمه پایین)، میانی (مرکز)، شمال‌غرب / شمال‌شرق / جنوب‌غرب / جنوب‌شرق (ربع‌ها). در داده مقدار انگلیسی ذخیره می‌شود؛ برچسب‌ها دوزبانه نمایش داده می‌شوند.": "Each unit must have one of these orientations: West (left half), East (right half), North (top half), South (bottom half), Center (inset), Northwest / Northeast / Southwest / Southeast (quadrants). English codes are stored in data; labels are shown bilingual.",
   "راهنمای جهت‌گیری واحد": "Unit orientation guide",
@@ -9629,10 +9682,10 @@ function AppContent() {
   }, [effectivePlan]);
 
   useEffect(() => {
-    if (user && activated && (userPlan === "team" || effectivePlan === "team")) {
+    if (user && activated && userPlan === "team") {
       refreshTeamContext();
     }
-  }, [user, activated, userPlan, effectivePlan]);
+  }, [user, activated, userPlan]);
 
   function refreshTeamContext() {
     if (!user || isDemoUser(user)) {
@@ -9693,14 +9746,14 @@ function AppContent() {
       return false;
     }
     if (!hasPlanFeature(effectivePlan, featureKey, planExpiresAt)) {
-      setError(`${t("این امکان در پلن")} ${planRequiredLabel(featureKey)} ${t("است. از منو → «پلن اشتراک» ارتقا دهید.")}`);
+      setError(`${t("این امکان در پلن")} ${t(planRequiredLabel(featureKey))} ${t("است. از منو → «پلن اشتراک» ارتقا دهید.")}`);
       setShowMenu(false);
       setScreen("plan");
       return false;
     }
     window.sb.rpc("check_plan_feature", { p_feature: featureKey }).then(({ error }) => {
       if (error && /plan feature not available/i.test(error.message || "")) {
-        setError(`${t("این امکان در پلن")} ${planRequiredLabel(featureKey)} ${t("است. از منو → «پلن اشتراک» ارتقا دهید.")}`);
+        setError(`${t("این امکان در پلن")} ${t(planRequiredLabel(featureKey))} ${t("است. از منو → «پلن اشتراک» ارتقا دهید.")}`);
         setShowMenu(false);
         setScreen("plan");
         return;
@@ -9712,7 +9765,7 @@ function AppContent() {
 
   function ensurePdfExport() {
     if (hasPlanFeature(effectivePlan, "pdf_export", planExpiresAt)) return true;
-    setError(`${t("خروجی PDF در پلن")} ${planRequiredLabel("pdf_export")} ${t("فعال می‌شود. از منو → «پلن اشتراک» ارتقا دهید.")}`);
+    setError(`${t("خروجی PDF در پلن")} ${t(planRequiredLabel("pdf_export"))} ${t("فعال می‌شود. از منو → «پلن اشتراک» ارتقا دهید.")}`);
     setShowMenu(false);
     setScreen("plan");
     return false;
@@ -10211,7 +10264,7 @@ function AppContent() {
       return;
     }
     if (projects.length >= planLimits.maxProjects) {
-      setError(`${t("در پلن ")}${planLabel(effectivePlan)} ${t("حداکثر")} ${planLimits.maxProjects}${t(" پروژه مجاز است. برای پروژه بیشتر، پلن را ارتقا دهید.")}`);
+      setError(`${t("در پلن ")}${t(planLabel(effectivePlan))} ${t("حداکثر")} ${planLimits.maxProjects}${t(" پروژه مجاز است. برای پروژه بیشتر، پلن را ارتقا دهید.")}`);
       setScreen("plan");
       return;
     }
@@ -10984,7 +11037,7 @@ function AppContent() {
   }
   function addContact(contact) {
     if (contacts.length >= planLimits.maxContacts) {
-      setError(`${t("در پلن ")}${planLabel(effectivePlan)} ${t("حداکثر")} ${planLimits.maxContacts}${t(" مخاطب مجاز است. برای افزودن بیشتر، پلن را ارتقا دهید.")}`);
+      setError(`${t("در پلن ")}${t(planLabel(effectivePlan))} ${t("حداکثر")} ${planLimits.maxContacts}${t(" مخاطب مجاز است. برای افزودن بیشتر، پلن را ارتقا دهید.")}`);
       setScreen("plan");
       return null;
     }
@@ -11115,7 +11168,7 @@ function AppContent() {
   }
   function addReminder(reminder) {
     if (reminders.length >= planLimits.maxReminders) {
-      setError(`${t("در پلن ")}${planLabel(effectivePlan)} ${t("حداکثر")} ${planLimits.maxReminders}${t(" یادآوری مجاز است. برای افزودن بیشتر، پلن را ارتقا دهید.")}`);
+      setError(`${t("در پلن ")}${t(planLabel(effectivePlan))} ${t("حداکثر")} ${planLimits.maxReminders}${t(" یادآوری مجاز است. برای افزودن بیشتر، پلن را ارتقا دهید.")}`);
       setScreen("plan");
       return;
     }
@@ -11185,7 +11238,7 @@ function AppContent() {
       return;
     }
     if (!hasPlanFeature(effectivePlan, "backup_restore", planExpiresAt)) {
-      onDone(false, `${t("بازیابی در پلن ")}${planRequiredLabel("backup_restore")}${t(" است.")}`);
+      onDone(false, `${t("بازیابی در پلن ")}${t(planRequiredLabel("backup_restore"))}${t(" است.")}`);
       setScreen("plan");
       return;
     }
@@ -11669,7 +11722,7 @@ function AppContent() {
             onRestore={restoreBackup}
             projectCount={projects.length}
             canRestore={hasPlanFeature(effectivePlan, "backup_restore", planExpiresAt)}
-            restorePlanLabel={planRequiredLabel("backup_restore")}
+            restorePlanLabel={t(planRequiredLabel("backup_restore"))}
           />
         )}
         {screen === "plan" && (
@@ -16707,7 +16760,7 @@ function PlanScreen({ onBack, userPlan, planExpiresAt, onRedeemed, company, ensu
     setPayBusy(false);
   }
 
-  const paidPlans = ["plus", "pro", "ark"];
+  const paidPlans = ["plus", "pro", "ark", "team"];
 
   return (
     <div className="px-5 pt-5 pb-10" dir={screenDir}>
@@ -20497,9 +20550,9 @@ function PrintView({ company, projects }) {
                   <tr key={u.id}>
                     <td style={td}>{u.floor}</td>
                     <td style={td}>{u.unitNumber}</td>
-                    <td style={td}>{STATUS[u.status].label}</td>
+                    <td style={td}>{t(STATUS[u.status].label)}</td>
                     <td style={td}>{u.area || "-"}</td>
-                    <td style={td}>{u.direction && u.direction !== "none" ? DIRECTIONS[u.direction] : "-"}</td>
+                    <td style={td}>{u.direction && u.direction !== "none" ? t(DIRECTIONS[u.direction]) : "-"}</td>
                     <td style={td}>{u.buyerName || "-"}</td>
                     <td style={td}>{u.buyerPhone || "-"}</td>
                     <td style={td}>{u.postalCode || "-"}</td>
