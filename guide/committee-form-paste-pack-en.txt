@@ -17,6 +17,9 @@ https://mehrzad1420.github.io/metrico_by_cursor/landing/team.html
 Live product evidence:
 https://mehrzad1420.github.io/metrico_by_cursor/landing/live-product-evidence.html
 
+MVP / scale / Estonia benefit brief (answers idea vs live, local service, scale, company status):
+https://mehrzad1420.github.io/metrico_by_cursor/landing/mvp-scale-estonia.html
+
 Evaluator demo guide:
 https://mehrzad1420.github.io/metrico_by_cursor/landing/guide.html
 
@@ -68,6 +71,22 @@ Metrico replaces that chaos with one installable web app:
 - English / Persian today; German (DACH) planned next
 
 Live product is available for evaluation now (not a slide-only idea).
+
+============================================================
+NOT AN IDEA — LIVE MVP (paste if form asks prototype / readiness)
+============================================================
+Metrico is a live hosted bilingual construction SaaS / PWA — open it today:
+https://mehrzad1420.github.io/metrico_by_cursor/index.html
+Auth + Supabase backend; unit grids; installments; project finance; owner portal; PWA offline; EN/FA UI; labeled demo (demo@metrico.app). Founder runs one live construction project on the product. This is working software, not a concept deck.
+Full module list + scale narrative: landing/mvp-scale-estonia.html
+
+============================================================
+COMPANY STATUS (honest)
+============================================================
+Product brand: Metrico. Estonian OÜ is NOT registered yet.
+Intended founder ownership: Mehrzad Saeedi 70% · Serveh Khoshkalam 30% (cap-table snapshot).
+Sequence: Startup Committee recognition → register Estonian company → relocate after current home-country construction project finishes.
+We do not claim completed e-Residency, office lease, or Estonian payroll today.
 
 ============================================================
 INNOVATION / WHY STARTUP (not a local agency / local service)
@@ -174,8 +193,9 @@ Recommended minimum:
 5. metrico-cv-mehrzad-saeedi-en.pdf
 6. metrico-cv-serveh-khoshkalam-en.pdf
 7. metrico-profile-serveh-khoshkalam-en.pdf
-8. metrico-live-product-evidence-en.pdf
-9. metrico-market-evidence-en.pdf
+8. metrico-mvp-scale-estonia-en.pdf
+9. metrico-live-product-evidence-en.pdf
+10. metrico-market-evidence-en.pdf
 
 Also useful if upload slots allow:
 - metrico-cap-table-en.pdf
@@ -191,13 +211,14 @@ Also useful if upload slots allow:
 CHECK BEFORE SUBMIT
 ============================================================
 [ ] Product link opens (live MVP, not idea-only)
-[ ] Landing + team + live-product-evidence links open
+[ ] mvp-scale-estonia + live-product-evidence links open
+[ ] Landing + team links open
 [ ] Both founder CVs attached
 [ ] Serveh public profile URL pasted (LinkedIn alternative — no LinkedIn account required)
+[ ] Narrative says SaaS / multi-country scale — not local services
+[ ] Company status honest: OÜ not registered yet; Estonia benefit = incorporate + hire + export
 [ ] Demo email listed; password only in private channel/field
 [ ] No fake customer metrics
-[ ] Narrative says SaaS / multi-country scale — not local services
-[ ] Estonia benefit: company + hire + software export (no claim of completed registration)
 [ ] Founder English contact email = mehrzad.saeedi@gmail.com
 [ ] Attach PDFs
 [ ] Save Startup Code when approved

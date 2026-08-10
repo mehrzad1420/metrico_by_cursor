@@ -95,6 +95,11 @@ const JOBS = [
     out: "metrico-live-product-evidence-en.pdf",
     lang: null,
   },
+  {
+    file: "mvp-scale-estonia.html",
+    out: "metrico-mvp-scale-estonia-en.pdf",
+    lang: null,
+  },
   { file: "factsheet.html", out: "metrico-factsheet-en.pdf", lang: null },
   { file: "cap-table.html", out: "metrico-cap-table-en.pdf", lang: null },
   { file: "due-diligence.html", out: "metrico-due-diligence-en.pdf", lang: null },

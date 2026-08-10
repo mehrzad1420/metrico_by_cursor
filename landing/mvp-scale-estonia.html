@@ -1,0 +1,171 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Metrico — Live MVP, scale &amp; Estonia benefit</title>
+  <meta name="robots" content="noindex,nofollow" />
+  <link rel="icon" href="logo.png" />
+  <link rel="stylesheet" href="css/onepager.css" />
+  <style>
+    .callout {
+      background: #eaf6ee;
+      border: 1px solid #b7dfc4;
+      border-radius: 8px;
+      padding: 0.65rem 0.75rem;
+      font-size: 0.82rem;
+      margin: 0.45rem 0 0.85rem;
+      line-height: 1.45;
+    }
+    .warn {
+      background: #fff8e8;
+      border: 1px solid #e8d4a8;
+      border-radius: 8px;
+      padding: 0.65rem 0.75rem;
+      font-size: 0.82rem;
+      margin: 0.45rem 0 0.85rem;
+      line-height: 1.45;
+    }
+    table.kv {
+      width: 100%;
+      border-collapse: collapse;
+      font-size: 0.84rem;
+      margin: 0.35rem 0 0.75rem;
+    }
+    table.kv th, table.kv td {
+      border: 1px solid var(--line);
+      padding: 0.4rem 0.5rem;
+      text-align: left;
+      vertical-align: top;
+    }
+    table.kv th { width: 28%; background: var(--soft); font-weight: 700; color: var(--accent); }
+    .grid2 {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 0.75rem 1rem;
+    }
+    @media (max-width: 720px) { .grid2 { grid-template-columns: 1fr; } }
+    .mod-list { columns: 2; font-size: 0.82rem; margin: 0.35rem 0 0.75rem; padding-inline-start: 1.1rem; }
+    @media (max-width: 720px) { .mod-list { columns: 1; } }
+    .mod-list li { margin: 0.12rem 0; break-inside: avoid; }
+  </style>
+</head>
+<body>
+  <div class="toolbar no-print">
+    <a class="back" href="live-product-evidence.html">Live evidence</a>
+    <button type="button" class="print-btn" onclick="window.print()">Print / Save PDF</button>
+  </div>
+
+  <article class="sheet" aria-label="Metrico MVP scale Estonia brief">
+    <p class="ver-banner no-print">
+      Committee brief · answers “idea / local service / scale / Estonia benefit / company info” · Aug 2026
+    </p>
+    <header class="head">
+      <div class="brand">
+        <img src="logo.png" alt="" width="40" height="40" />
+        <div>
+          <h1>Metrico</h1>
+          <p class="tag">Live MVP · multi-tenant SaaS · not a local services shop</p>
+        </div>
+      </div>
+      <div class="meta">
+        <div>Stage: Live product</div>
+        <div>Company: planned OÜ</div>
+        <div>Brief v1</div>
+      </div>
+    </header>
+
+    <div class="callout">
+      <strong>Evaluator bottom line.</strong> Metrico is a <em>deployed</em> bilingual construction SaaS / PWA —
+      open it in a browser today. It is sold as annual software subscriptions to many customers on one codebase.
+      It is <em>not</em> a consulting agency, not custom build-per-project, and not a slide-only idea.
+      Estonian company registration is planned after Startup Committee recognition — not claimed as completed today.
+    </div>
+
+    <section>
+      <h2>1. Not an idea — live working product</h2>
+      <table class="kv">
+        <tr><th>Live app</th><td>https://mehrzad1420.github.io/metrico_by_cursor/index.html</td></tr>
+        <tr><th>Landing (EN)</th><td>https://mehrzad1420.github.io/metrico_by_cursor/landing/</td></tr>
+        <tr><th>Demo guide</th><td>https://mehrzad1420.github.io/metrico_by_cursor/landing/guide.html</td></tr>
+        <tr><th>Demo login</th><td>demo@metrico.app — password via private form field / founders (not in public git)</td></tr>
+        <tr><th>Auth &amp; data</th><td>Supabase Auth + PostgreSQL; plan/role gates; production hosting on GitHub Pages</td></tr>
+        <tr><th>Field proof</th><td>Founder runs one live construction project on Metrico daily; two founders + four operator reviewers</td></tr>
+      </table>
+      <p style="font-size:0.84rem;color:var(--muted)">
+        Early validation is honest: live product + founder-as-user + small circle — not invented paying-customer charts.
+      </p>
+    </section>
+
+    <section>
+      <h2>2. MVP readiness — modules already shipped</h2>
+      <ul class="mod-list">
+        <li>Unit / floor grids (sold, reserved, vacant)</li>
+        <li>Sales, reservations, installment schedules</li>
+        <li>Project finance, costs, investor shares</li>
+        <li>Owner portal + progress gallery</li>
+        <li>PDF reports; contacts; reminders</li>
+        <li>Team plan / RBAC</li>
+        <li>Inventory; contracts; QC (higher tiers)</li>
+        <li>Takeoff &amp; energy tools (Ark)</li>
+        <li>Maps / KML; in-app drawings</li>
+        <li>Bilingual EN + Persian (RTL) UI</li>
+        <li>Installable PWA + offline-capable sync</li>
+        <li>Labeled evaluator demo account</li>
+      </ul>
+    </section>
+
+    <div class="grid2">
+      <section>
+        <h2>3. Not a local service business</h2>
+        <ul>
+          <li><strong>Product:</strong> one multi-tenant SaaS codebase.</li>
+          <li><strong>Revenue:</strong> annual subscriptions (Starter free → paid tiers), not hourly consulting.</li>
+          <li><strong>Delivery:</strong> customers self-serve in the app; we do not rebuild custom software per site.</li>
+          <li><strong>Growth:</strong> add customers at hosting/support cost — not linear headcount per project.</li>
+        </ul>
+      </section>
+      <section>
+        <h2>4. International scale path</h2>
+        <ul>
+          <li><strong>~30% effort:</strong> familiar market — learn workflows (not the end destination).</li>
+          <li><strong>~50% effort:</strong> Estonia / EU — company, hire, outbound SaaS sales.</li>
+          <li><strong>~20% effort:</strong> later markets; German / DACH localization next after EN.</li>
+          <li>Same product core across countries; localization and billing layers expand reach.</li>
+        </ul>
+      </section>
+    </div>
+
+    <section>
+      <h2>5. Benefit to the Estonian economy (forward-looking, honest)</h2>
+      <ul>
+        <li>Register an Estonian company and operate Metrico as EU-based SaaS (contracts, compliance, billing from Estonia).</li>
+        <li>Hire at least one software engineer in Estonia / EU — real employment, not freelancing-as-visa theatre.</li>
+        <li>Export multi-tenant software from Estonia to construction teams in multiple countries.</li>
+        <li>Pay taxes and contribute skills inside Estonia’s digital / startup ecosystem.</li>
+      </ul>
+      <div class="warn">
+        <strong>Company status today:</strong> No Estonian OÜ is claimed as registered in this pack.
+        Cap table shows intended founder split (70% / 30%) for the forthcoming company statutes.
+        Sequence: committee recognition → company registration → relocate after current home-country construction project finishes.
+      </div>
+    </section>
+
+    <section>
+      <h2>6. Companion links</h2>
+      <ul class="inline">
+        <li><a href="live-product-evidence.html">Live product evidence</a></li>
+        <li><a href="team.html">Founding team</a></li>
+        <li><a href="estonia-presence.html">Estonia presence plan</a></li>
+        <li><a href="cap-table.html">Cap table</a></li>
+        <li><a href="factsheet.html">Factsheet</a></li>
+        <li><a href="onepager.html">One-pager</a></li>
+      </ul>
+    </section>
+
+    <p class="footer-note" style="margin-top:1rem;font-size:0.75rem;color:var(--muted)">
+      Metrico · MVP / scale / Estonia benefit brief · English · August 2026 · No invented traction · No claimed OÜ yet.
+    </p>
+  </article>
+</body>
+</html>
