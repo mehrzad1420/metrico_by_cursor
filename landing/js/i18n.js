@@ -511,7 +511,7 @@
       "bp.teamP": "Current team is intentionally lean:",
       "bp.team1": "Founder (Mehrzad Saeedi) — product, domain, and go-to-market · 70%.",
       "bp.team2":
-        "Co-founder (Serveh Khoshkalam) — finance & accounting consultant/analyst; industrial accounting; finance lead at Sepehr Construction Group · 30%.",
+        "Co-founder (Serveh Khoshkalam) — finance & accounting consultant/analyst; industrial accounting + rural civil engineering; Sepehr finance manager · 30%.",
       "bp.team3": "Next hire: one developer, preferably Estonia / EU.",
       "bp.riskT": "Risks & mitigations",
       "bp.riskP":

@@ -105,7 +105,7 @@ Co-founder at Metrico | Finance & Accounting Consultant/Analyst | Accountant & F
 ```
 I am co-founder of Metrico and work with founder Mehrzad Saeedi as finance and accounting consultant / analyst on the live product.
 
-I hold an industrial accounting qualification. My day job is accountant and finance lead at Sepehr Construction Group. Earlier I spent about three years as accountant for a commercial complex / shopping center, and I worked as accountant at Mabna Naghshe.
+I hold an Associate Degree in Industrial Accounting from Sanandaj University of Technology (2008, GPA 18/20) and a Bachelor of Rural Civil Engineering (2015, GPA 18/20). My day job is accountant and finance manager at Sepehr Construction Group (2024–Present). Earlier I was accountant at Mabna Naghshe (2020–2024) and accountant for a commercial complex (2016–2020).
 
 At Metrico I review finance and accounting workflows, analyze gaps, and help fix defects in the accounting modules so installment schedules, project cash, and reporting match how construction operators actually work.
 
@@ -133,12 +133,13 @@ Intended ownership: 30% (founder cap-table snapshot).
 
 #### 2) Sepehr Construction Group — present
 
-- Title: Accountant & Finance Lead
+- Title: Accountant & Finance Manager
 - Company: Sepehr Construction Group (گروه ساختمانی سپهر)
+- Dates: **2024–Present** (1403 SH–Present)
 - Description:
 
 ```
-Accountant and finance lead for the construction group.
+Accountant and finance manager for the construction group.
 Day-to-day construction finance practice that also informs Metrico product reviews.
 ```
 
@@ -146,7 +147,7 @@ Day-to-day construction finance practice that also informs Metrico product revie
 
 - Title: Accountant
 - Company: Mabna Naghshe (مبنا نقشه)
-- Dates: use real start/end if known; otherwise leave year approximate
+- Dates: **2020–2024** (1399–1403 SH)
 - Description:
 
 ```
@@ -157,20 +158,21 @@ Accounting for company operations.
 
 - Title: Accountant
 - Company: (use the real commercial-complex name if you want it public; otherwise “Commercial complex — shopping center”)
-- Dates: ≈ 3 years (set exact years when known)
+- Dates: **2016–2020** (1395–1398 SH)
 - Description:
 
 ```
-Accounting for a commercial complex / shopping center (≈ 3 years).
+Accounting for a commercial complex / shopping center.
 ```
 
 ### Education
 
 ```
-Industrial Accounting (حسابداری صنعتی)
-```
+Bachelor of Rural Civil Engineering — completed 2015 (1394 SH) — GPA 18/20
 
-- Add school name and year only if you have them — do not invent.
+Associate Degree (Higher Diploma) — Industrial Accounting
+Sanandaj University of Technology — completed 2008 (1387 SH) — GPA 18/20
+```
 
 ### Featured
 
