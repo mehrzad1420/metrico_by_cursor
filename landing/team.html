@@ -1,0 +1,182 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Metrico — Founding team</title>
+  <meta name="robots" content="noindex,nofollow" />
+  <link rel="icon" href="logo.png" />
+  <link rel="stylesheet" href="css/onepager.css" />
+  <style>
+    .founders {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 1rem;
+      margin: 0.75rem 0 1rem;
+    }
+    @media (max-width: 720px) {
+      .founders { grid-template-columns: 1fr; }
+    }
+    .founder {
+      border: 1px solid var(--line);
+      border-radius: 10px;
+      padding: 0.85rem 0.9rem;
+      background: var(--soft);
+      break-inside: avoid;
+    }
+    .founder h3 {
+      margin: 0 0 0.15rem;
+      font-size: 1.05rem;
+      color: var(--accent);
+    }
+    .founder .role {
+      font-size: 0.82rem;
+      font-weight: 650;
+      color: var(--muted);
+      margin-bottom: 0.55rem;
+    }
+    .founder ul {
+      margin: 0.35rem 0 0;
+      padding-inline-start: 1.1rem;
+      font-size: 0.84rem;
+    }
+    .founder li { margin: 0.2rem 0; }
+    .links {
+      margin-top: 0.55rem;
+      font-size: 0.8rem;
+      display: flex;
+      flex-wrap: wrap;
+      gap: 0.35rem 0.85rem;
+    }
+    .links a { color: var(--accent); }
+    .callout {
+      background: #fff8e8;
+      border: 1px solid #e8d4a8;
+      border-radius: 8px;
+      padding: 0.65rem 0.75rem;
+      font-size: 0.82rem;
+      margin: 0.5rem 0 1rem;
+      line-height: 1.45;
+    }
+    table.kv {
+      width: 100%;
+      border-collapse: collapse;
+      font-size: 0.84rem;
+      margin: 0.4rem 0 0.9rem;
+    }
+    table.kv th, table.kv td {
+      border: 1px solid var(--line);
+      padding: 0.45rem 0.55rem;
+      text-align: left;
+      vertical-align: top;
+    }
+    table.kv th { width: 30%; background: var(--soft); font-weight: 700; color: var(--accent); }
+  </style>
+</head>
+<body>
+  <div class="toolbar no-print">
+    <a class="back" href="factsheet.html">Factsheet</a>
+    <button type="button" class="print-btn" onclick="window.print()">Print / Save PDF</button>
+  </div>
+
+  <article class="sheet" aria-label="Metrico founding team">
+    <p class="ver-banner no-print">
+      English founding-team brief · Aug 2026 · Print → Save as PDF · upload with CVs / LinkedIn
+    </p>
+    <header class="head">
+      <div class="brand">
+        <img src="logo.png" alt="" width="40" height="40" />
+        <div>
+          <h1>Metrico</h1>
+          <p class="tag">Founding team — two co-founders (product + accounting/finance design)</p>
+        </div>
+      </div>
+      <div class="meta">
+        <div>Team size: 2 founders</div>
+        <div>Ownership: 70% / 30%</div>
+        <div>Team brief v1</div>
+      </div>
+    </header>
+
+    <p class="pitch">
+      Metrico is built by a two-person founding team: a construction operator who owns product and
+      go-to-market, and a co-founder who designs accounting and finance product logic and advises
+      program reforms inside the SaaS. Next hire: one software engineer in Estonia / EU.
+    </p>
+
+    <div class="callout">
+      <strong>Evaluator note.</strong> Full English CVs are companion PDFs.
+      Mehrzad’s LinkedIn is live. Serveh’s public English profile is hosted on this site
+      (LinkedIn alternative when a LinkedIn account is not available) — see profile link below.
+    </div>
+
+    <div class="founders">
+      <section class="founder" aria-label="Mehrzad Saeedi">
+        <h3>Mehrzad Saeedi</h3>
+        <p class="role">Founder · Product, software &amp; go-to-market · 70% intended ownership</p>
+        <ul>
+          <li>Owns product direction, domain model, and GTM for mid-size developers and contractors.</li>
+          <li>Active daily user of Metrico on a live construction project.</li>
+          <li>Background: MSc geology (petrology); municipal GIS / urban specialist; ≈10 years across investor, supervising engineer, and superintendent roles.</li>
+        </ul>
+        <div class="links">
+          <a href="https://www.linkedin.com/in/mehrzad-saeedi-a8aa3714a" rel="noopener noreferrer" target="_blank">LinkedIn</a>
+          <a href="cv-full.html">Full CV</a>
+          <a href="mailto:mehrzad.saeedi@gmail.com">mehrzad.saeedi@gmail.com</a>
+        </div>
+      </section>
+
+      <section class="founder" aria-label="Serveh Khoshkalam">
+        <h3>Serveh Khoshkalam</h3>
+        <p class="role">Co-founder · Finance &amp; accounting consultant / analyst · 30% intended ownership</p>
+        <ul>
+          <li>Industrial accounting background; currently accountant &amp; finance lead at Sepehr Construction Group.</li>
+          <li>Prior: ≈3 years accountant at a commercial complex; accountant at Mabna Naghshe.</li>
+          <li>At Metrico: collaborates as finance/accounting consultant and analyst — finds and remediates gaps in accounting modules.</li>
+        </ul>
+        <div class="links">
+          <a href="profile-serveh-khoshkalam.html">Public profile (LinkedIn alternative)</a>
+          <a href="cv-serveh-khoshkalam.html">Full CV</a>
+          <a href="mailto:hello@metrico.app">hello@metrico.app</a>
+        </div>
+      </section>
+    </div>
+
+    <section>
+      <h2>Why this team fits the product</h2>
+      <p>
+        Construction unit sales and installment finance fail when product design ignores field reality
+        <em>or</em> accounting practice. Metrico pairs a builder/operator founder with a practicing
+        construction-finance co-founder (consultant/analyst) so the SaaS encodes both site workflows and
+        money workflows — not a local consultancy stack rebuilt per project.
+      </p>
+    </section>
+
+    <section>
+      <h2>Hiring plan (lean)</h2>
+      <table class="kv">
+        <tr><th>Today</th><td>Two founders (no employees).</td></tr>
+        <tr><th>Priority #1 hire</th><td>One software engineer in Estonia / EU after company base is set.</td></tr>
+        <tr><th>Office</th><td>Home / residence first; physical office only if the team grows.</td></tr>
+        <tr><th>Feedback circle</th><td>Four non-employee reviewers (supervisor, architect, builder, investor perspectives).</td></tr>
+      </table>
+    </section>
+
+    <section>
+      <h2>Companion links for committee pack</h2>
+      <ul class="inline">
+        <li><a href="cv-full.html">CV — Mehrzad Saeedi</a></li>
+        <li><a href="profile-serveh-khoshkalam.html">Profile — Serveh Khoshkalam (LinkedIn alternative)</a></li>
+        <li><a href="cv-serveh-khoshkalam.html">CV — Serveh Khoshkalam</a></li>
+        <li><a href="cap-table.html">Cap table snapshot</a></li>
+        <li><a href="live-product-evidence.html">Live product evidence</a></li>
+        <li><a href="demo-access.html">Demo access sheet</a> (password only via private channel)</li>
+      </ul>
+    </section>
+
+    <p class="footer-note" style="margin-top:1.2rem;font-size:0.75rem;color:var(--muted)">
+      Metrico founding team · English · August 2026 · Honest lean team · No invented headcount.
+    </p>
+  </article>
+</body>
+</html>

@@ -1,0 +1,154 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Metrico — Due diligence summary (founder-prepared)</title>
+  <meta name="robots" content="noindex,nofollow" />
+  <link rel="icon" href="logo.png" />
+  <link rel="stylesheet" href="css/onepager.css" />
+  <style>
+    .callout {
+      background: #fff8e8;
+      border: 1px solid #e8d4a8;
+      border-radius: 8px;
+      padding: 0.65rem 0.75rem;
+      font-size: 0.82rem;
+      margin: 0.5rem 0 1rem;
+      line-height: 1.45;
+    }
+    .callout.warn {
+      background: #f8f4ff;
+      border-color: #d4c8f0;
+    }
+    table.dd {
+      width: 100%;
+      border-collapse: collapse;
+      font-size: 0.84rem;
+      margin: 0.4rem 0 0.9rem;
+    }
+    table.dd th, table.dd td {
+      border: 1px solid var(--line);
+      padding: 0.45rem 0.55rem;
+      text-align: left;
+      vertical-align: top;
+    }
+    table.dd th { background: var(--soft); width: 28%; font-weight: 700; }
+    h2 { margin-top: 0.95rem; }
+    .ok { color: #157a3c; font-weight: 700; }
+    .mid { color: #9a6700; font-weight: 700; }
+    .gap { color: #a11; font-weight: 700; }
+  </style>
+</head>
+<body>
+  <div class="toolbar no-print">
+    <a class="back" href="factsheet.html">Factsheet</a>
+    <button type="button" class="print-btn" onclick="window.print()">Print / Save PDF</button>
+  </div>
+
+  <article class="sheet" aria-label="Metrico due diligence summary">
+    <p class="ver-banner no-print">
+      Founder-prepared DD summary · NOT a third-party audit · Aug 2026 · upload type: Due diligence report
+    </p>
+    <header class="head">
+      <div class="brand">
+        <img src="logo.png" alt="" width="40" height="40" />
+        <div>
+          <h1>Metrico</h1>
+          <p class="tag">Due diligence summary — founder-prepared data-room brief</p>
+        </div>
+      </div>
+      <div class="meta">
+        <div>Prepared: Aug 2026</div>
+        <div>Audience: Startup Committee</div>
+        <div>DD summary v1</div>
+      </div>
+    </header>
+
+    <div class="callout">
+      <strong>Important.</strong> This document is an <em>internal / founder-prepared</em> due-diligence summary
+      for Startup Estonia evaluators. It is <strong>not</strong> an independent legal, financial, or technical
+      audit and must not be read as a certified due-diligence report from a third party.
+    </div>
+
+    <section>
+      <h2>1. Corporate &amp; legal status</h2>
+      <table class="dd">
+        <tr><th>Estonian company</th><td><span class="gap">Not registered yet</span> — planned after committee path / e-Residency sequence (see Estonia presence sheet).</td></tr>
+        <tr><th>Brand / product</th><td>Metrico — live SaaS / PWA operated by the founding team.</td></tr>
+        <tr><th>Founders</th><td>Mehrzad Saeedi; Serveh Khoshkalam (see Cap table snapshot + team brief).</td></tr>
+        <tr><th>Litigation / IP disputes</th><td>None known / none claimed.</td></tr>
+        <tr><th>Patents</th><td>None filed. Potentially patentable product ideas disclosed separately in the application form.</td></tr>
+      </table>
+    </section>
+
+    <section>
+      <h2>2. Product &amp; technology</h2>
+      <table class="dd">
+        <tr><th>Stage</th><td><span class="ok">Live MVP</span> — production demo and onboarding path available.</td></tr>
+        <tr><th>Stack (high level)</th><td>Web PWA (React in-browser), Supabase backend, GitHub Pages front door.</td></tr>
+        <tr><th>Core modules</th><td>Units/sales, installments, project finance, owner portal, Team plan/RBAC, inventory, progress statements, takeoff, energy, tax workflows, maps &amp; regional analytics, bilingual EN/FA.</td></tr>
+        <tr><th>Security / access</th><td>Auth via Supabase; plan &amp; role gates; activation codes for onboarding. Continuous hardening expected as EU GTM advances.</td></tr>
+        <tr><th>Known tech debt</th><td><span class="mid">Monolith front-end</span>; Babel runtime; EU card billing under development — disclosed, not hidden.</td></tr>
+      </table>
+    </section>
+
+    <section>
+      <h2>3. Commercial &amp; traction</h2>
+      <table class="dd">
+        <tr><th>Business model</th><td>B2B annual SaaS subscriptions (Starter free → paid tiers including Team).</td></tr>
+        <tr><th>Pricing (EU list)</th><td>€50 / €100 / €150 / €250 (Plus / Pro / Arc / Team) — see Revenue sheet for model assumptions.</td></tr>
+        <tr><th>Paying traction</th><td><span class="mid">Early stage</span> — no invented customer logos or scaled MRR charts. Demo account is labeled demo, not paying traction.</td></tr>
+        <tr><th>Validation</th><td>Founder domain use + small feedback circle + live product (see Market evidence sheet).</td></tr>
+        <tr><th>Payments</th><td>Iran checkout path exists; <span class="mid">European payment gateway under development</span>.</td></tr>
+      </table>
+    </section>
+
+    <section>
+      <h2>4. Team &amp; operations</h2>
+      <table class="dd">
+        <tr><th>Team today</th><td>Two founders (product/tech + finance domain). Year-1 plan includes hiring one developer in Estonia after base is set.</td></tr>
+        <tr><th>Year-1 budget assumption</th><td>€40,000 living + GTM planning assumption (not a grant claim / not audited spend).</td></tr>
+        <tr><th>Relocation sequence</th><td>e-Residency / company setup before physical move; relocate after current home-country construction project finishes — no fake calendar dates.</td></tr>
+      </table>
+    </section>
+
+    <section>
+      <h2>5. Compliance &amp; privacy</h2>
+      <table class="dd">
+        <tr><th>Privacy policy</th><td><span class="ok">Published</span> on product/landing pack (EN/FA paths).</td></tr>
+        <tr><th>GDPR readiness</th><td><span class="mid">In progress</span> for EU commercial scale — privacy page exists; fuller EU compliance roadmap continues with company formation.</td></tr>
+        <tr><th>Data</th><td>Customer project data in Supabase; minimize over-claim on residency until EU entity is live.</td></tr>
+      </table>
+    </section>
+
+    <section>
+      <h2>6. Key risks (disclosed)</h2>
+      <ul>
+        <li>Company not yet Estonian-registered — sequence depends on committee / e-Residency path.</li>
+        <li>EU self-serve billing not fully live.</li>
+        <li>Early commercial traction — product-first story, not fantasy revenue.</li>
+        <li>Cross-border payments / banking friction for founders — mitigated by lean budget and staged move.</li>
+      </ul>
+    </section>
+
+    <section>
+      <h2>7. Data room — related materials</h2>
+      <ul class="inline">
+        <li>Live app: https://mehrzad1420.github.io/metrico_by_cursor/index.html</li>
+        <li>Landing: https://mehrzad1420.github.io/metrico_by_cursor/landing/index.html</li>
+        <li>Pitch deck · One-pager · Factsheet · Business plan · Revenue · Cap table · Estonia presence · Market evidence · Competitors</li>
+      </ul>
+    </section>
+
+    <div class="callout warn">
+      Evaluators: treat this as a transparent founder brief. For bank, counsel, or investment DD,
+      independent professionals should be engaged after company formation.
+    </div>
+
+    <p class="footer-note" style="margin-top:1rem;font-size:0.75rem;color:var(--muted)">
+      Metrico · Founder-prepared due diligence summary · English · August 2026 · Not a third-party audit.
+    </p>
+  </article>
+</body>
+</html>

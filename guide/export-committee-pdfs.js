@@ -79,6 +79,25 @@ const JOBS = [
     out: "metrico-cv-mehrzad-saeedi-en.pdf",
     lang: null,
   },
+  {
+    file: "cv-serveh-khoshkalam.html",
+    out: "metrico-cv-serveh-khoshkalam-en.pdf",
+    lang: null,
+  },
+  {
+    file: "profile-serveh-khoshkalam.html",
+    out: "metrico-profile-serveh-khoshkalam-en.pdf",
+    lang: null,
+  },
+  { file: "team.html", out: "metrico-team-en.pdf", lang: null },
+  {
+    file: "live-product-evidence.html",
+    out: "metrico-live-product-evidence-en.pdf",
+    lang: null,
+  },
+  { file: "factsheet.html", out: "metrico-factsheet-en.pdf", lang: null },
+  { file: "cap-table.html", out: "metrico-cap-table-en.pdf", lang: null },
+  { file: "due-diligence.html", out: "metrico-due-diligence-en.pdf", lang: null },
   { file: "guide.html", out: "metrico-guide-en.pdf", lang: "en" },
   {
     file: "pitch-deck.html",

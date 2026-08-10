@@ -1,0 +1,320 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Metrico — Demo access</title>
+  <meta name="robots" content="noindex,nofollow" />
+  <link rel="icon" href="logo.png" />
+  <style>
+    @font-face {
+      font-family: Vazirmatn;
+      src: url("../fonts/Vazirmatn.woff2") format("woff2");
+      font-weight: 100 900;
+      font-display: swap;
+    }
+    :root {
+      --navy: #14213D;
+      --navy-deep: #0B1224;
+      --gold: #C9A227;
+      --gold-soft: rgba(201, 162, 39, 0.18);
+      --paper: #F7FAF9;
+      --muted: rgba(255, 255, 255, 0.72);
+    }
+    * { box-sizing: border-box; margin: 0; padding: 0; }
+    body {
+      font-family: "Segoe UI", Vazirmatn, system-ui, sans-serif;
+      background: #dfe6ef;
+      color: var(--navy);
+      min-height: 100vh;
+      padding: 1rem;
+    }
+    .toolbar {
+      max-width: 210mm;
+      margin: 0 auto 0.75rem;
+      display: flex;
+      justify-content: space-between;
+      gap: 0.75rem;
+    }
+    .toolbar a, .toolbar button {
+      font-size: 0.85rem;
+      font-weight: 700;
+      border-radius: 999px;
+      padding: 0.45rem 0.95rem;
+      border: 1px solid #c9d3e0;
+      background: #fff;
+      color: var(--navy);
+      text-decoration: none;
+      cursor: pointer;
+    }
+    .toolbar button {
+      background: var(--navy);
+      color: #fff;
+      border-color: var(--navy);
+    }
+    .sheet {
+      width: min(210mm, 100%);
+      min-height: 297mm;
+      margin: 0 auto 1.5rem;
+      border-radius: 18px;
+      overflow: hidden;
+      box-shadow: 0 18px 50px rgba(11, 18, 36, 0.22);
+      background:
+        radial-gradient(900px 420px at 100% -10%, rgba(201, 162, 39, 0.28), transparent 55%),
+        radial-gradient(700px 380px at -10% 110%, rgba(15, 118, 110, 0.22), transparent 50%),
+        linear-gradient(160deg, var(--navy-deep) 0%, var(--navy) 42%, #1a3358 100%);
+      color: #fff;
+      position: relative;
+      padding: 14mm 14mm 12mm;
+      display: flex;
+      flex-direction: column;
+    }
+    .sheet::before {
+      content: "";
+      position: absolute;
+      inset: 0;
+      background-image:
+        linear-gradient(rgba(255,255,255,0.03) 1px, transparent 1px),
+        linear-gradient(90deg, rgba(255,255,255,0.03) 1px, transparent 1px);
+      background-size: 28px 28px;
+      pointer-events: none;
+      opacity: 0.35;
+    }
+    .content { position: relative; z-index: 1; flex: 1; display: flex; flex-direction: column; }
+    .top {
+      display: flex;
+      justify-content: space-between;
+      align-items: flex-start;
+      gap: 1rem;
+      margin-bottom: 2.2rem;
+    }
+    .brand {
+      display: flex;
+      align-items: center;
+      gap: 0.85rem;
+    }
+    .brand img {
+      width: 54px;
+      height: 54px;
+      border-radius: 14px;
+      border: 1px solid rgba(201, 162, 39, 0.45);
+      background: rgba(255,255,255,0.06);
+    }
+    .brand h1 {
+      font-size: 1.85rem;
+      letter-spacing: -0.03em;
+      line-height: 1.1;
+    }
+    .brand p {
+      margin-top: 0.2rem;
+      font-size: 0.84rem;
+      color: var(--muted);
+    }
+    .badge {
+      font-size: 0.72rem;
+      font-weight: 800;
+      letter-spacing: 0.06em;
+      text-transform: uppercase;
+      color: var(--gold);
+      border: 1px solid rgba(201, 162, 39, 0.45);
+      background: var(--gold-soft);
+      border-radius: 999px;
+      padding: 0.45rem 0.8rem;
+      white-space: nowrap;
+    }
+    .hero {
+      margin: 0.5rem 0 1.6rem;
+      max-width: 36rem;
+    }
+    .hero h2 {
+      font-size: 1.55rem;
+      letter-spacing: -0.02em;
+      margin-bottom: 0.55rem;
+    }
+    .hero p {
+      color: var(--muted);
+      font-size: 0.95rem;
+      line-height: 1.55;
+    }
+    .card {
+      background: rgba(255, 255, 255, 0.96);
+      color: var(--navy);
+      border-radius: 18px;
+      padding: 1.25rem 1.35rem 1.15rem;
+      border: 1px solid rgba(201, 162, 39, 0.35);
+      box-shadow: 0 16px 40px rgba(0, 0, 0, 0.22);
+      margin-bottom: 1.25rem;
+    }
+    .card h3 {
+      font-size: 0.78rem;
+      letter-spacing: 0.08em;
+      text-transform: uppercase;
+      color: #6B7280;
+      margin-bottom: 0.9rem;
+    }
+    .row {
+      display: grid;
+      grid-template-columns: 7.5rem 1fr;
+      gap: 0.55rem 0.85rem;
+      padding: 0.7rem 0;
+      border-top: 1px solid rgba(20, 33, 61, 0.08);
+      align-items: start;
+    }
+    .row:first-of-type { border-top: 0; padding-top: 0; }
+    .label {
+      font-size: 0.78rem;
+      font-weight: 800;
+      color: #6B7280;
+      text-transform: uppercase;
+      letter-spacing: 0.04em;
+      padding-top: 0.2rem;
+    }
+    .value {
+      font-family: Consolas, "Courier New", monospace;
+      font-size: 1.02rem;
+      font-weight: 700;
+      word-break: break-all;
+      line-height: 1.4;
+    }
+    .value.password {
+      font-size: 1.2rem;
+      color: #0F766E;
+      background: #F0FDFA;
+      border: 1px solid #99F6E4;
+      border-radius: 10px;
+      padding: 0.45rem 0.65rem;
+      display: inline-block;
+    }
+    .steps {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 0.75rem;
+      margin-top: auto;
+    }
+    .step {
+      background: rgba(255,255,255,0.07);
+      border: 1px solid rgba(255,255,255,0.12);
+      border-radius: 14px;
+      padding: 0.9rem 1rem;
+    }
+    .step strong {
+      display: block;
+      color: var(--gold);
+      font-size: 0.78rem;
+      letter-spacing: 0.05em;
+      text-transform: uppercase;
+      margin-bottom: 0.35rem;
+    }
+    .step p {
+      color: rgba(255,255,255,0.82);
+      font-size: 0.86rem;
+      line-height: 1.45;
+    }
+    .foot {
+      margin-top: 1.4rem;
+      display: flex;
+      justify-content: space-between;
+      gap: 1rem;
+      align-items: end;
+      color: rgba(255,255,255,0.55);
+      font-size: 0.75rem;
+      line-height: 1.4;
+    }
+    .foot .gold-line {
+      width: 48px;
+      height: 3px;
+      border-radius: 99px;
+      background: var(--gold);
+      margin-bottom: 0.45rem;
+    }
+    @media print {
+      body { background: #fff; padding: 0; }
+      .toolbar { display: none !important; }
+      .sheet {
+        box-shadow: none;
+        border-radius: 0;
+        width: 210mm;
+        min-height: 297mm;
+        margin: 0;
+      }
+    }
+  </style>
+</head>
+<body>
+  <div class="toolbar no-print">
+    <a href="factsheet.html">Back</a>
+    <button type="button" onclick="window.print()">Print / Save PDF</button>
+  </div>
+
+  <article class="sheet">
+    <div class="content">
+      <div class="top">
+        <div class="brand">
+          <img src="logo.png" alt="Metrico" />
+          <div>
+            <h1>Metrico</h1>
+            <p>Construction command center</p>
+          </div>
+        </div>
+        <div class="badge">Evaluator demo</div>
+      </div>
+
+      <div class="hero">
+        <h2>Demo login for Startup Committee</h2>
+        <p>
+          Open the login URL below to reach the Metrico sign-in page directly.
+          Use the credentials in this sheet. This is a labeled read-only demo with sample data —
+          not paying-customer traction.
+        </p>
+      </div>
+
+      <div class="card">
+        <h3>Access credentials</h3>
+        <div class="row">
+          <div class="label">Login URL</div>
+          <div class="value" dir="ltr">https://mehrzad1420.github.io/metrico_by_cursor/index.html</div>
+        </div>
+        <div class="row">
+          <div class="label">Email</div>
+          <div class="value" dir="ltr">demo@metrico.app</div>
+        </div>
+        <div class="row">
+          <div class="label">Password</div>
+          <div class="value password" dir="ltr" id="demo-password">[set in PDF only — not stored in source]</div>
+        </div>
+        <div class="row">
+          <div class="label">Guide</div>
+          <div class="value" dir="ltr">https://mehrzad1420.github.io/metrico_by_cursor/landing/guide.html</div>
+        </div>
+      </div>
+
+      <div class="steps">
+        <div class="step">
+          <strong>Step 1</strong>
+          <p>Open the Login URL — you will land on the Metrico login screen.</p>
+        </div>
+        <div class="step">
+          <strong>Step 2</strong>
+          <p>Sign in with demo@metrico.app and the password on this sheet.</p>
+        </div>
+        <div class="step">
+          <strong>Step 3</strong>
+          <p>Explore units, finance, and owner views on the labeled sample project.</p>
+        </div>
+        <div class="step">
+          <strong>Contact</strong>
+          <p>Mehrzad Saeedi · mehrzad.saeedi@gmail.com · hello@metrico.app</p>
+        </div>
+      </div>
+
+      <div class="foot">
+        <div>
+          <div class="gold-line"></div>
+          Metrico · Confidential evaluator sheet · August 2026
+        </div>
+        <div style="text-align:right">Please do not reshare outside committee review</div>
+      </div>
+    </div>
+  </article>
+</body>
+</html>

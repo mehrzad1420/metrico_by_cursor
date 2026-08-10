@@ -1,0 +1,253 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Curriculum Vitae — Serveh Khoshkalam</title>
+  <meta name="robots" content="noindex,nofollow" />
+  <link rel="icon" href="logo.png" />
+  <style>
+    :root {
+      --ink: #1a2332;
+      --muted: #4a5568;
+      --rule: #c5ced9;
+      --accent: #1e3a5f;
+    }
+    * { box-sizing: border-box; margin: 0; padding: 0; }
+    body {
+      font-family: "Segoe UI", "Helvetica Neue", Arial, sans-serif;
+      color: var(--ink);
+      background: #eef1f5;
+      line-height: 1.45;
+      font-size: 10.5pt;
+    }
+    .toolbar {
+      max-width: 210mm;
+      margin: 1rem auto 0.5rem;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      gap: 0.75rem;
+      padding: 0 0.5rem;
+    }
+    .toolbar a, .toolbar button {
+      font: inherit;
+      font-size: 0.85rem;
+      padding: 0.4rem 0.85rem;
+      border-radius: 8px;
+      border: 1px solid var(--rule);
+      background: #fff;
+      color: var(--accent);
+      text-decoration: none;
+      cursor: pointer;
+    }
+    .sheet {
+      max-width: 210mm;
+      margin: 0 auto 2rem;
+      background: #fff;
+      padding: 18mm 16mm;
+      box-shadow: 0 4px 24px rgba(0,0,0,0.08);
+    }
+    header.cv-head {
+      border-bottom: 2.5px solid var(--accent);
+      padding-bottom: 0.85rem;
+      margin-bottom: 1.1rem;
+    }
+    header.cv-head h1 {
+      font-size: 22pt;
+      letter-spacing: 0.04em;
+      font-weight: 700;
+      color: var(--accent);
+      text-transform: uppercase;
+    }
+    header.cv-head .role {
+      font-size: 11pt;
+      color: var(--muted);
+      margin-top: 0.25rem;
+      font-weight: 500;
+    }
+    .contact {
+      margin-top: 0.65rem;
+      font-size: 9.5pt;
+      color: var(--muted);
+      display: flex;
+      flex-wrap: wrap;
+      gap: 0.35rem 1.1rem;
+    }
+    .contact a { color: var(--accent); text-decoration: none; }
+    h2 {
+      font-size: 11pt;
+      text-transform: uppercase;
+      letter-spacing: 0.06em;
+      color: var(--accent);
+      border-bottom: 1px solid var(--rule);
+      padding-bottom: 0.2rem;
+      margin: 1.15rem 0 0.55rem;
+    }
+    p, li { color: var(--ink); }
+    .summary {
+      margin: 0.4rem 0 0.2rem;
+      color: var(--muted);
+      font-size: 10pt;
+    }
+    .job { margin: 0.55rem 0 0.75rem; break-inside: avoid; }
+    .job .title {
+      font-weight: 650;
+      font-size: 10.5pt;
+    }
+    .job .meta {
+      font-size: 9.5pt;
+      color: var(--muted);
+      margin: 0.1rem 0 0.25rem;
+    }
+    .job ul, .edu ul, .skills ul {
+      padding-inline-start: 1.15rem;
+      margin: 0.2rem 0;
+    }
+    .job li, .edu li, .skills li {
+      margin: 0.18rem 0;
+      font-size: 10pt;
+    }
+    .edu-item { margin: 0.4rem 0; break-inside: avoid; }
+    .edu-item strong { font-weight: 650; }
+    .edu-item .meta { font-size: 9.5pt; color: var(--muted); }
+    .two-col {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 0.35rem 1.5rem;
+    }
+    .note {
+      margin-top: 1.25rem;
+      font-size: 8.5pt;
+      color: var(--muted);
+      border-top: 1px solid var(--rule);
+      padding-top: 0.5rem;
+    }
+    .todo {
+      background: #fff8e8;
+      border: 1px solid #e8d4a8;
+      border-radius: 6px;
+      padding: 0.45rem 0.55rem;
+      font-size: 9.5pt;
+      color: var(--muted);
+      margin: 0.35rem 0;
+    }
+    @media print {
+      body { background: #fff; font-size: 10pt; }
+      .toolbar { display: none !important; }
+      .sheet {
+        max-width: none;
+        margin: 0;
+        padding: 0;
+        box-shadow: none;
+      }
+      @page { size: A4 portrait; margin: 14mm 14mm; }
+      a { color: inherit; text-decoration: none; }
+    }
+  </style>
+</head>
+<body>
+  <div class="toolbar no-print">
+    <a href="team.html">Founding team</a>
+    <button type="button" onclick="window.print()">Print / Save PDF</button>
+  </div>
+
+  <article class="sheet" aria-label="Curriculum Vitae — Serveh Khoshkalam">
+    <header class="cv-head">
+      <h1>Serveh Khoshkalam</h1>
+      <p class="role">Co-founder, Metrico · Finance &amp; Accounting Consultant / Analyst</p>
+      <div class="contact">
+        <span>Company: <a href="mailto:hello@metrico.app">hello@metrico.app</a></span>
+        <span>Nationality: Iranian</span>
+        <span>Public profile: <a href="profile-serveh-khoshkalam.html">profile-serveh-khoshkalam.html</a> (LinkedIn alternative)</span>
+        <span><a href="team.html">Team brief</a></span>
+      </div>
+    </header>
+
+    <h2>Professional summary</h2>
+    <p class="summary">
+      Industrial-accounting trained finance professional and Metrico co-founder. Currently accountant and
+      finance lead at Sepehr Construction Group; collaborates with Metrico’s product founder as finance
+      and accounting consultant / analyst — reviewing workflows, spotting gaps, and remediating issues in
+      the product’s accounting and finance modules so they match real construction-operator practice.
+    </p>
+
+    <h2>Metrico (founding collaboration)</h2>
+    <div class="job">
+      <div class="title">Co-founder · Finance &amp; Accounting Consultant / Analyst · Metrico</div>
+      <div class="meta">Present · Live SaaS / PWA · English / Persian · Intended ownership 30%</div>
+      <ul>
+        <li>Partners with the product founder on Metrico’s finance and accounting domain.</li>
+        <li>Consults and analyzes installment, project cash, investor-share, and reporting logic.</li>
+        <li>Identifies defects and gaps in the accounting / finance modules and drives corrections so the product stays operator-ready.</li>
+        <li>Co-owner of product IP with the founding team (see cap-table snapshot).</li>
+      </ul>
+    </div>
+
+    <h2>Professional experience</h2>
+    <div class="job">
+      <div class="title">Accountant &amp; Finance Lead · Sepehr Construction Group</div>
+      <div class="meta">Present · Construction group</div>
+      <ul>
+        <li>Responsible for accounting and financial operations for the construction group.</li>
+        <li>Applies day-to-day construction finance practice that informs Metrico’s product reviews.</li>
+      </ul>
+    </div>
+    <div class="job">
+      <div class="title">Accountant · Mabna Naghshe</div>
+      <div class="meta">Mapping / surveying company (Iran)</div>
+      <ul>
+        <li>Accounting role for company operations (Mabna Naghshe).</li>
+      </ul>
+    </div>
+    <div class="job">
+      <div class="title">Accountant · Commercial complex</div>
+      <div class="meta">≈ 3 years · Shopping / commercial center operations</div>
+      <ul>
+        <li>Full-time accounting for a commercial complex / shopping center.</li>
+      </ul>
+    </div>
+
+    <h2>Education</h2>
+    <div class="edu">
+      <div class="edu-item">
+        <strong>Industrial Accounting</strong>
+        <div class="meta">Degree / qualification in industrial accounting (حسابداری صنعتی) · Institution and graduation year to confirm if needed for diploma line</div>
+        <p class="todo no-print">
+          Optional before final upload: school name · city · graduation year.
+          Degree field is confirmed by founder statement.
+        </p>
+      </div>
+    </div>
+
+    <h2>Skills</h2>
+    <div class="skills two-col">
+      <ul>
+        <li>Industrial / construction-adjacent accounting</li>
+        <li>Company and commercial-center bookkeeping</li>
+        <li>Finance lead responsibilities for a construction group</li>
+        <li>Product finance/accounting gap analysis</li>
+      </ul>
+      <ul>
+        <li>Installment / receivables and project-cash review</li>
+        <li>Remediation of accounting-module defects in SaaS</li>
+        <li>Persian native; English for committee materials (improving)</li>
+      </ul>
+    </div>
+
+    <h2>Languages</h2>
+    <div class="skills">
+      <ul>
+        <li>Persian — native</li>
+        <li>English — working proficiency for product and committee materials (improving)</li>
+      </ul>
+    </div>
+
+    <p class="note">
+      Employment and education facts above are founder-provided. Exact calendar years for Mabna Naghshe
+      and the commercial-complex role can be added when available; no employers or degrees were invented.
+      Companion: team.html · cap-table.html · cv-full.html (Mehrzad Saeedi).
+    </p>
+  </article>
+</body>
+</html>

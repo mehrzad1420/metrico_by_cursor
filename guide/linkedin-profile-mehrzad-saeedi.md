@@ -303,7 +303,7 @@ Do **not** claim or imply:
 - “Market leader,” “used by X developers,” or invented case studies  
 - Guaranteed Estonia Startup Committee outcomes or grants  
 - Fake metrics on the ~70% gap estimate as a third-party study (it’s a **founder estimate** on your own work — phrase it that way if you mention it)  
-- Inflated team size (today: lean founder-led; spouse advising on accounting principles — not a large org)  
+- Inflated team size (today: two founders — product/GTM + accounting/finance design; next hire EU engineer — not a large org)  
 - Skills or tools you don’t actually use  
 
 **Safe honesty lines you *can* use:**
