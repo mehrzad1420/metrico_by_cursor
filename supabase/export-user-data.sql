@@ -45,6 +45,10 @@ BEGIN
       SELECT jsonb_agg(to_jsonb(m) ORDER BY m.created_at DESC)
       FROM public.owner_portal_messages m WHERE m.user_id = v_uid
     ), '[]'::jsonb),
+    'crew_portals', coalesce((
+      SELECT jsonb_agg(to_jsonb(cp) ORDER BY cp.updated_at DESC)
+      FROM public.crew_portals cp WHERE cp.user_id = v_uid
+    ), '[]'::jsonb),
     'product_feedback', coalesce((
       SELECT jsonb_agg(to_jsonb(f) ORDER BY f.created_at DESC)
       FROM public.product_feedback f WHERE f.user_id = v_uid

@@ -232,6 +232,33 @@
     grid-template-columns: repeat(3, minmax(0, 1fr));
     gap: 0.65rem;
   }
+  .m-dash-shortcuts {
+    display: grid;
+    grid-template-columns: repeat(4, minmax(0, 1fr));
+    gap: 0.5rem;
+  }
+  .m-dash-shortcut {
+    background: var(--m-surface);
+    border: 1px solid var(--m-border);
+    border-radius: 0.9rem;
+    box-shadow: var(--m-shadow-card);
+    padding: 0.55rem 0.35rem 0.6rem;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    gap: 0.3rem;
+    min-width: 0;
+    text-align: center;
+  }
+  .m-dash-shortcut-icon {
+    width: 1.85rem;
+    height: 1.85rem;
+    border-radius: 0.55rem;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+  }
   .m-da-kpi-grid {
     display: grid;
     grid-template-columns: repeat(2, minmax(0, 1fr));
@@ -806,6 +833,13 @@ const LucidePlay = (p) => (
 const LucideCheckCircle = (p) => (
   <LucideSvg {...p}><path d="M22 11.08V12a10 10 0 1 1-5.93-9.14" /><path d="m9 11 3 3L22 4" /></LucideSvg>
 );
+const LucideClipboardList = (p) => (
+  <LucideSvg {...p}>
+    <rect width="8" height="4" x="8" y="2" rx="1" ry="1" />
+    <path d="M16 4h2a2 2 0 0 1 2 2v14a2 2 0 0 1-2 2H6a2 2 0 0 1-2-2V6a2 2 0 0 1 2-2h2" />
+    <path d="M12 11h4" /><path d="M12 16h4" /><path d="M8 11h.01" /><path d="M8 16h.01" />
+  </LucideSvg>
+);
 const LucideChevronLeft = (p) => (
   <LucideSvg {...p}><path d="m15 18-6-6 6-6" /></LucideSvg>
 );
@@ -1014,6 +1048,16 @@ const GUIDE_SECTIONS = [
       { title: "ساخت و ارسال لینک", body: "ابتدا خریدار را از مخاطبین انتخاب یا ثبت کنید، سپس «ساخت لینک اختصاصی مالک» را بزنید. لینک را کپی کرده و برای مالک ارسال کنید — بدون نیاز به ورود مالک به اپ.", img: "لینک پنل مالک" },
       { title: "گالری پیشرفت", body: "از گالری پروژه تصاویر پیشرفت ساخت را بارگذاری کنید. پس از افزودن تصویر، «به‌روزرسانی» پنل مالک را بزنید تا در لینک مالک نمایش داده شود.", img: "گالری تصاویر" },
       { title: "پیام مالک به مدیر", body: "مالک از داخل لینک می‌تواند درخواست یا سوال کوتاه بفرستد. در داشبورد تعداد پیام‌های جدید روی کارت پروژه نمایش داده می‌شود. همه پیام‌ها در انتهای اطلاعات همان واحد بایگانی می‌شوند.", img: "پیام مالک" },
+    ],
+  },
+  {
+    id: "work_orders",
+    label: "ابلاغ کار",
+    icon: LucideClipboardList,
+    steps: [
+      { title: "کارکنان کارگاه", body: "از منو → «کارگاه» → «کارکنان و پیمانکاران» هر پیمانکار، کارگر یا کارمند را ثبت کنید. برای هر نفر لینک اختصاصی ساخته می‌شود تا وظایف را بدون ورود به اپ ببیند.", img: "کارکنان کارگاه" },
+      { title: "ابلاغ وظیفه", body: "در «ابلاغ کار» عنوان کار، پروژه، موعد و فرد مسئول را ثبت کنید. پیمانکار از لینک خودش لیست را می‌بیند؛ اگر انجام داد تیک می‌زند و اگر نتوانست رد می‌کند و دلیل می‌نویسد.", img: "ابلاغ کار" },
+      { title: "رسیدگی سرپرست", body: "انجام یا رد پیمانکار به همان صفحه برمی‌گردد. مدیر پروژه یا سرپرست می‌تواند انجام را تأیید کند، عدم انجام را ببندد، یا رفع نقص بفرستد تا دوباره در پنل پیمانکار ظاهر شود.", img: "رسیدگی وظایف" },
     ],
   },
   {
@@ -1484,7 +1528,7 @@ function projectCardTheme(projectId) {
   return PROJECT_CARD_PALETTE[Math.abs(h) % PROJECT_CARD_PALETTE.length];
 }
 const APP_NAME = "Metrico";
-const APP_VERSION = "2.57.3";
+const APP_VERSION = "2.57.4";
 
 const METRICO_PLAN_ORDER = ["start", "plus", "pro", "ark", "team"];
 const METRICO_PLANS = {
@@ -1584,7 +1628,7 @@ const TEAM_ROLES = {
     id: "site", fa: "مدیر کارگاه", en: "Site manager",
     descFa: "صورت‌وضعیت، پیشرفت ساخت، انبار، نقشه‌ها و گالری.",
     descEn: "Progress statements, inventory, maps, gallery.",
-    screens: ["dashboard", "app", "contracts", "inventory", "project_maps", "building_3d", "map", "energy", "takeoff", "guide", "plan"],
+    screens: ["dashboard", "app", "contracts", "inventory", "project_maps", "building_3d", "map", "energy", "takeoff", "work_orders", "guide", "plan"],
     features: ["contracts", "construction_progress", "inventory", "project_maps", "map", "energy", "takeoff", "pdf_export"],
     readOnly: false,
   },
@@ -2881,6 +2925,52 @@ const DICT = {
   "انبارگردانی و موجودی مصالح": "Material Inventory",
   "سامانه‌های مالیاتی": "Tax Systems",
   "مدیریت قراردادها": "Contract Management",
+  "کارگاه": "Site crew",
+  "ابلاغ کار": "Work orders",
+  "کارکنان و پیمانکاران": "Crew & contractors",
+  "پیمانکار": "Contractor",
+  "کارگر": "Worker",
+  "کارمند": "Employee",
+  "تخصص / فعالیت": "Trade / role",
+  "لینک اختصاصی": "Private link",
+  "لینک کپی شد": "Link copied",
+  "افزودن فرد": "Add person",
+  "هنوز کسی ثبت نشده. پیمانکار، کارگر یا کارمند اضافه کنید.": "No crew yet. Add a contractor, worker, or employee.",
+  "وظیفه جدید": "New task",
+  "عنوان کار": "Task title",
+  "موعد انجام": "Due date",
+  "ابلاغ به": "Assign to",
+  "پروژه مربوط": "Related project",
+  "ابلاغ‌شده": "Assigned",
+  "رفع نقص": "Rework",
+  "انجام شد — در انتظار تأیید": "Done — pending review",
+  "رد شده — در انتظار رسیدگی": "Rejected — pending review",
+  "تأیید انجام": "Confirm done",
+  "تأیید عدم انجام": "Confirm not done",
+  "نیاز به رسیدگی": "Needs review",
+  "انجام شد": "Done",
+  "رد کردن": "Reject",
+  "دلیل عدم انجام": "Reason for not completing",
+  "دلیل رد را بنویسید": "Write the rejection reason",
+  "ثبت دلیل عدم انجام": "Submit rejection reason",
+  "سابقه": "History",
+  "این کار انجام شد": "This task was completed",
+  "این کار را انجام نمی‌دهم": "I cannot complete this task",
+  "پنل ابلاغ کار": "Work-order panel",
+  "سلام": "Hello",
+  "وظایف شما": "Your tasks",
+  "فعلاً وظیفه‌ای ابلاغ نشده.": "No tasks assigned yet.",
+  "جدول crew_portals در Supabase یافت نشد. فایل supabase/crew-portals.sql را اجرا کنید.": "Table crew_portals not found. Run supabase/crew-portals.sql in Supabase.",
+  "تابع پنل کارگاه در Supabase یافت نشد. فایل supabase/crew-portals.sql را اجرا کنید.": "Crew portal function not found. Run supabase/crew-portals.sql in Supabase.",
+  "در حال بارگذاری پنل کارگاه...": "Loading crew panel...",
+  "دسترسی سریع": "Quick access",
+  "پیام سرپرست": "Supervisor note",
+  "رسیدگی": "Review",
+  "بستن بدون انجام": "Close as not done",
+  "ارسال برای رفع نقص": "Send back for rework",
+  "از مخاطبین": "From contacts",
+  "سیمانکاری": "Cement work",
+  "هنوز وظیفه‌ای ثبت نشده.": "No tasks yet.",
   "تحلیل داده‌ها": "Data Analysis",
   "نمودارهای مالی": "Financial charts",
   "نمودارهای تحلیلی": "Analytical charts",
@@ -4277,6 +4367,13 @@ const GUIDE_I18N = {
   "پیام مالک به مدیر": "Owner Messages to Manager",
   "مالک از داخل لینک می‌تواند درخواست یا سوال کوتاه بفرستد. در داشبورد تعداد پیام‌های جدید روی کارت پروژه نمایش داده می‌شود. همه پیام‌ها در انتهای اطلاعات همان واحد بایگانی می‌شوند.": "The owner can send a short request or question from within the link. On the dashboard, the count of new messages is shown on the project card. All messages are archived at the bottom of that unit's information.",
   "پیام مالک": "Owner message",
+  "کارکنان کارگاه": "Site crew",
+  "از منو → «کارگاه» → «کارکنان و پیمانکاران» هر پیمانکار، کارگر یا کارمند را ثبت کنید. برای هر نفر لینک اختصاصی ساخته می‌شود تا وظایف را بدون ورود به اپ ببیند.": "From the menu → Site crew → Crew & contractors, register each contractor, worker, or employee. Each person gets a private link to see assigned tasks without signing in.",
+  "ابلاغ وظیفه": "Assign a task",
+  "در «ابلاغ کار» عنوان کار، پروژه، موعد و فرد مسئول را ثبت کنید. پیمانکار از لینک خودش لیست را می‌بیند؛ اگر انجام داد تیک می‌زند و اگر نتوانست رد می‌کند و دلیل می‌نویسد.": "In Work orders, record the task title, project, due date, and assignee. The contractor sees the list via their link; they mark done or reject with a reason.",
+  "رسیدگی سرپرست": "Supervisor review",
+  "انجام یا رد پیمانکار به همان صفحه برمی‌گردد. مدیر پروژه یا سرپرست می‌تواند انجام را تأیید کند، عدم انجام را ببندد، یا رفع نقص بفرستد تا دوباره در پنل پیمانکار ظاهر شود.": "Done or rejected tasks return to the same screen. The project manager or supervisor can confirm completion, close as not done, or send back for rework so it appears again on the contractor panel.",
+  "رسیدگی وظایف": "Task review",
   "پلن پرو": "Pro Plan",
   "مدیریت قراردادها و صورت‌وضعیت پیمانکاران از پلن پرو فعال است. از منو → «مدیریت قراردادها» وارد شوید.": "Contract management and contractor progress billing are enabled on the Pro plan. From the menu → \"Contract Management\".",
   "منوی قراردادها": "Contracts menu",
@@ -4628,6 +4725,129 @@ function generateOwnerPortalToken() {
 function ownerPortalPublicUrl(token) {
   const base = `${window.location.origin}${window.location.pathname}`;
   return `${base}?owner=${encodeURIComponent(token)}`;
+}
+
+function crewPortalPublicUrl(token) {
+  const base = `${window.location.origin}${window.location.pathname}`;
+  return `${base}?crew=${encodeURIComponent(token)}`;
+}
+
+const CREW_ROLES = { contractor: "پیمانکار", worker: "کارگر", employee: "کارمند" };
+const CREW_TASK_STATUS = {
+  assigned: "ابلاغ‌شده",
+  rework: "رفع نقص",
+  done_pending: "انجام شد — در انتظار تأیید",
+  rejected: "رد شده — در انتظار رسیدگی",
+  confirmed: "تأیید انجام",
+  declined: "تأیید عدم انجام",
+};
+function crewTaskNeedsReview(t) {
+  return t?.status === "done_pending" || t?.status === "rejected";
+}
+function crewTaskOpenForAssignee(t) {
+  return t?.status === "assigned" || t?.status === "rework";
+}
+function buildCrewPortalPayload(member, tasks, projects, company) {
+  const projectName = (id) => (projects || []).find((p) => p.id === id)?.name || "";
+  return {
+    personName: member?.name || "",
+    personPhone: member?.phone || "",
+    crewRole: member?.crewRole || "contractor",
+    specialty: member?.specialty || "",
+    companyName: company?.name || APP_NAME,
+    companyLogo: (company?.logo && company.logo.length < 100000) ? company.logo : null,
+    tasks: (tasks || [])
+      .filter((t) => t.crewId === member?.id)
+      .map((t) => ({
+        id: t.id,
+        title: t.title || "",
+        notes: t.notes || "",
+        dueDate: t.dueDate || "",
+        projectId: t.projectId || "",
+        projectName: projectName(t.projectId),
+        status: t.status || "assigned",
+        rejectReason: t.rejectReason || "",
+        managerNote: t.managerNote || "",
+        respondedAt: t.respondedAt || "",
+        reviewedAt: t.reviewedAt || "",
+        createdAt: t.createdAt || "",
+      })),
+    updatedAt: new Date().toISOString(),
+  };
+}
+async function upsertCrewPortalRecord(token, crewId, payload) {
+  const { error } = await window.sb.rpc("upsert_crew_portal", {
+    portal_token: token,
+    p_crew_id: crewId,
+    p_payload: payload,
+  });
+  return error || null;
+}
+async function deleteCrewPortalRecord(token) {
+  const { error: rpcErr } = await window.sb.rpc("delete_crew_portal", { portal_token: token });
+  if (!rpcErr) return null;
+  const { error } = await window.sb.from("crew_portals").delete().eq("token", token);
+  return error || rpcErr;
+}
+async function fetchCrewPortalPayload(token) {
+  const { data, error } = await window.sb.rpc("get_crew_portal", { portal_token: token });
+  if (!error && data) return data;
+  const { data: row, error: err2 } = await window.sb.from("crew_portals").select("payload").eq("token", token).maybeSingle();
+  if (err2) throw err2;
+  return row?.payload || null;
+}
+async function fetchMyCrewPortals() {
+  const { data, error } = await window.sb.from("crew_portals").select("token, crew_id, payload, updated_at");
+  return { data: data || [], error };
+}
+async function respondCrewTask(token, taskId, action, reason) {
+  const { data, error } = await window.sb.rpc("respond_crew_task", {
+    portal_token: token,
+    p_task_id: taskId,
+    p_action: action,
+    p_reason: reason || "",
+  });
+  return { data, error };
+}
+function mergeCrewTasksFromPortals(localTasks, portals) {
+  const byId = {};
+  (localTasks || []).forEach((t) => { byId[t.id] = { ...t }; });
+  (portals || []).forEach((p) => {
+    const tasks = Array.isArray(p.payload?.tasks) ? p.payload.tasks : [];
+    tasks.forEach((remote) => {
+      if (!remote?.id) return;
+      const local = byId[remote.id];
+      if (!local) {
+        byId[remote.id] = { ...remote, crewId: remote.crewId || p.crew_id };
+        return;
+      }
+      const localT = local.respondedAt || local.reviewedAt || "";
+      const remoteT = remote.respondedAt || remote.reviewedAt || "";
+      if (remoteT && remoteT >= localT) {
+        byId[remote.id] = {
+          ...local,
+          status: remote.status || local.status,
+          rejectReason: remote.rejectReason ?? local.rejectReason,
+          respondedAt: remote.respondedAt || local.respondedAt,
+          managerNote: remote.managerNote ?? local.managerNote,
+          reviewedAt: remote.reviewedAt || local.reviewedAt,
+        };
+      }
+    });
+  });
+  return Object.values(byId);
+}
+function crewPortalErrorMessage(err, tFn) {
+  const msg = err?.message || String(err || "");
+  const wrap = (s) => (tFn ? tFn(s) : s);
+  if (/demo account is read-only/i.test(msg)) return wrap("حساب دمو فقط برای مشاهده است — امکان ذخیره تغییرات وجود ندارد.");
+  if (/relation.*crew_portals|does not exist|schema cache/i.test(msg)) {
+    return wrap("جدول crew_portals در Supabase یافت نشد. فایل supabase/crew-portals.sql را اجرا کنید.");
+  }
+  if (/upsert_crew_portal|get_crew_portal|respond_crew_task/i.test(msg) && /function|could not find/i.test(msg)) {
+    return wrap("تابع پنل کارگاه در Supabase یافت نشد. فایل supabase/crew-portals.sql را اجرا کنید.");
+  }
+  return msg;
 }
 
 function buildOwnerPortalPayload(project, unit, company) {
@@ -5497,6 +5717,162 @@ function OwnerPortalScreen({ token }) {
           {t("آخرین به‌روزرسانی:")} {payload.updatedAt ? formatPortalDateTime(payload.updatedAt, lang) : "—"}
           <div className="mt-1">تهیه شده توسط نرم‌افزار متریکو</div>
         </div>
+      </div>
+    </div>
+  );
+}
+
+function CrewPortalScreen({ token }) {
+  const { lang, t } = useContext(LanguageContext);
+  const portalDir = lang === "fa" ? "rtl" : "ltr";
+  const [payload, setPayload] = useState(null);
+  const [loading, setLoading] = useState(true);
+  const [error, setError] = useState("");
+  const [busyId, setBusyId] = useState("");
+  const [rejectId, setRejectId] = useState("");
+  const [rejectReason, setRejectReason] = useState("");
+  const [actionMsg, setActionMsg] = useState("");
+
+  async function load() {
+    setLoading(true);
+    setError("");
+    try {
+      const data = await fetchCrewPortalPayload(token);
+      if (!data) setError(t("لینک نامعتبر است یا منقضی شده."));
+      else setPayload(data);
+    } catch (e) {
+      setError(crewPortalErrorMessage(e, t) || t("بارگذاری اطلاعات ممکن نشد. لطفاً بعداً دوباره تلاش کنید."));
+    } finally {
+      setLoading(false);
+    }
+  }
+
+  useEffect(() => { load(); }, [token]);
+
+  async function act(taskId, action, reason) {
+    setBusyId(taskId);
+    setActionMsg("");
+    const { data, error: err } = await respondCrewTask(token, taskId, action, reason);
+    setBusyId("");
+    if (err) {
+      setActionMsg(crewPortalErrorMessage(err, t));
+      return;
+    }
+    if (data) setPayload(data);
+    else await load();
+    setRejectId("");
+    setRejectReason("");
+  }
+
+  if (loading) {
+    return (
+      <div dir={portalDir} className="min-h-screen bg-[#F4F6F5] flex items-center justify-center text-[#6B7280] text-sm">
+        {t("در حال بارگذاری پنل کارگاه...")}
+      </div>
+    );
+  }
+  if (error || !payload) {
+    return (
+      <div dir={portalDir} className="min-h-screen bg-[#F4F6F5] flex flex-col items-center justify-center px-6 text-center gap-4">
+        <div className="text-[#B91C1C] text-sm font-semibold">{error || t("اطلاعاتی یافت نشد.")}</div>
+        <button type="button" onClick={load} className="bg-[#14213D] text-white rounded-xl px-4 py-2 text-sm font-semibold">{t("تلاش مجدد")}</button>
+      </div>
+    );
+  }
+
+  const tasks = payload.tasks || [];
+  const openTasks = tasks.filter(crewTaskOpenForAssignee);
+  const otherTasks = tasks.filter((x) => !crewTaskOpenForAssignee(x));
+
+  return (
+    <div dir={portalDir} className="min-h-screen bg-[#F4F6F5] text-[#14213D] pb-10">
+      <div className="bg-[#14213D] text-white px-5 pt-8 pb-6">
+        <div className="flex items-center gap-3 mb-4">
+          {payload.companyLogo ? (
+            <img src={payload.companyLogo} alt="" className="w-11 h-11 rounded-xl object-cover border border-white/20" />
+          ) : (
+            <img src={METRICO_WATERMARK} alt="" className="w-11 h-11 rounded-xl object-contain bg-white/10 p-1" />
+          )}
+          <div>
+            <div className="font-bold text-base">{payload.companyName}</div>
+            <div className="text-[11px] text-white/70">{t("پنل ابلاغ کار")}</div>
+          </div>
+        </div>
+        <div className="text-sm text-white/90">{t("سلام")} {payload.personName}</div>
+        <div className="text-[11px] text-white/60 mt-1">
+          {t(CREW_ROLES[payload.crewRole] || payload.crewRole)}
+          {payload.specialty ? ` · ${payload.specialty}` : ""}
+        </div>
+      </div>
+
+      <div className="px-5 -mt-4 space-y-3">
+        {actionMsg && <div className="bg-[#FEF2F2] text-[#B91C1C] text-xs rounded-xl px-3 py-2">{actionMsg}</div>}
+        <div className="bg-white rounded-2xl border border-black/5 p-4 shadow-sm">
+          <div className="text-xs font-bold text-[#6B7280] mb-3">{t("وظایف شما")}</div>
+          {openTasks.length === 0 ? (
+            <div className="text-xs text-[#9CA3AF] text-center py-4">{t("فعلاً وظیفه‌ای ابلاغ نشده.")}</div>
+          ) : openTasks.map((task) => (
+            <div key={task.id} className="rounded-xl border border-black/8 p-3 mb-2 last:mb-0 bg-[#F4F6F5]">
+              <div className="font-semibold text-sm">{task.title}</div>
+              <div className="text-[11px] text-[#6B7280] mt-1">
+                {task.projectName || "—"}
+                {task.dueDate ? ` · ${formatPortalDate(task.dueDate, lang)}` : ""}
+              </div>
+              {task.notes ? <div className="text-[11px] text-[#374151] mt-2 leading-5">{task.notes}</div> : null}
+              {task.status === "rework" && task.managerNote ? (
+                <div className="text-[11px] mt-2 bg-[#FFFBEB] text-[#92400E] rounded-lg px-2 py-1.5">{t("پیام سرپرست")}: {task.managerNote}</div>
+              ) : null}
+              <div className="flex gap-2 mt-3">
+                <button
+                  type="button"
+                  disabled={busyId === task.id}
+                  onClick={() => act(task.id, "done")}
+                  className="flex-1 bg-[#166534] text-white rounded-lg py-2 text-[11px] font-bold disabled:opacity-40"
+                >{t("انجام شد")}</button>
+                <button
+                  type="button"
+                  disabled={busyId === task.id}
+                  onClick={() => { setRejectId(task.id); setRejectReason(""); }}
+                  className="flex-1 bg-white border border-[#FECACA] text-[#B91C1C] rounded-lg py-2 text-[11px] font-bold disabled:opacity-40"
+                >{t("رد کردن")}</button>
+              </div>
+              {rejectId === task.id && (
+                <div className="mt-2">
+                  <textarea
+                    value={rejectReason}
+                    onChange={(e) => setRejectReason(e.target.value)}
+                    rows={2}
+                    placeholder={t("دلیل رد را بنویسید")}
+                    className="w-full border border-black/10 rounded-lg px-2 py-1.5 text-xs"
+                  />
+                  <button
+                    type="button"
+                    disabled={busyId === task.id || rejectReason.trim().length < 2}
+                    onClick={() => act(task.id, "reject", rejectReason.trim())}
+                    className="mt-1 w-full bg-[#B91C1C] text-white rounded-lg py-2 text-[11px] font-bold disabled:opacity-40"
+                  >{t("ثبت دلیل عدم انجام")}</button>
+                </div>
+              )}
+            </div>
+          ))}
+        </div>
+
+        {otherTasks.length > 0 && (
+          <div className="bg-white rounded-2xl border border-black/5 p-4 shadow-sm">
+            <div className="text-xs font-bold text-[#6B7280] mb-3">{t("سابقه")}</div>
+            {otherTasks.map((task) => (
+              <div key={task.id} className="flex items-start justify-between gap-2 py-2 border-b border-black/5 last:border-0">
+                <div className="min-w-0">
+                  <div className="text-xs font-semibold truncate">{task.title}</div>
+                  <div className="text-[10px] text-[#9CA3AF]">{task.projectName || "—"}</div>
+                  {task.rejectReason ? <div className="text-[10px] text-[#B91C1C] mt-0.5">{task.rejectReason}</div> : null}
+                </div>
+                <div className="text-[10px] font-bold shrink-0">{t(CREW_TASK_STATUS[task.status] || task.status)}</div>
+              </div>
+            ))}
+          </div>
+        )}
+        <div className="text-[10px] text-center text-[#9CA3AF] pt-2">تهیه شده توسط نرم‌افزار متریکو</div>
       </div>
     </div>
   );
@@ -9586,6 +9962,13 @@ function App() {
       return "";
     }
   }, []);
+  const crewPortalToken = useMemo(() => {
+    try {
+      return (new URLSearchParams(window.location.search).get("crew") || "").trim();
+    } catch (e) {
+      return "";
+    }
+  }, []);
   const previewMode = useMemo(() => {
     try {
       return (new URLSearchParams(window.location.search).get("preview") || "").trim();
@@ -9625,6 +10008,13 @@ function App() {
       </LanguageContext.Provider>
     );
   }
+  if (crewPortalToken) {
+    return (
+      <LanguageContext.Provider value={{ lang: language, t, setLang: setLanguage }}>
+        <CrewPortalScreen token={crewPortalToken} />
+      </LanguageContext.Provider>
+    );
+  }
   return (
     <LanguageContext.Provider value={{ lang: language, t, setLang: setLanguage }}>
       <AppContent />
@@ -9646,6 +10036,9 @@ function AppContent() {
   const [isTeamMember, setIsTeamMember] = useState(false);
   const [company, setCompany] = useState(null);
   const [contacts, setContacts] = useState([]);
+  const [crewMembers, setCrewMembers] = useState([]);
+  const [crewTasks, setCrewTasks] = useState([]);
+  const [workOrdersTab, setWorkOrdersTab] = useState("crew");
   const [reminders, setReminders] = useState([]);
   const [inventory, setInventory] = useState([]);
   const [dueReminder, setDueReminder] = useState(null);
@@ -9932,6 +10325,8 @@ function AppContent() {
         setPlanExpiresAt(null);
         setCompany(null);
         setContacts([]);
+        setCrewMembers([]);
+        setCrewTasks([]);
         setReminders([]);
         setInventory([]);
         setProjects([]);
@@ -9974,6 +10369,8 @@ function AppContent() {
     setLoaded(false);
     setCompany(user.user_metadata?.company || null);
     setContacts(user.user_metadata?.contacts || []);
+    setCrewMembers(Array.isArray(user.user_metadata?.crewMembers) ? user.user_metadata.crewMembers : []);
+    setCrewTasks(Array.isArray(user.user_metadata?.crewTasks) ? user.user_metadata.crewTasks : []);
     setReminders(user.user_metadata?.reminders || []);
     const inv = user.user_metadata?.inventory;
     setInventory(Array.isArray(inv) && inv.length ? inv : buildDefaultInventory());
@@ -10132,6 +10529,23 @@ function AppContent() {
     if (!user || !activated || screen !== "dashboard") return;
     refreshOwnerMessages();
   }, [user, activated, screen, refreshOwnerMessages]);
+
+  useEffect(() => {
+    if (!user || !activated || screen !== "work_orders") return;
+    let cancelled = false;
+    fetchMyCrewPortals().then(({ data, error }) => {
+      if (cancelled || error || !data?.length) return;
+      const merged = mergeCrewTasksFromPortals(crewTasks, data);
+      const changed = merged.some((t) => {
+        const old = crewTasks.find((x) => x.id === t.id);
+        return !old || old.status !== t.status || old.rejectReason !== t.rejectReason || old.respondedAt !== t.respondedAt;
+      }) || merged.length !== crewTasks.length;
+      if (!changed) return;
+      setCrewTasks(merged);
+      authUpdateUserData({ crewTasks: merged, crewMembers });
+    });
+    return () => { cancelled = true; };
+  }, [user, activated, screen]);
 
   useEffect(() => {
     if (!user || !activated || userRole !== "super_admin") return;
@@ -11087,6 +11501,39 @@ function AppContent() {
     saveContacts(contacts.filter((c) => c.id !== contactId));
   }
 
+  async function publishCrewPortals(members, tasks) {
+    const list = members || crewMembers;
+    const job = tasks || crewTasks;
+    for (const m of list) {
+      if (!m?.token) continue;
+      const err = await upsertCrewPortalRecord(m.token, m.id, buildCrewPortalPayload(m, job, projects, company));
+      if (err) setError(crewPortalErrorMessage(err, t));
+    }
+  }
+
+  async function saveCrewMembers(list, extra = {}) {
+    if (!guardWrite()) return;
+    setCrewMembers(list);
+    const { data, error: err } = await authUpdateUserData({ crewMembers: list, crewTasks });
+    if (err) setError(t("ذخیره ناموفق بود: ") + err.message);
+    else if (data?.user) setUser(data.user);
+    if (extra.removedId) {
+      const gone = crewMembers.find((m) => m.id === extra.removedId);
+      if (gone?.token) await deleteCrewPortalRecord(gone.token);
+    } else {
+      await publishCrewPortals(list, crewTasks);
+    }
+  }
+
+  async function saveCrewTasks(list) {
+    if (!guardWrite()) return;
+    setCrewTasks(list);
+    const { data, error: err } = await authUpdateUserData({ crewTasks: list, crewMembers });
+    if (err) setError(t("ذخیره ناموفق بود: ") + err.message);
+    else if (data?.user) setUser(data.user);
+    await publishCrewPortals(crewMembers, list);
+  }
+
   async function saveInventory(list) {
     if (!guardWrite()) return;
     setInventory(list);
@@ -11248,6 +11695,8 @@ function AppContent() {
         company,
         projects,
         contacts,
+        crewMembers,
+        crewTasks,
         reminders,
         inventory,
         serverExport,
@@ -11299,6 +11748,8 @@ function AppContent() {
           const { data: udata, error: uerr } = await authUpdateUserData({
             company: data.company,
             ...(Array.isArray(data.contacts) ? { contacts: data.contacts } : {}),
+            ...(Array.isArray(data.crewMembers) ? { crewMembers: data.crewMembers } : {}),
+            ...(Array.isArray(data.crewTasks) ? { crewTasks: data.crewTasks } : {}),
             ...(Array.isArray(data.reminders) ? { reminders: data.reminders } : {}),
             ...(Array.isArray(data.inventory) ? { inventory: data.inventory } : {}),
           });
@@ -11306,20 +11757,26 @@ function AppContent() {
             setUser(udata.user);
             setCompany(data.company);
             if (Array.isArray(data.contacts)) setContacts(data.contacts);
+            if (Array.isArray(data.crewMembers)) setCrewMembers(data.crewMembers);
+            if (Array.isArray(data.crewTasks)) setCrewTasks(data.crewTasks);
             if (Array.isArray(data.reminders)) setReminders(data.reminders);
             if (Array.isArray(data.inventory)) setInventory(data.inventory);
           }
         } else {
           setCompany(null);
-          if (Array.isArray(data.contacts) || Array.isArray(data.reminders) || Array.isArray(data.inventory)) {
+          if (Array.isArray(data.contacts) || Array.isArray(data.reminders) || Array.isArray(data.inventory) || Array.isArray(data.crewMembers) || Array.isArray(data.crewTasks)) {
             const metaPatch = {};
             if (Array.isArray(data.contacts)) metaPatch.contacts = data.contacts;
+            if (Array.isArray(data.crewMembers)) metaPatch.crewMembers = data.crewMembers;
+            if (Array.isArray(data.crewTasks)) metaPatch.crewTasks = data.crewTasks;
             if (Array.isArray(data.reminders)) metaPatch.reminders = data.reminders;
             if (Array.isArray(data.inventory)) metaPatch.inventory = data.inventory;
             const { data: udata, error: uerr } = await authUpdateUserData(metaPatch);
             if (!uerr && udata?.user) {
               setUser(udata.user);
               if (Array.isArray(data.contacts)) setContacts(data.contacts);
+              if (Array.isArray(data.crewMembers)) setCrewMembers(data.crewMembers);
+              if (Array.isArray(data.crewTasks)) setCrewTasks(data.crewTasks);
               if (Array.isArray(data.reminders)) setReminders(data.reminders);
               if (Array.isArray(data.inventory)) setInventory(data.inventory);
             }
@@ -11654,6 +12111,20 @@ function AppContent() {
             ensurePdfExport={ensurePdfExport}
           />
         )}
+        {screen === "work_orders" && (
+          <WorkOrdersScreen
+            company={company}
+            projects={projects}
+            contacts={contacts}
+            crewMembers={crewMembers}
+            crewTasks={crewTasks}
+            isReadOnly={isReadOnly}
+            initialTab={workOrdersTab}
+            onSaveCrew={saveCrewMembers}
+            onSaveTasks={saveCrewTasks}
+            onBack={() => setScreen("dashboard")}
+          />
+        )}
         {screen === "notes" && (
           <NotesScreen
             company={company}
@@ -11813,6 +12284,11 @@ function AppContent() {
                 setShowTransfer(true);
               });
             }}
+            pendingWorkOrders={(crewTasks || []).filter(crewTaskNeedsReview).length}
+            onOpenWorkOrders={() => { if (!requireRoleScreen("work_orders")) return; setWorkOrdersTab("tasks"); setScreen("work_orders"); }}
+            onOpenContacts={() => { if (!requireRoleScreen("contacts")) return; setScreen("contacts"); }}
+            onOpenReminders={() => { if (!requireRoleScreen("reminders")) return; setScreen("reminders"); }}
+            onOpenContracts={() => { if (!requireRoleScreen("contracts")) return; requirePlan("contracts", () => setScreen("contracts")); }}
           />
         )}
         {screen === "reports" && (activeProject || projects[0]) && (
@@ -11910,6 +12386,8 @@ function AppContent() {
           onOpenGuide={() => { setGuideTab("start"); setScreen("guide"); setShowMenu(false); }}
           onOpenPrivacy={() => { setScreen("privacy"); setShowMenu(false); }}
           onOpenContacts={() => { if (!requireRoleScreen("contacts")) return; setScreen("contacts"); setShowMenu(false); }}
+          onOpenWorkOrders={(tab) => { if (!requireRoleScreen("work_orders")) return; setWorkOrdersTab(tab === "tasks" ? "tasks" : "crew"); setScreen("work_orders"); setShowMenu(false); }}
+          pendingWorkOrders={(crewTasks || []).filter(crewTaskNeedsReview).length}
           onOpenDataAnalysis={() => { if (!requireRoleScreen("data_analysis")) return; setScreen("data_analysis"); setShowMenu(false); }}
           onOpenBuilding3d={() => { if (!requireRoleScreen("building_3d")) return; setScreen("building_3d"); setShowMenu(false); }}
           onOpenNotes={() => { if (!requireRoleScreen("notes")) return; setScreen("notes"); setShowMenu(false); }}
@@ -12772,11 +13250,12 @@ function SideMenuItem({ onClick, icon, label, featureKey, screenKey, active, mem
   );
 }
 
-function SideMenu({ open, company, projects, activeTab, currentScreen, isReadOnly, effectivePlan, planExpiresAt, isSuperAdmin, isTeamOwner, memberRole, teamBanner, onOpenDashboard, onSelectProject, onNewProject, onClose, onOpenPlan, onOpenTeam, onOpenAdminMembers, onOpenBackup, onOpenAbout, onOpenGuide, onOpenPrivacy, onOpenTax, onOpenContacts, onOpenNotes, onOpenReminders, onOpenMap, onOpenEnergy, onOpenTakeoff, onOpenInventory, onOpenContracts, onOpenDataAnalysis, onOpenBuilding3d, onLogout }) {
+function SideMenu({ open, company, projects, activeTab, currentScreen, isReadOnly, effectivePlan, planExpiresAt, isSuperAdmin, isTeamOwner, memberRole, teamBanner, onOpenDashboard, onSelectProject, onNewProject, onClose, onOpenPlan, onOpenTeam, onOpenAdminMembers, onOpenBackup, onOpenAbout, onOpenGuide, onOpenPrivacy, onOpenTax, onOpenContacts, onOpenWorkOrders, pendingWorkOrders, onOpenNotes, onOpenReminders, onOpenMap, onOpenEnergy, onOpenTakeoff, onOpenInventory, onOpenContracts, onOpenDataAnalysis, onOpenBuilding3d, onLogout }) {
   const { lang, t } = useContext(LanguageContext);
   const menuDir = lang === "fa" ? "rtl" : "ltr";
   const [confirmLogout, setConfirmLogout] = useState(false);
   const [projectsOpen, setProjectsOpen] = useState(false);
+  const [crewOpen, setCrewOpen] = useState(false);
   const projectsBtnRef = useRef(null);
   const [flyoutPos, setFlyoutPos] = useState({ top: 0, left: null, right: null });
   const menuAlign = menuDir === "rtl" ? "text-right" : "text-left";
@@ -12789,6 +13268,7 @@ function SideMenu({ open, company, projects, activeTab, currentScreen, isReadOnl
   useEffect(() => {
     if (!open) {
       setProjectsOpen(false);
+      setCrewOpen(false);
       setConfirmLogout(false);
     }
   }, [open]);
@@ -12993,6 +13473,34 @@ function SideMenu({ open, company, projects, activeTab, currentScreen, isReadOnl
               </button>
             )}
             <SideMenuItem onClick={onOpenContacts} icon={<Users size={15} />} label={t("دفترچه مخاطبین")} screenKey="contacts" memberRole={memberRole} menuAlign={menuAlign} isLocked={false} />
+            {roleAllowsScreen(memberRole || "manager", "work_orders") && (
+              <div className="mb-1">
+                <button
+                  type="button"
+                  onClick={() => setCrewOpen((v) => !v)}
+                  tabIndex={open ? 0 : -1}
+                  className={`${menuAlign} px-3 py-2.5 rounded-xl text-sm font-medium flex items-center gap-2 hover:bg-[#F4F6F5] w-full transition-colors ${
+                    currentScreen === "work_orders" || crewOpen ? "bg-[#14213D]/10 text-[#14213D]" : "text-[#374151]"
+                  }`}
+                >
+                  <LucideClipboardList size={15} />
+                  <span className="flex-1">{t("کارگاه")}</span>
+                  {(pendingWorkOrders || 0) > 0 && (
+                    <span className="text-[10px] font-bold text-white bg-[#B91C1C] rounded-full min-w-[18px] h-[18px] px-1 flex items-center justify-center">{pendingWorkOrders}</span>
+                  )}
+                  <LucideChevronLeft size={16} className={`text-[#9CA3AF] transition-transform shrink-0 ${menuDir === "ltr" ? (crewOpen ? "rotate-90" : "rotate-180") : (crewOpen ? "-rotate-180" : "")}`} />
+                </button>
+                {crewOpen && (
+                  <div className="mt-1 rounded-xl border border-black/10 bg-[#F4F6F5] py-1">
+                    <button type="button" tabIndex={open ? 0 : -1} onClick={() => onOpenWorkOrders("crew")} className={`w-full ${menuAlign} px-4 py-2 text-[13px] font-medium ${currentScreen === "work_orders" ? "text-[#14213D]" : "text-[#374151]"}`}>{t("کارکنان و پیمانکاران")}</button>
+                    <button type="button" tabIndex={open ? 0 : -1} onClick={() => onOpenWorkOrders("tasks")} className={`w-full ${menuAlign} px-4 py-2 text-[13px] font-medium flex items-center gap-2 ${currentScreen === "work_orders" ? "text-[#14213D]" : "text-[#374151]"}`}>
+                      <span className="flex-1">{t("ابلاغ کار")}</span>
+                      {(pendingWorkOrders || 0) > 0 && <span className="text-[10px] font-bold text-[#B91C1C]">{pendingWorkOrders}</span>}
+                    </button>
+                  </div>
+                )}
+              </div>
+            )}
             <SideMenuItem onClick={onOpenDataAnalysis} icon={<LucideFileBarChart size={15} />} label={t("تحلیل داده‌ها")} screenKey="data_analysis" active={currentScreen === "data_analysis"} memberRole={memberRole} menuAlign={menuAlign} isLocked={false} />
             <SideMenuItem onClick={onOpenBuilding3d} icon={<LucideBox size={15} />} label={t("پلان سه‌بعدی")} screenKey="building_3d" active={currentScreen === "building_3d"} memberRole={memberRole} menuAlign={menuAlign} isLocked={false} />
             <SideMenuItem onClick={onOpenNotes} icon={<LucideStickyNote size={15} />} label={t("یادداشت‌ها")} screenKey="notes" memberRole={memberRole} menuAlign={menuAlign} isLocked={false} />
@@ -14180,6 +14688,248 @@ function ContactsScreen({ company, onBack, contacts, projects, contactBalance, o
             <button onClick={submit} disabled={!name.trim()} className="w-full m-btn-primary py-3 text-sm disabled:opacity-40">{t("ذخیره")}</button>
           </div>
         </div>
+      )}
+    </div>
+  );
+}
+
+function WorkOrdersScreen({ company, projects, contacts, crewMembers, crewTasks, isReadOnly, initialTab, onSaveCrew, onSaveTasks, onBack }) {
+  const { lang, t } = useContext(LanguageContext);
+  const screenDir = lang === "fa" ? "rtl" : "ltr";
+  const [tab, setTab] = useState(initialTab === "tasks" ? "tasks" : "crew");
+  const [name, setName] = useState("");
+  const [phone, setPhone] = useState("");
+  const [crewRole, setCrewRole] = useState("contractor");
+  const [specialty, setSpecialty] = useState("");
+  const [fromContactId, setFromContactId] = useState("");
+  const [copyMsg, setCopyMsg] = useState("");
+  const [taskTitle, setTaskTitle] = useState("");
+  const [taskNotes, setTaskNotes] = useState("");
+  const [taskDue, setTaskDue] = useState("");
+  const [taskCrewId, setTaskCrewId] = useState("");
+  const [taskProjectId, setTaskProjectId] = useState(projects[0]?.id || "");
+  const [reviewNote, setReviewNote] = useState("");
+  const [reviewTaskId, setReviewTaskId] = useState("");
+
+  useEffect(() => {
+    setTab(initialTab === "tasks" ? "tasks" : "crew");
+  }, [initialTab]);
+
+  const pendingCount = (crewTasks || []).filter(crewTaskNeedsReview).length;
+  const contractorContacts = (contacts || []).filter((c) => (c.role || "") === "contractor" || (c.role || "") === "other");
+
+  function pickContact(id) {
+    setFromContactId(id);
+    const c = (contacts || []).find((x) => x.id === id);
+    if (!c) return;
+    setName(c.name || "");
+    setPhone(c.phone || "");
+    if (c.role === "contractor") setCrewRole("contractor");
+  }
+
+  async function copyLink(url) {
+    try {
+      await navigator.clipboard.writeText(url);
+      setCopyMsg(t("لینک کپی شد"));
+      setTimeout(() => setCopyMsg(""), 1800);
+    } catch (e) {
+      window.prompt(t("لینک اختصاصی"), url);
+    }
+  }
+
+  function addCrew() {
+    if (isReadOnly || !name.trim()) return;
+    const member = {
+      id: uid(),
+      name: name.trim(),
+      phone: phone.trim(),
+      crewRole,
+      specialty: specialty.trim(),
+      token: generateOwnerPortalToken(),
+      contactId: fromContactId || null,
+      createdAt: new Date().toISOString(),
+    };
+    onSaveCrew([...(crewMembers || []), member]);
+    setName(""); setPhone(""); setSpecialty(""); setFromContactId(""); setCrewRole("contractor");
+  }
+
+  function removeCrew(id) {
+    if (isReadOnly) return;
+    onSaveCrew((crewMembers || []).filter((m) => m.id !== id), { removedId: id });
+    onSaveTasks((crewTasks || []).filter((x) => x.crewId !== id));
+  }
+
+  function addTask() {
+    if (isReadOnly || !taskTitle.trim() || !taskCrewId) return;
+    const row = {
+      id: uid(),
+      crewId: taskCrewId,
+      projectId: taskProjectId || "",
+      title: taskTitle.trim(),
+      notes: taskNotes.trim(),
+      dueDate: taskDue || "",
+      status: "assigned",
+      rejectReason: "",
+      managerNote: "",
+      createdAt: new Date().toISOString(),
+    };
+    onSaveTasks([row, ...(crewTasks || [])]);
+    setTaskTitle(""); setTaskNotes(""); setTaskDue("");
+    setTab("tasks");
+  }
+
+  function reviewTask(task, status) {
+    if (isReadOnly) return;
+    const note = reviewTaskId === task.id ? reviewNote.trim() : "";
+    onSaveTasks((crewTasks || []).map((x) => (
+      x.id === task.id
+        ? { ...x, status, managerNote: note, reviewedAt: new Date().toISOString() }
+        : x
+    )));
+    setReviewTaskId("");
+    setReviewNote("");
+  }
+
+  const sortedTasks = [...(crewTasks || [])].sort((a, b) => {
+    const ar = crewTaskNeedsReview(a) ? 0 : 1;
+    const br = crewTaskNeedsReview(b) ? 0 : 1;
+    if (ar !== br) return ar - br;
+    return (b.createdAt || "").localeCompare(a.createdAt || "");
+  });
+
+  return (
+    <div className="px-5 pt-5 pb-10" dir={screenDir}>
+      <div className="flex items-center gap-3 mb-4">
+        <button type="button" onClick={onBack} className="p-1"><ChevronLeft size={20} className={lang === "ltr" ? "rotate-180" : ""} /></button>
+        <div className="m-screen-title flex-1">{t("ابلاغ کار")}</div>
+        {pendingCount > 0 && (
+          <span className="text-[10px] font-bold bg-[#B91C1C] text-white rounded-full px-2 py-1">{pendingCount} {t("نیاز به رسیدگی")}</span>
+        )}
+      </div>
+
+      <div className="flex bg-[#F4F6F5] rounded-xl p-1 mb-4">
+        <button type="button" onClick={() => setTab("crew")} className={`flex-1 text-xs font-bold rounded-lg py-2 ${tab === "crew" ? "bg-white text-[#14213D] shadow-sm" : "text-[#6B7280]"}`}>{t("کارکنان و پیمانکاران")}</button>
+        <button type="button" onClick={() => setTab("tasks")} className={`flex-1 text-xs font-bold rounded-lg py-2 ${tab === "tasks" ? "bg-white text-[#14213D] shadow-sm" : "text-[#6B7280]"}`}>{t("ابلاغ کار")}</button>
+      </div>
+
+      {copyMsg && <div className="text-[11px] text-[#166534] mb-2">{copyMsg}</div>}
+
+      {tab === "crew" && (
+        <>
+          {!isReadOnly && (
+            <div className="m-card p-4 mb-4 space-y-2">
+              <div className="text-xs font-bold text-[#14213D]">{t("افزودن فرد")}</div>
+              {contractorContacts.length > 0 && (
+                <select value={fromContactId} onChange={(e) => pickContact(e.target.value)} className="w-full border border-black/10 rounded-lg px-2 py-2 text-xs bg-white">
+                  <option value="">{t("از مخاطبین")}</option>
+                  {contractorContacts.map((c) => <option key={c.id} value={c.id}>{c.name}</option>)}
+                </select>
+              )}
+              <input value={name} onChange={(e) => setName(e.target.value)} placeholder={t("نام")} className="w-full border border-black/10 rounded-lg px-2 py-2 text-xs" />
+              <input value={phone} onChange={(e) => setPhone(e.target.value)} placeholder={t("تلفن")} className="w-full border border-black/10 rounded-lg px-2 py-2 text-xs" />
+              <div className="flex gap-2">
+                <select value={crewRole} onChange={(e) => setCrewRole(e.target.value)} className="flex-1 border border-black/10 rounded-lg px-2 py-2 text-xs bg-white">
+                  {Object.entries(CREW_ROLES).map(([k, v]) => <option key={k} value={k}>{t(v)}</option>)}
+                </select>
+                <input value={specialty} onChange={(e) => setSpecialty(e.target.value)} placeholder={t("تخصص / فعالیت")} className="flex-1 border border-black/10 rounded-lg px-2 py-2 text-xs" />
+              </div>
+              <button type="button" disabled={!name.trim()} onClick={addCrew} className="w-full m-btn-primary py-2 text-xs disabled:opacity-40">{t("ذخیره")}</button>
+            </div>
+          )}
+          {(crewMembers || []).length === 0 ? (
+            <div className="text-center text-xs text-[#9CA3AF] py-8">{t("هنوز کسی ثبت نشده. پیمانکار، کارگر یا کارمند اضافه کنید.")}</div>
+          ) : (crewMembers || []).map((m) => {
+            const url = m.token ? crewPortalPublicUrl(m.token) : "";
+            const openN = (crewTasks || []).filter((x) => x.crewId === m.id && crewTaskOpenForAssignee(x)).length;
+            const pendN = (crewTasks || []).filter((x) => x.crewId === m.id && crewTaskNeedsReview(x)).length;
+            return (
+              <div key={m.id} className="m-card p-3 mb-2">
+                <div className="flex items-start justify-between gap-2">
+                  <div className="min-w-0">
+                    <div className="font-bold text-sm text-[#14213D]">{m.name}</div>
+                    <div className="text-[11px] text-[#6B7280] mt-0.5">
+                      {t(CREW_ROLES[m.crewRole] || m.crewRole)}
+                      {m.specialty ? ` · ${m.specialty}` : ""}
+                      {m.phone ? ` · ${m.phone}` : ""}
+                    </div>
+                    <div className="text-[10px] text-[#9CA3AF] mt-1">{openN} {t("ابلاغ‌شده")}{pendN ? ` · ${pendN} ${t("نیاز به رسیدگی")}` : ""}</div>
+                  </div>
+                  {!isReadOnly && (
+                    <button type="button" onClick={() => removeCrew(m.id)} className="p-1 text-[#B91C1C]"><LucideTrash size={14} /></button>
+                  )}
+                </div>
+                {url && (
+                  <button type="button" onClick={() => copyLink(url)} className="mt-2 w-full text-[11px] font-semibold border border-dashed border-[#14213D]/25 rounded-lg py-1.5 text-[#14213D]">
+                    {t("لینک اختصاصی")}
+                  </button>
+                )}
+              </div>
+            );
+          })}
+        </>
+      )}
+
+      {tab === "tasks" && (
+        <>
+          {!isReadOnly && (crewMembers || []).length > 0 && (
+            <div className="m-card p-4 mb-4 space-y-2">
+              <div className="text-xs font-bold text-[#14213D]">{t("وظیفه جدید")}</div>
+              <input value={taskTitle} onChange={(e) => setTaskTitle(e.target.value)} placeholder={t("عنوان کار")} className="w-full border border-black/10 rounded-lg px-2 py-2 text-xs" />
+              <select value={taskCrewId} onChange={(e) => setTaskCrewId(e.target.value)} className="w-full border border-black/10 rounded-lg px-2 py-2 text-xs bg-white">
+                <option value="">{t("ابلاغ به")}</option>
+                {(crewMembers || []).map((m) => <option key={m.id} value={m.id}>{m.name}{m.specialty ? ` — ${m.specialty}` : ""}</option>)}
+              </select>
+              <select value={taskProjectId} onChange={(e) => setTaskProjectId(e.target.value)} className="w-full border border-black/10 rounded-lg px-2 py-2 text-xs bg-white">
+                <option value="">{t("پروژه مربوط")}</option>
+                {(projects || []).map((p) => <option key={p.id} value={p.id}>{p.name}</option>)}
+              </select>
+              <input type="date" value={taskDue} onChange={(e) => setTaskDue(e.target.value)} className="w-full border border-black/10 rounded-lg px-2 py-2 text-xs" />
+              <textarea value={taskNotes} onChange={(e) => setTaskNotes(e.target.value)} rows={2} placeholder={t("توضیحات")} className="w-full border border-black/10 rounded-lg px-2 py-2 text-xs" />
+              <button type="button" disabled={!taskTitle.trim() || !taskCrewId} onClick={addTask} className="w-full m-btn-primary py-2 text-xs disabled:opacity-40">{t("ذخیره")}</button>
+            </div>
+          )}
+          {sortedTasks.length === 0 ? (
+            <div className="text-center text-xs text-[#9CA3AF] py-8">{t("هنوز وظیفه‌ای ثبت نشده.")}</div>
+          ) : sortedTasks.map((task) => {
+            const person = (crewMembers || []).find((m) => m.id === task.crewId);
+            const project = (projects || []).find((p) => p.id === task.projectId);
+            const needs = crewTaskNeedsReview(task);
+            return (
+              <div key={task.id} className={`m-card p-3 mb-2 ${needs ? "border border-[#F59E0B]/50" : ""}`}>
+                <div className="flex items-start justify-between gap-2">
+                  <div className="min-w-0">
+                    <div className="font-bold text-sm">{task.title}</div>
+                    <div className="text-[11px] text-[#6B7280] mt-0.5">
+                      {person?.name || "—"} · {project?.name || "—"}
+                      {task.dueDate ? ` · ${formatAppDate(task.dueDate, false, lang)}` : ""}
+                    </div>
+                  </div>
+                  <span className={`text-[10px] font-bold shrink-0 px-2 py-1 rounded-lg ${needs ? "bg-[#FFFBEB] text-[#92400E]" : "bg-[#F4F6F5] text-[#6B7280]"}`}>
+                    {t(CREW_TASK_STATUS[task.status] || task.status)}
+                  </span>
+                </div>
+                {task.notes ? <div className="text-[11px] text-[#374151] mt-2">{task.notes}</div> : null}
+                {task.rejectReason ? <div className="text-[11px] text-[#B91C1C] mt-2">{t("دلیل عدم انجام")}: {task.rejectReason}</div> : null}
+                {needs && !isReadOnly && (
+                  <div className="mt-3 space-y-2">
+                    {reviewTaskId === task.id ? (
+                      <input value={reviewNote} onChange={(e) => setReviewNote(e.target.value)} placeholder={t("پیام سرپرست")} className="w-full border border-black/10 rounded-lg px-2 py-1.5 text-xs" />
+                    ) : (
+                      <button type="button" onClick={() => { setReviewTaskId(task.id); setReviewNote(""); }} className="text-[10px] text-[#6B7280]">{t("پیام سرپرست")}</button>
+                    )}
+                    <div className="flex flex-wrap gap-1.5">
+                      {task.status === "done_pending" && (
+                        <button type="button" onClick={() => reviewTask(task, "confirmed")} className="flex-1 min-w-[30%] bg-[#166534] text-white rounded-lg py-2 text-[10px] font-bold">{t("تأیید انجام")}</button>
+                      )}
+                      <button type="button" onClick={() => reviewTask(task, "declined")} className="flex-1 min-w-[30%] bg-[#B91C1C] text-white rounded-lg py-2 text-[10px] font-bold">{t("بستن بدون انجام")}</button>
+                      <button type="button" onClick={() => reviewTask(task, "rework")} className="flex-1 min-w-[30%] bg-[#92400E] text-white rounded-lg py-2 text-[10px] font-bold">{t("ارسال برای رفع نقص")}</button>
+                    </div>
+                  </div>
+                )}
+              </div>
+            );
+          })}
+        </>
       )}
     </div>
   );
@@ -20020,7 +20770,7 @@ function ProjectCarousel({ projects, contacts, company, onOpenProject, onOpenGal
   );
 }
 
-function DashboardScreen({ projects, contacts, company, user, ensurePdfExport, backHandlerRef, onOpenProject, onOpenGallery, onOpenMessages, unreadByProject, totalUnreadMessages, onNewProject, onQuickExpense, onQuickTransfer }) {
+function DashboardScreen({ projects, contacts, company, user, ensurePdfExport, backHandlerRef, onOpenProject, onOpenGallery, onOpenMessages, unreadByProject, totalUnreadMessages, onNewProject, onQuickExpense, onQuickTransfer, pendingWorkOrders, onOpenWorkOrders, onOpenContacts, onOpenReminders, onOpenContracts }) {
   const { lang, t } = useContext(LanguageContext);
   const [balanceModal, setBalanceModal] = useState(null);
 
@@ -20132,6 +20882,24 @@ function DashboardScreen({ projects, contacts, company, user, ensurePdfExport, b
           onShowBalanceModal={setBalanceModal}
         />
       )}
+
+      <div className="text-xs font-bold text-[#6B7280] mt-5 mb-2">{t("دسترسی سریع")}</div>
+      <div className="m-dash-shortcuts">
+        {[
+          { key: "work", label: t("ابلاغ کار"), icon: <LucideClipboardList size={15} />, color: "#0F766E", bg: "rgba(15,118,110,0.12)", onClick: onOpenWorkOrders, badge: pendingWorkOrders },
+          { key: "contacts", label: t("دفترچه مخاطبین"), icon: <Users size={15} />, color: "#102a56", bg: "rgba(16,42,86,0.1)", onClick: onOpenContacts },
+          { key: "reminders", label: t("یادآوری‌ها"), icon: <Bell size={15} />, color: "#B45309", bg: "rgba(180,83,9,0.12)", onClick: onOpenReminders },
+          { key: "contracts", label: t("مدیریت قراردادها"), icon: <LucideFileSignature size={15} />, color: "#6D28D9", bg: "rgba(109,40,217,0.12)", onClick: onOpenContracts },
+        ].map((item) => (
+          <button key={item.key} type="button" onClick={item.onClick} className="m-dash-shortcut relative">
+            {item.badge > 0 && (
+              <span className="absolute -top-1 -left-1 min-w-[16px] h-4 px-1 rounded-full bg-[#B91C1C] text-white text-[9px] font-bold flex items-center justify-center">{item.badge}</span>
+            )}
+            <span className="m-dash-shortcut-icon" style={{ background: item.bg, color: item.color }}>{item.icon}</span>
+            <span className="text-[10px] font-semibold text-[#14213D] leading-tight line-clamp-2 w-full">{item.label}</span>
+          </button>
+        ))}
+      </div>
 
       {balanceModal && (
         <ProjectBalanceModal
