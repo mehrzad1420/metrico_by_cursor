@@ -955,8 +955,8 @@ const GUIDE_SECTIONS = [
     icon: LucideCrown,
     steps: [
       { title: "پنج سطح اشتراک", body: "متریکو در پنج سطح ارائه می‌شود: آغاز (رایگان)، پلاس، پرو، ارک و تیم. هر پلن بالاتر، تمام امکانات پلن‌های پایین‌تر را هم شامل می‌شود. پلن تیم علاوه بر همه امکانات، فضای کاری چندنفره با نقش‌ها را فعال می‌کند.", img: "صفحه پلن اشتراک" },
-      { title: "آغاز و پلاس", body: "آغاز: یک پروژه، فروش واحد و ثبت هزینه. پلاس: تا ۳ پروژه، گزارش PDF، چت هوشمند، نقشه، پنل مالک، پنل سرمایه‌گذار، رزرو با مهلت، فاکتور/رسید، گالری و نقشه‌های فنی.", img: "مقایسه آغاز و پلاس" },
-      { title: "پرو — حسابداری و پیشرفت", body: "پلن پرو تا ۱۰ پروژه، حسابداری، خروجی CSV حسابداری، صورت‌وضعیت و پیشرفت ساخت، انبار، مالیات و KML را فعال می‌کند.", img: "امکانات پرو" },
+      { title: "آغاز و پلاس", body: "آغاز: یک پروژه، فروش واحد، ثبت هزینه، و ابلاغ فعالیت / بررسی کارگاه با لینک اختصاصی مخاطب. پلاس: تا ۳ پروژه، گزارش PDF، چت هوشمند، نقشه، پنل مالک، پنل سرمایه‌گذار، رزرو با مهلت، فاکتور/رسید، گالری و نقشه‌های فنی.", img: "مقایسه آغاز و پلاس" },
+      { title: "پرو — حسابداری و پیشرفت", body: "پلن پرو تا ۱۰ پروژه، حسابداری، خروجی CSV حسابداری، صورت‌وضعیت و پیشرفت ساخت، انبار، قراردادها، مالیات و KML را فعال می‌کند. ابلاغ فعالیت از آغاز هم در دسترس است و در پرو با قرارداد و انبار هم‌مسیر می‌شود.", img: "امکانات پرو" },
       { title: "ارک و تیم", body: "ارک: پروژه نامحدود + انرژی + متره. تیم: همه امکانات ارک به‌همراه پنل اعضای تیم، تعریف نقش و دسترسی تفکیک‌شده برای فروش، حسابداری، کارگاه و ناظر.", img: "امکانات ارک و تیم" },
       { title: "ارتقا با کد", body: "پس از پرداخت یا دریافت کد آزمایشی از مدیر، در صفحه «پلن اشتراک» کد را وارد کنید. برای پلن تیم کد با پیشوند تیم صادر می‌شود.", img: "کد ارتقا" },
     ],
@@ -970,7 +970,7 @@ const GUIDE_SECTIONS = [
       { title: "نقش مدیر تیم", body: "مالک اشتراک تیم است. همه امکانات فعال است و می‌تواند اعضا را اضافه/حذف کند، نقش‌ها را عوض کند و پروژه‌ها را مدیریت کند. از منو → «مدیریت تیم» وارد شوید.", img: "مدیر تیم" },
       { title: "کارشناس فروش", body: "تمرکز روی واحدها، مخاطبین، فروش و رزرو (با مهلت)، پنل مالک، نقشه و گزارش‌های فروش. به حسابداری کامل یا انبار دسترسی ندارد.", img: "نقش فروش" },
       { title: "حسابدار", body: "هزینه‌ها، حسابداری پروژه، اقساط، فاکتور/رسید، مالیات، خروجی CSV حسابداری و پنل سرمایه‌گذار. به متره/انرژی یا ویرایش کامل واحدها محدود است.", img: "نقش حسابدار" },
-      { title: "مدیر کارگاه", body: "صورت‌وضعیت، پیشرفت ساخت، انبار مصالح، نقشه‌های فنی، گالری و در صورت پلن سازمانی انرژی/متره. برای فروش مالی واحد طراحی نشده است.", img: "نقش کارگاه" },
+      { title: "مدیر کارگاه", body: "ابلاغ فعالیت و بررسی کارگاه، صورت‌وضعیت، پیشرفت ساخت، انبار مصالح، نقشه‌های فنی، گالری و در صورت پلن سازمانی انرژی/متره. برای فروش مالی واحد طراحی نشده است.", img: "نقش کارگاه" },
       { title: "ناظر (فقط‌خواندنی)", body: "داشبورد، تحلیل داده‌ها و پلان سه‌بعدی را می‌بیند ولی نمی‌تواند داده را تغییر دهد — مناسب سرمایه‌گذار داخلی یا ناظر کیفیت.", img: "نقش ناظر" },
     ],
   },
@@ -1055,9 +1055,10 @@ const GUIDE_SECTIONS = [
   },
   {
     id: "work_orders",
-    label: "ابلاغ فعالیت",
+    label: "کارگاه و ابلاغ فعالیت",
     icon: LucideClipboardList,
     steps: [
+      { title: "دسترسی در همه پلن‌ها", body: "ابلاغ فعالیت و بررسی کارگاه از پلن آغاز در همه اشتراک‌ها فعال است. از منو → «کارگاه» یا از کارت‌های دسترسی سریع داشبورد وارد شوید.", img: "منوی کارگاه" },
       { title: "ابلاغ فعالیت", body: "از منو → «کارگاه» → «ابلاغ فعالیت» مخاطب را از دفترچه انتخاب کنید، پروژه را مشخص کنید، شرح فعالیت و تاریخ و زمان انجام را بنویسید. لینک اختصاصی همان شخص در همین صفحه ساخته می‌شود. پس از تائید، برگهٔ بررسی باز می‌شود.", img: "ابلاغ فعالیت" },
       { title: "بررسی فعالیتها", body: "در «بررسی فعالیتها» پروژه را انتخاب کنید. فعالیت‌ها در پنج مرحله دیده می‌شوند: ابلاغ شده، مشاهده شده، در حال انجام، اتمام فعالیت، برگشت خورده. اگر مخاطب ایراد نوشته باشد، همان‌جا کنار فعالیت نمایش داده می‌شود.", img: "بررسی فعالیتها" },
       { title: "لینک مخاطب", body: "مخاطب با لینک اختصاصی، بدون ورود به اپ، فعالیت را می‌بیند (مرحله مشاهده شده)، شروع می‌کند، تمام می‌کند یا با نوشتن ایراد برمی‌گرداند.", img: "لینک مخاطب" },
@@ -1531,7 +1532,7 @@ function projectCardTheme(projectId) {
   return PROJECT_CARD_PALETTE[Math.abs(h) % PROJECT_CARD_PALETTE.length];
 }
 const APP_NAME = "Metrico";
-const APP_VERSION = "2.57.6";
+const APP_VERSION = "2.57.7";
 
 const METRICO_PLAN_ORDER = ["start", "plus", "pro", "ark", "team"];
 const METRICO_PLANS = {
@@ -1581,6 +1582,7 @@ const PLAN_COMPARE_ROWS = [
   { label: "تعداد پروژه", type: "text", values: { start: "۱", plus: "۳", pro: "۱۰", ark: "∞", team: "∞" } },
   { label: "فروش واحد و ثبت هزینه", minPlan: "start" },
   { label: "دفترچه مخاطبین", type: "text", values: { start: "۱۵", plus: "∞", pro: "∞", ark: "∞", team: "∞" } },
+  { label: "ابلاغ فعالیت و بررسی کارگاه", minPlan: "start" },
   { label: "گزارش PDF", minPlan: "plus" },
   { label: "چت هوشمند", minPlan: "plus" },
   { label: "نقشه پروژه‌ها", minPlan: "plus" },
@@ -2932,6 +2934,7 @@ const DICT = {
   "ابلاغ کار": "Activity notice",
   "ابلاغ فعالیت": "Assign activity",
   "بررسی فعالیتها": "Review activities",
+  "ابلاغ فعالیت و بررسی کارگاه": "Activity assign & site review",
   "کارکنان و پیمانکاران": "Crew & contractors",
   "پیمانکار": "Contractor",
   "کارگر": "Worker",
@@ -4255,10 +4258,12 @@ const GUIDE_I18N = {
   "متریکو در چهار سطح ارائه می‌شود: آغاز (رایگان)، پلاس، پرو و ارک. هر پلن بالاتر، تمام امکانات پلن‌های پایین‌تر را هم شامل می‌شود. از منو → «پلن اشتراک» وضعیت فعلی و جدول مقایسه را ببینید.": "Metrico is offered in four tiers: Starter (free), Plus, Pro, and Arc. Each higher plan includes all features of the plans below it. From the menu → \"Subscription Plan\", view your current status and the comparison table.",
   "صفحه پلن اشتراک": "Subscription plan page",
   "آغاز و پلاس": "Starter & Plus",
+  "آغاز: یک پروژه، فروش واحد، ثبت هزینه، و ابلاغ فعالیت / بررسی کارگاه با لینک اختصاصی مخاطب. پلاس: تا ۳ پروژه، گزارش PDF، چت هوشمند، نقشه، پنل مالک، پنل سرمایه‌گذار، رزرو با مهلت، فاکتور/رسید، گالری و نقشه‌های فنی.": "Starter: one project, unit sales, expense tracking, and site activity assign/review with a private contact link. Plus: up to 3 projects, PDF reports, smart chat, map, owner portal, investor portal, timed reservations, invoices/receipts, gallery, and technical drawings.",
   "آغاز: یک پروژه، فروش واحد و ثبت هزینه. پلاس: تا ۳ پروژه، گزارش PDF، چت هوشمند، نقشه، پنل مالک، پنل سرمایه‌گذار، رزرو با مهلت، فاکتور/رسید، گالری و نقشه‌های فنی.": "Starter: one project, unit sales, and expense tracking. Plus: up to 3 projects, PDF reports, smart chat, map, owner portal, investor portal, timed reservations, invoices/receipts, gallery, and technical drawings.",
   "آغاز: یک پروژه، فروش واحد و ثبت هزینه. پلاس: تا ۳ پروژه، گزارش PDF، چت هوشمند، نقشه مکان‌یابی، پنل اختصاصی مالک، گالری تصاویر، نقشه‌های اتوکد/BIM/سه‌بعدی پروژه، پشتیبان‌گیری و مخاطبین نامحدود.": "Starter: one project, unit sales, and expense tracking. Plus: up to 3 projects, PDF reports, smart chat, geolocation map, dedicated owner portal, image gallery, AutoCAD/BIM/3D project drawings, backups, and unlimited contacts.",
   "مقایسه آغاز و پلاس": "Starter vs. Plus comparison",
   "پرو — حسابداری و پیشرفت": "Pro — Accounting & Progress",
+  "پلن پرو تا ۱۰ پروژه، حسابداری، خروجی CSV حسابداری، صورت‌وضعیت و پیشرفت ساخت، انبار، قراردادها، مالیات و KML را فعال می‌کند. ابلاغ فعالیت از آغاز هم در دسترس است و در پرو با قرارداد و انبار هم‌مسیر می‌شود.": "The Pro plan enables up to 10 projects, accounting, accounting CSV export, progress statements, inventory, contracts, tax systems, and KML export. Activity assign is available from Starter and pairs with contracts and inventory on Pro.",
   "پلن پرو تا ۱۰ پروژه، حسابداری، خروجی CSV حسابداری، صورت‌وضعیت و پیشرفت ساخت، انبار، مالیات و KML را فعال می‌کند.": "The Pro plan enables up to 10 projects, accounting, accounting CSV export, progress statements, inventory, tax systems, and KML export.",
   "پرو — حسابداری و انبار": "Pro — Accounting & Inventory",
   "پلن پرو تا ۱۰ پروژه، حسابداری کامل پروژه، انبارگردانی و موجودی مصالح، سامانه‌های مالیاتی و خروجی KML را فعال می‌کند.": "The Pro plan enables up to 10 projects, full project accounting, materials inventory and stocktaking, tax systems, and KML export.",
@@ -4286,6 +4291,7 @@ const GUIDE_I18N = {
   "هزینه‌ها، حسابداری پروژه، اقساط، فاکتور/رسید، مالیات، خروجی CSV حسابداری و پنل سرمایه‌گذار. به متره/انرژی یا ویرایش کامل واحدها محدود است.": "Expenses, project accounting, installments, invoices/receipts, tax, accounting CSV export, and investor portal. Limited for takeoff/energy or full unit editing.",
   "نقش حسابدار": "Accountant role",
   "مدیر کارگاه": "Site Manager",
+  "ابلاغ فعالیت و بررسی کارگاه، صورت‌وضعیت، پیشرفت ساخت، انبار مصالح، نقشه‌های فنی، گالری و در صورت پلن سازمانی انرژی/متره. برای فروش مالی واحد طراحی نشده است.": "Site activity assign/review, progress statements, construction progress, materials inventory, technical drawings, gallery, and energy/takeoff when available. Not designed for unit sales finance.",
   "صورت‌وضعیت، پیشرفت ساخت، انبار مصالح، نقشه‌های فنی، گالری و در صورت پلن سازمانی انرژی/متره. برای فروش مالی واحد طراحی نشده است.": "Progress statements, construction progress, materials inventory, technical drawings, gallery, and energy/takeoff when available. Not designed for unit sales finance.",
   "نقش کارگاه": "Site role",
   "ناظر (فقط‌خواندنی)": "Viewer (Read-only)",
@@ -4395,6 +4401,10 @@ const GUIDE_I18N = {
   "پیام مالک به مدیر": "Owner Messages to Manager",
   "مالک از داخل لینک می‌تواند درخواست یا سوال کوتاه بفرستد. در داشبورد تعداد پیام‌های جدید روی کارت پروژه نمایش داده می‌شود. همه پیام‌ها در انتهای اطلاعات همان واحد بایگانی می‌شوند.": "The owner can send a short request or question from within the link. On the dashboard, the count of new messages is shown on the project card. All messages are archived at the bottom of that unit's information.",
   "پیام مالک": "Owner message",
+  "کارگاه و ابلاغ فعالیت": "Site crew & activity assign",
+  "دسترسی در همه پلن‌ها": "Available on all plans",
+  "ابلاغ فعالیت و بررسی کارگاه از پلن آغاز در همه اشتراک‌ها فعال است. از منو → «کارگاه» یا از کارت‌های دسترسی سریع داشبورد وارد شوید.": "Activity assign and site review are available from the Starter plan on every subscription. Open menu → Site crew, or use the dashboard quick-access cards.",
+  "منوی کارگاه": "Site crew menu",
   "ابلاغ فعالیت": "Assign activity",
   "از منو → «کارگاه» → «ابلاغ فعالیت» مخاطب را از دفترچه انتخاب کنید، پروژه را مشخص کنید، شرح فعالیت و تاریخ و زمان انجام را بنویسید. لینک اختصاصی همان شخص در همین صفحه ساخته می‌شود. پس از تائید، برگهٔ بررسی باز می‌شود.": "From the menu → Site crew → Assign activity, pick a contact, choose the project, write the activity and the date/time. That person's private link is created on the same page. After confirm, the review sheet opens.",
   "بررسی فعالیتها": "Review activities",
@@ -4402,6 +4412,7 @@ const GUIDE_I18N = {
   "لینک مخاطب": "Contact link",
   "مخاطب با لینک اختصاصی، بدون ورود به اپ، فعالیت را می‌بیند (مرحله مشاهده شده)، شروع می‌کند، تمام می‌کند یا با نوشتن ایراد برمی‌گرداند.": "The contact opens their private link without signing in, sees the activity (viewed), starts it, completes it, or returns it with an issue note.",
   "کارکنان کارگاه": "Site crew",
+  "ابلاغ فعالیت و بررسی کارگاه": "Activity assign & site review",
   "پلن پرو": "Pro Plan",
   "مدیریت قراردادها و صورت‌وضعیت پیمانکاران از پلن پرو فعال است. از منو → «مدیریت قراردادها» وارد شوید.": "Contract management and contractor progress billing are enabled on the Pro plan. From the menu → \"Contract Management\".",
   "منوی قراردادها": "Contracts menu",

@@ -1,4 +1,4 @@
-const CACHE_NAME = "metrico-cache-v2.57.6";
+const CACHE_NAME = "metrico-cache-v2.57.7";
 const ASSETS = [
   "./", "./index.html", "./privacy-en.html", "./manifest.json", "./icons/icon-192.png", "./icons/icon-512.png",
   "./lib/react.production.min.js", "./lib/react-dom.production.min.js",
