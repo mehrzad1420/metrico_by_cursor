@@ -237,6 +237,9 @@
     grid-template-columns: repeat(4, minmax(0, 1fr));
     gap: 0.5rem;
   }
+  @media (max-width: 380px) {
+    .m-dash-shortcuts { grid-template-columns: repeat(2, minmax(0, 1fr)); }
+  }
   .m-dash-shortcut {
     background: var(--m-surface);
     border: 1px solid var(--m-border);
@@ -1528,7 +1531,7 @@ function projectCardTheme(projectId) {
   return PROJECT_CARD_PALETTE[Math.abs(h) % PROJECT_CARD_PALETTE.length];
 }
 const APP_NAME = "Metrico";
-const APP_VERSION = "2.57.5";
+const APP_VERSION = "2.57.6";
 
 const METRICO_PLAN_ORDER = ["start", "plus", "pro", "ark", "team"];
 const METRICO_PLANS = {
@@ -2987,6 +2990,8 @@ const DICT = {
   "تابع پنل کارگاه در Supabase یافت نشد. فایل supabase/crew-portals.sql را اجرا کنید.": "Crew portal function not found. Run supabase/crew-portals.sql in Supabase.",
   "در حال بارگذاری پنل کارگاه...": "Loading crew panel...",
   "دسترسی سریع": "Quick access",
+  "انبار مصالح": "Materials stock",
+  "قراردادها": "Contracts",
   "پیام سرپرست": "Supervisor note",
   "رسیدگی": "Review",
   "بستن بدون انجام": "Close as not done",
@@ -4800,6 +4805,171 @@ function formatCrewDue(val, lang) {
 }
 function normalizeWorkOrdersTab(tab) {
   return tab === "review" || tab === "tasks" ? "review" : "assign";
+}
+function crewDueOffset(days, hour = 10) {
+  const d = new Date();
+  d.setDate(d.getDate() + days);
+  d.setSeconds(0, 0);
+  d.setMinutes(0);
+  d.setHours(hour, 0, 0, 0);
+  const pad = (n) => String(n).padStart(2, "0");
+  return `${d.getFullYear()}-${pad(d.getMonth() + 1)}-${pad(d.getDate())}T${pad(d.getHours())}:00`;
+}
+function buildSampleCrewWorkspace(projects, contacts) {
+  const projectList = (projects || []).filter((p) => p?.id);
+  if (!projectList.length) return null;
+  const p0 = projectList[0];
+  const p1 = projectList[1] || p0;
+  const now = new Date().toISOString();
+  const hoursAgo = (h) => new Date(Date.now() - h * 3600000).toISOString();
+
+  const preferred = (contacts || []).filter((c) => ["contractor", "supplier", "other"].includes(c.role || "other"));
+  const pool = preferred.length ? preferred : (contacts || []);
+  const newContacts = [];
+  function takePerson(idx, fallback) {
+    const existing = pool[idx];
+    if (existing?.id && existing?.name) {
+      return {
+        contactId: existing.id,
+        name: existing.name,
+        phone: existing.phone || "",
+        crewRole: crewRoleFromContact(existing),
+        isNew: false,
+      };
+    }
+    const id = uid();
+    newContacts.push({
+      id,
+      name: fallback.name,
+      phone: fallback.phone,
+      role: fallback.role,
+      note: "نمونه کارگاه",
+    });
+    return {
+      contactId: id,
+      name: fallback.name,
+      phone: fallback.phone,
+      crewRole: fallback.role === "contractor" ? "contractor" : "employee",
+      isNew: true,
+    };
+  }
+
+  const people = [
+    takePerson(0, { name: "پیمانکار اسکلت نمونه", phone: "09120000001", role: "contractor" }),
+    takePerson(1, { name: "نصاب تأسیسات نمونه", phone: "09120000002", role: "contractor" }),
+    takePerson(2, { name: "سرپرست کارگاه نمونه", phone: "09120000003", role: "other" }),
+  ];
+
+  const members = people.map((p, i) => ({
+    id: `crew_sample_${i + 1}`,
+    name: p.name,
+    phone: p.phone,
+    crewRole: p.crewRole,
+    specialty: i === 0 ? "اسکلت و بتن" : i === 1 ? "تأسیسات" : "هماهنگی کارگاه",
+    token: generateOwnerPortalToken(),
+    contactId: p.contactId,
+    createdAt: now,
+    sample: true,
+  }));
+
+  const [m0, m1, m2] = members;
+  const tasks = [
+    {
+      id: "crew_task_sample_assigned",
+      crewId: m0.id,
+      contactId: m0.contactId,
+      projectId: p0.id,
+      title: "آرماتوربندی سقف طبقه ۳ و آماده‌سازی قالب‌بندی",
+      notes: "",
+      dueDate: crewDueOffset(2, 9),
+      status: "assigned",
+      rejectReason: "",
+      managerNote: "",
+      viewedAt: "",
+      createdAt: hoursAgo(5),
+      sample: true,
+    },
+    {
+      id: "crew_task_sample_viewed",
+      crewId: m1.id,
+      contactId: m1.contactId,
+      projectId: p0.id,
+      title: "بازرسی لوله و اتصالات آب واحدهای شمالی",
+      notes: "",
+      dueDate: crewDueOffset(1, 11),
+      status: "viewed",
+      rejectReason: "",
+      managerNote: "",
+      viewedAt: hoursAgo(2),
+      createdAt: hoursAgo(28),
+      sample: true,
+    },
+    {
+      id: "crew_task_sample_progress",
+      crewId: m2.id,
+      contactId: m2.contactId,
+      projectId: p0.id,
+      title: "هماهنگی بتن‌ریزی ستون‌های محور B و کنترل ایمنی",
+      notes: "",
+      dueDate: crewDueOffset(0, 16),
+      status: "in_progress",
+      rejectReason: "",
+      managerNote: "",
+      viewedAt: hoursAgo(20),
+      respondedAt: hoursAgo(6),
+      createdAt: hoursAgo(40),
+      sample: true,
+    },
+    {
+      id: "crew_task_sample_done",
+      crewId: m0.id,
+      contactId: m0.contactId,
+      projectId: p1.id,
+      title: "تحویل و چیدمان داربست نمای جنوبی",
+      notes: "",
+      dueDate: crewDueOffset(-1, 15),
+      status: "completed",
+      rejectReason: "",
+      managerNote: "نتیجه: داربست تحویل و در محل چیده شد؛ تأیید سرپرست کارگاه.",
+      viewedAt: hoursAgo(50),
+      respondedAt: hoursAgo(18),
+      createdAt: hoursAgo(72),
+      sample: true,
+    },
+    {
+      id: "crew_task_sample_returned",
+      crewId: m1.id,
+      contactId: m1.contactId,
+      projectId: p1.id,
+      title: "نصب تابلو برق موقت کارگاه و ارتینگ",
+      notes: "",
+      dueDate: crewDueOffset(-2, 10),
+      status: "returned",
+      rejectReason: "کابل ارت به اندازه کافی موجود نیست؛ تا تأمین قطعه متوقف شد.",
+      managerNote: "نتیجه: برگشت برای تکمیل مصالح؛ پس از تأمین ارت مجدد ابلاغ شود.",
+      viewedAt: hoursAgo(60),
+      respondedAt: hoursAgo(12),
+      createdAt: hoursAgo(90),
+      sample: true,
+    },
+    {
+      id: "crew_task_sample_assigned_2",
+      crewId: m2.id,
+      contactId: m2.contactId,
+      projectId: p1.id,
+      title: "عکس‌برداری پیشرفت اسکلت و بارگذاری در گالری مالک",
+      notes: "",
+      dueDate: crewDueOffset(3, 14),
+      status: "assigned",
+      rejectReason: "",
+      managerNote: "",
+      viewedAt: "",
+      createdAt: hoursAgo(3),
+      sample: true,
+    },
+  ];
+
+  return { members, tasks, newContacts };
 }
 function buildCrewPortalPayload(member, tasks, projects, company) {
   const projectName = (id) => (projects || []).find((p) => p.id === id)?.name || "";
@@ -10168,6 +10338,7 @@ function AppContent() {
   const updateTimers = useRef({});
   const portalSyncTimers = useRef({});
   const demoSeedRef = useRef(false);
+  const crewSampleSeedRef = useRef(false);
   const childBackHandler = useRef(null);
   const backStateRef = useRef({});
   backStateRef.current = {
@@ -10418,6 +10589,7 @@ function AppContent() {
         setActiveTab(null);
         setLoaded(false);
         demoSeedRef.current = false;
+        crewSampleSeedRef.current = false;
         setScreen("dashboard");
       }
     });
@@ -10905,6 +11077,51 @@ function AppContent() {
     seedDemoAccountIfNeeded();
     // eslint-disable-next-line
   }, [user, activated, loaded]);
+
+  useEffect(() => {
+    if (!user || !activated || !loaded || !projects.length) return;
+    if (crewSampleSeedRef.current) return;
+    if ((crewMembers || []).length > 0 || (crewTasks || []).length > 0) return;
+    if ((user.user_metadata?.crewSampleSeedVersion || 0) >= 1) return;
+    if (memberRole && roleDef?.readOnly && !isDemoUser(user)) return;
+
+    crewSampleSeedRef.current = true;
+    const sample = buildSampleCrewWorkspace(projects, contacts);
+    if (!sample) {
+      crewSampleSeedRef.current = false;
+      return;
+    }
+
+    (async () => {
+      let nextContacts = contacts || [];
+      if (sample.newContacts?.length) {
+        nextContacts = [...nextContacts, ...sample.newContacts];
+        setContacts(nextContacts);
+      }
+      setCrewMembers(sample.members);
+      setCrewTasks(sample.tasks);
+      const patch = {
+        crewMembers: sample.members,
+        crewTasks: sample.tasks,
+        crewSampleSeeded: true,
+        crewSampleSeedVersion: 1,
+      };
+      if (sample.newContacts?.length) patch.contacts = nextContacts;
+      const { data, error: err } = await authUpdateUserData(
+        patch,
+        isDemoUser(user) ? { allowDemoSeed: true } : undefined
+      );
+      if (err) {
+        setCrewMembers([]);
+        setCrewTasks([]);
+        crewSampleSeedRef.current = false;
+        return;
+      }
+      if (data?.user) setUser(data.user);
+      await publishCrewPortals(sample.members, sample.tasks);
+    })();
+    // eslint-disable-next-line
+  }, [user, activated, loaded, projects, contacts, crewMembers, crewTasks]);
 
   function addFloor(projectId, count) {
     updateProject(projectId, (p) => {
@@ -12374,9 +12591,13 @@ function AppContent() {
             }}
             pendingWorkOrders={(crewTasks || []).filter(crewTaskNeedsReview).length}
             onOpenWorkOrders={() => { if (!requireRoleScreen("work_orders")) return; setWorkOrdersTab((crewTasks || []).some(crewTaskNeedsReview) ? "review" : "assign"); setScreen("work_orders"); }}
+            onOpenWorkOrdersReview={() => { if (!requireRoleScreen("work_orders")) return; setWorkOrdersTab("review"); setScreen("work_orders"); }}
             onOpenContacts={() => { if (!requireRoleScreen("contacts")) return; setScreen("contacts"); }}
             onOpenReminders={() => { if (!requireRoleScreen("reminders")) return; setScreen("reminders"); }}
             onOpenContracts={() => { if (!requireRoleScreen("contracts")) return; requirePlan("contracts", () => setScreen("contracts")); }}
+            onOpenNotes={() => { if (!requireRoleScreen("notes")) return; setScreen("notes"); }}
+            onOpenInventory={() => { if (!requireRoleScreen("inventory")) return; requirePlan("inventory", () => setScreen("inventory")); }}
+            onOpenDataAnalysis={() => { if (!requireRoleScreen("data_analysis")) return; setScreen("data_analysis"); }}
           />
         )}
         {screen === "reports" && (activeProject || projects[0]) && (
@@ -14973,6 +15194,7 @@ function WorkOrdersScreen({ company, projects, contacts, crewMembers, crewTasks,
                 ) : items.map((task) => {
                   const person = (crewMembers || []).find((m) => m.id === task.crewId);
                   const issue = task.rejectReason || "";
+                  const resultNote = task.managerNote || "";
                   const personUrl = person?.token ? crewPortalPublicUrl(person.token) : "";
                   return (
                     <div key={task.id} className={`m-card p-3 mb-2 ${stage.id === "returned" ? "border border-[#FECACA]" : ""}`}>
@@ -14991,6 +15213,11 @@ function WorkOrdersScreen({ company, projects, contacts, crewMembers, crewTasks,
                       {issue ? (
                         <div className="text-[11px] text-[#B91C1C] mt-2 bg-[#FEF2F2] rounded-lg px-2 py-1.5">
                           {t("ایراد اعلام‌شده")}: {issue}
+                        </div>
+                      ) : null}
+                      {resultNote ? (
+                        <div className="text-[11px] text-[#0F766E] mt-2 bg-[#F0FDFA] rounded-lg px-2 py-1.5">
+                          {resultNote}
                         </div>
                       ) : null}
                       <div className="flex gap-2 mt-2">
@@ -20852,7 +21079,7 @@ function ProjectCarousel({ projects, contacts, company, onOpenProject, onOpenGal
   );
 }
 
-function DashboardScreen({ projects, contacts, company, user, ensurePdfExport, backHandlerRef, onOpenProject, onOpenGallery, onOpenMessages, unreadByProject, totalUnreadMessages, onNewProject, onQuickExpense, onQuickTransfer, pendingWorkOrders, onOpenWorkOrders, onOpenContacts, onOpenReminders, onOpenContracts }) {
+function DashboardScreen({ projects, contacts, company, user, ensurePdfExport, backHandlerRef, onOpenProject, onOpenGallery, onOpenMessages, unreadByProject, totalUnreadMessages, onNewProject, onQuickExpense, onQuickTransfer, pendingWorkOrders, onOpenWorkOrders, onOpenWorkOrdersReview, onOpenContacts, onOpenReminders, onOpenContracts, onOpenNotes, onOpenInventory, onOpenDataAnalysis }) {
   const { lang, t } = useContext(LanguageContext);
   const [balanceModal, setBalanceModal] = useState(null);
 
@@ -20969,9 +21196,13 @@ function DashboardScreen({ projects, contacts, company, user, ensurePdfExport, b
       <div className="m-dash-shortcuts">
         {[
           { key: "work", label: t("ابلاغ فعالیت"), icon: <LucideClipboardList size={15} />, color: "#0F766E", bg: "rgba(15,118,110,0.12)", onClick: onOpenWorkOrders, badge: pendingWorkOrders },
+          { key: "review", label: t("بررسی فعالیتها"), icon: <LucideClipboardList size={15} />, color: "#B45309", bg: "rgba(180,83,9,0.12)", onClick: onOpenWorkOrdersReview, badge: pendingWorkOrders },
           { key: "contacts", label: t("دفترچه مخاطبین"), icon: <Users size={15} />, color: "#102a56", bg: "rgba(16,42,86,0.1)", onClick: onOpenContacts },
-          { key: "reminders", label: t("یادآوری‌ها"), icon: <Bell size={15} />, color: "#B45309", bg: "rgba(180,83,9,0.12)", onClick: onOpenReminders },
-          { key: "contracts", label: t("مدیریت قراردادها"), icon: <LucideFileSignature size={15} />, color: "#6D28D9", bg: "rgba(109,40,217,0.12)", onClick: onOpenContracts },
+          { key: "reminders", label: t("یادآوری‌ها"), icon: <Bell size={15} />, color: "#C2410C", bg: "rgba(194,65,12,0.12)", onClick: onOpenReminders },
+          { key: "contracts", label: t("قراردادها"), icon: <LucideFileSignature size={15} />, color: "#6D28D9", bg: "rgba(109,40,217,0.12)", onClick: onOpenContracts },
+          { key: "notes", label: t("یادداشت‌ها"), icon: <LucideStickyNote size={15} />, color: "#0369A1", bg: "rgba(3,105,161,0.12)", onClick: onOpenNotes },
+          { key: "inventory", label: t("انبار مصالح"), icon: <LucidePackage size={15} />, color: "#15803D", bg: "rgba(21,128,61,0.12)", onClick: onOpenInventory },
+          { key: "analysis", label: t("تحلیل داده‌ها"), icon: <LucideFileBarChart size={15} />, color: "#9D174D", bg: "rgba(157,23,77,0.12)", onClick: onOpenDataAnalysis },
         ].map((item) => (
           <button key={item.key} type="button" onClick={item.onClick} className="m-dash-shortcut relative">
             {item.badge > 0 && (
