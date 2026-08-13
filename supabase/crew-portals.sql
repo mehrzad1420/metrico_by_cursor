@@ -108,7 +108,7 @@ $$;
 REVOKE ALL ON FUNCTION public.delete_crew_portal(TEXT) FROM PUBLIC;
 GRANT EXECUTE ON FUNCTION public.delete_crew_portal(TEXT) TO authenticated;
 
--- پیمانکار از لینک عمومی: انجام یا رد با دلیل
+-- مخاطب از لینک عمومی: مشاهده / شروع / اتمام / برگشت با ایراد
 CREATE OR REPLACE FUNCTION public.respond_crew_task(
   portal_token TEXT,
   p_task_id TEXT,
@@ -127,10 +127,11 @@ DECLARE
   v_new_status TEXT;
   v_tasks JSONB;
   v_found BOOLEAN := false;
+  v_now TEXT;
 BEGIN
   v_action := lower(trim(coalesce(p_action, '')));
   v_reason := trim(coalesce(p_reason, ''));
-  IF v_action NOT IN ('done', 'reject') THEN
+  IF v_action NOT IN ('view', 'start', 'done', 'reject') THEN
     RAISE EXCEPTION 'invalid action';
   END IF;
   IF v_action = 'reject' AND length(v_reason) < 2 THEN
@@ -148,19 +149,27 @@ BEGIN
     RAISE EXCEPTION 'invalid portal token';
   END IF;
 
-  v_new_status := CASE WHEN v_action = 'done' THEN 'done_pending' ELSE 'rejected' END;
+  v_now := to_char(now() AT TIME ZONE 'UTC', 'YYYY-MM-DD"T"HH24:MI:SS"Z"');
+  v_new_status := CASE v_action
+    WHEN 'view' THEN 'viewed'
+    WHEN 'start' THEN 'in_progress'
+    WHEN 'done' THEN 'completed'
+    ELSE 'returned'
+  END;
   v_tasks := coalesce(v_portal.payload->'tasks', '[]'::jsonb);
 
   SELECT jsonb_agg(
     CASE
       WHEN elem->>'id' = p_task_id THEN
         CASE
-          WHEN coalesce(elem->>'status', 'assigned') IN ('assigned', 'rework') THEN
-            elem || jsonb_build_object(
-              'status', v_new_status,
-              'rejectReason', CASE WHEN v_action = 'reject' THEN v_reason ELSE coalesce(elem->>'rejectReason', '') END,
-              'respondedAt', to_char(now() AT TIME ZONE 'UTC', 'YYYY-MM-DD"T"HH24:MI:SS"Z"')
-            )
+          WHEN v_action = 'view' AND coalesce(elem->>'status', 'assigned') IN ('assigned', 'rework') THEN
+            elem || jsonb_build_object('status', 'viewed', 'viewedAt', v_now)
+          WHEN v_action = 'start' AND coalesce(elem->>'status', 'assigned') IN ('assigned', 'viewed', 'rework') THEN
+            elem || jsonb_build_object('status', 'in_progress', 'respondedAt', v_now)
+          WHEN v_action = 'done' AND coalesce(elem->>'status', 'assigned') IN ('assigned', 'viewed', 'in_progress', 'rework', 'returned') THEN
+            elem || jsonb_build_object('status', 'completed', 'respondedAt', v_now)
+          WHEN v_action = 'reject' AND coalesce(elem->>'status', 'assigned') IN ('assigned', 'viewed', 'in_progress', 'rework') THEN
+            elem || jsonb_build_object('status', 'returned', 'rejectReason', v_reason, 'respondedAt', v_now)
           ELSE elem
         END
       ELSE elem
@@ -185,6 +194,44 @@ BEGIN
   RETURN (SELECT payload FROM public.crew_portals WHERE token = portal_token);
 END;
 $$;
+
+CREATE OR REPLACE FUNCTION public.mark_crew_portal_viewed(portal_token TEXT)
+RETURNS JSONB
+LANGUAGE plpgsql
+SECURITY DEFINER
+SET search_path = public
+AS $$
+DECLARE
+  v_portal public.crew_portals%ROWTYPE;
+  v_tasks JSONB;
+  v_now TEXT;
+BEGIN
+  SELECT * INTO v_portal FROM public.crew_portals WHERE token = portal_token LIMIT 1;
+  IF NOT FOUND THEN
+    RAISE EXCEPTION 'invalid portal token';
+  END IF;
+  v_now := to_char(now() AT TIME ZONE 'UTC', 'YYYY-MM-DD"T"HH24:MI:SS"Z"');
+  SELECT jsonb_agg(
+    CASE
+      WHEN coalesce(elem->>'status', 'assigned') IN ('assigned', 'rework') THEN
+        elem || jsonb_build_object('status', 'viewed', 'viewedAt', v_now)
+      ELSE elem
+    END
+  )
+  INTO v_tasks
+  FROM jsonb_array_elements(coalesce(v_portal.payload->'tasks', '[]'::jsonb)) elem;
+
+  UPDATE public.crew_portals
+  SET payload = jsonb_set(coalesce(payload, '{}'::jsonb), '{tasks}', coalesce(v_tasks, '[]'::jsonb), true),
+      updated_at = NOW()
+  WHERE token = portal_token;
+
+  RETURN (SELECT payload FROM public.crew_portals WHERE token = portal_token);
+END;
+$$;
+
+REVOKE ALL ON FUNCTION public.mark_crew_portal_viewed(TEXT) FROM PUBLIC;
+GRANT EXECUTE ON FUNCTION public.mark_crew_portal_viewed(TEXT) TO anon, authenticated;
 
 REVOKE ALL ON FUNCTION public.respond_crew_task(TEXT, TEXT, TEXT, TEXT) FROM PUBLIC;
 GRANT EXECUTE ON FUNCTION public.respond_crew_task(TEXT, TEXT, TEXT, TEXT) TO anon, authenticated;
